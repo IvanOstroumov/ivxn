@@ -50,6 +50,8 @@ Reference PROJECT_SPEC.md for all decisions this plan executes against. Update c
 - [x] Analytics wired — Plausible via `src/components/Analytics.tsx`, conditionally rendered only when `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` is set (no-op until Ivan creates an account)
 - [x] Favicon: `src/app/icon.svg`, IO monogram (I + ring-with-core O) per ASSETS.md, verified renders correctly in browser
 - [x] `llms.txt` (`src/app/llms.txt/route.ts`) — plain-text site summary for AI crawlers/assistants (same spirit as robots.txt/sitemap.xml), generated live from the content store so it stays in sync with admin edits automatically. Not originally in the spec — added on request, verified renders correctly
+- [x] `llms-full.txt` (`src/app/llms-full.txt/route.ts`) — the fully expanded companion: complete project/tool descriptions, tech stacks, statuses, all skills, all services, About bio, contact links, site structure — everything, generated live from the same content store
+- [x] **SEO deep pass** (on request, "toptop SEO"): every page now gets its own unique `<title>`/description/canonical/hreflang/OG/Twitter-card tags via `src/lib/seo.ts` + per-page `generateMetadata` — previously every page silently inherited the same title and, worse, the same *incorrect* canonical URL (every page claimed `/en` as canonical, which actively hurts indexing of everything except the homepage). Added JSON-LD structured data: `Person` on the homepage (name, sameAs, knowsAbout), `CreativeWork` + `BreadcrumbList` on every project page, `SoftwareApplication` + `BreadcrumbList` on every tool page. Verified live: unique titles, correct canonicals, valid JSON-LD, all confirmed in-browser across locales.
 - [ ] Actual Lighthouse 100/100/100/100 run — needs a deployed URL (Lighthouse doesn't run meaningfully against `next dev`); do this in Phase 6 once deployed to Vercel
 
 ## Full QA sweep (end of Phase 5, per Ivan's request to re-verify everything)
@@ -69,12 +71,60 @@ Re-tested the entire app end to end, not just the new Phase 5 pieces:
 2. **"Expected a suspended thenable" crash (Phase 4):** calling next-intl's synchronous `useTranslations` inside `async` Server Components crashed once those routes became `force-dynamic`. Fixed by switching to the async `getTranslations` in `projects/page.tsx` and `tools/page.tsx`.
 3. **Self-inflicted near-miss (Phase 5):** while fixing an ESLint `set-state-in-effect` warning in `ThemeProvider`, first tried a lazy `useState` initializer reading `data-theme` off the DOM directly. That's actually worse: the server always renders `DEFAULT_THEME`, so on any client with a different stored theme, React hit a genuine **text-content hydration mismatch** in `ThemeSwitcher` ("Cyber" vs "Minimal") and fully crashed/regenerated the tree — caught by reproducing it live (set `minimal` in localStorage, hard-reloaded, saw "Uncaught Error: Hydration failed"). Reverted to the original effect-based sync (server and client both start at `DEFAULT_THEME`, correct to the stored value in a harmless post-mount re-render) and silenced the lint rule for that one line with a comment explaining why — confirmed no crash on re-test of the exact same repro.
 
-## Phase 6 — Launch
-- [ ] Ivan creates GitHub repo, shares remote URL → connect + push
-- [ ] Connect Vercel project, set env vars (admin password, Blob token, analytics)
-- [ ] Point ivxn.dev DNS at Vercel
-- [ ] Final content pass: real projects/tools, real email, real photo
-- [ ] Go live
+## Phase 6 — Launch + Maximize SEO
+
+This phase has two halves: **getting the site live** (mechanical, one-time) and **maximizing search ranking** (partly one-time setup, partly ongoing habits). Both are laid out as an exact sequence — follow in order, since some steps depend on earlier ones (e.g. you need the site live on the real domain before Search Console verification means anything).
+
+### A. Go live
+
+1. **Push to GitHub.** Repo `IvanOstroumov/ivxn` is already wired as `origin` locally. Once you're ready:
+   ```bash
+   git push -u origin master
+   ```
+2. **Create a Vercel account** (vercel.com, sign in with GitHub) and import the `ivxn` repo as a new project. Vercel auto-detects Next.js — no config needed.
+3. **Set environment variables** in Vercel (Project → Settings → Environment Variables), for Production (and Preview if you want the admin panel testable on preview deploys too):
+   - `ADMIN_PASSWORD` — a real, strong password (not the `dev-only-change-me` placeholder in `.env.local`)
+   - `BLOB_READ_WRITE_TOKEN` — create a Blob store under the Vercel project's Storage tab, it gives you this token automatically; without it, the admin panel can't persist edits or accept uploads in production (see PROJECT_SPEC.md §6)
+   - `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` — set once you've created a Plausible (or Umami) account for `ivxn.dev`; leave unset to keep analytics off
+4. **Point the domain at Vercel.** In your domain registrar's DNS settings for `ivxn.dev`, add the records Vercel shows you under Project → Settings → Domains (typically an `A` record to Vercel's IP, or `CNAME` for a subdomain). Propagation can take a few minutes to a few hours.
+5. **Verify the deploy**: visit `https://ivxn.dev`, click through a few pages, log into `/admin` with the real password, add and then delete a test project to confirm Blob-backed persistence actually works in production (not just the local fs fallback).
+6. **Final content pass** before calling it done: your real photo, real project/tool screenshots, APK builds for Rhyme Studio/World Travel Tracker, a real contact email, and a decision on parserize.site (bring it back online or update its status note).
+
+### B. Maximize SEO — ranking for your own name and your projects
+
+The realistic goal for a brand-new personal site is ranking #1 for **your own name** ("Ivan Ostroumov") and your **project/tool names** ("Beat the Piano ivxn", "Rhyme Studio", etc.) reasonably fast — competing for generic terms like "software developer" against millions of established sites is not realistic in the short term. Everything below is aimed at that achievable goal.
+
+**What's already done (Phase 5), so you don't need to redo it:**
+- Unique title/description/canonical/hreflang per page, in all 5 languages
+- JSON-LD structured data (Person, CreativeWork, SoftwareApplication, BreadcrumbList)
+- `robots.txt`, `sitemap.xml` (65 URLs), `llms.txt` + `llms-full.txt`
+- Fast, modern stack (Next.js/Vercel) — good baseline Core Web Vitals
+
+**What you need to do once the site is live:**
+
+1. **Google Search Console** (search.google.com/search-console):
+   - Add `ivxn.dev` as a property, verify via the DNS TXT record method (works even before/without visiting the site)
+   - Submit `https://ivxn.dev/sitemap.xml` under Sitemaps
+   - Use "URL Inspection" → "Request Indexing" on your homepage and a couple of key project pages to speed up initial crawling (don't spam this — a handful of important URLs is enough)
+2. **Bing Webmaster Tools** (bing.com/webmasters): same idea — verify, submit the sitemap. Bing also powers Yahoo and feeds some AI assistants' web results, so it's worth the 10 minutes.
+3. **Validate structured data**: run each page type through Google's Rich Results Test (search.google.com/test/rich-results) — homepage (Person), a project page (CreativeWork), a tool page (SoftwareApplication). Fix anything it flags before relying on it.
+4. **Run real Lighthouse** against the deployed URL (Chrome DevTools → Lighthouse, or PageSpeed Insights at pagespeed.web.dev) for both mobile and desktop. Target 100s per PROJECT_SPEC.md; if anything's short, it's almost certainly the AvatarPlaceholder/gallery placeholders — swapping in real, properly-sized images (see #7) usually fixes most of the gap.
+5. **Backlinks — the single highest-leverage thing you can do for ranking on your own name.** Search engines trust a site more when other sites (especially ones tied to the same identity) link to it. Add a link to `ivxn.dev` on:
+   - Your GitHub profile (profile "Website" field, and ideally your profile README)
+   - LinkedIn (if you have/make one), Telegram bio, any other social profile
+   - Any existing project repos' READMEs (Beat the Piano, SAMT: All Stars, etc. — if they're public on GitHub, add "portfolio: ivxn.dev" to each README)
+   - `parserize.site` itself, once it's back up — should link back to `ivxn.dev`
+   - Any dev community profile you use (dev.to, Hashnode, Stack Overflow profile, itch.io if Beat the Piano gets published there)
+6. **Add `rel="me"` links** between your site and your social profiles (GitHub, etc.) — this is a lightweight signal search engines and some AI systems use to confirm "these accounts are the same person," reinforcing the Person structured data already in place.
+7. **Real images with alt text**, once you have them: your photo, and real screenshots per project/tool (replacing the current placeholders). Every `<img>`/`next/image` needs descriptive `alt` text (e.g. "Beat the Piano gameplay screenshot showing falling note blocks") — this is both an accessibility requirement and a real image-search ranking factor. Update `ProjectGallery`/`AvatarPlaceholder` usage once real assets exist.
+8. **Keep content fresh.** Search engines re-crawl more often and rank better when a site visibly updates. Adding a new project/tool through the admin panel, or editing an existing one, naturally does this — no extra work needed beyond actually using the site the way it's built to be used.
+9. **Social sharing preview check**: once real content/photo are in, test how the homepage and a project page look when shared on Twitter/X, LinkedIn, Telegram, WhatsApp using their respective debug tools (e.g. Twitter Card Validator) — the Open Graph/Twitter meta tags are already wired, this just confirms the preview image/text looks right (currently there's no dedicated OG image, so shares will show no preview image until one's added — worth generating a proper 1200×630 OG image per page, or at minimum a site-wide default one, as a follow-up).
+10. **Monitor**: check Search Console's "Performance" tab every couple of weeks once live — it shows what queries are actually landing people on the site, which tells you whether the SEO work is working and what to adjust.
+
+### What to explicitly NOT do (these hurt more than they help)
+- Don't buy backlinks or use link farms — Google penalizes this and it's not worth the risk for a personal brand site
+- Don't keyword-stuff descriptions beyond what reads naturally — the descriptions written in Phase 5 are already reasonably keyword-rich without being spammy; don't over-tune them
+- Don't duplicate the same content across many low-value pages just to "have more pages" — thin/duplicate content actively hurts rather than helps
 
 ## Explicitly deferred (not in v1)
 - Easter eggs of any kind
