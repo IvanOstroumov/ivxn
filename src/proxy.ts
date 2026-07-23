@@ -4,5 +4,6 @@ import { routing } from "./i18n/routing";
 export default createMiddleware(routing);
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  // /admin is a standalone, non-localized tool — excluded from locale routing.
+  matcher: ["/((?!api|admin|_next|_vercel|.*\\..*).*)"],
 };

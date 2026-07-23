@@ -1,11 +1,9 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { getToolBySlug, tools } from "@/content/tools";
+import { getToolBySlug } from "@/lib/content-store";
 import { Link } from "@/i18n/navigation";
 
-export function generateStaticParams() {
-  return tools.map((t) => ({ slug: t.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function ToolDetailPage({
   params,
@@ -13,7 +11,7 @@ export default async function ToolDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const tool = getToolBySlug(slug);
+  const tool = await getToolBySlug(slug);
   if (!tool) notFound();
 
   const t = await getTranslations("toolsPage");

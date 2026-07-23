@@ -1,12 +1,10 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { getProjectBySlug, projects } from "@/content/projects";
+import { getProjectBySlug } from "@/lib/content-store";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { Link } from "@/i18n/navigation";
 
-export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function ProjectDetailPage({
   params,
@@ -14,7 +12,7 @@ export default async function ProjectDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
   if (!project) notFound();
 
   const t = await getTranslations("projectsPage");

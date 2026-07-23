@@ -1,9 +1,12 @@
-import { useTranslations } from "next-intl";
-import { tools } from "@/content/tools";
+import { getTranslations } from "next-intl/server";
+import { getTools } from "@/lib/content-store";
 import { Link } from "@/i18n/navigation";
 
-export default function ToolsPage() {
-  const t = useTranslations("toolsPage");
+export const dynamic = "force-dynamic";
+
+export default async function ToolsPage() {
+  const t = await getTranslations("toolsPage");
+  const tools = await getTools();
   return (
     <main className="mx-auto max-w-4xl px-6 py-24">
       <h1 className="text-3xl font-semibold">{t("title")}</h1>

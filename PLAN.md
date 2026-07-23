@@ -36,10 +36,13 @@ Reference PROJECT_SPEC.md for all decisions this plan executes against. Update c
 - Content (project/tool descriptions) is English-only for now — translating the real copy into all 5 languages is deferred; UI chrome (nav/buttons/labels) is fully translated in all 5
 
 ## Phase 4 — Admin panel
-- [ ] Single-password auth (env var) gate
-- [ ] Add/Edit Project form → writes to content store
-- [ ] Add/Edit Tool form → writes to content store + Vercel Blob upload
-- [ ] Basic listing/edit/delete UI for existing entries
+- [x] Single-password auth (env var) gate — `src/lib/auth.ts`, cookie holds a hash not the raw password. Verified: wrong password rejected, correct password logs in, logout destroys session and re-protects `/admin`
+- [x] Add/Edit Project form → writes to content store — verified end-to-end (added "Test Project" via the real form/server action, confirmed it appeared on the public `/en/projects` page, then deleted it and confirmed `content/projects.json` matched git's committed version exactly)
+- [x] Add/Edit Tool form → writes to content store; upload wired to Vercel Blob via `/api/admin/upload`, with a clear "not configured yet" error until `BLOB_READ_WRITE_TOKEN` is set (Ivan hasn't connected Vercel yet — every URL field also accepts a pasted URL directly so the panel is usable before that's set up)
+- [x] Basic listing/edit/delete UI for existing entries — `/admin` dashboard
+- Architecture note: content moved from static `.ts` arrays (Phase 3) to `content/projects.json` + `content/tools.json`, read/written through `src/lib/content-store.ts`. That module uses Vercel Blob when `BLOB_READ_WRITE_TOKEN` is set (required in production — Vercel's filesystem is read-only/ephemeral) and falls back to writing the local JSON files directly otherwise (dev-only). Projects/Tools list + detail pages became `force-dynamic` (previously static) since content can now change without a rebuild.
+- `/admin` is a standalone, non-localized route tree (excluded from the i18n proxy matcher) with its own root layout fixed to the Minimal theme — it's a single-user tool, not public content, so it was left untranslated.
+- **Bug found + fixed during verification:** async Server Components calling next-intl's synchronous `useTranslations` (rather than the async `getTranslations`) threw "Expected a suspended thenable" once those routes became `force-dynamic`. Fixed in `projects/page.tsx` and `tools/page.tsx` by switching to `getTranslations`.
 
 ## Phase 5 — Performance & polish
 - [ ] Image optimization, lazy loading pass
