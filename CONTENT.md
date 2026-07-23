@@ -41,6 +41,19 @@ This holds actual content for the site (as opposed to PROJECT_SPEC.md, which hol
   - Export all data as JSON
 - **Needs from Ivan:** screenshots, published/unpublished status, download link or APK, tech stack (for the project detail page's "technologies" field).
 
+### Parserize
+- **Category:** Web
+- **Domain:** parserize.site (currently down/unavailable — reason unknown, worth checking before launch since it'll be linked)
+- **Description:** A lead-generation tool for web developers/freelancers. You pick a point on a map, set a search radius and business type/category, and it returns a list of local businesses that either have no website or have a poor one — so you can reach out and pitch/build them a site.
+- **Status:** built, but the live site is currently unavailable.
+- **Needs from Ivan:** why the site is down / whether it'll be brought back up before launch, screenshots (since live demo may not work), tech stack, whether source is on GitHub.
+
+### Reflux
+- **Category:** unclear yet — likely **Desktop** or **Tools**
+- **Description:** An unfinished tool for optimized, low-overhead livestreaming to a friend (Discord-style use case, but stream-only, built for efficiency rather than a full Discord-like feature set).
+- **Status:** **incomplete / not finished.**
+- **Open question for Ivan:** unfinished projects — do you want these shown on the site at all (e.g. tagged "Work in Progress" / "Prototype"), or only include finished projects in v1? This affects whether Reflux appears at launch.
+
 ## Tools (downloadable — separate from Projects section unless overlapping)
 
 Not yet specified separately from the above — likely Rhyme Studio and World Travel Tracker (as unpublished APKs) belong in **both** Projects (showcase) and Tools (download), or Ivan may want to choose one section per item. **Open question for Ivan:** should unpublished apps live in Projects, Tools, or both?
@@ -48,7 +61,10 @@ Not yet specified separately from the above — likely Rhyme Studio and World Tr
 ## Still needed from Ivan
 - Photo (promised, to be sent later)
 - Confirmation on categories above (Desktop vs Android vs Web tagging per project)
-- Screenshots/media for all four projects
+- Screenshots/media for all six projects
 - Any GitHub/demo/download links that exist already
 - Whether Beat the Piano and Sum All Stars are finished/playable or in progress
-- Decision on Projects vs Tools placement for the two unpublished apps
+- Decision on Projects vs Tools placement for the two unpublished mobile apps
+- Whether unfinished projects (Reflux) should appear in v1 at all, and if so, how they're labeled
+- Why parserize.site is currently down, and whether it'll be live again before launch
+- Double-check with Ivan whether there are *more* GitHub repos beyond these six before finalizing the launch project list
