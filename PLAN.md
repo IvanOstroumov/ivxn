@@ -3,11 +3,11 @@
 Reference PROJECT_SPEC.md for all decisions this plan executes against. Update checkboxes as work completes; don't let this drift from reality either.
 
 ## Phase 0 — Scaffold
-- [ ] `git init`, initial commit (repo structure, this doc set)
-- [ ] Next.js + TypeScript + Tailwind app scaffolded (App Router)
-- [ ] Framer Motion, i18n library (e.g. next-intl), Vercel Blob SDK installed
-- [ ] Base folder structure: `app/`, `components/`, `content/` (project & tool data), `lib/`, `public/`
-- [ ] ESLint/Prettier baseline
+- [x] `git init`, initial commit (repo structure, this doc set)
+- [x] Next.js + TypeScript + Tailwind app scaffolded (App Router), build verified, dev server verified in browser
+- [x] Framer Motion, next-intl, Vercel Blob SDK installed
+- [x] Base folder structure: `src/app/`, `src/components/`, `src/lib/`, `content/`, `public/`
+- [x] ESLint baseline (from create-next-app)
 
 ## Phase 1 — Theme system
 - [ ] Define CSS variable tokens (color, spacing, radius, font) per theme
