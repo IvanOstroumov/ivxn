@@ -10,11 +10,11 @@ Reference PROJECT_SPEC.md for all decisions this plan executes against. Update c
 - [x] ESLint baseline (from create-next-app)
 
 ## Phase 1 — Theme system
-- [ ] Define CSS variable tokens (color, spacing, radius, font) per theme
-- [ ] Propose 4 theme palettes (Minimal, Cyber, Glass, Experimental) — present for approval
-- [ ] Theme switcher dropdown component with animation, localStorage persistence
-- [ ] Default = Cyber for first-time visitors
-- [ ] Verify all page templates render correctly under all 4 themes before moving on
+- [x] Define CSS variable tokens (color, spacing, radius, font) per theme (`src/app/globals.css`)
+- [x] Propose 4 theme palettes (Minimal, Cyber, Glass, Experimental) — implemented, pending Ivan's visual approval/tweaks (see ASSETS.md)
+- [x] Theme switcher dropdown component with animation, localStorage persistence (`src/components/ThemeSwitcher.tsx`)
+- [x] Default = Cyber for first-time visitors — verified in browser
+- [ ] Verify all page templates render correctly under all 4 themes before moving on — will re-check as real pages are built in Phase 3; demo page confirmed switching/persistence works
 
 ## Phase 2 — Core layout & i18n
 - [ ] Sticky animated nav (desktop) + fullscreen animated mobile menu
