@@ -24,7 +24,7 @@ Status: pre-build. This file is the source of truth for the project. Update it a
 - Analytics: **privacy-friendly, cookie-less** (Plausible or Umami — pick at build time based on free-tier terms).
 - Performance target: Lighthouse 100 across Performance/Accessibility/Best Practices/SEO. Optimize images, lazy-load, minimal JS on first paint, no heavy unused animation libs on critical path.
 - Fully responsive: desktop, tablet, mobile. Mobile nav: fullscreen animated menu on hamburger tap.
-- Git: repo initialized locally now; Ivan will create the GitHub remote and hand over the URL when ready to connect/push.
+- Git: repo initialized locally, remote wired to `https://github.com/IvanOstroumov/ivxn.git`. Not yet pushed.
 
 ## 3. Visual style system
 
@@ -50,8 +50,10 @@ Sticky, animated nav. Pages/sections:
 - **About** — who he is, what he builds, interests, problem-solving approach. Professional with personality. Bio copy: Claude drafts a first version from this spec, Ivan edits/approves.
 - **Services** — Software Development, Mobile (Android), Custom Tools, Automation, Technical Consulting, Data Recovery / Digital Forensics.
 - **Skills** — visually presented (not a boring bullet list), categorized: Languages (C#, Java, Kotlin, PHP, Python, JS/TS), Development (Android, Desktop, Backend, DBs, APIs), Technologies (Git, Linux, Cloud, AI tools, Automation), Other (Digital Forensics, Data Recovery, Reverse Engineering, Problem Solving).
-- **Projects** — filterable grid. Categories: **Android, AI, Web, Tools, Experiments, Desktop, Automation** (build the filter system generically so categories can be added/renamed without code changes). Each project page: large main image + 3+ thumbnails (click thumbnail → swap main image, animated), name, short + full description, date, status, tech stack, platform, GitHub link, demo link, download link if applicable. Reusable template, editable via the admin panel. Launch content: Ivan has real projects/tools and will provide details (not placeholders).
+- **Projects** — filterable grid. Categories: **Android, AI, Web, Tools, Experiments, Desktop, Automation** (build the filter system generically so categories can be added/renamed without code changes). Each project page: large main image + 3+ thumbnails (click thumbnail → swap main image, animated), name, short + full description, date, status, tech stack, platform, GitHub link, demo link, download link if applicable. Reusable template, editable via the admin panel.
+  - **Launch lineup (see CONTENT.md for full detail):** Beat the Piano (Unity, Desktop), SAMT: All Stars (Desktop, 2D fighter), Parserize (Web, currently offline), Reflux (Desktop, unfinished/paused — do not label "Work in Progress," frame as paused/back-burner).
 - **Tools** — downloads page. Each tool entry: name, icon, description, screenshots, version, supported platforms, file size, changelog, download button, source link. Supports EXE/APK/other files, stored in Vercel Blob.
+  - **Launch lineup (see CONTENT.md for full detail):** Rhyme Studio (Android APK, unpublished — no license + doesn't meet Play Store's 20-tester requirement), World Travel Tracker (Android APK, unpublished).
 - **Contact** — primary: email (address TBD — Ivan doesn't have one picked yet, likely `something@ivxn.dev`, confirm before launch). Secondary: **GitHub, Telegram, WhatsApp, LinkedIn**. (Gag idea from transcript — show GitHub first, click to reveal more contacts — dropped, not doing easter eggs in v1.)
 - **CV** — a "Download CV" button (About/Contact). Content drafted by Claude from this spec alongside About/Services copy, Ivan edits/approves; exported as PDF.
 - **Footer** — contact info repeated, minimal links, plain copyright line (e.g. "© 2026 Ivan Ostroumov").
@@ -76,9 +78,10 @@ No timeline section (explicitly rejected). No easter eggs for now (explicitly re
 - Exact contact email address (Ivan doesn't have one yet — needs to set up something@ivxn.dev or similar before launch).
 - Exact color palette per theme (Claude proposes, Ivan approves).
 - Photo of Ivan — to be provided later.
-- Real project/tool content — Ivan will provide.
+- Screenshots/media and download builds (APKs, EXE) for all six launch projects/tools — see CONTENT.md "Still needed from Ivan."
+- Whether parserize.site will be brought back online before launch.
+- Whether there are more GitHub repos beyond the six already captured, before finalizing the launch list.
 - Whether easter eggs get revisited for a later version (explicitly off for v1).
-- GitHub remote URL (Ivan will create the repo and share it when ready to push/connect Vercel).
 
 ## 8. Explicit non-goals
 
