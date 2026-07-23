@@ -54,7 +54,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
           <Link
             key={project.slug}
             href={`/projects/${project.slug}`}
-            className="block rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-5 transition-transform hover:scale-[1.01]"
+            className="card block p-5 transition-transform hover:scale-[1.01]"
           >
             <div className="flex items-center justify-between">
               <h2 className="font-medium">{project.title}</h2>

@@ -5,55 +5,97 @@
   [data-theme="..."] on <html>. Components should only ever reference these
   --token variables (through the @theme inline mapping below), never hardcode
   colors, so all 4 themes stay swappable without touching component code.
+
+  Redesigned per Ivan's request for genuinely distinct themes (not just
+  recolored variants of the same look):
+  - Cyber: dark, professional-developer, directly grounded in nesen.ch's own
+    dark mode (colors/radii/font extracted live from that site) — deep navy,
+    blue accent, pill buttons, rounded cards, DM Sans.
+  - Minimal: crisp black/white, sharp corners, no shadows, no color accent.
+  - Glass: pastel, frosted/translucent panels via backdrop-filter, soft glow.
+  - Experimental: near-black + acid green/pink, hard brutalist edges,
+    monospace font, offset "sticker" shadows.
 */
 
 :root,
 [data-theme="cyber"] {
-  --bg: #08090c;
-  --surface: #101218;
-  --surface-2: #171a22;
-  --text: #f2f4f8;
-  --text-muted: #8a92a6;
-  --accent: #00f0ff;
-  --accent-2: #ff2d8a;
-  --border: #23273099;
-  --radius: 10px;
+  --bg: #0a121e;
+  --surface: #111e30;
+  --surface-2: #0d1828;
+  --text: #ffffff;
+  --text-muted: #93a4b8;
+  --accent: #2e9fd9;
+  --accent-2: #28ca41;
+  --on-accent: #ffffff;
+  --border: rgba(46, 159, 217, 0.18);
+  --radius: 18px;
+  --radius-pill: 999px;
+  --font-body: var(--font-dm-sans);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-cta: 0 8px 20px rgba(46, 159, 217, 0.35);
+  --backdrop-blur: none;
+  --heading-weight: 700;
+  --tracking: normal;
 }
 
 [data-theme="minimal"] {
-  --bg: #fafafa;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #f0f0f0;
+  --surface-2: #f5f5f5;
   --text: #0a0a0a;
   --text-muted: #6b6b6b;
   --accent: #0a0a0a;
-  --accent-2: #4a4a4a;
-  --border: #e2e2e2;
-  --radius: 6px;
+  --accent-2: #6b6b6b;
+  --on-accent: #ffffff;
+  --border: #e5e5e5;
+  --radius: 4px;
+  --radius-pill: 4px;
+  --font-body: var(--font-geist-sans);
+  --shadow-card: none;
+  --shadow-cta: none;
+  --backdrop-blur: none;
+  --heading-weight: 600;
+  --tracking: -0.01em;
 }
 
 [data-theme="glass"] {
-  --bg: #e9e6ff;
-  --surface: #ffffff66;
-  --surface-2: #ffffff40;
+  --bg: #eef1ff;
+  --surface: rgba(255, 255, 255, 0.55);
+  --surface-2: rgba(255, 255, 255, 0.35);
   --text: #1c1a2e;
   --text-muted: #5b5875;
   --accent: #7c6cff;
   --accent-2: #ff8bd6;
-  --border: #ffffff55;
-  --radius: 18px;
+  --on-accent: #ffffff;
+  --border: rgba(255, 255, 255, 0.6);
+  --radius: 24px;
+  --radius-pill: 999px;
+  --font-body: var(--font-geist-sans);
+  --shadow-card: 0 8px 32px rgba(124, 108, 255, 0.15);
+  --shadow-cta: 0 8px 24px rgba(124, 108, 255, 0.35);
+  --backdrop-blur: blur(16px);
+  --heading-weight: 600;
+  --tracking: normal;
 }
 
 [data-theme="experimental"] {
-  --bg: #0e0e0e;
-  --surface: #161616;
-  --surface-2: #1f1f1f;
+  --bg: #060606;
+  --surface: #121212;
+  --surface-2: #1a1a1a;
   --text: #f5f5f0;
-  --text-muted: #9a9a90;
+  --text-muted: #8c8c86;
   --accent: #c6ff3d;
-  --accent-2: #ff3d3d;
-  --border: #2a2a2a;
-  --radius: 2px;
+  --accent-2: #ff3d6e;
+  --on-accent: #060606;
+  --border: #262626;
+  --radius: 0px;
+  --radius-pill: 2px;
+  --font-body: var(--font-space-mono);
+  --shadow-card: 4px 4px 0 rgba(198, 255, 61, 0.15);
+  --shadow-cta: 3px 3px 0 rgba(255, 61, 110, 0.6);
+  --backdrop-blur: none;
+  --heading-weight: 700;
+  --tracking: 0.02em;
 }
 
 @theme inline {
@@ -73,6 +115,28 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  letter-spacing: var(--tracking);
+  transition: background-color 0.4s ease, color 0.4s ease, font-family 0.2s ease;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: var(--heading-weight);
+}
+
+/* Shared "card" surface — used for project/tool/service cards, callout
+   boxes, etc. Encapsulates the per-theme radius/border/shadow/blur so those
+   pieces of UI automatically pick up each theme's distinct treatment
+   (rounded glowing navy cards in Cyber, flat hairline boxes in Minimal,
+   frosted blurred glass in Glass, hard-edged offset-shadow boxes in
+   Experimental) without every component needing theme-aware logic. */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  backdrop-filter: var(--backdrop-blur);
 }

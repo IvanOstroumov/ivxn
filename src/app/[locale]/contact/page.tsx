@@ -42,7 +42,7 @@ export default function ContactPage() {
 
       <a
         href={`mailto:${CONTACT_EMAIL}`}
-        className="mt-8 block rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm hover:border-[var(--accent)]"
+        className="card mt-8 block px-4 py-3 text-sm hover:border-[var(--accent)]"
       >
         {CONTACT_EMAIL}
       </a>
@@ -53,7 +53,7 @@ export default function ContactPage() {
             key={link.key}
             href={link.href}
             rel={"rel" in link ? link.rel : undefined}
-            className="rounded-[var(--radius-theme)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
+            className="rounded-[var(--radius-pill)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
           >
             {t(link.key)}
           </a>

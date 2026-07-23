@@ -18,7 +18,7 @@ export function ProjectGallery({ title, images }: { title: string; images?: stri
 
   return (
     <div>
-      <div className="relative aspect-video overflow-hidden rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)]">
+      <div className="card relative aspect-video overflow-hidden">
         {images ? (
           <motion.div
             key={active}

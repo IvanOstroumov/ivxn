@@ -107,7 +107,7 @@ export default async function ProjectDetailPage({
       <p className="mt-6 text-[var(--text)]">{fullDescription}</p>
 
       {statusNote && (
-        <p className="mt-4 rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-3 text-sm text-[var(--text-muted)]">
+        <p className="card mt-4 p-3 text-sm text-[var(--text-muted)]">
           {statusNote}
         </p>
       )}
@@ -133,7 +133,7 @@ export default async function ProjectDetailPage({
         {project.demoUrl && (
           <a
             href={project.demoUrl}
-            className="rounded-[var(--radius-theme)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
+            className="rounded-[var(--radius-pill)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
           >
             {t("visitDemo")}
           </a>
@@ -141,7 +141,7 @@ export default async function ProjectDetailPage({
         {project.githubUrl && (
           <a
             href={project.githubUrl}
-            className="rounded-[var(--radius-theme)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
+            className="rounded-[var(--radius-pill)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
           >
             {t("sourceCode")}
           </a>
@@ -149,7 +149,7 @@ export default async function ProjectDetailPage({
         {project.downloadUrl && (
           <a
             href={project.downloadUrl}
-            className="rounded-[var(--radius-theme)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
+            className="rounded-[var(--radius-pill)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
           >
             {t("download")}
           </a>

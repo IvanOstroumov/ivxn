@@ -24,43 +24,50 @@ export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="font-semibold tracking-tight">
-          IO — Ivan Labs
-        </Link>
+    <>
+      <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <Link href="/" className="font-semibold tracking-tight">
+            IO — Ivan Labs
+          </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              className="text-sm text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
-            >
-              {t(item.key)}
-            </Link>
-          ))}
-        </nav>
+          <nav className="hidden items-center gap-6 md:flex">
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                className="text-sm text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
+              >
+                {t(item.key)}
+              </Link>
+            ))}
+          </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <LanguageSwitcher />
-          <ThemeSwitcher />
-          <CTAButton>{tCta("contact")}</CTAButton>
+          <div className="hidden items-center gap-3 md:flex">
+            <LanguageSwitcher />
+            <ThemeSwitcher />
+            <CTAButton>{tCta("contact")}</CTAButton>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setMobileOpen(true)}
+            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 md:hidden"
+            aria-label="Open menu"
+            aria-expanded={mobileOpen}
+          >
+            <span className="h-0.5 w-6 bg-[var(--text)]" />
+            <span className="h-0.5 w-6 bg-[var(--text)]" />
+            <span className="h-0.5 w-6 bg-[var(--text)]" />
+          </button>
         </div>
+      </header>
 
-        <button
-          type="button"
-          onClick={() => setMobileOpen(true)}
-          className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 md:hidden"
-          aria-label="Open menu"
-          aria-expanded={mobileOpen}
-        >
-          <span className="h-0.5 w-6 bg-[var(--text)]" />
-          <span className="h-0.5 w-6 bg-[var(--text)]" />
-          <span className="h-0.5 w-6 bg-[var(--text)]" />
-        </button>
-      </div>
-
+      {/* Rendered as a sibling of <header>, not nested inside it: header has
+          backdrop-blur (backdrop-filter), which creates a CSS containing block
+          for `position: fixed` descendants. Nested here, `fixed inset-0` would
+          size itself to the header's box instead of the viewport, so the menu
+          wouldn't actually cover the page — this was a real bug, found live. */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -120,6 +127,6 @@ export function Nav() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-// Real photo, stylized per ASSETS.md (grayscale + accent-colored ring rather
-// than a plain photo, so it reads as "designed" and works across all 4
-// themes without needing a different image per theme).
+// Real photo, full color per Ivan's request — just a themed accent ring so it
+// still reads as "designed" and ties into whichever theme is active.
 export function AvatarPhoto() {
   const t = useTranslations("hero");
   return (
@@ -16,7 +15,7 @@ export function AvatarPhoto() {
         alt={t("name")}
         fill
         sizes="208px"
-        className="object-cover grayscale"
+        className="object-cover"
         priority
       />
     </div>

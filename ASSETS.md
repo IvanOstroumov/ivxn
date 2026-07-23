@@ -1,54 +1,61 @@
 # Assets — visual identity, themes, logo, photo
 
-Companion to PROJECT_SPEC.md. This is where the *actual design values* live once decided — colors, logo files, photo treatment specifics — so Phase 1 (theme system) has concrete numbers to build against instead of vague direction.
+Companion to PROJECT_SPEC.md. This is where the *actual design values* live — colors, logo files, photo treatment specifics.
 
-## Theme palettes (proposed by Claude — pending Ivan's approval per PROJECT_SPEC.md §3)
+## Theme palettes — v2, redesigned per Ivan's explicit request
 
-These are starting proposals, not final. Each theme needs: background, surface, primary text, muted text, accent, and a secondary accent. Exact hex values will be tuned visually once built and previewed live — listing directional values here as a starting point so the build isn't blocked.
+Ivan rejected the original proposal as "just colors" and asked for genuinely distinct themes, with Cyber specifically modeled on **nesen.ch's dark mode** (a real reference site — a fellow developer's portfolio). Values below for Cyber were extracted live from that site (computed styles, not eyeballed) rather than invented. Each theme now differs in more than color: font family, corner radius (cards vs. buttons separately), shadow style, and blur.
 
-### 1. Minimal
-- Background: near-white (`#FAFAFA`) / near-black (`#0A0A0A`) in dark mode
-- Surface: very subtle off-white/off-black, barely-there contrast
-- Text: near-black / near-white, high contrast, no color tint
-- Accent: single restrained accent color (candidate: a muted blue or plain black-on-white with no accent at all — "restraint" is the point)
-- Feel: Apple-like, lots of whitespace, thin type weights, minimal color
+### 1. Cyber (default theme) — grounded in nesen.ch's dark mode
+- `--bg: #0A121E` / `--surface: #111E30` / `--surface-2: #0D1828`
+- `--text: #FFFFFF` / `--text-muted: #93A4B8`
+- `--accent: #2E9FD9` (sky blue) / `--accent-2: #28CA41` (green, sparing use)
+- `--border: rgba(46,159,217,0.18)`
+- Card radius `18px`, **button radius `999px` (full pill)** — matches nesen.ch exactly
+- Font: DM Sans (`--font-dm-sans`, loaded via next/font/google)
+- Shadow: soft dark drop shadow on cards (`0 8px 24px rgba(0,0,0,.35)`), soft blue glow under the primary CTA
+- Feel: professional developer/agency — the one meant to make the best first impression
 
-### 2. Cyber (default theme for first-time visitors)
-- Background: deep near-black with a cool undertone (`#08090C`)
-- Surface: dark slate panels, subtle glow edges
-- Accent: electric cyan or magenta (candidate: `#00F0FF` / `#FF2D8A`) — used sparingly for CTAs, links, active states
-- Typography: slightly more geometric/technical feel
-- Feel: futuristic, high-tech, confident — first impression should feel deliberate, not gaudy
+### 2. Minimal — stark black/white, deliberately restrained
+- `--bg: #FFFFFF` / `--surface: #FFFFFF` / `--surface-2: #F5F5F5`
+- `--text: #0A0A0A` / `--text-muted: #6B6B6B`
+- `--accent: #0A0A0A` (no color at all — pure black on white is the point)
+- `--border: #E5E5E5`
+- Card radius `4px`, **button radius `4px` (sharp, not pill)** — deliberately the opposite of Cyber's pills
+- Font: Geist Sans (the app's default)
+- Shadow: none, blur: none — totally flat
 
-### 3. Glass
-- Background: soft gradient (candidate: pale violet-to-blue or warm neutral gradient)
-- Surface: frosted glass panels — `backdrop-filter: blur()`, translucent white/dark overlays, soft drop shadows
-- Accent: soft pastel accent, low saturation
-- Feel: modern, airy, trendy — most "designed" feeling of the four
+### 3. Glass — frosted, pastel, dreamy
+- `--bg: #EEF1FF` (soft lavender)
+- `--surface: rgba(255,255,255,0.55)` / `--surface-2: rgba(255,255,255,0.35)` — translucent, paired with `backdrop-filter: blur(16px)` on the shared `.card` class
+- `--text: #1C1A2E` / `--text-muted: #5B5875`
+- `--accent: #7C6CFF` (purple) / `--accent-2: #FF8BD6` (pink)
+- Card radius `24px`, button radius `999px` (pill)
+- Font: Geist Sans
+- Shadow: soft purple-tinted glow (`0 8px 32px rgba(124,108,255,.15)`)
 
-### 4. Experimental
-- Background: bold, potentially asymmetric or animated gradient/pattern
-- Surface: less rigid grid, more overlapping/layered elements
-- Accent: high-contrast or unexpected color pairing (candidate: acid green + near-black, or duotone split)
-- Feel: the one theme allowed to break "clean minimalism" a bit and show personality/artistic risk
+### 4. Experimental — near-black, acid neon, brutalist
+- `--bg: #060606` / `--surface: #121212` / `--surface-2: #1A1A1A`
+- `--text: #F5F5F0` / `--text-muted: #8C8C86`
+- `--accent: #C6FF3D` (acid lime) / `--accent-2: #FF3D6E` (hot pink)
+- `--border: #262626`
+- Card radius `0px` (hard edges), button radius `2px` (sharp, not pill)
+- Font: Space Mono (`--font-space-mono`) — the only monospace theme, reads as "underground/hacker" rather than Cyber's clean corporate-dev feel
+- Shadow: hard offset "sticker" shadows (`4px 4px 0 rgba(198,255,61,.15)` on cards, `3px 3px 0 rgba(255,61,110,.6)` under the CTA) — a print-misregistration/glitch look, no blur at all
 
-**Build note:** implement as a token system (CSS custom properties per theme, swapped via a `data-theme` attribute), not hardcoded classes per component — makes future palette tuning trivial without touching component code.
+**Architecture:** all of this lives as CSS custom properties per `[data-theme="..."]` block in `globals.css`, plus a shared `.card` utility class (background/border/radius/shadow/blur) used by every card-like surface across the site (project/tool cards, service cards, gallery frame, status-note callouts, the contact email box) — so the distinct per-theme treatment applies automatically everywhere without touching component code.
 
 ## Logo
 
 - Concept (decided): "IO" monogram — the "O" rendered as a digital core/ring rather than a plain letterform.
-- Must scale cleanly from favicon (16×16, 32×32) up to a larger wordmark/lockup use.
-- Needs a version per theme (or a single flexible version using `currentColor`/CSS variables so it inherits the active theme's accent automatically) — simplest approach: build it as an SVG using theme CSS variables for its stroke/fill, so one asset works across all 4 themes without four separate exports.
-- Not yet drawn — do during Phase 1/5 alongside theme finalization.
+- Implemented: `src/app/icon.svg` (favicon) and `src/app/apple-icon.tsx` (iOS home-screen icon, generated via `next/og` `ImageResponse` from the same design). Fixed single design, not yet re-colored per theme — favicons can't respond to `data-theme` anyway since they're requested independently of any page load.
 
-## Photo treatment
+## Photo treatment — resolved, changed from original plan
 
-- Decided: **stylized**, not a plain photo — duotone/grayscale/theme-tinted.
-- Should re-tint per active theme (e.g. cyan/magenta duotone in Cyber, soft pastel in Glass, pure grayscale in Minimal, bolder/high-contrast treatment in Experimental) so it doesn't clash when the visitor switches themes.
-- Placement: hero section (see PROJECT_SPEC.md §4).
-- File: not yet provided — Ivan will send later. Once received, needs: reasonably high resolution, decent lighting/plain-ish background preferred (easier to treat consistently across 4 themes), but Claude/Ivan can adjust the treatment approach once the actual photo is in hand.
+- Original plan called for a grayscale/duotone stylized treatment. **Ivan asked for the photo in full color instead** — implemented in `AvatarPhoto.tsx` as the real photo with just a themed accent-color ring border, no filter.
+- File: `/public/photo/ivan.jpg` (provided by Ivan).
+- Known issue flagged to Ivan (not fixed by Claude, his call): the current photo is a dim, candid nighttime selfie — not particularly "premium/professional" for a portfolio meant to impress clients. Swap the file whenever a better one exists; nothing else needs to change.
 
-## Still needed
-- Ivan's approval/tweaks on the 4 palette directions above once previewed live in the build
-- The actual photo
-- Final logo SVG
+## Still open
+- Real screenshots for Parserize and Reflux (Ivan doesn't have them yet — the gallery already has a clean text placeholder fallback for this case)
+- A distinct logo lockup/wordmark beyond the small monogram, if ever wanted

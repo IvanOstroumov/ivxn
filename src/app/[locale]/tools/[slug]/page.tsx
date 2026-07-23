@@ -111,7 +111,7 @@ export default async function ToolDetailPage({
       </dl>
 
       {unavailableNote && (
-        <p className="mt-6 rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-3 text-sm text-[var(--text-muted)]">
+        <p className="card mt-6 p-3 text-sm text-[var(--text-muted)]">
           {unavailableNote}
         </p>
       )}
@@ -120,20 +120,20 @@ export default async function ToolDetailPage({
         {tool.downloadUrl ? (
           <a
             href={tool.downloadUrl}
-            className="rounded-[var(--radius-theme)] px-4 py-2 text-sm font-medium"
-            style={{ backgroundColor: "var(--accent)", color: "var(--bg)" }}
+            className="rounded-[var(--radius-pill)] px-4 py-2 text-sm font-medium"
+            style={{ backgroundColor: "var(--accent)", color: "var(--on-accent)" }}
           >
             {t("download")}
           </a>
         ) : (
-          <span className="rounded-[var(--radius-theme)] border border-[var(--border)] px-4 py-2 text-sm text-[var(--text-muted)] opacity-60">
+          <span className="rounded-[var(--radius-pill)] border border-[var(--border)] px-4 py-2 text-sm text-[var(--text-muted)] opacity-60">
             {t("unavailable")}
           </span>
         )}
         {tool.sourceUrl && (
           <a
             href={tool.sourceUrl}
-            className="rounded-[var(--radius-theme)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
+            className="rounded-[var(--radius-pill)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
           >
             {t("sourceCode")}
           </a>

@@ -41,7 +41,7 @@ export default async function ToolsPage({
           <Link
             key={tool.slug}
             href={`/tools/${tool.slug}`}
-            className="block rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-5 transition-transform hover:scale-[1.01]"
+            className="card block p-5 transition-transform hover:scale-[1.01]"
           >
             <h2 className="font-medium">{tool.name}</h2>
             <p className="mt-2 text-sm text-[var(--text-muted)]">

@@ -92,24 +92,31 @@ Ivan provided real assets via a `media/` folder (gitignored — contains `data.t
 - Verified end-to-end in browser: photo loads via Next's image optimizer, gallery thumbnail-swap still works with real images (re-confirmed after initial flaky false-negative from the browser automation tool, not a real bug), Parserize/Reflux correctly still show placeholders, both APKs download with correct headers, contact links all resolve correctly, admin login works with the real password
 - Rebuilt, linted, and route-swept clean (including the two new `/downloads/*.apk` routes)
 
+## Post-launch: mobile bug fix + full theme redesign
+Site went live on Vercel + `ivxn.dev` (see below), then Ivan tested on a real phone and reported real problems, plus asked for a full visual direction change.
+
+- [x] **Real bug fixed:** the mobile fullscreen menu didn't actually cover the page — content bled through underneath it. Root cause: the menu's `fixed inset-0` div was nested inside `<header>`, and the header has `backdrop-blur` (`backdrop-filter`), which creates a new CSS containing block for `position: fixed` descendants. That made the "fixed" menu size itself to the header's own box instead of the viewport. Fixed by moving the overlay to be a sibling of `<header>` instead of a child. Verified: overlay now measures the full viewport (375×812 tested) and sits at full opacity, `z-index: 50`, above all page content.
+- [x] Photo changed from grayscale to full color, per Ivan's request (`AvatarPhoto.tsx`).
+- [x] **Full theme redesign**, per Ivan's explicit "these are just colors, redo everything" feedback:
+  - Fetched nesen.ch live (a real reference site Ivan pointed to) and extracted its actual dark-mode computed styles (background, accent, radius, font) rather than guessing — Cyber is now genuinely modeled on that: navy `#0A121E` background, sky-blue `#2E9FD9` accent, pill-shaped (`999px`) buttons, `18px` rounded cards, DM Sans font.
+  - Rebuilt Minimal (stark white/black, sharp `4px` corners, zero shadows), Glass (frosted `backdrop-filter: blur(16px)` panels, pastel lavender/purple, pill buttons), and Experimental (near-black + acid-lime/hot-pink, `0px` hard corners, Space Mono font, hard offset "sticker" shadows instead of soft blur) so all 4 are structurally distinct — different fonts, different corner radii (separately tracked for cards vs. buttons via new `--radius`/`--radius-pill` tokens), different shadow/blur treatment — not just recolored copies of the same look.
+  - Added a shared `.card` CSS class (background/border/radius/shadow/blur) and applied it across every card-like surface (project/tool grid cards, service cards, the gallery frame, status-note callouts, the contact email box) so the new per-theme distinctiveness shows up everywhere automatically.
+  - Added DM Sans and Space Mono via `next/font/google` alongside the existing Geist fonts.
+- **Bug found + fixed during this pass:** the `.card` class's `backdrop-filter` declaration was silently stripped by the CSS build tool while the `-webkit-backdrop-filter` line survived (Glass theme showed `backdropFilter: none` instead of `blur(16px)`). Fixed by reordering the two declarations (`-webkit-` prefix first, standard property last) — confirmed `blur(16px)` now actually applies.
+- Verified live: all 4 themes resolve genuinely distinct `--bg`/`--accent`/`--radius`/`--radius-pill`/`--font-body` values through the real UI switcher (not just by mutating the DOM attribute directly, which turned out to give a false negative for Minimal due to a React-effect race — confirmed the real switcher path works correctly). Mobile menu re-tested full-viewport after the fix. Full route sweep + lint + build clean afterward.
+
 ## Phase 6 — Launch + Maximize SEO
 
 This phase has two halves: **getting the site live** (mechanical, one-time) and **maximizing search ranking** (partly one-time setup, partly ongoing habits). Both are laid out as an exact sequence — follow in order, since some steps depend on earlier ones (e.g. you need the site live on the real domain before Search Console verification means anything).
 
 ### A. Go live
 
-1. **Push to GitHub.** Repo `IvanOstroumov/ivxn` is already wired as `origin` locally. Once you're ready:
-   ```bash
-   git push -u origin master
-   ```
-2. **Create a Vercel account** (vercel.com, sign in with GitHub) and import the `ivxn` repo as a new project. Vercel auto-detects Next.js — no config needed.
-3. **Set environment variables** in Vercel (Project → Settings → Environment Variables), for Production (and Preview if you want the admin panel testable on preview deploys too):
-   - `ADMIN_PASSWORD` — a real, strong password (not the `dev-only-change-me` placeholder in `.env.local`)
-   - `BLOB_READ_WRITE_TOKEN` — create a Blob store under the Vercel project's Storage tab, it gives you this token automatically; without it, the admin panel can't persist edits or accept uploads in production (see PROJECT_SPEC.md §6)
-   - `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` — set once you've created a Plausible (or Umami) account for `ivxn.dev`; leave unset to keep analytics off
-4. **Point the domain at Vercel.** In your domain registrar's DNS settings for `ivxn.dev`, add the records Vercel shows you under Project → Settings → Domains (typically an `A` record to Vercel's IP, or `CNAME` for a subdomain). Propagation can take a few minutes to a few hours.
-5. **Verify the deploy**: visit `https://ivxn.dev`, click through a few pages, log into `/admin` with the real password, add and then delete a test project to confirm Blob-backed persistence actually works in production (not just the local fs fallback).
-6. **Final content pass** before calling it done: your real photo, real project/tool screenshots, APK builds for Rhyme Studio/World Travel Tracker, a real contact email, and a decision on parserize.site (bring it back online or update its status note).
+1. [x] **Push to GitHub** — done, `IvanOstroumov/ivxn` on `master`.
+2. [x] **Vercel project created**, imported from GitHub.
+3. [x] **Env vars set** — `ADMIN_PASSWORD` (real value) and a Vercel Blob store created (`ivxn-blob`, public access, `BLOB_READ_WRITE_TOKEN` env var added automatically).
+4. [x] **Domain purchased and connected** — `ivxn.dev` bought on Porkbun, DNS records added pointing at Vercel.
+5. [ ] **Re-verify the deploy after this session's fixes**: the mobile menu bug fix, photo color change, and full theme redesign are committed locally but need `git push` to actually go live — do that next, then re-check `https://ivxn.dev` on both desktop and a real phone.
+6. [ ] **Final content pass**: real project/tool screenshots for Parserize/Reflux if they ever become available (Ivan doesn't have them now — placeholder gallery stays), and reconsider the current photo (a dim nighttime selfie — flagged, Ivan's call whether to replace it).
 
 ### B. Maximize SEO — ranking for your own name and your projects
 
