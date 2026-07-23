@@ -23,20 +23,23 @@ These aren't bugs or oversights — the code is built to take them, there's just
 | Search Console / Bing Webmaster | Sitemap + robots.txt ready to submit | Needs a live domain to verify against |
 | `parserize.site` | Project entry links to it | Site itself is down (cause unknown per Ivan) — either fix hosting or update the status note if it'll stay down |
 | Theme color approval | All 4 palettes implemented and switchable | Ivan hasn't seen/approved the actual colors live yet (proposed values in ASSETS.md are a starting point, not final) |
-| Non-English project/tool copy | UI chrome (nav, buttons, labels) fully translated in all 5 languages | Project/tool descriptions themselves are English-only — translating real content needs either Ivan's input or a translation pass once he confirms the English copy is final |
+| Non-English project/tool copy | ~~UI chrome only~~ — **done**: project/tool descriptions are now translated into all 5 languages (see PLAN.md "Post-Phase-5 polish batch") | Nothing — resolved |
 
 ## 2. Could be added easily — no new external input needed
 
 Reasonably low effort, code-only, would meaningfully improve the site. None of these were in the original spec, so treat this as a menu to pick from, not a to-do list.
 
+**Done (see PLAN.md "Post-Phase-5 polish batch" for details):**
+- ~~Apple touch icon (PNG)~~ — done, generated via `next/og`, also fixed a real routing bug found along the way (middleware wasn't excluding it)
+- ~~Visible breadcrumb navigation~~ — done, on all project/tool detail pages
+- ~~Custom 404 page~~ — done, themed and translated
+- ~~Loading skeletons~~ — done, for Projects/Tools list and detail pages
+- ~~Basic login rate-limiting on `/admin`~~ — done, 5-attempt/15-minute in-memory lockout
+- ~~`rel="me"` links~~ — done on the GitHub link (Telegram/WhatsApp/LinkedIn still pending real URLs)
+
+**Still open:**
 - **Web app manifest** (`manifest.json` / `site.webmanifest`) — makes the site installable to a phone home screen with the IO icon. A few minutes of work; pairs naturally with the icon.svg that already exists.
-- **Apple touch icon (PNG)** — `icon.svg` covers modern browser tabs, but iOS home-screen icons still generally want a PNG. Can generate one from the same monogram design.
-- **Per-project/per-tool OG images** — right now every page shares one generic site-wide social preview image (the one just added). The same `ImageResponse` pattern used for that could generate a distinct preview per project/tool (showing its name + category), which makes individual project links look better when shared.
-- **Visible breadcrumb navigation** — the `BreadcrumbList` JSON-LD already exists on every project/tool page (for search engines), but there's no matching visible breadcrumb UI for actual visitors. Cheap to add since the data's already there.
-- **Custom 404 page** — currently uses Next's default not-found styling; a themed one (matching whichever of the 4 themes is active) would be a small polish win.
-- **Loading skeletons** (`loading.tsx`) for the Projects/Tools list and detail pages — smooths over the moment while `force-dynamic` pages fetch content, especially once there's more content to load.
-- **Basic login rate-limiting on `/admin`** — right now there's no cooldown or lockout after repeated wrong-password attempts. Low risk given it's a single-password personal tool, but a simple delay/lockout after N failures is a quick hardening step.
-- **`rel="me"` links** — a lightweight, standard way to let search engines/AI systems confirm "this GitHub account and this website are the same person," reinforcing the `Person` structured data already in place. Can add to the GitHub link right now; add the rest once Telegram/WhatsApp/LinkedIn are real.
+- **Per-project/per-tool OG images** — right now every page shares one generic site-wide social preview image. The same `ImageResponse` pattern already used for the default OG image and apple-icon could generate a distinct preview per project/tool (showing its name + category), which makes individual project links look better when shared.
 - **GitHub Actions CI** — a workflow that runs `npm run lint` and `npm run build` on every push, so a broken commit gets flagged automatically instead of only being caught by manually running the same commands (as done throughout this build).
 - **Alt text pass** — once real photo/screenshots exist, every image needs descriptive `alt` text. Not needed today (nothing but placeholders exists yet), but worth doing in the same pass as adding the real assets rather than as an afterthought.
 

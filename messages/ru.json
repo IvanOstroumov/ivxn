@@ -87,5 +87,10 @@
     "projectsDescription": "Проекты Ивана Остроумова: игры на Unity, включая Beat the Piano и SAMT: All Stars, веб-инструмент Parserize и другое.",
     "toolsDescription": "Инструменты для скачивания от Ивана Остроумова, включая Rhyme Studio и World Travel Tracker.",
     "contactDescription": "Связаться с Иваном Остроумовым по email, GitHub, Telegram, WhatsApp или LinkedIn."
+  },
+  "notFound": {
+    "title": "Страница не найдена",
+    "message": "Того, что вы искали, здесь нет — возможно, страница переехала, или ссылка неверна.",
+    "cta": "На главную"
   }
 }

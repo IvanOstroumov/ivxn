@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getProjectBySlug } from "@/lib/content-store";
+import { getLocalized } from "@/lib/localized";
 import { ProjectGallery } from "@/components/ProjectGallery";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata, SITE_URL } from "@/lib/seo";
 
@@ -21,7 +23,7 @@ export async function generateMetadata({
     locale,
     path: `/projects/${slug}`,
     title: `${project.title} — Ivan Ostroumov`,
-    description: project.shortDescription,
+    description: getLocalized(project.shortDescription, locale),
   });
 }
 
@@ -38,6 +40,9 @@ export default async function ProjectDetailPage({
   const nav = await getTranslations("nav");
 
   const projectUrl = `${SITE_URL}/${locale}/projects/${slug}`;
+  const shortDescription = getLocalized(project.shortDescription, locale);
+  const fullDescription = getLocalized(project.fullDescription, locale);
+  const statusNote = project.statusNote ? getLocalized(project.statusNote, locale) : undefined;
 
   // CreativeWork + BreadcrumbList structured data — makes individual projects
   // eligible for rich results and gives search engines an explicit site
@@ -46,12 +51,18 @@ export default async function ProjectDetailPage({
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: project.title,
-    description: project.fullDescription,
+    description: fullDescription,
     url: projectUrl,
     creator: { "@type": "Person", name: "Ivan Ostroumov", url: SITE_URL },
     keywords: project.techStack.join(", ") || undefined,
     ...(project.demoUrl ? { sameAs: [project.demoUrl] } : {}),
   };
+
+  const breadcrumbItems = [
+    { label: nav("home"), href: "/" },
+    { label: nav("projects"), href: "/projects" },
+    { label: project.title },
+  ];
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -79,22 +90,24 @@ export default async function ProjectDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
+      <Breadcrumbs items={breadcrumbItems} />
+
       <Link href="/projects" className="text-sm text-[var(--text-muted)] hover:text-[var(--text)]">
         ← {t("backToProjects")}
       </Link>
 
       <h1 className="mt-4 text-3xl font-semibold">{project.title}</h1>
-      <p className="mt-2 text-[var(--text-muted)]">{project.shortDescription}</p>
+      <p className="mt-2 text-[var(--text-muted)]">{shortDescription}</p>
 
       <div className="mt-6">
         <ProjectGallery title={project.title} />
       </div>
 
-      <p className="mt-6 text-[var(--text)]">{project.fullDescription}</p>
+      <p className="mt-6 text-[var(--text)]">{fullDescription}</p>
 
-      {project.statusNote && (
+      {statusNote && (
         <p className="mt-4 rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-3 text-sm text-[var(--text-muted)]">
-          {project.statusNote}
+          {statusNote}
         </p>
       )}
 

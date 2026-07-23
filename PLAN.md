@@ -2,6 +2,16 @@
 
 Reference PROJECT_SPEC.md for all decisions this plan executes against. Update checkboxes as work completes; don't let this drift from reality either.
 
+## Post-Phase-5 polish batch (from STATUS_REPORT.md "easy to add" list)
+- [x] Apple touch icon (PNG) — `src/app/apple-icon.tsx`, generated via `next/og` `ImageResponse` from the same IO monogram as `icon.svg`, 180×180. **Bug found + fixed:** it 307→404'd at first because the i18n middleware didn't exclude it (no file extension in the URL, so the "has a dot" bypass rule didn't catch it, unlike `/icon.svg`) — added `apple-icon` to the proxy matcher exclusions alongside `admin`. Verified 200 and renders correctly after the fix.
+- [x] Visible breadcrumb navigation — `src/components/Breadcrumbs.tsx`, matches the existing `BreadcrumbList` JSON-LD hierarchy (Home / Projects or Tools / item), on both project and tool detail pages, translated, verified in EN/RU/DE.
+- [x] Custom themed 404 page — `src/app/[locale]/not-found.tsx`, translated in all 5 locales, inherits the active theme automatically (renders inside the matched `[locale]` layout). Verified live.
+- [x] Loading skeletons — `loading.tsx` for Projects list/detail and Tools list/detail, theme-token-based pulse placeholders matching each page's real layout.
+- [x] Admin login rate-limiting — `src/lib/rate-limit.ts`, in-memory per-IP cooldown (5 failures → 15 min lockout), per Ivan's choice of the simple approach over an external store. Verified live: 6th wrong attempt in a row correctly locks out, and the *correct* password is also rejected during lockout.
+- [x] `rel="me"` on the GitHub link (Footer + Contact page) — reinforces the `Person` JSON-LD. Telegram/WhatsApp/LinkedIn will get it once they're real links.
+- [x] **Project/tool content translated into all 5 languages**, per Ivan's approval. This required restructuring the content model: `Project`/`Tool` text fields (`shortDescription`, `fullDescription`, `statusNote`, `description`, `unavailableNote`) became `LocalizedText` objects (`{en, ru, it, de, fr}`) instead of plain strings — product names (`title`/`name`) stay untranslated on purpose. Added `src/lib/localized.ts` (`getLocalized`, falls back to English), updated every consuming page (list + detail, metadata, JSON-LD) to resolve text for the current locale, and rebuilt the admin `ProjectForm`/`ToolForm` with a new `LocalizedFields` component (one input/textarea per locale per field). `llms.txt`/`llms-full.txt` stay English-only by design (noted in the file itself). Verified end-to-end: translations render correctly in RU/DE, editing one locale's field via the admin panel leaves the other 4 untouched, and the change is immediately live on the public site.
+- Rebuilt, linted, and route-swept clean after every change in this batch (all 65 locale×page combos + all root-level metadata routes return 200).
+
 ## Phase 0 — Scaffold
 - [x] `git init`, initial commit (repo structure, this doc set)
 - [x] Next.js + TypeScript + Tailwind app scaffolded (App Router), build verified, dev server verified in browser

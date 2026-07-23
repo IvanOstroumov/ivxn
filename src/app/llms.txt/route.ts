@@ -31,14 +31,14 @@ export async function GET() {
   lines.push("## Projects");
   for (const p of projects) {
     lines.push(
-      `- [${p.title}](${SITE_URL}/en/projects/${p.slug}): ${p.shortDescription} (${p.category}, ${p.status})`
+      `- [${p.title}](${SITE_URL}/en/projects/${p.slug}): ${p.shortDescription.en} (${p.category}, ${p.status})`
     );
   }
   lines.push("");
 
   lines.push("## Tools");
   for (const t of tools) {
-    lines.push(`- [${t.name}](${SITE_URL}/en/tools/${t.slug}): ${t.description}`);
+    lines.push(`- [${t.name}](${SITE_URL}/en/tools/${t.slug}): ${t.description.en}`);
   }
   lines.push("");
 

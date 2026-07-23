@@ -4,8 +4,20 @@
     "title": "Beat the Piano",
     "category": "Desktop",
     "status": "In progress",
-    "shortDescription": "A rhythm game where hitting the right keys actually plays a real piano composition.",
-    "fullDescription": "A Unity rhythm/music game for PC. Blocks arrive at the right side of the screen and you press your keyboard keys in time — get it right and you're actually playing real piano compositions, not just scoring points. Multiple levels, each built around a different piece of music.",
+    "shortDescription": {
+      "en": "A rhythm game where hitting the right keys actually plays a real piano composition.",
+      "ru": "Ритм-игра, где нажатие правильных клавиш реально проигрывает настоящую фортепианную композицию.",
+      "it": "Un gioco ritmico in cui premere i tasti giusti suona davvero una composizione al pianoforte.",
+      "de": "Ein Rhythmusspiel, bei dem das Drücken der richtigen Tasten tatsächlich eine echte Klavierkomposition spielt.",
+      "fr": "Un jeu de rythme où appuyer sur les bonnes touches joue réellement une composition au piano."
+    },
+    "fullDescription": {
+      "en": "A Unity rhythm/music game for PC. Blocks arrive at the right side of the screen and you press your keyboard keys in time — get it right and you're actually playing real piano compositions, not just scoring points. Multiple levels, each built around a different piece of music.",
+      "ru": "Ритм/музыкальная игра на Unity для ПК. Блоки появляются с правой стороны экрана, и вы нажимаете клавиши клавиатуры в такт — если всё верно, вы действительно играете настоящие фортепианные композиции, а не просто зарабатываете очки. Несколько уровней, каждый построен вокруг отдельного музыкального произведения.",
+      "it": "Un gioco ritmico/musicale in Unity per PC. I blocchi arrivano sul lato destro dello schermo e devi premere i tasti della tastiera a tempo — se lo fai bene, stai davvero suonando composizioni reali al pianoforte, non solo segnando punti. Più livelli, ognuno costruito attorno a un brano musicale diverso.",
+      "de": "Ein Unity-Rhythmus-/Musikspiel für PC. Blöcke erscheinen auf der rechten Bildschirmseite, und du drückst deine Tastatur-Tasten im Takt — machst du es richtig, spielst du tatsächlich echte Klavierkompositionen, statt nur Punkte zu sammeln. Mehrere Level, jedes um ein anderes Musikstück herum aufgebaut.",
+      "fr": "Un jeu de rythme/musical Unity pour PC. Des blocs arrivent sur le côté droit de l'écran et vous appuyez sur les touches du clavier en rythme — si vous réussissez, vous jouez réellement de vraies compositions au piano, pas seulement des points. Plusieurs niveaux, chacun construit autour d'un morceau de musique différent."
+    },
     "techStack": [
       "Unity",
       "C#"
@@ -17,8 +29,20 @@
     "title": "SAMT: All Stars",
     "category": "Desktop",
     "status": "In progress",
-    "shortDescription": "A 2D fighting game inspired by Brawlhalla, built with a team — playable characters based on us.",
-    "fullDescription": "A group project: a 2D fighting game inspired by Brawlhalla, with a full combat system and playable characters modeled on the team itself. Ivan's role was developer.",
+    "shortDescription": {
+      "en": "A 2D fighting game inspired by Brawlhalla, built with a team — playable characters based on us.",
+      "ru": "2D-файтинг в духе Brawlhalla, сделанный командой — играбельные персонажи списаны с нас самих.",
+      "it": "Un picchiaduro 2D ispirato a Brawlhalla, realizzato in team — personaggi giocabili basati su di noi.",
+      "de": "Ein 2D-Kampfspiel im Stil von Brawlhalla, im Team entwickelt — spielbare Charaktere basieren auf uns selbst.",
+      "fr": "Un jeu de combat 2D inspiré de Brawlhalla, créé en équipe — personnages jouables basés sur nous-mêmes."
+    },
+    "fullDescription": {
+      "en": "A group project: a 2D fighting game inspired by Brawlhalla, with a full combat system and playable characters modeled on the team itself. Ivan's role was developer.",
+      "ru": "Групповой проект: 2D-файтинг в духе Brawlhalla с полноценной боевой системой и играбельными персонажами, списанными с самой команды. Роль Ивана — разработчик.",
+      "it": "Un progetto di gruppo: un picchiaduro 2D ispirato a Brawlhalla, con un sistema di combattimento completo e personaggi giocabili basati sul team stesso. Il ruolo di Ivan è stato quello di sviluppatore.",
+      "de": "Ein Gruppenprojekt: ein 2D-Kampfspiel im Stil von Brawlhalla mit vollständigem Kampfsystem und spielbaren Charakteren, die dem Team selbst nachempfunden sind. Ivans Rolle war Entwickler.",
+      "fr": "Un projet de groupe : un jeu de combat 2D inspiré de Brawlhalla, avec un système de combat complet et des personnages jouables basés sur l'équipe elle-même. Le rôle d'Ivan était développeur."
+    },
     "techStack": [
       "Unity",
       "C#"
@@ -30,9 +54,27 @@
     "title": "Parserize",
     "category": "Web",
     "status": "Paused",
-    "statusNote": "parserize.site is currently offline — hosted on GitHub Pages, cause unknown.",
-    "shortDescription": "Finds local businesses with no website or a bad one, so you can pitch them a new one.",
-    "fullDescription": "A lead-generation tool for web developers and freelancers. Pick a point on a map, set a search radius and a business type, and Parserize returns local businesses that either don't have a website or have a poor one — ready to reach out to and pitch a build.",
+    "statusNote": {
+      "en": "parserize.site is currently offline — hosted on GitHub Pages, cause unknown.",
+      "ru": "parserize.site сейчас недоступен — размещён на GitHub Pages, причина неизвестна.",
+      "it": "parserize.site è attualmente offline — ospitato su GitHub Pages, causa sconosciuta.",
+      "de": "parserize.site ist derzeit offline — auf GitHub Pages gehostet, Ursache unbekannt.",
+      "fr": "parserize.site est actuellement hors ligne — hébergé sur GitHub Pages, cause inconnue."
+    },
+    "shortDescription": {
+      "en": "Finds local businesses with no website or a bad one, so you can pitch them a new one.",
+      "ru": "Находит локальный бизнес без сайта или с плохим сайтом, чтобы вы могли предложить им новый.",
+      "it": "Trova attività locali senza sito web o con un sito scadente, così puoi proporne uno nuovo.",
+      "de": "Findet lokale Unternehmen ohne Website oder mit einer schlechten, damit du ihnen eine neue anbieten kannst.",
+      "fr": "Trouve des entreprises locales sans site web ou avec un mauvais site, pour leur en proposer un nouveau."
+    },
+    "fullDescription": {
+      "en": "A lead-generation tool for web developers and freelancers. Pick a point on a map, set a search radius and a business type, and Parserize returns local businesses that either don't have a website or have a poor one — ready to reach out to and pitch a build.",
+      "ru": "Инструмент лидогенерации для веб-разработчиков и фрилансеров. Выберите точку на карте, задайте радиус поиска и тип бизнеса — Parserize вернёт список локальных компаний без сайта или с плохим сайтом, которым можно предложить разработку.",
+      "it": "Uno strumento di lead generation per sviluppatori web e freelance. Scegli un punto sulla mappa, imposta un raggio di ricerca e un tipo di attività — Parserize restituisce attività locali senza sito web o con un sito scadente, pronte da contattare per proporre un nuovo sito.",
+      "de": "Ein Lead-Generation-Tool für Webentwickler und Freelancer. Wähle einen Punkt auf der Karte, lege einen Suchradius und eine Branche fest — Parserize liefert lokale Unternehmen ohne Website oder mit schlechter Website, die man ansprechen und denen man eine neue Website anbieten kann.",
+      "fr": "Un outil de génération de leads pour développeurs web et freelances. Choisissez un point sur la carte, définissez un rayon de recherche et un type d'entreprise — Parserize renvoie les entreprises locales sans site web ou avec un site de mauvaise qualité, prêtes à être contactées pour leur proposer un nouveau site."
+    },
     "techStack": [],
     "platform": "Web",
     "demoUrl": "https://parserize.site"
@@ -42,9 +84,27 @@
     "title": "Reflux",
     "category": "Desktop",
     "status": "Paused",
-    "statusNote": "Paused for now — will return to this when time allows.",
-    "shortDescription": "An optimized, low-overhead livestreaming tool for streaming to a friend.",
-    "fullDescription": "A tool for lightweight, optimized livestreaming to a friend — Discord-style use case, but focused purely on efficient streaming rather than a full chat platform. Put in many hours on this one, including with Claude, but hit a wall getting it fully working. On the back burner for now.",
+    "statusNote": {
+      "en": "Paused for now — will return to this when time allows.",
+      "ru": "Пока приостановлен — вернусь к этому, когда будет время.",
+      "it": "Per ora in pausa — ci tornerò quando avrò tempo.",
+      "de": "Erstmal pausiert — ich komme darauf zurück, wenn Zeit ist.",
+      "fr": "En pause pour l'instant — j'y reviendrai quand j'aurai le temps."
+    },
+    "shortDescription": {
+      "en": "An optimized, low-overhead livestreaming tool for streaming to a friend.",
+      "ru": "Оптимизированный, лёгкий инструмент для стриминга видео другу.",
+      "it": "Uno strumento di live streaming ottimizzato e leggero per trasmettere a un amico.",
+      "de": "Ein optimiertes, ressourcenschonendes Livestreaming-Tool zum Streamen an einen Freund.",
+      "fr": "Un outil de streaming en direct optimisé et léger pour diffuser à un ami."
+    },
+    "fullDescription": {
+      "en": "A tool for lightweight, optimized livestreaming to a friend — Discord-style use case, but focused purely on efficient streaming rather than a full chat platform. Put in many hours on this one, including with Claude, but hit a wall getting it fully working. On the back burner for now.",
+      "ru": "Инструмент для лёгкого, оптимизированного стриминга видео другу — сценарий использования в духе Discord, но с фокусом исключительно на эффективный стриминг, а не полноценную чат-платформу. Потрачено много часов, в том числе с Claude, но не удалось довести до полной работоспособности. Пока отложен.",
+      "it": "Uno strumento per live streaming leggero e ottimizzato verso un amico — un caso d'uso in stile Discord, ma concentrato esclusivamente sullo streaming efficiente piuttosto che su una piattaforma di chat completa. Ci ho messo molte ore, anche con Claude, ma mi sono bloccato prima di farlo funzionare del tutto. Per ora è in pausa.",
+      "de": "Ein Tool für leichtes, optimiertes Livestreaming an einen Freund — ein Anwendungsfall im Discord-Stil, aber rein auf effizientes Streaming statt auf eine vollständige Chat-Plattform fokussiert. Viele Stunden investiert, auch mit Claude, aber an einem Punkt hängen geblieben, es vollständig zum Laufen zu bringen. Erstmal zurückgestellt.",
+      "fr": "Un outil de streaming en direct léger et optimisé vers un ami — un cas d'usage à la Discord, mais focalisé uniquement sur un streaming efficace plutôt que sur une plateforme de chat complète. J'y ai passé de nombreuses heures, y compris avec Claude, mais je me suis heurté à un mur pour le faire fonctionner complètement. Mis de côté pour l'instant."
+    },
     "techStack": [],
     "platform": "Desktop"
   }

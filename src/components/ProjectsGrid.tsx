@@ -1,12 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Project, ProjectCategory } from "@/content/types";
+import { getLocalized } from "@/lib/localized";
 
 export function ProjectsGrid({ projects }: { projects: Project[] }) {
   const t = useTranslations("projectsPage");
+  const locale = useLocale();
   const [filter, setFilter] = useState<ProjectCategory | "all">("all");
 
   const categories = useMemo(() => {
@@ -58,7 +60,9 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
               <h2 className="font-medium">{project.title}</h2>
               <span className="text-xs text-[var(--text-muted)]">{project.category}</span>
             </div>
-            <p className="mt-2 text-sm text-[var(--text-muted)]">{project.shortDescription}</p>
+            <p className="mt-2 text-sm text-[var(--text-muted)]">
+              {getLocalized(project.shortDescription, locale)}
+            </p>
           </Link>
         ))}
       </div>

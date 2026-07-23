@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getToolBySlug } from "@/lib/content-store";
+import { getLocalized } from "@/lib/localized";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata, SITE_URL } from "@/lib/seo";
 
@@ -20,7 +22,7 @@ export async function generateMetadata({
     locale,
     path: `/tools/${slug}`,
     title: `${tool.name} — Ivan Ostroumov`,
-    description: tool.description,
+    description: getLocalized(tool.description, locale),
   });
 }
 
@@ -37,6 +39,10 @@ export default async function ToolDetailPage({
   const nav = await getTranslations("nav");
 
   const toolUrl = `${SITE_URL}/${locale}/tools/${slug}`;
+  const description = getLocalized(tool.description, locale);
+  const unavailableNote = tool.unavailableNote
+    ? getLocalized(tool.unavailableNote, locale)
+    : undefined;
 
   // SoftwareApplication structured data — eligible for app-style rich results
   // (rating/price/platform badges) once the tool actually has a real download.
@@ -44,13 +50,19 @@ export default async function ToolDetailPage({
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: tool.name,
-    description: tool.description,
+    description,
     url: toolUrl,
     operatingSystem: tool.platforms.join(", "),
     applicationCategory: "UtilitiesApplication",
     author: { "@type": "Person", name: "Ivan Ostroumov", url: SITE_URL },
     ...(tool.downloadUrl ? { downloadUrl: tool.downloadUrl } : {}),
   };
+
+  const breadcrumbItems = [
+    { label: nav("home"), href: "/" },
+    { label: nav("tools"), href: "/tools" },
+    { label: tool.name },
+  ];
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -78,12 +90,14 @@ export default async function ToolDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
+      <Breadcrumbs items={breadcrumbItems} />
+
       <Link href="/tools" className="text-sm text-[var(--text-muted)] hover:text-[var(--text)]">
         ← {t("backToTools")}
       </Link>
 
       <h1 className="mt-4 text-3xl font-semibold">{tool.name}</h1>
-      <p className="mt-3 text-[var(--text)]">{tool.description}</p>
+      <p className="mt-3 text-[var(--text)]">{description}</p>
 
       <dl className="mt-8 grid grid-cols-2 gap-4 text-sm">
         <div>
@@ -96,9 +110,9 @@ export default async function ToolDetailPage({
         </div>
       </dl>
 
-      {tool.unavailableNote && (
+      {unavailableNote && (
         <p className="mt-6 rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-3 text-sm text-[var(--text-muted)]">
-          {tool.unavailableNote}
+          {unavailableNote}
         </p>
       )}
 

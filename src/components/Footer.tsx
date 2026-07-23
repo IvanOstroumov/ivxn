@@ -1,8 +1,12 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
+// rel="me" on GitHub — a standard, lightweight signal search engines/AI
+// systems use to confirm "this profile and this site are the same person",
+// reinforcing the Person structured data on the homepage. Add it to the
+// others once they're real links (see PROJECT_SPEC.md open items).
 const SOCIAL_LINKS = [
-  { label: "GitHub", href: "https://github.com/IvanOstroumov" },
+  { label: "GitHub", href: "https://github.com/IvanOstroumov", rel: "me" },
   { label: "Telegram", href: "#" },
   { label: "WhatsApp", href: "#" },
   { label: "LinkedIn", href: "#" },
@@ -21,6 +25,7 @@ export function Footer() {
             <a
               key={link.label}
               href={link.href}
+              rel={link.rel}
               className="transition-colors hover:text-[var(--text)]"
             >
               {link.label}

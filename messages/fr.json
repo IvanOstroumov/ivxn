@@ -87,5 +87,10 @@
     "projectsDescription": "Projets logiciels d'Ivan Ostroumov : jeux Unity dont Beat the Piano et SAMT: All Stars, l'outil web Parserize, et plus encore.",
     "toolsDescription": "Outils téléchargeables créés par Ivan Ostroumov, dont Rhyme Studio et World Travel Tracker.",
     "contactDescription": "Contactez Ivan Ostroumov par email, GitHub, Telegram, WhatsApp ou LinkedIn."
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "message": "Ce que vous cherchiez n'est pas ici — la page a peut-être été déplacée, ou le lien est incorrect.",
+    "cta": "Retour à l'accueil"
   }
 }

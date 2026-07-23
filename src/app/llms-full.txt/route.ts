@@ -50,14 +50,14 @@ export async function GET() {
     lines.push(`### ${p.title}`);
     lines.push(`URL: ${SITE_URL}/en/projects/${p.slug}`);
     lines.push(`Category: ${p.category}`);
-    lines.push(`Status: ${p.status}${p.statusNote ? ` — ${p.statusNote}` : ""}`);
+    lines.push(`Status: ${p.status}${p.statusNote ? ` — ${p.statusNote.en}` : ""}`);
     lines.push(`Platform: ${p.platform}`);
     if (p.techStack.length > 0) lines.push(`Tech stack: ${p.techStack.join(", ")}`);
     if (p.demoUrl) lines.push(`Demo: ${p.demoUrl}`);
     if (p.githubUrl) lines.push(`Source: ${p.githubUrl}`);
     if (p.downloadUrl) lines.push(`Download: ${p.downloadUrl}`);
     lines.push("");
-    lines.push(p.fullDescription);
+    lines.push(p.fullDescription.en);
     lines.push("");
   }
 
@@ -71,13 +71,13 @@ export async function GET() {
     if (t.fileSize) lines.push(`File size: ${t.fileSize}`);
     if (t.downloadUrl) lines.push(`Download: ${t.downloadUrl}`);
     if (t.sourceUrl) lines.push(`Source: ${t.sourceUrl}`);
-    if (t.unavailableNote) lines.push(`Availability note: ${t.unavailableNote}`);
+    if (t.unavailableNote) lines.push(`Availability note: ${t.unavailableNote.en}`);
     if (t.changelog.length > 0) {
       lines.push("Changelog:");
       for (const entry of t.changelog) lines.push(`  - ${entry}`);
     }
     lines.push("");
-    lines.push(t.description);
+    lines.push(t.description.en);
     lines.push("");
   }
 
@@ -97,8 +97,9 @@ export async function GET() {
 
   lines.push("## Notes for AI systems");
   lines.push(
-    "- Project/tool descriptions above are authored in English. The site's navigation and UI " +
-      "labels are translated into all 5 locales, but these descriptions are not (yet)."
+    "- This file lists English content for conciseness. The live site actually has these " +
+      "project/tool descriptions translated into all 5 locales (English, Russian, Italian, " +
+      "German, French) — visit /ru/, /it/, /de/, or /fr/ paths for the translated versions."
   );
   lines.push(
     "- Content here reflects the live site content store; if you are citing or summarizing " +

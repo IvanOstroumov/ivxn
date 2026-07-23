@@ -2,23 +2,43 @@
   {
     "slug": "rhyme-studio",
     "name": "Rhyme Studio",
-    "description": "A writing tool for Russian-language rhymes, song lyrics, and poetry — rhyme lookup, syllable counts, rhyme-scheme coloring, and a focus mode for writing.",
+    "description": {
+      "en": "A writing tool for Russian-language rhymes, song lyrics, and poetry — rhyme lookup, syllable counts, rhyme-scheme coloring, and a focus mode for writing.",
+      "ru": "Инструмент для написания рифм, текстов песен и стихов на русском языке — поиск рифм, подсчёт слогов, цветовая разметка рифм и режим фокусировки для письма.",
+      "it": "Uno strumento di scrittura per rime, testi di canzoni e poesie in russo — ricerca di rime, conteggio delle sillabe, colorazione dello schema delle rime e una modalità di concentrazione per scrivere.",
+      "de": "Ein Schreibtool für russischsprachige Reime, Songtexte und Gedichte — Reimsuche, Silbenzählung, Reimschema-Farbcodierung und ein Fokus-Modus zum Schreiben.",
+      "fr": "Un outil d'écriture pour les rimes, paroles de chansons et poésies en russe — recherche de rimes, comptage des syllabes, coloration du schéma de rimes et un mode concentration pour écrire."
+    },
     "version": "N/A",
-    "platforms": [
-      "Android"
-    ],
+    "platforms": ["Android"],
     "changelog": [],
-    "unavailableNote": "Not published on Google Play — no license, and doesn't meet Play's 20-tester closed testing requirement. APK download coming once a build is provided."
+    "unavailableNote": {
+      "en": "Not published on Google Play — no license, and doesn't meet Play's 20-tester closed testing requirement. APK download coming once a build is provided.",
+      "ru": "Не опубликовано в Google Play — нет лицензии, и не выполнено требование Play о 20 тестировщиках в закрытом тестировании. Скачивание APK появится после предоставления сборки.",
+      "it": "Non pubblicato su Google Play — manca la licenza e non soddisfa il requisito di Play di 20 tester nel test chiuso. Il download dell'APK arriverà una volta fornita una build.",
+      "de": "Nicht auf Google Play veröffentlicht — keine Lizenz, und die Anforderung von Play für 20 Tester im geschlossenen Test wird nicht erfüllt. APK-Download folgt, sobald ein Build bereitgestellt wird.",
+      "fr": "Non publié sur Google Play — pas de licence, et ne remplit pas l'exigence de Play de 20 testeurs en test fermé. Le téléchargement de l'APK arrivera une fois qu'une build sera fournie."
+    }
   },
   {
     "slug": "world-travel-tracker",
     "name": "World Travel Tracker",
-    "description": "A map-based app to track visited countries — ratings, reviews, tags, memories, notes, and travel statistics, with JSON export.",
+    "description": {
+      "en": "A map-based app to track visited countries — ratings, reviews, tags, memories, notes, and travel statistics, with JSON export.",
+      "ru": "Приложение на основе карты для отслеживания посещённых стран — оценки, отзывы, теги, воспоминания, заметки и статистика путешествий с экспортом в JSON.",
+      "it": "Un'app basata su mappa per tracciare i paesi visitati — valutazioni, recensioni, tag, ricordi, note e statistiche di viaggio, con esportazione in JSON.",
+      "de": "Eine kartenbasierte App zum Verfolgen besuchter Länder — Bewertungen, Rezensionen, Tags, Erinnerungen, Notizen und Reisestatistiken mit JSON-Export.",
+      "fr": "Une application basée sur une carte pour suivre les pays visités — notes, avis, tags, souvenirs, notes et statistiques de voyage, avec export JSON."
+    },
     "version": "N/A",
-    "platforms": [
-      "Android"
-    ],
+    "platforms": ["Android"],
     "changelog": [],
-    "unavailableNote": "Not published on Google Play. APK download coming once a build is provided."
+    "unavailableNote": {
+      "en": "Not published on Google Play. APK download coming once a build is provided.",
+      "ru": "Не опубликовано в Google Play. Скачивание APK появится после предоставления сборки.",
+      "it": "Non pubblicato su Google Play. Il download dell'APK arriverà una volta fornita una build.",
+      "de": "Nicht auf Google Play veröffentlicht. APK-Download folgt, sobald ein Build bereitgestellt wird.",
+      "fr": "Non publié sur Google Play. Le téléchargement de l'APK arrivera une fois qu'une build sera fournie."
+    }
   }
 ]

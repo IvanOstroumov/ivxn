@@ -1,6 +1,7 @@
 import type { Project } from "@/content/types";
 import { upsertProjectAction } from "@/app/admin/actions";
 import { UploadButton } from "./UploadButton";
+import { LocalizedFields } from "./LocalizedFields";
 
 const CATEGORIES = ["Desktop", "Web", "Android", "AI", "Automation", "Experiments"];
 const STATUSES = ["Finished", "In progress", "Paused"];
@@ -14,7 +15,7 @@ export function ProjectForm({ project }: { project?: Project }) {
       <input type="hidden" name="originalSlug" value={project?.slug ?? ""} />
 
       <label className="flex flex-col gap-1 text-sm">
-        Title
+        Title (not translated — product names stay the same across languages)
         <input name="title" defaultValue={project?.title} required className={inputClass} />
       </label>
 
@@ -40,31 +41,26 @@ export function ProjectForm({ project }: { project?: Project }) {
         </select>
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
-        Status note (optional — shown as a callout, e.g. why it&apos;s paused)
-        <input name="statusNote" defaultValue={project?.statusNote} className={inputClass} />
-      </label>
+      <LocalizedFields
+        name="statusNote"
+        label="Status note (optional — shown as a callout, e.g. why it's paused)"
+        value={project?.statusNote}
+      />
 
-      <label className="flex flex-col gap-1 text-sm">
-        Short description (for the grid card)
-        <input
-          name="shortDescription"
-          defaultValue={project?.shortDescription}
-          required
-          className={inputClass}
-        />
-      </label>
+      <LocalizedFields
+        name="shortDescription"
+        label="Short description (for the grid card)"
+        value={project?.shortDescription}
+        required
+      />
 
-      <label className="flex flex-col gap-1 text-sm">
-        Full description (for the detail page)
-        <textarea
-          name="fullDescription"
-          defaultValue={project?.fullDescription}
-          required
-          rows={5}
-          className={inputClass}
-        />
-      </label>
+      <LocalizedFields
+        name="fullDescription"
+        label="Full description (for the detail page)"
+        value={project?.fullDescription}
+        required
+        multiline
+      />
 
       <label className="flex flex-col gap-1 text-sm">
         Tech stack (comma-separated)

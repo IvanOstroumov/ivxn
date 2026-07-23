@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getTools } from "@/lib/content-store";
+import { getLocalized } from "@/lib/localized";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
 
@@ -24,7 +25,12 @@ export async function generateMetadata({
   });
 }
 
-export default async function ToolsPage() {
+export default async function ToolsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const t = await getTranslations("toolsPage");
   const tools = await getTools();
   return (
@@ -38,7 +44,9 @@ export default async function ToolsPage() {
             className="block rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-5 transition-transform hover:scale-[1.01]"
           >
             <h2 className="font-medium">{tool.name}</h2>
-            <p className="mt-2 text-sm text-[var(--text-muted)]">{tool.description}</p>
+            <p className="mt-2 text-sm text-[var(--text-muted)]">
+              {getLocalized(tool.description, locale)}
+            </p>
             <p className="mt-3 text-xs text-[var(--text-muted)]">
               {tool.platforms.join(", ")}
             </p>

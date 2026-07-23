@@ -1,6 +1,7 @@
 import type { Tool } from "@/content/types";
 import { upsertToolAction } from "@/app/admin/actions";
 import { UploadButton } from "./UploadButton";
+import { LocalizedFields } from "./LocalizedFields";
 
 const inputClass =
   "w-full rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2";
@@ -11,20 +12,17 @@ export function ToolForm({ tool }: { tool?: Tool }) {
       <input type="hidden" name="originalSlug" value={tool?.slug ?? ""} />
 
       <label className="flex flex-col gap-1 text-sm">
-        Name
+        Name (not translated — product names stay the same across languages)
         <input name="name" defaultValue={tool?.name} required className={inputClass} />
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
-        Description
-        <textarea
-          name="description"
-          defaultValue={tool?.description}
-          required
-          rows={4}
-          className={inputClass}
-        />
-      </label>
+      <LocalizedFields
+        name="description"
+        label="Description"
+        value={tool?.description}
+        required
+        multiline
+      />
 
       <label className="flex flex-col gap-1 text-sm">
         Version
@@ -46,7 +44,7 @@ export function ToolForm({ tool }: { tool?: Tool }) {
       </label>
 
       <label className="flex flex-col gap-1 text-sm">
-        Changelog (one line per entry)
+        Changelog (one line per entry — not translated)
         <textarea
           name="changelog"
           defaultValue={tool?.changelog.join("\n")}
@@ -74,14 +72,11 @@ export function ToolForm({ tool }: { tool?: Tool }) {
         <input name="sourceUrl" defaultValue={tool?.sourceUrl} className={inputClass} />
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
-        Unavailable note (optional — e.g. why it&apos;s not on the Play Store)
-        <input
-          name="unavailableNote"
-          defaultValue={tool?.unavailableNote}
-          className={inputClass}
-        />
-      </label>
+      <LocalizedFields
+        name="unavailableNote"
+        label="Unavailable note (optional — e.g. why it's not on the Play Store)"
+        value={tool?.unavailableNote}
+      />
 
       <button
         type="submit"

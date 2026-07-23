@@ -22,7 +22,7 @@ export async function generateMetadata({
 }
 
 const LINKS = [
-  { key: "github", href: "https://github.com/IvanOstroumov" },
+  { key: "github", href: "https://github.com/IvanOstroumov", rel: "me" },
   { key: "telegram", href: "#" },
   { key: "whatsapp", href: "#" },
   { key: "linkedin", href: "#" },
@@ -44,6 +44,7 @@ export default function ContactPage() {
           <a
             key={link.key}
             href={link.href}
+            rel={"rel" in link ? link.rel : undefined}
             className="rounded-[var(--radius-theme)] border border-[var(--border)] px-4 py-2 text-sm hover:border-[var(--accent)]"
           >
             {t(link.key)}
