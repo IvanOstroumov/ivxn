@@ -10,6 +10,8 @@ import { routing } from "@/i18n/routing";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Analytics } from "@/components/Analytics";
+import { MouseSpotlight } from "@/components/MouseSpotlight";
+import { ThemeBackdrop } from "@/components/ThemeBackdrop";
 
 const SITE_URL = "https://ivxn.dev";
 
@@ -109,6 +111,8 @@ export default async function LocaleLayout({
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>
           <ThemeProvider>
+            <MouseSpotlight />
+            <ThemeBackdrop />
             <Nav />
             <div className="flex-1">{children}</div>
             <Footer />

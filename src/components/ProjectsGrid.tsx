@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { motion } from "framer-motion";
 import { Link } from "@/i18n/navigation";
 import type { Project, ProjectCategory } from "@/content/types";
 import { getLocalized } from "@/lib/localized";
@@ -50,20 +51,27 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
       </div>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
-        {visible.map((project) => (
-          <Link
+        {visible.map((project, i) => (
+          <motion.div
             key={project.slug}
-            href={`/projects/${project.slug}`}
-            className="card block p-5 transition-transform hover:scale-[1.01]"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.4, delay: i * 0.06, ease: "easeOut" }}
           >
-            <div className="flex items-center justify-between">
-              <h2 className="font-medium">{project.title}</h2>
-              <span className="text-xs text-[var(--text-muted)]">{project.category}</span>
-            </div>
-            <p className="mt-2 text-sm text-[var(--text-muted)]">
-              {getLocalized(project.shortDescription, locale)}
-            </p>
-          </Link>
+            <Link
+              href={`/projects/${project.slug}`}
+              className="card block p-5 transition-transform hover:scale-[1.02]"
+            >
+              <div className="flex items-center justify-between">
+                <h2 className="font-medium">{project.title}</h2>
+                <span className="text-xs text-[var(--text-muted)]">{project.category}</span>
+              </div>
+              <p className="mt-2 text-sm text-[var(--text-muted)]">
+                {getLocalized(project.shortDescription, locale)}
+              </p>
+            </Link>
+          </motion.div>
         ))}
       </div>
     </div>

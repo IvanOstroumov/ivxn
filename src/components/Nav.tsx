@@ -36,7 +36,7 @@ export function Nav() {
               <Link
                 key={item.key}
                 href={item.href}
-                className="text-sm text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
+                className="nav-link text-sm text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
               >
                 {t(item.key)}
               </Link>

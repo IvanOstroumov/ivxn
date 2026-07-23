@@ -105,6 +105,22 @@ Site went live on Vercel + `ivxn.dev` (see below), then Ivan tested on a real ph
 - **Bug found + fixed during this pass:** the `.card` class's `backdrop-filter` declaration was silently stripped by the CSS build tool while the `-webkit-backdrop-filter` line survived (Glass theme showed `backdropFilter: none` instead of `blur(16px)`). Fixed by reordering the two declarations (`-webkit-` prefix first, standard property last) — confirmed `blur(16px)` now actually applies.
 - Verified live: all 4 themes resolve genuinely distinct `--bg`/`--accent`/`--radius`/`--radius-pill`/`--font-body` values through the real UI switcher (not just by mutating the DOM attribute directly, which turned out to give a false negative for Minimal due to a React-effect race — confirmed the real switcher path works correctly). Mobile menu re-tested full-viewport after the fix. Full route sweep + lint + build clean afterward.
 
+## Deep motion/interaction pass (Ivan: "just colors isn't enough, everything must change")
+Ivan pushed back hard on the first redesign — said it was still just recolored tokens, wanted structural/felt differences and dramatically more animation, specifically citing nesen.ch's cursor-reactive background lighting as an example of the kind of detail missing.
+
+- [x] **Mouse-reactive spotlight** (`src/components/MouseSpotlight.tsx`) — a fixed radial-gradient layer that follows the cursor site-wide, color themed per `--spotlight-color` (off entirely for Minimal — deliberate restraint is that theme's whole identity, not an oversight).
+- [x] **Per-theme animated backgrounds** (`src/components/ThemeBackdrop.tsx`), structurally different per theme, not shared:
+  - Cyber: a masked, fading grid-line pattern (nesen.ch-style technical backdrop)
+  - Glass: two large blurred color blobs slowly drifting on an infinite loop (framer motion)
+  - Experimental: a drifting scanline texture
+  - Minimal: nothing, on purpose
+- [x] **Hero entrance animation** — rebuilt as `HeroContent.tsx`, a staggered fade/slide-in sequence (photo → name → brand → tagline → CTA) instead of everything appearing at once.
+- [x] **Scroll-reveal animations** added via a shared `Reveal` component (and inline framer motion for the already-client `ProjectsGrid`) across About, Services, Projects, and Tools — cards/paragraphs fade/slide in as they scroll into view, staggered.
+- [x] **Card hover interactions** — every `.card` now lifts (`translateY(-4px)`) and its border tints toward the accent color on hover, verified via the browser's real hover simulation (not synthetic mouse events, which don't trigger `:hover` — confirmed that limitation directly).
+- [x] **Animated nav underline** — desktop nav links grow an underline from the accent color on hover (`.nav-link` CSS).
+- [x] **Pulsing CTA glow** — the primary CTA button now has a slow breathing box-shadow animation (`.cta-button` / `@keyframes cta-pulse`) instead of a static shadow.
+- Verified live: spotlight CSS vars update on mousemove, Glass orbs' transform actually changes over time (confirmed via two `getComputedStyle` reads 1.5s apart), card hover-lift confirmed via a real hover gesture, CTA pulse animation confirmed active, mobile menu re-confirmed still full-viewport after all these additions. Full route sweep, lint, and build clean.
+
 ## Phase 6 — Launch + Maximize SEO
 
 This phase has two halves: **getting the site live** (mechanical, one-time) and **maximizing search ranking** (partly one-time setup, partly ongoing habits). Both are laid out as an exact sequence — follow in order, since some steps depend on earlier ones (e.g. you need the site live on the real domain before Search Console verification means anything).

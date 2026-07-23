@@ -36,6 +36,7 @@
   --backdrop-blur: none;
   --heading-weight: 700;
   --tracking: normal;
+  --spotlight-color: rgba(46, 159, 217, 0.15);
 }
 
 [data-theme="minimal"] {
@@ -56,6 +57,7 @@
   --backdrop-blur: none;
   --heading-weight: 600;
   --tracking: -0.01em;
+  --spotlight-color: transparent;
 }
 
 [data-theme="glass"] {
@@ -76,6 +78,7 @@
   --backdrop-blur: blur(16px);
   --heading-weight: 600;
   --tracking: normal;
+  --spotlight-color: rgba(124, 108, 255, 0.25);
 }
 
 [data-theme="experimental"] {
@@ -96,6 +99,7 @@
   --backdrop-blur: none;
   --heading-weight: 700;
   --tracking: 0.02em;
+  --spotlight-color: rgba(198, 255, 61, 0.2);
 }
 
 @theme inline {
@@ -139,4 +143,53 @@ h3 {
   box-shadow: var(--shadow-card);
   -webkit-backdrop-filter: var(--backdrop-blur);
   backdrop-filter: var(--backdrop-blur);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+a.card:hover,
+button.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+
+/* CTA pulse — a slow breathing glow so the primary action never sits static. */
+@keyframes cta-pulse {
+  0%,
+  100% {
+    box-shadow: var(--shadow-cta);
+  }
+  50% {
+    box-shadow: var(--shadow-cta), var(--shadow-cta);
+  }
+}
+.cta-button {
+  animation: cta-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes scanline-drift {
+  from {
+    background-position-y: 0;
+  }
+  to {
+    background-position-y: 48px;
+  }
+}
+
+/* Animated underline for desktop nav links — grows from center on hover. */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
 }

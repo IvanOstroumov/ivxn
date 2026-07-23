@@ -4,6 +4,7 @@ import { getTools } from "@/lib/content-store";
 import { getLocalized } from "@/lib/localized";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
+import { Reveal } from "@/components/Reveal";
 
 export const dynamic = "force-dynamic";
 
@@ -37,20 +38,21 @@ export default async function ToolsPage({
     <main className="mx-auto max-w-4xl px-6 py-24">
       <h1 className="text-3xl font-semibold">{t("title")}</h1>
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
-        {tools.map((tool) => (
-          <Link
-            key={tool.slug}
-            href={`/tools/${tool.slug}`}
-            className="card block p-5 transition-transform hover:scale-[1.01]"
-          >
-            <h2 className="font-medium">{tool.name}</h2>
-            <p className="mt-2 text-sm text-[var(--text-muted)]">
-              {getLocalized(tool.description, locale)}
-            </p>
-            <p className="mt-3 text-xs text-[var(--text-muted)]">
-              {tool.platforms.join(", ")}
-            </p>
-          </Link>
+        {tools.map((tool, i) => (
+          <Reveal key={tool.slug} delay={i * 0.08}>
+            <Link
+              href={`/tools/${tool.slug}`}
+              className="card block p-5 transition-transform hover:scale-[1.02]"
+            >
+              <h2 className="font-medium">{tool.name}</h2>
+              <p className="mt-2 text-sm text-[var(--text-muted)]">
+                {getLocalized(tool.description, locale)}
+              </p>
+              <p className="mt-3 text-xs text-[var(--text-muted)]">
+                {tool.platforms.join(", ")}
+              </p>
+            </Link>
+          </Reveal>
         ))}
       </div>
     </main>

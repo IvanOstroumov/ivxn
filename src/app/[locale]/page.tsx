@@ -1,8 +1,6 @@
-import { useTranslations } from "next-intl";
-import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { CTAButton } from "@/components/CTAButton";
-import { AvatarPhoto } from "@/components/AvatarPhoto";
+import type { Metadata } from "next";
+import { HeroContent } from "@/components/HeroContent";
 import { buildMetadata, SITE_URL } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -23,9 +21,13 @@ export async function generateMetadata({
   });
 }
 
-export default function Home() {
-  const t = useTranslations("hero");
-  const tCta = useTranslations("cta");
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "hero" });
 
   // Person structured data — the single highest-value schema for personal-brand
   // SEO/knowledge-panel eligibility.
@@ -53,16 +55,12 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-[calc(100vh-4.5rem)] flex-col items-center justify-center gap-6 px-6 text-center">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
-      <AvatarPhoto />
-      <h1 className="text-4xl font-semibold">{t("name")}</h1>
-      <p className="text-[var(--text-muted)]">{t("brand")}</p>
-      <p className="max-w-md text-[var(--text-muted)]">{t("tagline")}</p>
-      <CTAButton>{tCta("contact")}</CTAButton>
-    </main>
+      <HeroContent />
+    </>
   );
 }

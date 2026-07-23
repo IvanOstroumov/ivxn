@@ -12,7 +12,7 @@ export function CTAButton({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center rounded-[var(--radius-pill)] px-5 py-2.5 font-medium transition-transform hover:scale-[1.03] ${className}`}
+      className={`cta-button inline-flex items-center justify-center rounded-[var(--radius-pill)] px-5 py-2.5 font-medium transition-transform hover:scale-[1.05] ${className}`}
       style={{
         backgroundColor: "var(--accent)",
         color: "var(--on-accent)",

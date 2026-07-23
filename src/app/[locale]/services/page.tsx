@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { buildMetadata } from "@/lib/seo";
+import { Reveal } from "@/components/Reveal";
 
 const SERVICE_KEYS = [
   "softwareDev",
@@ -36,13 +37,15 @@ export default function ServicesPage() {
     <main className="mx-auto max-w-4xl px-6 py-24">
       <h1 className="text-3xl font-semibold">{t("title")}</h1>
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        {SERVICE_KEYS.map((key) => (
-          <div key={key} className="card p-5">
-            <h2 className="font-medium">{t(`items.${key}.title`)}</h2>
-            <p className="mt-2 text-sm text-[var(--text-muted)]">
-              {t(`items.${key}.description`)}
-            </p>
-          </div>
+        {SERVICE_KEYS.map((key, i) => (
+          <Reveal key={key} delay={i * 0.08}>
+            <div className="card p-5">
+              <h2 className="font-medium">{t(`items.${key}.title`)}</h2>
+              <p className="mt-2 text-sm text-[var(--text-muted)]">
+                {t(`items.${key}.description`)}
+              </p>
+            </div>
+          </Reveal>
         ))}
       </div>
     </main>
