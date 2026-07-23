@@ -1,4 +1,25 @@
 import { useTranslations } from "next-intl";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const [skills, seo] = await Promise.all([
+    getTranslations({ locale, namespace: "skills" }),
+    getTranslations({ locale, namespace: "seo" }),
+  ]);
+  return buildMetadata({
+    locale,
+    path: "/skills",
+    title: `${skills("title")} — Ivan Ostroumov`,
+    description: seo("skillsDescription"),
+  });
+}
 
 const SKILL_GROUPS = [
   { key: "languages", items: ["C#", "Java", "Kotlin", "PHP", "Python", "JavaScript", "TypeScript"] },

@@ -1,12 +1,11 @@
-import { getProjects, getTools } from "@/lib/content-store";
+import { getLlmsData, SITE_URL } from "@/lib/llms-content";
 
-// llms.txt (see llmstxt.org) — a plain-text summary of the site for AI
+// llms.txt (see llmstxt.org) — a concise, plain-text index of the site for AI
 // crawlers/assistants, in the same spirit as robots.txt/sitemap.xml but aimed
-// at LLMs rather than search engines or classic bots.
-const SITE_URL = "https://ivxn.dev";
-
+// at LLMs rather than search engines or classic bots. For the fully expanded
+// version (full descriptions, skills, services, etc.) see /llms-full.txt.
 export async function GET() {
-  const [projects, tools] = await Promise.all([getProjects(), getTools()]);
+  const { projects, tools } = await getLlmsData();
 
   const lines: string[] = [];
   lines.push("# Ivan Ostroumov — Ivan Labs");
@@ -43,10 +42,9 @@ export async function GET() {
   }
   lines.push("");
 
-  lines.push("## Notes");
-  lines.push(
-    "- This site's content (project/tool descriptions) is authored in English; the site chrome (navigation, labels) is translated, the underlying descriptions are not yet."
-  );
+  lines.push("## More");
+  lines.push(`- Full detail (skills, services, tech stack, changelogs): ${SITE_URL}/llms-full.txt`);
+  lines.push(`- Sitemap: ${SITE_URL}/sitemap.xml`);
 
   return new Response(lines.join("\n"), {
     headers: { "Content-Type": "text/plain; charset=utf-8" },

@@ -1,5 +1,26 @@
 import { useTranslations } from "next-intl";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { CTAButton } from "@/components/CTAButton";
+import { buildMetadata } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const [about, seo] = await Promise.all([
+    getTranslations({ locale, namespace: "about" }),
+    getTranslations({ locale, namespace: "seo" }),
+  ]);
+  return buildMetadata({
+    locale,
+    path: "/about",
+    title: `${about("title")} — Ivan Ostroumov`,
+    description: seo("aboutDescription"),
+  });
+}
 
 export default function AboutPage() {
   const t = useTranslations("about");

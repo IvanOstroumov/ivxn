@@ -1,8 +1,28 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getTools } from "@/lib/content-store";
 import { Link } from "@/i18n/navigation";
+import { buildMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const [toolsPage, seo] = await Promise.all([
+    getTranslations({ locale, namespace: "toolsPage" }),
+    getTranslations({ locale, namespace: "seo" }),
+  ]);
+  return buildMetadata({
+    locale,
+    path: "/tools",
+    title: `${toolsPage("title")} — Ivan Ostroumov`,
+    description: seo("toolsDescription"),
+  });
+}
 
 export default async function ToolsPage() {
   const t = await getTranslations("toolsPage");

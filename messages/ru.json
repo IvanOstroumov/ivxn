@@ -78,5 +78,14 @@
     "telegram": "Telegram",
     "whatsapp": "WhatsApp",
     "linkedin": "LinkedIn"
+  },
+  "seo": {
+    "homeDescription": "Иван Остроумов — разработчик программного обеспечения, создаю инструменты, приложения и решаю технические задачи. Игры на Unity, Android-приложения, веб-инструменты и автоматизация.",
+    "aboutDescription": "Об Иване Остроумове: разработчик с опытом в играх на Unity, Android-приложениях, веб-инструментах и автоматизации, сейчас сфокусирован на восстановлении данных и цифровой криминалистике.",
+    "servicesDescription": "Разработка ПО, мобильные приложения, кастомные инструменты, автоматизация, техническая консультация и восстановление данных / цифровая криминалистика от Ивана Остроумова.",
+    "skillsDescription": "Технические навыки Ивана Остроумова: C#, Java, Kotlin, PHP, Python, JavaScript/TypeScript, разработка под Android и бэкенд, Git, Linux, облако, автоматизация и цифровая криминалистика.",
+    "projectsDescription": "Проекты Ивана Остроумова: игры на Unity, включая Beat the Piano и SAMT: All Stars, веб-инструмент Parserize и другое.",
+    "toolsDescription": "Инструменты для скачивания от Ивана Остроумова, включая Rhyme Studio и World Travel Tracker.",
+    "contactDescription": "Связаться с Иваном Остроумовым по email, GitHub, Telegram, WhatsApp или LinkedIn."
   }
 }

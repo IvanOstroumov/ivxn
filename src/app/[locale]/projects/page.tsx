@@ -1,8 +1,28 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getProjects } from "@/lib/content-store";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
+import { buildMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const [projectsPage, seo] = await Promise.all([
+    getTranslations({ locale, namespace: "projectsPage" }),
+    getTranslations({ locale, namespace: "seo" }),
+  ]);
+  return buildMetadata({
+    locale,
+    path: "/projects",
+    title: `${projectsPage("title")} — Ivan Ostroumov`,
+    description: seo("projectsDescription"),
+  });
+}
 
 export default async function ProjectsPage() {
   const t = await getTranslations("projectsPage");

@@ -78,5 +78,14 @@
     "telegram": "Telegram",
     "whatsapp": "WhatsApp",
     "linkedin": "LinkedIn"
+  },
+  "seo": {
+    "homeDescription": "Ivan Ostroumov — sviluppatore software: creo strumenti, applicazioni e risolvo problemi tecnici. Giochi Unity, app Android, strumenti web e automazione.",
+    "aboutDescription": "Chi è Ivan Ostroumov: sviluppatore con esperienza in giochi Unity, app Android, strumenti web e automazione, oggi concentrato su recupero dati e digital forensics.",
+    "servicesDescription": "Sviluppo software, app mobili, strumenti su misura, automazione, consulenza tecnica e recupero dati / digital forensics offerti da Ivan Ostroumov.",
+    "skillsDescription": "Competenze tecniche di Ivan Ostroumov: C#, Java, Kotlin, PHP, Python, JavaScript/TypeScript, sviluppo Android e backend, Git, Linux, cloud, automazione e digital forensics.",
+    "projectsDescription": "Progetti software di Ivan Ostroumov: giochi Unity tra cui Beat the Piano e SAMT: All Stars, lo strumento web Parserize e altro.",
+    "toolsDescription": "Strumenti scaricabili creati da Ivan Ostroumov, tra cui Rhyme Studio e World Travel Tracker.",
+    "contactDescription": "Contatta Ivan Ostroumov via email, GitHub, Telegram, WhatsApp o LinkedIn."
   }
 }

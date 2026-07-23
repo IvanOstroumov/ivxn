@@ -1,4 +1,7 @@
 import { useTranslations } from "next-intl";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 
 const SERVICE_KEYS = [
   "softwareDev",
@@ -8,6 +11,24 @@ const SERVICE_KEYS = [
   "consulting",
   "forensics",
 ] as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const [services, seo] = await Promise.all([
+    getTranslations({ locale, namespace: "services" }),
+    getTranslations({ locale, namespace: "seo" }),
+  ]);
+  return buildMetadata({
+    locale,
+    path: "/services",
+    title: `${services("title")} — Ivan Ostroumov`,
+    description: seo("servicesDescription"),
+  });
+}
 
 export default function ServicesPage() {
   const t = useTranslations("services");
