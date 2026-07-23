@@ -49,6 +49,7 @@ Reference PROJECT_SPEC.md for all decisions this plan executes against. Update c
 - [x] SEO: per-locale `generateMetadata` (title/description/OG from translations), `alternates.languages` for hreflang, `robots.ts` (disallows `/admin`), `sitemap.ts` (all 5 locales × all static + project + tool pages — 65 URLs, verified)
 - [x] Analytics wired — Plausible via `src/components/Analytics.tsx`, conditionally rendered only when `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` is set (no-op until Ivan creates an account)
 - [x] Favicon: `src/app/icon.svg`, IO monogram (I + ring-with-core O) per ASSETS.md, verified renders correctly in browser
+- [x] `llms.txt` (`src/app/llms.txt/route.ts`) — plain-text site summary for AI crawlers/assistants (same spirit as robots.txt/sitemap.xml), generated live from the content store so it stays in sync with admin edits automatically. Not originally in the spec — added on request, verified renders correctly
 - [ ] Actual Lighthouse 100/100/100/100 run — needs a deployed URL (Lighthouse doesn't run meaningfully against `next dev`); do this in Phase 6 once deployed to Vercel
 
 ## Full QA sweep (end of Phase 5, per Ivan's request to re-verify everything)
