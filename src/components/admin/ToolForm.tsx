@@ -75,7 +75,7 @@ export function ToolForm({ tool }: { tool?: Tool }) {
       </label>
 
       <label className="flex flex-col gap-1 text-sm">
-        Unavailable note (optional — e.g. why it's not on the Play Store)
+        Unavailable note (optional — e.g. why it&apos;s not on the Play Store)
         <input
           name="unavailableNote"
           defaultValue={tool?.unavailableNote}

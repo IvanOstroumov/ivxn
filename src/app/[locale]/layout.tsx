@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -9,6 +9,9 @@ import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/themes";
 import { routing } from "@/i18n/routing";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { Analytics } from "@/components/Analytics";
+
+const SITE_URL = "https://ivxn.dev";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,10 +23,35 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Ivan Ostroumov — Ivan Labs",
-  description: "Software developer and technology creator.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "hero" });
+
+  const languages = Object.fromEntries(
+    routing.locales.map((l) => [l, `${SITE_URL}/${l}`])
+  );
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: `${t("name")} — ${t("brand")}`,
+    description: t("tagline"),
+    alternates: {
+      canonical: `/${locale}`,
+      languages,
+    },
+    openGraph: {
+      title: `${t("name")} — ${t("brand")}`,
+      description: t("tagline"),
+      url: `${SITE_URL}/${locale}`,
+      siteName: t("brand"),
+      locale,
+    },
+  };
+}
 
 // Runs before hydration so the correct theme is applied on first paint,
 // avoiding a flash of the default theme for returning visitors.
@@ -62,6 +90,7 @@ export default async function LocaleLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <Analytics />
       </head>
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>

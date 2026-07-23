@@ -45,10 +45,28 @@ Reference PROJECT_SPEC.md for all decisions this plan executes against. Update c
 - **Bug found + fixed during verification:** async Server Components calling next-intl's synchronous `useTranslations` (rather than the async `getTranslations`) threw "Expected a suspended thenable" once those routes became `force-dynamic`. Fixed in `projects/page.tsx` and `tools/page.tsx` by switching to `getTranslations`.
 
 ## Phase 5 — Performance & polish
-- [ ] Image optimization, lazy loading pass
-- [ ] Lighthouse pass on all 4 themes, all locales — target 100/100/100/100
-- [ ] Analytics wired (Plausible or Umami)
-- [ ] Favicon/logo (IO monogram) finalized across sizes
+- [x] Image optimization, lazy loading — no real images uploaded yet (only placeholders), so nothing to optimize yet; the gallery/photo components are already structured to take real URLs later
+- [x] SEO: per-locale `generateMetadata` (title/description/OG from translations), `alternates.languages` for hreflang, `robots.ts` (disallows `/admin`), `sitemap.ts` (all 5 locales × all static + project + tool pages — 65 URLs, verified)
+- [x] Analytics wired — Plausible via `src/components/Analytics.tsx`, conditionally rendered only when `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` is set (no-op until Ivan creates an account)
+- [x] Favicon: `src/app/icon.svg`, IO monogram (I + ring-with-core O) per ASSETS.md, verified renders correctly in browser
+- [ ] Actual Lighthouse 100/100/100/100 run — needs a deployed URL (Lighthouse doesn't run meaningfully against `next dev`); do this in Phase 6 once deployed to Vercel
+
+## Full QA sweep (end of Phase 5, per Ivan's request to re-verify everything)
+Re-tested the entire app end to end, not just the new Phase 5 pieces:
+- **HTTP sweep:** all 65 locale×route combinations (5 locales × 13 pages) return 200
+- **Edge cases:** unknown project/tool slug → 404, unknown locale → redirects then 404, `/admin` without a session → redirects to login, root `/` → redirects to a locale
+- **All 4 themes** verified to resolve distinct, correct `--bg` values live in-browser
+- **Mobile menu** re-verified (opens, shows translated links + switchers + CTA, closes on nav)
+- **Project gallery thumbnail swap** re-verified on a second project (Parserize) — still correct after Phase 4's data-source change from static arrays to the JSON content store
+- **Reflux copy** re-checked word-for-word: "Paused" status, no "Work in Progress" language anywhere, matches Ivan's explicit instruction
+- **Admin CRUD** re-run after Phase 5 changes: add → appears on public site → delete → file matches git-committed state exactly; also tested editing an existing tool (Rhyme Studio version field), confirmed it updated live, then reverted
+- **`npm run lint`**: found 3 real issues, fixed all — see below
+- **`npm run build`**: clean after every fix, zero errors, zero warnings
+
+### Bugs found and fixed this session (in order)
+1. **Frozen project gallery (Phase 3):** `AnimatePresence mode="wait"` got stuck mid-exit (element stuck at `opacity: 0`), so thumbnail clicks updated state but the visible label never changed. Fixed by dropping AnimatePresence for a simple enter-only fade.
+2. **"Expected a suspended thenable" crash (Phase 4):** calling next-intl's synchronous `useTranslations` inside `async` Server Components crashed once those routes became `force-dynamic`. Fixed by switching to the async `getTranslations` in `projects/page.tsx` and `tools/page.tsx`.
+3. **Self-inflicted near-miss (Phase 5):** while fixing an ESLint `set-state-in-effect` warning in `ThemeProvider`, first tried a lazy `useState` initializer reading `data-theme` off the DOM directly. That's actually worse: the server always renders `DEFAULT_THEME`, so on any client with a different stored theme, React hit a genuine **text-content hydration mismatch** in `ThemeSwitcher` ("Cyber" vs "Minimal") and fully crashed/regenerated the tree — caught by reproducing it live (set `minimal` in localStorage, hard-reloaded, saw "Uncaught Error: Hydration failed"). Reverted to the original effect-based sync (server and client both start at `DEFAULT_THEME`, correct to the stored value in a harmless post-mount re-render) and silenced the lint rule for that one line with a comment explaining why — confirmed no crash on re-test of the exact same repro.
 
 ## Phase 6 — Launch
 - [ ] Ivan creates GitHub repo, shares remote URL → connect + push

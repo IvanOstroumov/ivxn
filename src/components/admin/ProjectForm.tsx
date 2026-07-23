@@ -41,7 +41,7 @@ export function ProjectForm({ project }: { project?: Project }) {
       </label>
 
       <label className="flex flex-col gap-1 text-sm">
-        Status note (optional — shown as a callout, e.g. why it's paused)
+        Status note (optional — shown as a callout, e.g. why it&apos;s paused)
         <input name="statusNote" defaultValue={project?.statusNote} className={inputClass} />
       </label>
 
