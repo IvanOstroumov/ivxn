@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { buildMetadata } from "@/lib/seo";
+import { ContactForm } from "@/components/ContactForm";
 import {
   CONTACT_EMAIL,
   CONTACT_GITHUB_URL,
@@ -40,14 +41,18 @@ export default function ContactPage() {
       <h1 className="text-3xl font-semibold">{t("title")}</h1>
       <p className="mt-4 text-[var(--text-muted)]">{t("intro")}</p>
 
-      <a
-        href={`mailto:${CONTACT_EMAIL}`}
-        className="card mt-8 block px-4 py-3 text-sm hover:border-[var(--accent)]"
-      >
-        {CONTACT_EMAIL}
-      </a>
+      <div className="card mt-8 p-5">
+        <ContactForm />
+      </div>
 
-      <div className="mt-6 flex flex-wrap justify-center gap-3">
+      <p className="mt-8 text-xs text-[var(--text-muted)]">
+        Or reach out directly:{" "}
+        <a href={`mailto:${CONTACT_EMAIL}`} className="underline hover:text-[var(--text)]">
+          {CONTACT_EMAIL}
+        </a>
+      </p>
+
+      <div className="mt-4 flex flex-wrap justify-center gap-3">
         {LINKS.map((link) => (
           <a
             key={link.key}

@@ -25,7 +25,7 @@ export function HeroContent() {
       initial="hidden"
       animate="show"
       variants={container}
-      className="flex min-h-[calc(100vh-4.5rem)] flex-col items-center justify-center gap-6 px-6 text-center"
+      className="relative flex min-h-[calc(100vh-4.5rem)] flex-col items-center justify-center gap-6 px-6 pb-16 text-center"
     >
       <motion.div variants={item}>
         <AvatarPhoto />
@@ -42,6 +42,15 @@ export function HeroContent() {
       <motion.div variants={item}>
         <CTAButton>{tCta("contact")}</CTAButton>
       </motion.div>
+
+      {/* "Now" line — a cheap way to keep the homepage feeling current between
+          real content updates. Default text below; edit via messages/*.json. */}
+      <motion.p
+        variants={item}
+        className="absolute bottom-4 left-0 right-0 px-6 text-xs text-[var(--text-muted)]"
+      >
+        {t("now")}
+      </motion.p>
     </motion.main>
   );
 }

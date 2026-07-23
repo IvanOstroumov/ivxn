@@ -16,7 +16,8 @@
     "name": "Ivan Ostroumov",
     "brand": "Ivan Labs",
     "tagline": "Softwareentwickler — ich baue Tools, Anwendungen und löse technische Probleme.",
-    "photoPending": "Foto folgt in Kürze"
+    "photoPending": "Foto folgt in Kürze",
+    "now": "Gerade jetzt: Fokus auf Datenwiederherstellung & Digital Forensics, nebenbei an Reflux dran."
   },
   "footer": {
     "copyright": "© {year} Ivan Ostroumov"
@@ -26,7 +27,12 @@
     "body1": "Ich bin Ivan Ostroumov — ein Entwickler, der am Ende von allem ein bisschen baut: Desktop-Spiele, mobile Apps, Web-Tools, Automatisierung. Wenn es ein interessantes technisches Problem gibt, will ich es zerlegen und verstehen, wie es funktioniert.",
     "body2": "Aktuell liegt mein beruflicher Fokus auf Datenwiederherstellung und Digital Forensics, aber die Projekte unten zeigen den Rest — Spieleentwicklung mit Unity, Android-Apps, Web-Scraper und gelegentliche Experimente, die es nicht ganz bis zum Ende schaffen.",
     "body3": "Ich baue Software, experimentiere mit Technologie und mache aus Ideen funktionierende Produkte.",
-    "downloadCv": "Lebenslauf herunterladen"
+    "downloadCv": "Lebenslauf herunterladen",
+    "setupTitle": "Setup",
+    "setupNote": "Platzhalter — sag Claude dein echtes Setup, dann wird das hier korrekt.",
+    "setupOs": "Betriebssystem: Windows",
+    "setupEditor": "Editor: VS Code",
+    "setupTools": "Tools: Unity, Android Studio, Git"
   },
   "services": {
     "title": "Leistungen",
@@ -77,7 +83,13 @@
     "github": "GitHub",
     "telegram": "Telegram",
     "whatsapp": "WhatsApp",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "formName": "Name",
+    "formEmail": "E-Mail",
+    "formMessage": "Nachricht",
+    "formSend": "Nachricht senden",
+    "formSending": "Wird gesendet…",
+    "formSuccess": "Danke — Nachricht gesendet, ich melde mich bald."
   },
   "seo": {
     "homeDescription": "Ivan Ostroumov — Softwareentwickler: ich baue Tools, Anwendungen und löse technische Probleme. Unity-Spiele, Android-Apps, Web-Tools und Automatisierung.",

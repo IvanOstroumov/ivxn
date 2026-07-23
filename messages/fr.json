@@ -16,7 +16,8 @@
     "name": "Ivan Ostroumov",
     "brand": "Ivan Labs",
     "tagline": "Développeur logiciel — je construis des outils, des applications et résous des problèmes techniques.",
-    "photoPending": "Photo bientôt disponible"
+    "photoPending": "Photo bientôt disponible",
+    "now": "En ce moment : concentré sur la récupération de données et l'informatique légale, avec Reflux comme projet secondaire."
   },
   "footer": {
     "copyright": "© {year} Ivan Ostroumov"
@@ -26,7 +27,12 @@
     "body1": "Je suis Ivan Ostroumov — un développeur qui finit par construire un peu de tout : jeux desktop, applications mobiles, outils web, automatisation. S'il y a un problème technique intéressant, je veux le décortiquer pour comprendre comment ça marche.",
     "body2": "Mon focus professionnel principal est actuellement la récupération de données et l'informatique légale (forensics), mais les projets ci-dessous montrent le reste — développement de jeux avec Unity, applications Android, scrapers web, et parfois des expériences qui n'arrivent pas tout à fait à terme.",
     "body3": "Je construis des logiciels, j'expérimente avec la technologie et je transforme des idées en produits fonctionnels.",
-    "downloadCv": "Télécharger le CV"
+    "downloadCv": "Télécharger le CV",
+    "setupTitle": "Setup",
+    "setupNote": "Placeholder — dis à Claude ton vrai setup et ceci deviendra exact.",
+    "setupOs": "OS : Windows",
+    "setupEditor": "Éditeur : VS Code",
+    "setupTools": "Outils : Unity, Android Studio, Git"
   },
   "services": {
     "title": "Services",
@@ -77,7 +83,13 @@
     "github": "GitHub",
     "telegram": "Telegram",
     "whatsapp": "WhatsApp",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "formName": "Nom",
+    "formEmail": "Email",
+    "formMessage": "Message",
+    "formSend": "Envoyer le message",
+    "formSending": "Envoi…",
+    "formSuccess": "Merci — message envoyé, je vous répondrai bientôt."
   },
   "seo": {
     "homeDescription": "Ivan Ostroumov — développeur logiciel : je construis des outils, des applications et résous des problèmes techniques. Jeux Unity, applications Android, outils web et automatisation.",

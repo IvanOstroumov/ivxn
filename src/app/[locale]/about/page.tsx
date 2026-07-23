@@ -47,6 +47,16 @@ export default function AboutPage() {
           CV PDF not uploaded yet — button will activate once available.
         </p>
       </Reveal>
+
+      <Reveal delay={0.4} className="card mt-10 p-5">
+        <h2 className="font-medium">{t("setupTitle")}</h2>
+        <ul className="mt-2 space-y-1 text-sm text-[var(--text-muted)]">
+          <li>{t("setupOs")}</li>
+          <li>{t("setupEditor")}</li>
+          <li>{t("setupTools")}</li>
+        </ul>
+        <p className="mt-3 text-xs text-[var(--text-muted)] opacity-70">{t("setupNote")}</p>
+      </Reveal>
     </main>
   );
 }

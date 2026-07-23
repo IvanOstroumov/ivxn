@@ -12,6 +12,7 @@ import { Footer } from "@/components/Footer";
 import { Analytics } from "@/components/Analytics";
 import { MouseSpotlight } from "@/components/MouseSpotlight";
 import { ThemeBackdrop } from "@/components/ThemeBackdrop";
+import { HackerIntro } from "@/components/HackerIntro";
 
 const SITE_URL = "https://ivxn.dev";
 
@@ -111,6 +112,7 @@ export default async function LocaleLayout({
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>
           <ThemeProvider>
+            <HackerIntro />
             <MouseSpotlight />
             <ThemeBackdrop />
             <Nav />

@@ -27,7 +27,11 @@ export function Nav() {
     <>
       <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="/" className="font-semibold leading-none tracking-tight">
+          <Link
+            href="/"
+            className="font-semibold leading-none tracking-tight"
+            onClick={() => window.dispatchEvent(new Event("ivxn:hacker-intro"))}
+          >
             IO — Ivan Labs
           </Link>
 

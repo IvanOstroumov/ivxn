@@ -16,7 +16,8 @@
     "name": "Ivan Ostroumov",
     "brand": "Ivan Labs",
     "tagline": "Software developer building tools, applications, and solving technical problems.",
-    "photoPending": "Photo coming soon"
+    "photoPending": "Photo coming soon",
+    "now": "Right now: focused on Data Recovery & Digital Forensics, tinkering with Reflux on the side."
   },
   "footer": {
     "copyright": "© {year} Ivan Ostroumov"
@@ -26,7 +27,12 @@
     "body1": "I'm Ivan Ostroumov — a software developer who ends up building a bit of everything: desktop games, mobile apps, web tools, automation. If there's an interesting technical problem, I want to take it apart and see how it works.",
     "body2": "Right now my main professional focus is Data Recovery and Digital Forensics, but the projects below show the rest of it — game dev in Unity, Android apps, web scrapers, and the occasional experiment that doesn't quite make it to the finish line.",
     "body3": "I build software, experiment with technology, and turn ideas into working products.",
-    "downloadCv": "Download CV"
+    "downloadCv": "Download CV",
+    "setupTitle": "Setup",
+    "setupNote": "Placeholder — tell Claude your real setup and this becomes accurate.",
+    "setupOs": "OS: Windows",
+    "setupEditor": "Editor: VS Code",
+    "setupTools": "Tools: Unity, Android Studio, Git"
   },
   "services": {
     "title": "Services",
@@ -77,7 +83,13 @@
     "github": "GitHub",
     "telegram": "Telegram",
     "whatsapp": "WhatsApp",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "formName": "Name",
+    "formEmail": "Email",
+    "formMessage": "Message",
+    "formSend": "Send message",
+    "formSending": "Sending…",
+    "formSuccess": "Thanks — message sent, I'll get back to you soon."
   },
   "seo": {
     "homeDescription": "Ivan Ostroumov — software developer building tools, applications, and solving technical problems. Unity games, Android apps, web tools, and automation.",

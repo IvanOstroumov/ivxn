@@ -130,6 +130,16 @@ Ivan's live feedback after seeing the deployed redesign: Cyber and Experimental 
 - [x] Made Glass "more glassy": stronger blur (`24px` → up from `16px`) plus `saturate(180%)` for the classic frosted look, more translucent surfaces (`0.25`/`0.15` alpha, down from `0.55`/`0.35`), brighter border, and an inset highlight line on cards for a real glass-edge look.
 - Verified all four in the live browser (not just code review): mobile dropdown fully visible and positioned correctly, logo alignment fixed, description text gone, Glass's `backdropFilter` computed value confirmed as `blur(24px) saturate(1.8)`.
 
+## New features batch — easter egg, Now line, Setup section, real contact form
+From a "what should I add" brainstorm (15 suggestions given, Ivan picked a few) plus one fully-specified easter egg idea he requested directly.
+
+- [x] **Hacker terminal intro easter egg** (`src/components/HackerIntro.tsx`) — explicit request, overrides the earlier "no easter eggs in v1" decision (Ivan's call, made post-launch once the site felt stable). A ~1.3s fake terminal boot sequence (green-on-black, monospace, lines like "bypassing firewall... [OK]" building to "ACCESS GRANTED"). Plays automatically once per browser session on first load, and replays anytime by clicking the "IO — Ivan Labs" logo. Verified both triggers live in-browser.
+- [x] **"Now" line** on the homepage, bottom of the hero — a short "what I'm currently working on" sentence, translated in all 5 locales. Default text used (Data Recovery/Forensics focus + Reflux) since Ivan didn't provide exact wording; easy to edit in `messages/*.json`.
+- [x] **"Setup" section** added to the About page — OS/editor/tools, translated, but explicitly marked as a placeholder in the UI itself ("tell Claude your real setup and this becomes accurate") since Ivan didn't provide his actual setup.
+- [x] **Real contact form** (`src/components/ContactForm.tsx` + `src/app/api/contact/route.ts`), using Resend (Ivan chose the "full version" over a simple mailto-prefill). Includes a honeypot field for basic bot protection, server-side validation, and a clear "not configured yet" error state (verified: returns 501 with that exact message) until `RESEND_API_KEY` is set. Sends from Resend's shared sandbox address (`onboarding@resend.dev`) until `ivxn.dev` is verified as a sending domain with Resend — that's a later upgrade, not required for launch. Mailto + social links kept below the form as a fallback.
+- Explicitly declined by Ivan: case studies, blog/devlog (for now — open to reconsidering with more SEO detail), testimonials, GitHub contribution graph, site search, project demo videos (later), RSS feed, web app manifest, GitHub Actions CI.
+- Verified: build/lint clean, full route sweep clean, hacker intro confirmed via both triggers, Now/Setup text confirmed rendering, contact form confirmed hitting the real API route and returning the correct not-configured error.
+
 ## Phase 6 — Launch + Maximize SEO
 
 This phase has two halves: **getting the site live** (mechanical, one-time) and **maximizing search ranking** (partly one-time setup, partly ongoing habits). Both are laid out as an exact sequence — follow in order, since some steps depend on earlier ones (e.g. you need the site live on the real domain before Search Console verification means anything).

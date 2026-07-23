@@ -16,7 +16,8 @@
     "name": "Ivan Ostroumov",
     "brand": "Ivan Labs",
     "tagline": "Sviluppatore software: creo strumenti, applicazioni e risolvo problemi tecnici.",
-    "photoPending": "Foto in arrivo"
+    "photoPending": "Foto in arrivo",
+    "now": "In questo momento: concentrato su recupero dati e digital forensics, con Reflux come progetto secondario."
   },
   "footer": {
     "copyright": "© {year} Ivan Ostroumov"
@@ -26,7 +27,12 @@
     "body1": "Sono Ivan Ostroumov — uno sviluppatore che finisce per costruire un po' di tutto: giochi desktop, app mobili, strumenti web, automazione. Se c'è un problema tecnico interessante, voglio smontarlo per capire come funziona.",
     "body2": "Attualmente il mio focus professionale principale è il recupero dati e la digital forensics, ma i progetti qui sotto mostrano il resto — sviluppo di giochi in Unity, app Android, scraper web e ogni tanto qualche esperimento che non arriva proprio al traguardo.",
     "body3": "Costruisco software, sperimento con la tecnologia e trasformo idee in prodotti funzionanti.",
-    "downloadCv": "Scarica CV"
+    "downloadCv": "Scarica CV",
+    "setupTitle": "Setup",
+    "setupNote": "Segnaposto — di' a Claude il tuo setup reale e questo diventerà accurato.",
+    "setupOs": "OS: Windows",
+    "setupEditor": "Editor: VS Code",
+    "setupTools": "Strumenti: Unity, Android Studio, Git"
   },
   "services": {
     "title": "Servizi",
@@ -77,7 +83,13 @@
     "github": "GitHub",
     "telegram": "Telegram",
     "whatsapp": "WhatsApp",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "formName": "Nome",
+    "formEmail": "Email",
+    "formMessage": "Messaggio",
+    "formSend": "Invia messaggio",
+    "formSending": "Invio…",
+    "formSuccess": "Grazie — messaggio inviato, ti risponderò presto."
   },
   "seo": {
     "homeDescription": "Ivan Ostroumov — sviluppatore software: creo strumenti, applicazioni e risolvo problemi tecnici. Giochi Unity, app Android, strumenti web e automazione.",
