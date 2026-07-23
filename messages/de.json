@@ -15,9 +15,68 @@
   "hero": {
     "name": "Ivan Ostroumov",
     "brand": "Ivan Labs",
-    "tagline": "Softwareentwickler — ich baue Tools, Anwendungen und löse technische Probleme."
+    "tagline": "Softwareentwickler — ich baue Tools, Anwendungen und löse technische Probleme.",
+    "photoPending": "Foto folgt in Kürze"
   },
   "footer": {
     "copyright": "© {year} Ivan Ostroumov"
+  },
+  "about": {
+    "title": "Über mich",
+    "body1": "Ich bin Ivan Ostroumov — ein Entwickler, der am Ende von allem ein bisschen baut: Desktop-Spiele, mobile Apps, Web-Tools, Automatisierung. Wenn es ein interessantes technisches Problem gibt, will ich es zerlegen und verstehen, wie es funktioniert.",
+    "body2": "Aktuell liegt mein beruflicher Fokus auf Datenwiederherstellung und Digital Forensics, aber die Projekte unten zeigen den Rest — Spieleentwicklung mit Unity, Android-Apps, Web-Scraper und gelegentliche Experimente, die es nicht ganz bis zum Ende schaffen.",
+    "body3": "Ich baue Software, experimentiere mit Technologie und mache aus Ideen funktionierende Produkte.",
+    "downloadCv": "Lebenslauf herunterladen"
+  },
+  "services": {
+    "title": "Leistungen",
+    "items": {
+      "softwareDev": { "title": "Softwareentwicklung", "description": "Anwendungen für Desktop, Web und Mobile." },
+      "mobile": { "title": "Mobile Entwicklung", "description": "Android-Apps, von der Idee bis zum lauffähigen Build." },
+      "customTools": { "title": "Individuelle Tools", "description": "Kleine Werkzeuge für ein konkretes lästiges Problem." },
+      "automation": { "title": "Automatisierung", "description": "Skripte und Systeme gegen repetitive Handarbeit." },
+      "consulting": { "title": "Technische Beratung", "description": "Hilfe beim Durchdenken einer technischen Entscheidung." },
+      "forensics": { "title": "Datenwiederherstellung / Digital Forensics", "description": "Berufserfahrung in Datenwiederherstellung und -analyse." }
+    }
+  },
+  "skills": {
+    "title": "Fähigkeiten",
+    "categories": {
+      "languages": "Sprachen",
+      "development": "Entwicklung",
+      "technologies": "Technologien",
+      "other": "Sonstiges"
+    }
+  },
+  "projectsPage": {
+    "title": "Projekte",
+    "filterAll": "Alle",
+    "status": "Status",
+    "platform": "Plattform",
+    "techStack": "Tech-Stack",
+    "viewProject": "Projekt ansehen",
+    "backToProjects": "Zurück zu Projekten",
+    "visitDemo": "Demo ansehen",
+    "sourceCode": "Quellcode",
+    "download": "Herunterladen"
+  },
+  "toolsPage": {
+    "title": "Tools",
+    "version": "Version",
+    "platforms": "Plattformen",
+    "download": "Herunterladen",
+    "sourceCode": "Quellcode",
+    "viewTool": "Tool ansehen",
+    "backToTools": "Zurück zu Tools",
+    "unavailable": "Noch nicht verfügbar"
+  },
+  "contactPage": {
+    "title": "Kontakt",
+    "intro": "Am besten erreichst du mich per E-Mail. Socials unten als Backup.",
+    "emailPending": "E-Mail-Adresse folgt in Kürze",
+    "github": "GitHub",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp",
+    "linkedin": "LinkedIn"
   }
 }

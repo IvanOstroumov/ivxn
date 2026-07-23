@@ -15,9 +15,68 @@
   "hero": {
     "name": "Ivan Ostroumov",
     "brand": "Ivan Labs",
-    "tagline": "Développeur logiciel — je construis des outils, des applications et résous des problèmes techniques."
+    "tagline": "Développeur logiciel — je construis des outils, des applications et résous des problèmes techniques.",
+    "photoPending": "Photo bientôt disponible"
   },
   "footer": {
     "copyright": "© {year} Ivan Ostroumov"
+  },
+  "about": {
+    "title": "À propos",
+    "body1": "Je suis Ivan Ostroumov — un développeur qui finit par construire un peu de tout : jeux desktop, applications mobiles, outils web, automatisation. S'il y a un problème technique intéressant, je veux le décortiquer pour comprendre comment ça marche.",
+    "body2": "Mon focus professionnel principal est actuellement la récupération de données et l'informatique légale (forensics), mais les projets ci-dessous montrent le reste — développement de jeux avec Unity, applications Android, scrapers web, et parfois des expériences qui n'arrivent pas tout à fait à terme.",
+    "body3": "Je construis des logiciels, j'expérimente avec la technologie et je transforme des idées en produits fonctionnels.",
+    "downloadCv": "Télécharger le CV"
+  },
+  "services": {
+    "title": "Services",
+    "items": {
+      "softwareDev": { "title": "Développement logiciel", "description": "Applications desktop, web et mobiles." },
+      "mobile": { "title": "Développement mobile", "description": "Applications Android, de l'idée à une version fonctionnelle." },
+      "customTools": { "title": "Outils sur mesure", "description": "Petits utilitaires qui résolvent un problème précis et agaçant." },
+      "automation": { "title": "Automatisation", "description": "Scripts et systèmes qui suppriment le travail manuel répétitif." },
+      "consulting": { "title": "Conseil technique", "description": "Aide à réfléchir à une décision technique avant de construire." },
+      "forensics": { "title": "Récupération de données / Informatique légale", "description": "Expérience professionnelle en récupération et analyse de données." }
+    }
+  },
+  "skills": {
+    "title": "Compétences",
+    "categories": {
+      "languages": "Langages",
+      "development": "Développement",
+      "technologies": "Technologies",
+      "other": "Autre"
+    }
+  },
+  "projectsPage": {
+    "title": "Projets",
+    "filterAll": "Tous",
+    "status": "Statut",
+    "platform": "Plateforme",
+    "techStack": "Stack technique",
+    "viewProject": "Voir le projet",
+    "backToProjects": "Retour aux projets",
+    "visitDemo": "Voir la démo",
+    "sourceCode": "Code source",
+    "download": "Télécharger"
+  },
+  "toolsPage": {
+    "title": "Outils",
+    "version": "Version",
+    "platforms": "Plateformes",
+    "download": "Télécharger",
+    "sourceCode": "Code source",
+    "viewTool": "Voir l'outil",
+    "backToTools": "Retour aux outils",
+    "unavailable": "Pas encore disponible"
+  },
+  "contactPage": {
+    "title": "Contact",
+    "intro": "Le meilleur moyen de me contacter est l'email. Les réseaux sociaux ci-dessous en complément.",
+    "emailPending": "Adresse email bientôt disponible",
+    "github": "GitHub",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp",
+    "linkedin": "LinkedIn"
   }
 }

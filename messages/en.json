@@ -15,9 +15,68 @@
   "hero": {
     "name": "Ivan Ostroumov",
     "brand": "Ivan Labs",
-    "tagline": "Software developer building tools, applications, and solving technical problems."
+    "tagline": "Software developer building tools, applications, and solving technical problems.",
+    "photoPending": "Photo coming soon"
   },
   "footer": {
     "copyright": "© {year} Ivan Ostroumov"
+  },
+  "about": {
+    "title": "About",
+    "body1": "I'm Ivan Ostroumov — a software developer who ends up building a bit of everything: desktop games, mobile apps, web tools, automation. If there's an interesting technical problem, I want to take it apart and see how it works.",
+    "body2": "Right now my main professional focus is Data Recovery and Digital Forensics, but the projects below show the rest of it — game dev in Unity, Android apps, web scrapers, and the occasional experiment that doesn't quite make it to the finish line.",
+    "body3": "I build software, experiment with technology, and turn ideas into working products.",
+    "downloadCv": "Download CV"
+  },
+  "services": {
+    "title": "Services",
+    "items": {
+      "softwareDev": { "title": "Software Development", "description": "Custom applications across desktop, web, and mobile." },
+      "mobile": { "title": "Mobile Development", "description": "Android apps, from idea to a working build." },
+      "customTools": { "title": "Custom Tools", "description": "Small utilities that remove a specific annoying problem." },
+      "automation": { "title": "Automation", "description": "Scripts and systems that remove repetitive manual work." },
+      "consulting": { "title": "Technical Consulting", "description": "Help thinking through a technical decision before you build it." },
+      "forensics": { "title": "Data Recovery / Digital Forensics", "description": "Professional experience recovering and investigating data." }
+    }
+  },
+  "skills": {
+    "title": "Skills",
+    "categories": {
+      "languages": "Languages",
+      "development": "Development",
+      "technologies": "Technologies",
+      "other": "Other"
+    }
+  },
+  "projectsPage": {
+    "title": "Projects",
+    "filterAll": "All",
+    "status": "Status",
+    "platform": "Platform",
+    "techStack": "Tech stack",
+    "viewProject": "View project",
+    "backToProjects": "Back to Projects",
+    "visitDemo": "Visit demo",
+    "sourceCode": "Source code",
+    "download": "Download"
+  },
+  "toolsPage": {
+    "title": "Tools",
+    "version": "Version",
+    "platforms": "Platforms",
+    "download": "Download",
+    "sourceCode": "Source code",
+    "viewTool": "View tool",
+    "backToTools": "Back to Tools",
+    "unavailable": "Not available yet"
+  },
+  "contactPage": {
+    "title": "Contact",
+    "intro": "The best way to reach me is by email. Socials below as backup.",
+    "emailPending": "Email address coming soon",
+    "github": "GitHub",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp",
+    "linkedin": "LinkedIn"
   }
 }

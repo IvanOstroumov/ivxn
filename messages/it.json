@@ -15,9 +15,68 @@
   "hero": {
     "name": "Ivan Ostroumov",
     "brand": "Ivan Labs",
-    "tagline": "Sviluppatore software: creo strumenti, applicazioni e risolvo problemi tecnici."
+    "tagline": "Sviluppatore software: creo strumenti, applicazioni e risolvo problemi tecnici.",
+    "photoPending": "Foto in arrivo"
   },
   "footer": {
     "copyright": "© {year} Ivan Ostroumov"
+  },
+  "about": {
+    "title": "Chi sono",
+    "body1": "Sono Ivan Ostroumov — uno sviluppatore che finisce per costruire un po' di tutto: giochi desktop, app mobili, strumenti web, automazione. Se c'è un problema tecnico interessante, voglio smontarlo per capire come funziona.",
+    "body2": "Attualmente il mio focus professionale principale è il recupero dati e la digital forensics, ma i progetti qui sotto mostrano il resto — sviluppo di giochi in Unity, app Android, scraper web e ogni tanto qualche esperimento che non arriva proprio al traguardo.",
+    "body3": "Costruisco software, sperimento con la tecnologia e trasformo idee in prodotti funzionanti.",
+    "downloadCv": "Scarica CV"
+  },
+  "services": {
+    "title": "Servizi",
+    "items": {
+      "softwareDev": { "title": "Sviluppo software", "description": "Applicazioni su desktop, web e mobile." },
+      "mobile": { "title": "Sviluppo mobile", "description": "App Android, dall'idea a una build funzionante." },
+      "customTools": { "title": "Strumenti su misura", "description": "Piccole utility che risolvono un problema specifico." },
+      "automation": { "title": "Automazione", "description": "Script e sistemi che eliminano il lavoro manuale ripetitivo." },
+      "consulting": { "title": "Consulenza tecnica", "description": "Aiuto a valutare una decisione tecnica prima di costruire." },
+      "forensics": { "title": "Recupero dati / Digital forensics", "description": "Esperienza professionale nel recupero e nell'analisi dei dati." }
+    }
+  },
+  "skills": {
+    "title": "Competenze",
+    "categories": {
+      "languages": "Linguaggi",
+      "development": "Sviluppo",
+      "technologies": "Tecnologie",
+      "other": "Altro"
+    }
+  },
+  "projectsPage": {
+    "title": "Progetti",
+    "filterAll": "Tutti",
+    "status": "Stato",
+    "platform": "Piattaforma",
+    "techStack": "Stack tecnologico",
+    "viewProject": "Vedi progetto",
+    "backToProjects": "Torna ai progetti",
+    "visitDemo": "Vai alla demo",
+    "sourceCode": "Codice sorgente",
+    "download": "Scarica"
+  },
+  "toolsPage": {
+    "title": "Strumenti",
+    "version": "Versione",
+    "platforms": "Piattaforme",
+    "download": "Scarica",
+    "sourceCode": "Codice sorgente",
+    "viewTool": "Vedi strumento",
+    "backToTools": "Torna agli strumenti",
+    "unavailable": "Non ancora disponibile"
+  },
+  "contactPage": {
+    "title": "Contatti",
+    "intro": "Il modo migliore per contattarmi è l'email. I social qui sotto come alternativa.",
+    "emailPending": "Indirizzo email in arrivo",
+    "github": "GitHub",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp",
+    "linkedin": "LinkedIn"
   }
 }

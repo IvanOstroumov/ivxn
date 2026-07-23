@@ -1,0 +1,31 @@
+import type { Tool } from "./types";
+
+// Real launch content per CONTENT.md. Descriptions are English-only for now.
+export const tools: Tool[] = [
+  {
+    slug: "rhyme-studio",
+    name: "Rhyme Studio",
+    description:
+      "A writing tool for Russian-language rhymes, song lyrics, and poetry — rhyme lookup, syllable counts, rhyme-scheme coloring, and a focus mode for writing.",
+    version: "N/A",
+    platforms: ["Android"],
+    changelog: [],
+    unavailableNote:
+      "Not published on Google Play — no license, and doesn't meet Play's 20-tester closed testing requirement. APK download coming once a build is provided.",
+  },
+  {
+    slug: "world-travel-tracker",
+    name: "World Travel Tracker",
+    description:
+      "A map-based app to track visited countries — ratings, reviews, tags, memories, notes, and travel statistics, with JSON export.",
+    version: "N/A",
+    platforms: ["Android"],
+    changelog: [],
+    unavailableNote:
+      "Not published on Google Play. APK download coming once a build is provided.",
+  },
+];
+
+export function getToolBySlug(slug: string) {
+  return tools.find((t) => t.slug === slug);
+}

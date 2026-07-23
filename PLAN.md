@@ -24,14 +24,16 @@ Reference PROJECT_SPEC.md for all decisions this plan executes against. Update c
 - Note: nav links to About/Services/Projects/Tools/Skills/Contact currently point to placeholder stub pages ("Coming in Phase 3") so links don't 404 — real content lands in Phase 3
 
 ## Phase 3 — Page builds
-- [ ] Hero: name, "Ivan Labs", tagline, stylized/theme-tinted photo, CTA
-- [ ] About: drafted bio copy (Claude draft → Ivan approval)
-- [ ] Services section
-- [ ] Skills section (categorized, visually driven, not a plain list)
-- [ ] Projects: filterable grid (Android/AI/Web/Tools/Experiments/Desktop/Automation, extensible), project detail template with main image + thumbnail swap
-- [ ] Tools: downloads page + tool detail template, Vercel Blob-backed downloads
-- [ ] Contact: email (placeholder until real address confirmed) + GitHub/Telegram/WhatsApp/LinkedIn
-- [ ] CV: drafted content (Claude draft → Ivan approval) exported to a downloadable PDF, "Download CV" button wired up
+- [x] Hero: name, "Ivan Labs", tagline, avatar placeholder (real photo pending), CTA — verified in EN/RU/DE/FR
+- [x] About: drafted bio copy (Claude draft, needs Ivan's approval/edits) — `messages/*.json` "about" namespace
+- [x] Services section — 6 service cards from spec
+- [x] Skills section (categorized tag groups: Languages/Development/Technologies/Other)
+- [x] Projects: filterable grid (category filter verified live — clicking "Web" correctly narrows to Parserize), project detail template with main image + thumbnail swap (verified swap works after fixing an AnimatePresence bug, see below)
+- [x] Tools: downloads page + tool detail template — shows "Not available yet" correctly when no download URL is set; real Vercel Blob wiring deferred to Phase 4 (admin panel) since there's nothing to upload yet
+- [x] Contact: "email coming soon" placeholder + GitHub (real)/Telegram/WhatsApp/LinkedIn (placeholder hrefs, pending Ivan's actual handles)
+- [x] CV: drafted content reuses About copy; "Download CV" button present but disabled with a note — no PDF uploaded yet
+- **Bug found + fixed during verification:** `ProjectGallery`'s `AnimatePresence mode="wait"` got stuck mid-exit (frozen at opacity 0), so thumbnail clicks updated state but the visible image label never changed. Fixed by dropping AnimatePresence for a simpler enter-only fade keyed by `active`. Confirmed working after the fix.
+- Content (project/tool descriptions) is English-only for now — translating the real copy into all 5 languages is deferred; UI chrome (nav/buttons/labels) is fully translated in all 5
 
 ## Phase 4 — Admin panel
 - [ ] Single-password auth (env var) gate
