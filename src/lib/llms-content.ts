@@ -1,4 +1,10 @@
 import { getProjects, getTools } from "@/lib/content-store";
+import {
+  CONTACT_EMAIL,
+  CONTACT_GITHUB_URL,
+  CONTACT_TELEGRAM_URL,
+  CONTACT_WHATSAPP_URL,
+} from "@/lib/contact-info";
 
 export const SITE_URL = "https://ivxn.dev";
 
@@ -25,8 +31,11 @@ export const ABOUT = [
 ];
 
 export const CONTACT_LINKS = [
-  { label: "GitHub", url: "https://github.com/IvanOstroumov" },
-  // Telegram/WhatsApp/LinkedIn are not real links yet (see PROJECT_SPEC.md open items).
+  { label: "Email", url: `mailto:${CONTACT_EMAIL}` },
+  { label: "GitHub", url: CONTACT_GITHUB_URL },
+  { label: "Telegram", url: CONTACT_TELEGRAM_URL },
+  { label: "WhatsApp", url: CONTACT_WHATSAPP_URL },
+  // No LinkedIn — Ivan doesn't have one.
 ];
 
 export async function getLlmsData() {

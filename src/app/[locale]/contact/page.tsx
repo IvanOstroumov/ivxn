@@ -2,6 +2,12 @@ import { useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { buildMetadata } from "@/lib/seo";
+import {
+  CONTACT_EMAIL,
+  CONTACT_GITHUB_URL,
+  CONTACT_TELEGRAM_URL,
+  CONTACT_WHATSAPP_URL,
+} from "@/lib/contact-info";
 
 export async function generateMetadata({
   params,
@@ -22,10 +28,9 @@ export async function generateMetadata({
 }
 
 const LINKS = [
-  { key: "github", href: "https://github.com/IvanOstroumov", rel: "me" },
-  { key: "telegram", href: "#" },
-  { key: "whatsapp", href: "#" },
-  { key: "linkedin", href: "#" },
+  { key: "github", href: CONTACT_GITHUB_URL, rel: "me" },
+  { key: "telegram", href: CONTACT_TELEGRAM_URL },
+  { key: "whatsapp", href: CONTACT_WHATSAPP_URL },
 ] as const;
 
 export default function ContactPage() {
@@ -35,9 +40,12 @@ export default function ContactPage() {
       <h1 className="text-3xl font-semibold">{t("title")}</h1>
       <p className="mt-4 text-[var(--text-muted)]">{t("intro")}</p>
 
-      <p className="mt-8 rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm text-[var(--text-muted)]">
-        {t("emailPending")}
-      </p>
+      <a
+        href={`mailto:${CONTACT_EMAIL}`}
+        className="mt-8 block rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm hover:border-[var(--accent)]"
+      >
+        {CONTACT_EMAIL}
+      </a>
 
       <div className="mt-6 flex flex-wrap justify-center gap-3">
         {LINKS.map((link) => (

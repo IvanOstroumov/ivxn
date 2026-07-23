@@ -1,15 +1,15 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { CONTACT_GITHUB_URL, CONTACT_TELEGRAM_URL, CONTACT_WHATSAPP_URL } from "@/lib/contact-info";
 
 // rel="me" on GitHub — a standard, lightweight signal search engines/AI
 // systems use to confirm "this profile and this site are the same person",
-// reinforcing the Person structured data on the homepage. Add it to the
-// others once they're real links (see PROJECT_SPEC.md open items).
+// reinforcing the Person structured data on the homepage. No LinkedIn link —
+// Ivan doesn't have one (see media/data.txt).
 const SOCIAL_LINKS = [
-  { label: "GitHub", href: "https://github.com/IvanOstroumov", rel: "me" },
-  { label: "Telegram", href: "#" },
-  { label: "WhatsApp", href: "#" },
-  { label: "LinkedIn", href: "#" },
+  { label: "GitHub", href: CONTACT_GITHUB_URL, rel: "me" },
+  { label: "Telegram", href: CONTACT_TELEGRAM_URL },
+  { label: "WhatsApp", href: CONTACT_WHATSAPP_URL },
 ];
 
 export function Footer() {

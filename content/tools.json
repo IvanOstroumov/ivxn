@@ -12,12 +12,13 @@
     "version": "N/A",
     "platforms": ["Android"],
     "changelog": [],
+    "downloadUrl": "/downloads/rhyme-studio.apk",
     "unavailableNote": {
-      "en": "Not published on Google Play — no license, and doesn't meet Play's 20-tester closed testing requirement. APK download coming once a build is provided.",
-      "ru": "Не опубликовано в Google Play — нет лицензии, и не выполнено требование Play о 20 тестировщиках в закрытом тестировании. Скачивание APK появится после предоставления сборки.",
-      "it": "Non pubblicato su Google Play — manca la licenza e non soddisfa il requisito di Play di 20 tester nel test chiuso. Il download dell'APK arriverà una volta fornita una build.",
-      "de": "Nicht auf Google Play veröffentlicht — keine Lizenz, und die Anforderung von Play für 20 Tester im geschlossenen Test wird nicht erfüllt. APK-Download folgt, sobald ein Build bereitgestellt wird.",
-      "fr": "Non publié sur Google Play — pas de licence, et ne remplit pas l'exigence de Play de 20 testeurs en test fermé. Le téléchargement de l'APK arrivera une fois qu'une build sera fournie."
+      "en": "Not published on Google Play — no license, and doesn't meet Play's 20-tester closed testing requirement. Download the APK directly below instead.",
+      "ru": "Не опубликовано в Google Play — нет лицензии, и не выполнено требование Play о 20 тестировщиках в закрытом тестировании. Скачайте APK напрямую ниже.",
+      "it": "Non pubblicato su Google Play — manca la licenza e non soddisfa il requisito di Play di 20 tester nel test chiuso. Scarica l'APK direttamente qui sotto.",
+      "de": "Nicht auf Google Play veröffentlicht — keine Lizenz, und die Anforderung von Play für 20 Tester im geschlossenen Test wird nicht erfüllt. Lade die APK stattdessen direkt unten herunter.",
+      "fr": "Non publié sur Google Play — pas de licence, et ne remplit pas l'exigence de Play de 20 testeurs en test fermé. Téléchargez l'APK directement ci-dessous."
     }
   },
   {
@@ -33,12 +34,13 @@
     "version": "N/A",
     "platforms": ["Android"],
     "changelog": [],
+    "downloadUrl": "/downloads/world-travel-tracker.apk",
     "unavailableNote": {
-      "en": "Not published on Google Play. APK download coming once a build is provided.",
-      "ru": "Не опубликовано в Google Play. Скачивание APK появится после предоставления сборки.",
-      "it": "Non pubblicato su Google Play. Il download dell'APK arriverà una volta fornita una build.",
-      "de": "Nicht auf Google Play veröffentlicht. APK-Download folgt, sobald ein Build bereitgestellt wird.",
-      "fr": "Non publié sur Google Play. Le téléchargement de l'APK arrivera une fois qu'une build sera fournie."
+      "en": "Not published on Google Play. Download the APK directly below instead.",
+      "ru": "Не опубликовано в Google Play. Скачайте APK напрямую ниже.",
+      "it": "Non pubblicato su Google Play. Scarica l'APK direttamente qui sotto.",
+      "de": "Nicht auf Google Play veröffentlicht. Lade die APK stattdessen direkt unten herunter.",
+      "fr": "Non publié sur Google Play. Téléchargez l'APK directement ci-dessous."
     }
   }
 ]

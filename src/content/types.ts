@@ -33,6 +33,9 @@ export type Project = {
   demoUrl?: string;
   downloadUrl?: string;
   statusNote?: LocalizedText;
+  // Real screenshots, in /public/projects/{slug}/. Absent for projects that
+  // don't have screenshots yet — ProjectGallery falls back to a placeholder.
+  images?: string[];
 };
 
 export type Tool = {

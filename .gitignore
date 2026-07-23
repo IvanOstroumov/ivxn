@@ -37,6 +37,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# raw asset drop folder — files are copied into public/ once processed;
+# contains data.txt (real email/phone/password), never commit this raw
+media/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

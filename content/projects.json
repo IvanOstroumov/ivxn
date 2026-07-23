@@ -22,7 +22,13 @@
       "Unity",
       "C#"
     ],
-    "platform": "PC"
+    "platform": "PC",
+    "images": [
+      "/projects/beat-the-piano/1.png",
+      "/projects/beat-the-piano/2.png",
+      "/projects/beat-the-piano/3.png",
+      "/projects/beat-the-piano/4.png"
+    ]
   },
   {
     "slug": "samt-all-stars",
@@ -47,7 +53,13 @@
       "Unity",
       "C#"
     ],
-    "platform": "PC"
+    "platform": "PC",
+    "images": [
+      "/projects/samt-all-stars/1.png",
+      "/projects/samt-all-stars/2.png",
+      "/projects/samt-all-stars/3.png",
+      "/projects/samt-all-stars/4.png"
+    ]
   },
   {
     "slug": "parserize",

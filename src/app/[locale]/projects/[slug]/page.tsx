@@ -56,6 +56,7 @@ export default async function ProjectDetailPage({
     creator: { "@type": "Person", name: "Ivan Ostroumov", url: SITE_URL },
     keywords: project.techStack.join(", ") || undefined,
     ...(project.demoUrl ? { sameAs: [project.demoUrl] } : {}),
+    ...(project.images ? { image: `${SITE_URL}${project.images[0]}` } : {}),
   };
 
   const breadcrumbItems = [
@@ -100,7 +101,7 @@ export default async function ProjectDetailPage({
       <p className="mt-2 text-[var(--text-muted)]">{shortDescription}</p>
 
       <div className="mt-6">
-        <ProjectGallery title={project.title} />
+        <ProjectGallery title={project.title} images={project.images} />
       </div>
 
       <p className="mt-6 text-[var(--text)]">{fullDescription}</p>

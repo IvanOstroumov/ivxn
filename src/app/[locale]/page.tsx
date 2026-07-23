@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { CTAButton } from "@/components/CTAButton";
-import { AvatarPlaceholder } from "@/components/AvatarPlaceholder";
+import { AvatarPhoto } from "@/components/AvatarPhoto";
 import { buildMetadata, SITE_URL } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -28,18 +28,18 @@ export default function Home() {
   const tCta = useTranslations("cta");
 
   // Person structured data — the single highest-value schema for personal-brand
-  // SEO/knowledge-panel eligibility. `sameAs` only lists profiles that are real,
-  // working links right now; add Telegram/WhatsApp/LinkedIn here once those are
-  // real (see PROJECT_SPEC.md open items).
+  // SEO/knowledge-panel eligibility.
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Ivan Ostroumov",
     alternateName: "Ivan Labs",
     url: SITE_URL,
+    image: `${SITE_URL}/photo/ivan.jpg`,
     jobTitle: "Software Developer",
     description: t("tagline"),
-    sameAs: ["https://github.com/IvanOstroumov"],
+    email: "mailto:ivan2ostroumov@gmail.com",
+    sameAs: ["https://github.com/IvanOstroumov", "https://t.me/+41767249412"],
     knowsAbout: [
       "Software Development",
       "Android Development",
@@ -58,7 +58,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
-      <AvatarPlaceholder />
+      <AvatarPhoto />
       <h1 className="text-4xl font-semibold">{t("name")}</h1>
       <p className="text-[var(--text-muted)]">{t("brand")}</p>
       <p className="max-w-md text-[var(--text-muted)]">{t("tagline")}</p>
