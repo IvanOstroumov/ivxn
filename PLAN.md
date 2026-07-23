@@ -17,10 +17,11 @@ Reference PROJECT_SPEC.md for all decisions this plan executes against. Update c
 - [ ] Verify all page templates render correctly under all 4 themes before moving on — will re-check as real pages are built in Phase 3; demo page confirmed switching/persistence works
 
 ## Phase 2 — Core layout & i18n
-- [ ] Sticky animated nav (desktop) + fullscreen animated mobile menu
-- [ ] i18n setup: EN/RU/IT/DE/FR, browser auto-detect with English fallback
-- [ ] Footer (contact recap + plain copyright line)
-- [ ] Persistent CTA component ("Contact Me" / "Hire Me") reused across hero/nav/project/tools pages
+- [x] Sticky animated nav (desktop) + fullscreen animated mobile menu — `src/components/Nav.tsx`, verified in browser at desktop + mobile viewport
+- [x] i18n setup: EN/RU/IT/DE/FR via next-intl, `/[locale]` routing, auto-detect with English fallback (`src/i18n/`, `src/proxy.ts`, `messages/*.json`) — verified locale switch (EN↔RU) works live
+- [x] Footer (contact recap + plain copyright line) — `src/components/Footer.tsx`
+- [x] Persistent CTA component — `src/components/CTAButton.tsx`, used in Nav (desktop+mobile) and Hero
+- Note: nav links to About/Services/Projects/Tools/Skills/Contact currently point to placeholder stub pages ("Coming in Phase 3") so links don't 404 — real content lands in Phase 3
 
 ## Phase 3 — Page builds
 - [ ] Hero: name, "Ivan Labs", tagline, stylized/theme-tinted photo, CTA

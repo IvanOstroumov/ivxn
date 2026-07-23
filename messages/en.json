@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "projects": "Projects",
+    "tools": "Tools",
+    "skills": "Skills",
+    "contact": "Contact"
+  },
+  "cta": {
+    "contact": "Contact Me",
+    "hire": "Hire Me"
+  },
+  "hero": {
+    "name": "Ivan Ostroumov",
+    "brand": "Ivan Labs",
+    "tagline": "Software developer building tools, applications, and solving technical problems."
+  },
+  "footer": {
+    "copyright": "© {year} Ivan Ostroumov"
+  }
+}
