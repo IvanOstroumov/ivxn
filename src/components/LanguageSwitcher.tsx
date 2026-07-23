@@ -14,7 +14,7 @@ const LOCALE_LABELS: Record<string, string> = {
   fr: "FR",
 };
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ openUpward = false }: { openUpward?: boolean }) {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -54,7 +54,9 @@ export function LanguageSwitcher() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute right-0 z-50 mt-2 w-28 overflow-hidden rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-1 shadow-xl"
+            className={`absolute right-0 z-50 w-28 overflow-hidden rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-1 shadow-xl ${
+              openUpward ? "bottom-full mb-2" : "top-full mt-2"
+            }`}
           >
             {routing.locales.map((l) => (
               <li key={l}>

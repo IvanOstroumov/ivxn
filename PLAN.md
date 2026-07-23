@@ -121,6 +121,15 @@ Ivan pushed back hard on the first redesign — said it was still just recolored
 - [x] **Pulsing CTA glow** — the primary CTA button now has a slow breathing box-shadow animation (`.cta-button` / `@keyframes cta-pulse`) instead of a static shadow.
 - Verified live: spotlight CSS vars update on mousemove, Glass orbs' transform actually changes over time (confirmed via two `getComputedStyle` reads 1.5s apart), card hover-lift confirmed via a real hover gesture, CTA pulse animation confirmed active, mobile menu re-confirmed still full-viewport after all these additions. Full route sweep, lint, and build clean.
 
+## Feedback pass — Cyber/Experimental approved, fixes for the rest
+Ivan's live feedback after seeing the deployed redesign: Cyber and Experimental theme looks are approved ("beautiful"), Minimal is fine, but two real bugs and two polish requests came up.
+
+- [x] **Real bug fixed:** on mobile, opening the theme/language dropdown inside the fullscreen menu only showed the first ~2 options — the rest rendered below the viewport bottom edge with no way to scroll to them (the dropdown opened downward from a trigger sitting near the bottom of the screen). Added an `openUpward` prop to `ThemeSwitcher`/`LanguageSwitcher` (`bottom-full mb-2` instead of `top-full mt-2`), used only in the mobile menu. Verified: dropdown box now sits fully within the 812px viewport (top 500.8 → bottom 654.4), all 4 theme options present and reachable.
+- [x] **Real bug fixed:** on mobile with the Experimental theme (Space Mono font), the header logo text appeared vertically misaligned relative to the close button next to it. Cause: the logo had no explicit `line-height`, so Space Mono's larger default line-height gave it a taller box than the `leading-none` close button beside it, shifting the visible glyphs down. Added `leading-none` to both the header and mobile-menu logo. Verified: both elements now share the same vertical center (28px) at the Experimental theme's font metrics.
+- [x] Removed the description text ("Dark, futuristic, tech-forward" etc.) under each theme name in the switcher dropdown — just the name now, per Ivan's request.
+- [x] Made Glass "more glassy": stronger blur (`24px` → up from `16px`) plus `saturate(180%)` for the classic frosted look, more translucent surfaces (`0.25`/`0.15` alpha, down from `0.55`/`0.35`), brighter border, and an inset highlight line on cards for a real glass-edge look.
+- Verified all four in the live browser (not just code review): mobile dropdown fully visible and positioned correctly, logo alignment fixed, description text gone, Glass's `backdropFilter` computed value confirmed as `blur(24px) saturate(1.8)`.
+
 ## Phase 6 — Launch + Maximize SEO
 
 This phase has two halves: **getting the site live** (mechanical, one-time) and **maximizing search ranking** (partly one-time setup, partly ongoing habits). Both are laid out as an exact sequence — follow in order, since some steps depend on earlier ones (e.g. you need the site live on the real domain before Search Console verification means anything).

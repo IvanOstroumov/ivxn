@@ -27,7 +27,7 @@ export function Nav() {
     <>
       <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="/" className="font-semibold tracking-tight">
+          <Link href="/" className="font-semibold leading-none tracking-tight">
             IO — Ivan Labs
           </Link>
 
@@ -78,7 +78,7 @@ export function Nav() {
             className="fixed inset-0 z-50 flex flex-col bg-[var(--bg)] md:hidden"
           >
             <div className="flex items-center justify-between px-6 py-4">
-              <span className="font-semibold">IO — Ivan Labs</span>
+              <span className="font-semibold leading-none">IO — Ivan Labs</span>
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
@@ -118,8 +118,8 @@ export function Nav() {
             </motion.nav>
 
             <div className="flex items-center justify-center gap-4 px-6 py-8">
-              <LanguageSwitcher />
-              <ThemeSwitcher />
+              <LanguageSwitcher openUpward />
+              <ThemeSwitcher openUpward />
             </div>
             <div className="px-6 pb-10">
               <CTAButton className="w-full">{tCta("contact")}</CTAButton>

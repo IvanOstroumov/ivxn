@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { THEMES } from "@/lib/themes";
 import { useTheme } from "@/components/ThemeProvider";
 
-export function ThemeSwitcher() {
+export function ThemeSwitcher({ openUpward = false }: { openUpward?: boolean }) {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -49,7 +49,9 @@ export function ThemeSwitcher() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute right-0 z-50 mt-2 w-56 overflow-hidden rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-1 shadow-xl"
+            className={`absolute right-0 z-50 w-40 overflow-hidden rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-1 shadow-xl ${
+              openUpward ? "bottom-full mb-2" : "top-full mt-2"
+            }`}
           >
             {THEMES.map((t) => (
               <li key={t.name}>
@@ -59,12 +61,11 @@ export function ThemeSwitcher() {
                     setTheme(t.name);
                     setOpen(false);
                   }}
-                  className={`flex w-full flex-col items-start gap-0.5 rounded-[calc(var(--radius-theme)-4px)] px-3 py-2 text-left transition-colors hover:bg-[var(--surface-2)] ${
+                  className={`flex w-full items-center rounded-[calc(var(--radius-theme)-4px)] px-3 py-2 text-left text-sm font-medium transition-colors hover:bg-[var(--surface-2)] ${
                     t.name === theme ? "text-[var(--accent)]" : "text-[var(--text)]"
                   }`}
                 >
-                  <span className="font-medium">{t.label}</span>
-                  <span className="text-xs text-[var(--text-muted)]">{t.description}</span>
+                  {t.label}
                 </button>
               </li>
             ))}
