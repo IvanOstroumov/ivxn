@@ -5,11 +5,15 @@ import { AnimatePresence, motion } from "framer-motion";
 
 // Easter egg, explicitly requested by Ivan (overrides the earlier "no easter
 // eggs in v1" decision — his call, made after launch once the site felt
-// stable). A fast (~1.3s) fake hacker-terminal boot sequence: plays once
-// automatically per browser session on first load, and replays anytime via
+// stable). A fast (~1.3s) fake hacker-terminal boot sequence, triggered by
 // clicking the "IO — Ivan Labs" logo (Nav.tsx dispatches the event). Kept
 // strictly harmless/SFW per the site's existing content boundaries — just a
 // fun loading flourish, nothing embarrassing if a client sees it.
+//
+// Auto-play on first load is DISABLED for now (Ivan's request) — set
+// AUTO_PLAY_ON_LOAD to true to bring it back; the click-trigger still works
+// either way.
+const AUTO_PLAY_ON_LOAD = false;
 const LINES = [
   "> establishing secure connection...",
   "> bypassing firewall... [OK]",
@@ -45,7 +49,7 @@ export function HackerIntro() {
   }, []);
 
   useEffect(() => {
-    if (!sessionStorage.getItem("ivxn-intro-seen")) {
+    if (AUTO_PLAY_ON_LOAD && !sessionStorage.getItem("ivxn-intro-seen")) {
       sessionStorage.setItem("ivxn-intro-seen", "1");
       // Safe here (unlike the ThemeProvider case): this component renders
       // nothing server-side either way (starts at visible=false), so there's

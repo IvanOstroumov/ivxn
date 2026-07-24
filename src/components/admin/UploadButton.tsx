@@ -15,14 +15,19 @@ export function UploadButton({ targetInputId }: { targetInputId: string }) {
     setStatus("Uploading…");
     const formData = new FormData();
     formData.append("file", file);
-    const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
-    const data = await res.json();
-    if (data.url) {
-      const target = document.getElementById(targetInputId) as HTMLInputElement | null;
-      if (target) target.value = data.url;
-      setStatus("Uploaded ✓");
-    } else {
-      setStatus(data.error ?? "Upload failed");
+    try {
+      const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (data.url) {
+        const target = document.getElementById(targetInputId) as HTMLInputElement | null;
+        if (target) target.value = data.url;
+        setStatus("Uploaded ✓");
+      } else {
+        setStatus(data.error ?? "Upload failed");
+      }
+    } catch {
+      // Without this, a network failure leaves "Uploading…" shown forever.
+      setStatus("Upload failed — network error");
     }
   }
 

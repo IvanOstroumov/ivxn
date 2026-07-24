@@ -18,19 +18,26 @@ export function ContactForm() {
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    const json = await res.json();
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
 
-    if (res.ok) {
-      setStatus("success");
-      form.reset();
-    } else {
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+        setErrorMsg(json.error ?? "Something went wrong.");
+      }
+    } catch {
+      // Network failure, offline, etc. — without this the form would sit on
+      // "sending" forever with no way for the visitor to know it failed.
       setStatus("error");
-      setErrorMsg(json.error ?? "Something went wrong.");
+      setErrorMsg("Network error — check your connection and try again.");
     }
   }
 
@@ -56,15 +63,15 @@ export function ContactForm() {
 
       <label className="flex flex-col gap-1 text-sm">
         {t("formName")}
-        <input name="name" required className={inputClass} />
+        <input name="name" required maxLength={100} className={inputClass} />
       </label>
       <label className="flex flex-col gap-1 text-sm">
         {t("formEmail")}
-        <input type="email" name="email" required className={inputClass} />
+        <input type="email" name="email" required maxLength={200} className={inputClass} />
       </label>
       <label className="flex flex-col gap-1 text-sm">
         {t("formMessage")}
-        <textarea name="message" required rows={4} className={inputClass} />
+        <textarea name="message" required rows={4} maxLength={5000} className={inputClass} />
       </label>
 
       {status === "error" && <p className="text-sm text-red-500">{errorMsg}</p>}

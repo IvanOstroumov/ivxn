@@ -140,6 +140,28 @@ From a "what should I add" brainstorm (15 suggestions given, Ivan picked a few) 
 - Explicitly declined by Ivan: case studies, blog/devlog (for now — open to reconsidering with more SEO detail), testimonials, GitHub contribution graph, site search, project demo videos (later), RSS feed, web app manifest, GitHub Actions CI.
 - Verified: build/lint clean, full route sweep clean, hacker intro confirmed via both triggers, Now/Setup text confirmed rendering, contact form confirmed hitting the real API route and returning the correct not-configured error.
 
+## Ultra-deep error research pass
+Full audit on request: clean build/lint first, then a genuine security/robustness review rather than just re-checking known-good paths — this one found real, previously-unnoticed issues.
+
+### Real bugs found and fixed
+1. **No rate limiting on `/api/contact`** — a public, unauthenticated endpoint that sends real email via Resend (which has a daily quota) and lands directly in Ivan's inbox. Anyone could have scripted unlimited submissions. Added a generic `checkWindowLimit()` to `src/lib/rate-limit.ts` (separate from the admin-login "failures" model, since this needed "N submissions per window" semantics instead) — 3 submissions per 10 minutes per IP. Verified live: 4th request in a row within the window correctly returns 429 with a clear retry message.
+2. **No input length caps** — a visitor (or bot) could submit a multi-megabyte message. Added server-side caps (name 100, email 200, message 5000 chars) with a clean 400 response, plus matching client-side `maxLength` for UX. Verified: an oversized message is correctly rejected.
+3. **Unhandled JSON parse failure** — `request.json()` had no try/catch; a malformed request body would have thrown an unhandled exception (ugly generic 500 instead of a clean error). Fixed with try/catch → clean 400. Verified live.
+4. **Unsanitized `name` in the email subject line** — defense-in-depth fix, stripping CR/LF from user input before it goes into a one-line email subject.
+5. **Two unhandled-fetch-rejection bugs**, same shape in two places: `ContactForm.tsx` and the admin `UploadButton.tsx` both called `fetch()` with no try/catch — a network failure (offline, DNS hiccup, etc.) would leave the UI stuck on "Sending…"/"Uploading…" forever with no way for the user to know it failed. Fixed both with try/catch → clear error state.
+6. **`robots.txt` didn't disallow `/api`** — only `/admin` was excluded. Low real-world impact (those routes reject GET/require POST anyway) but fixed for correctness. Verified live.
+
+### Clean on inspection (checked, no issue found)
+- `console.log`/`TODO`/`FIXME`/`: any` grep across all of `src/` — zero hits.
+- `sitemap.ts` — confirmed it never included `/admin` or `/api` (built from an explicit static path list, not a directory scan).
+- JSON-LD injection points (`dangerouslySetInnerHTML` for structured data and the theme-init script) — all use `JSON.stringify`-escaped or fully static content, no injection risk.
+- Honeypot field on the contact form — correctly hidden (`display:none` + `tabIndex={-1}` + `aria-hidden`), not part of the tab order or screen-reader tree.
+
+### Also per Ivan's request
+- [x] **Hacker intro auto-play on load disabled** — the logo-click trigger still works exactly as before; auto-play is now gated behind an `AUTO_PLAY_ON_LOAD` constant in `HackerIntro.tsx` (currently `false`), one-line flip to bring it back later. Verified live: no auto-play on fresh load, logo click still triggers it.
+
+Rebuilt, linted, and route-swept clean after every fix in this pass.
+
 ## Phase 6 — Launch + Maximize SEO
 
 This phase has two halves: **getting the site live** (mechanical, one-time) and **maximizing search ranking** (partly one-time setup, partly ongoing habits). Both are laid out as an exact sequence — follow in order, since some steps depend on earlier ones (e.g. you need the site live on the real domain before Search Console verification means anything).

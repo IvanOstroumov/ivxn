@@ -34,3 +34,27 @@ export function recordFailure(key: string) {
 export function recordSuccess(key: string) {
   attempts.delete(key);
 }
+
+// Generic fixed-window throttle — for endpoints like /api/contact where the
+// thing to limit is "requests per window" rather than "failures before
+// lockout" (every submission counts, not just bad ones, since each one
+// costs a real email send against Resend's free-tier daily quota).
+const windows = new Map<string, { count: number; resetAt: number }>();
+
+export function checkWindowLimit(
+  key: string,
+  max: number,
+  windowMs: number
+): { allowed: boolean; retryAfterMs: number } {
+  const now = Date.now();
+  const entry = windows.get(key);
+  if (!entry || now >= entry.resetAt) {
+    windows.set(key, { count: 1, resetAt: now + windowMs });
+    return { allowed: true, retryAfterMs: 0 };
+  }
+  if (entry.count >= max) {
+    return { allowed: false, retryAfterMs: entry.resetAt - now };
+  }
+  entry.count += 1;
+  return { allowed: true, retryAfterMs: 0 };
+}
