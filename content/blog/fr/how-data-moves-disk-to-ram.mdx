@@ -1,0 +1,50 @@
+---
+title: "Comment les données se déplacent réellement de votre disque à la RAM"
+description: "Un parcours clair de ce qui se passe réellement quand les données se déplacent du stockage vers la RAM, et pourquoi cette étape est souvent le vrai goulot d'étranglement de la vitesse perçue de l'ordinateur."
+slug: "how-data-moves-disk-to-ram"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "storage"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["comment les données passent du disque à la ram", "pourquoi le chargement prend du temps", "transfert disque mémoire expliqué"]
+ogImageTitle: "Disk to RAM Data Movement"
+faq:
+  - question: "Pourquoi une application prend-elle du temps à « charger » à chaque fois que vous l'ouvrez, même après la première fois ?"
+    answer: "À moins que le système d'exploitation n'ait mis ses données en cache en RAM lors d'une utilisation récente précédente, le code et les données de l'application doivent être relus depuis le stockage vers la RAM — cette étape de lecture, aussi rapide que soit le dispositif de stockage, prend quand même mesurablement plus de temps que de lire directement depuis la RAM."
+  - question: "Le système d'exploitation garde-t-il quelque chose en RAM pour accélérer cela ?"
+    answer: "Oui — la plupart des systèmes d'exploitation utilisent la RAM libre disponible pour mettre automatiquement en cache les données disque récemment utilisées, ce qui explique pourquoi rouvrir la même application peu après l'avoir fermée est souvent plus rapide que la première fois, sans aucune action délibérée de l'utilisateur."
+  - question: "Un CPU plus rapide rend-il le chargement depuis le disque plus rapide ?"
+    answer: "Seulement partiellement — un CPU plus rapide aide au traitement des données après leur arrivée (décompression, initialisation), mais le transfert réel du stockage vers la RAM est limité par la vitesse propre du dispositif de stockage, que le CPU ne peut guère accélérer."
+---
+
+Le « chargement » est l'une des expériences les plus courantes en informatique, et c'est une conséquence directe et visible du bon fonctionnement du pipeline disque-vers-RAM.
+
+## Pourquoi cette étape existe
+
+<Callout>
+Le CPU ne peut pas exécuter de code ou traiter des données directement depuis un dispositif de stockage — il a besoin de ces données d'abord en RAM, car le stockage (même les SSD NVMe rapides) reste sensiblement plus lent que la RAM pour les besoins du CPU. C'est toute la raison pour laquelle le « chargement » existe comme une étape distincte et visible.
+</Callout>
+
+## Ce qui se passe réellement pendant un « chargement »
+
+1. **Le système d'exploitation localise les données nécessaires** sur le dispositif de stockage (les blocs de données d'un fichier).
+2. **Ces données sont lues du stockage vers la RAM** — la vitesse de cette étape dépend fortement du type de dispositif de stockage (voir notre [comparaison NVMe vs SATA](/blog/nvme-vs-sata-ssd-real-difference) pour l'ampleur de cette variation).
+3. **Le CPU traite/initialise ces données** une fois qu'elles sont en RAM — c'est là que le calcul réel se produit, la décompression, la mise en place de l'état initial de l'application, etc.
+4. **L'application devient utilisable** une fois qu'assez de ce pipeline s'est achevé pour son écran ou état initial.
+
+## Pourquoi la deuxième fois est souvent plus rapide
+
+Les systèmes d'exploitation utilisent la RAM libre disponible pour mettre automatiquement en cache les données disque récemment consultées — si vous fermez une application et la rouvrez peu après, certaines ou toutes ses données peuvent encore se trouver dans ce cache basé sur la RAM, sautant entièrement l'étape de lecture plus lente du stockage. C'est pourquoi rouvrir quelque chose que vous venez d'utiliser semble souvent plus rapide, sans que vous fassiez quoi que ce soit de délibéré pour le provoquer.
+
+## Où se trouve réellement le goulot d'étranglement, et pourquoi il varie
+
+| Goulot d'étranglement | Quand il domine |
+|---|---|
+| Vitesse de lecture du stockage | Premier chargement, cache froid, surtout sur HDD ou SSD SATA |
+| Traitement/décompression CPU | Une fois les données en RAM, pour une initialisation gourmande en calcul |
+| Cache RAM déjà chaud | Rouvrir quelque chose récemment utilisé — souvent quasi instantané |
+
+## Pourquoi cela compte pour la « vitesse de l'ordinateur » perçue
+
+Une grande part de ce que les gens perçoivent comme « mon ordinateur semble lent » est en fait exactement ce pipeline disque-vers-RAM qui constitue le goulot d'étranglement — soit à cause d'un stockage lent, d'une RAM insuffisante causant l'éviction rapide de ce cache, ou de quantités de données véritablement importantes devant se déplacer pour une tâche donnée. Améliorer la vitesse de stockage (voir notre [guide NVMe vs SATA](/blog/nvme-vs-sata-ssd-real-difference)) ou la capacité de RAM (voir [comment fonctionne la RAM](/blog/how-ram-works-simply)) s'attaque directement à ce pipeline spécifique, plus qu'un CPU plus rapide seul ne le ferait pour des plaintes spécifiques au temps de chargement.

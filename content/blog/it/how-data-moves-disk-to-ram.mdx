@@ -1,0 +1,50 @@
+---
+title: "Come i dati si spostano davvero dal disco alla RAM"
+description: "Una panoramica chiara di cosa succede davvero quando i dati si spostano dall'archiviazione alla RAM, e perché questo passo è spesso il vero collo di bottiglia nella velocità percepita del computer."
+slug: "how-data-moves-disk-to-ram"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "storage"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["come i dati si spostano dal disco alla ram", "perché il caricamento richiede tempo", "trasferimento disco memoria spiegato"]
+ogImageTitle: "Disk to RAM Data Movement"
+faq:
+  - question: "Perché un'applicazione impiega tempo a 'caricare' ogni volta che la apri, anche dopo la prima volta?"
+    answer: "A meno che il sistema operativo non abbia già memorizzato i suoi dati in cache nella RAM da un uso recente precedente, il codice e i dati dell'applicazione devono essere letti di nuovo dall'archiviazione nella RAM — questo passo di lettura, per quanto veloce sia il dispositivo di archiviazione, richiede comunque misurabilmente più tempo che leggere direttamente dalla RAM."
+  - question: "Il sistema operativo mantiene qualcosa in RAM per velocizzare questo?"
+    answer: "Sì — la maggior parte dei sistemi operativi usa la RAM libera disponibile per mettere automaticamente in cache i dati del disco usati di recente, motivo per cui riaprire la stessa applicazione poco dopo averla chiusa è spesso più veloce della prima volta, senza alcuna azione deliberata dell'utente."
+  - question: "Una CPU più veloce rende più veloce il caricamento dal disco?"
+    answer: "Solo parzialmente — una CPU più veloce aiuta con l'elaborazione dei dati dopo il loro arrivo (decompressione, inizializzazione), ma il trasferimento effettivo dall'archiviazione alla RAM è limitato dalla velocità propria del dispositivo di archiviazione, che la CPU può fare poco per accelerare."
+---
+
+Il "caricamento" è una delle esperienze più comuni nell'informatica, ed è una conseguenza diretta e visibile del fatto che la pipeline disco-RAM funziona davvero.
+
+## Perché questo passo esiste
+
+<Callout>
+La CPU non può eseguire codice o elaborare dati direttamente da un dispositivo di archiviazione — ha bisogno di quei dati prima nella RAM, perché l'archiviazione (anche gli SSD NVMe veloci) è ancora significativamente più lenta della RAM per gli scopi della CPU. Questa è l'intera ragione per cui il "caricamento" esiste come passo distinto e visibile.
+</Callout>
+
+## Cosa succede davvero durante un "caricamento"
+
+1. **Il sistema operativo localizza i dati necessari** sul dispositivo di archiviazione (i blocchi di dati di un file).
+2. **Quei dati vengono letti dall'archiviazione nella RAM** — la velocità di questo passo dipende molto dal tipo di dispositivo di archiviazione (vedi il nostro [confronto NVMe vs SATA](/blog/nvme-vs-sata-ssd-real-difference) per quanto questo vari).
+3. **La CPU elabora/inizializza quei dati** una volta che sono in RAM — è qui che avviene il calcolo effettivo, la decompressione, l'impostazione dello stato iniziale dell'applicazione, ecc.
+4. **L'applicazione diventa utilizzabile** una volta che abbastanza di questa pipeline è stata completata per la sua schermata o stato iniziale.
+
+## Perché la seconda volta è spesso più veloce
+
+I sistemi operativi usano la RAM libera disponibile per mettere automaticamente in cache i dati del disco a cui si è acceduto di recente — se chiudi un'applicazione e la riapri poco dopo, alcuni o tutti i suoi dati potrebbero essere ancora in quella cache basata su RAM, saltando completamente il passo di lettura più lento dall'archiviazione. Ecco perché riaprire qualcosa che hai appena usato spesso sembra più veloce, senza che tu faccia nulla di deliberato per causarlo.
+
+## Dove si trova davvero il collo di bottiglia, e perché varia
+
+| Collo di bottiglia | Quando domina |
+|---|---|
+| Velocità di lettura dell'archiviazione | Primo caricamento, cache fredda, specialmente su HDD o SSD SATA |
+| Elaborazione/decompressione CPU | Una volta che i dati sono in RAM, per inizializzazione ad alto carico computazionale |
+| Cache RAM già calda | Riaprire qualcosa usato di recente — spesso quasi istantaneo |
+
+## Perché questo conta per la "velocità del computer" percepita
+
+Una grande quota di ciò che le persone percepiscono come "il mio computer sembra lento" è in realtà proprio questa pipeline disco-RAM che è il collo di bottiglia — sia per archiviazione lenta, RAM insufficiente che causa lo sgombero rapido di quella cache, o quantità genuinamente grandi di dati che devono spostarsi per un determinato compito. Aggiornare la velocità di archiviazione (vedi la nostra [guida NVMe vs SATA](/blog/nvme-vs-sata-ssd-real-difference)) o la capacità della RAM (vedi [come funziona la RAM](/blog/how-ram-works-simply)) affronta direttamente questa specifica pipeline, più di quanto farebbe da sola una CPU più veloce per lamentele specifiche sui tempi di caricamento.

@@ -1,0 +1,51 @@
+---
+title: "Cosa fa davvero la cache della CPU (L1/L2/L3)"
+description: "Una spiegazione chiara di cosa fanno davvero le cache L1, L2 e L3 della CPU, perché esistono come livelli separati, e perché la dimensione della cache influisce sulle prestazioni nel mondo reale."
+slug: "how-cpu-cache-works"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["cos'è la cache della cpu l1 l2 l3", "perché conta la dimensione della cache", "cache della cpu spiegata semplicemente"]
+ogImageTitle: "How CPU Cache Works"
+faq:
+  - question: "Perché le CPU hanno bisogno di tre livelli di cache invece di una sola grande?"
+    answer: "C'è un compromesso diretto tra velocità e dimensione della cache — la tecnologia di memoria più veloce è anche la più costosa e difficile da rendere grande, quindi le CPU usano un approccio a livelli: L1 molto veloce ma minuscola, L2 moderatamente veloce e più grande, e L3 più grande ma un po' più lenta, bilanciando velocità e capacità a ogni livello."
+  - question: "Più cache significa sempre migliori prestazioni gaming?"
+    answer: "Spesso significativamente sì per i giochi sensibili alla cache — questo è esattamente il ragionamento dietro i chip X3D di AMD, che aggiungono sostanziale cache L3 extra specificamente perché certi giochi sono insolitamente sensibili ad essa, mostrando un beneficio reale maggiore di quanto suggerirebbe la sola specifica di core/clock."
+  - question: "Cosa succede quando i dati necessari non sono in nessun livello di cache?"
+    answer: "Un 'cache miss' — la CPU deve invece recuperare i dati dalla RAM, che è drammaticamente più lenta di qualsiasi livello di cache. Questo è esattamente il blocco che l'intera gerarchia della cache esiste per minimizzare."
+---
+
+La dimensione della cache appare nelle schede tecniche come un numero piccolo e facile da saltare — ma ha un effetto sproporzionato sulle prestazioni nel mondo reale che vale la pena capire davvero.
+
+## Il problema principale che la cache risolve
+
+<Callout>
+La RAM è veloce rispetto all'archiviazione, ma lenta rispetto alla velocità di esecuzione della CPU stessa. Se la CPU dovesse aspettare un accesso completo alla RAM per ogni dato di cui ha bisogno, passerebbe la maggior parte del tempo inattiva. La cache esiste per tenere i dati necessari frequentemente fisicamente vicini alle unità di esecuzione della CPU, evitando quell'attesa.
+</Callout>
+
+## Perché tre livelli, non solo uno
+
+C'è un compromesso diretto tra velocità e dimensione nella tecnologia di memoria — la memoria più veloce possibile è anche la più costosa e fisicamente più difficile da rendere grande. Le CPU gestiscono questo con una gerarchia a livelli:
+
+| Livello | Dimensione tipica | Velocità relativa | Ambito |
+|---|---|---|---|
+| L1 | Decine di KB per core | Più veloce | Per core, molto piccola |
+| L2 | Centinaia di KB a un paio di MB per core | Veloce | Di solito per core |
+| L3 | Diversi MB a decine di MB | Più lenta di L1/L2, ma comunque molto più veloce della RAM | Condivisa tra tutti i core |
+
+La CPU controlla prima L1 (la più veloce, minima probabilità di avere ciò che serve data la sua dimensione minuscola), poi L2, poi L3, e ricorre alla RAM solo se nessuna di esse ha i dati necessari — questo fallback si chiama **cache miss**, ed è esattamente il blocco che l'intera gerarchia è progettata per minimizzare.
+
+## Perché la dimensione della cache influisce specificamente sulle prestazioni gaming
+
+I giochi lavorano spesso con pattern di dati che beneficiano sproporzionatamente di più cache — tenere più dati di lavoro attivi del gioco vicini alla CPU evita più spesso costosi fallback alla RAM. Questo è il ragionamento diretto dietro la linea di chip X3D di AMD, che impila sostanziale cache L3 extra su chip altrimenti simili specificamente perché certi giochi mostrano un beneficio reale significativamente maggiore da quella cache extra di quanto predirebbe da sola la specifica del conteggio dei core o della velocità di clock.
+
+## Un'analogia semplice per la gerarchia
+
+Pensa a L1 come i pochi strumenti sul tuo banco di lavoro proprio ora, L2 come la cassetta degli attrezzi accanto a te, L3 come l'armadio degli attrezzi dall'altra parte della stanza (condiviso con tutti gli altri nell'officina), e la RAM come un magazzino di forniture separato in fondo alla strada. Controlli sempre prima l'opzione più vicina — andare al magazzino per ogni singolo attrezzo renderebbe qualsiasi lavoro dolorosamente lento.
+
+<Callout>
+Questo è un pezzo del quadro più ampio trattato nella nostra spiegazione [come una CPU esegue un programma](/blog/how-cpu-runs-a-program), e si collega al motivo per cui [la RAM stessa esiste](/blog/how-ram-works-simply) come un livello separato e più lento sotto la cache.
+</Callout>

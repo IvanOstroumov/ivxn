@@ -1,0 +1,51 @@
+---
+title: "Was CPU-Cache (L1/L2/L3) tatsächlich macht"
+description: "Eine klare Erklärung, was L1-, L2- und L3-CPU-Cache tatsächlich tun, warum sie als separate Stufen existieren, und warum die Cache-Größe die reale Leistung beeinflusst."
+slug: "how-cpu-cache-works"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["was ist cpu cache l1 l2 l3", "warum zählt die cache-größe", "cpu cache einfach erklärt"]
+ogImageTitle: "How CPU Cache Works"
+faq:
+  - question: "Warum brauchen CPUs drei Cache-Ebenen statt nur einer großen?"
+    answer: "Es gibt einen direkten Trade-off zwischen Cache-Geschwindigkeit und -Größe — die schnellste Speichertechnologie ist auch die teuerste und am schwersten groß zu machen, also nutzen CPUs einen gestuften Ansatz: sehr schnellen, aber winzigen L1, mäßig schnellen und größeren L2, und größeren, aber etwas langsameren L3, wobei Geschwindigkeit gegen Kapazität auf jeder Stufe abgewogen wird."
+  - question: "Bedeutet mehr Cache immer bessere Gaming-Leistung?"
+    answer: "Oft bedeutend ja für cache-empfindliche Spiele — das ist genau die Logik hinter AMDs X3D-Chips, die speziell zusätzlichen L3-Cache hinzufügen, weil bestimmte Spiele ungewöhnlich empfindlich darauf reagieren und einen größeren realen Nutzen zeigen, als die reine Kern-/Takt-Spezifikation vermuten ließe."
+  - question: "Was passiert, wenn benötigte Daten in keiner Cache-Ebene sind?"
+    answer: "Ein 'Cache Miss' — die CPU muss die Daten stattdessen aus dem RAM holen, was dramatisch langsamer ist als jede Cache-Ebene. Das ist genau der Stau, den die gesamte Cache-Hierarchie minimieren soll."
+---
+
+Die Cache-Größe erscheint in Datenblättern als kleine, leicht zu übersehende Zahl — hat aber einen überproportionalen Effekt auf die reale Leistung, den es sich lohnt, wirklich zu verstehen.
+
+## Das Kernproblem, das Cache löst
+
+<Callout>
+RAM ist schnell im Vergleich zu Speicher, aber langsam im Vergleich zur eigenen Ausführungsgeschwindigkeit der CPU. Müsste die CPU für jedes benötigte Datenstück auf einen vollständigen RAM-Zugriff warten, würde sie die meiste Zeit untätig verbringen. Cache existiert, um häufig benötigte Daten physisch nah an den Ausführungseinheiten der CPU zu halten und dieses Warten zu vermeiden.
+</Callout>
+
+## Warum drei Ebenen, nicht nur eine
+
+Es gibt einen direkten Trade-off zwischen Geschwindigkeit und Größe bei Speichertechnologie — der schnellstmögliche Speicher ist auch der teuerste und physisch am schwersten groß zu machen. CPUs handhaben das mit einer gestuften Hierarchie:
+
+| Ebene | Typische Größe | Relative Geschwindigkeit | Umfang |
+|---|---|---|---|
+| L1 | Zehner KB pro Kern | Am schnellsten | Pro Kern, sehr klein |
+| L2 | Hunderte KB bis ein paar MB pro Kern | Schnell | Meist pro Kern |
+| L3 | Mehrere MB bis zig MB | Langsamer als L1/L2, aber immer noch viel schneller als RAM | Von allen Kernen geteilt |
+
+Die CPU prüft zuerst L1 (am schnellsten, geringste Chance, das Benötigte zu haben angesichts seiner winzigen Größe), dann L2, dann L3, und greift nur auf RAM zurück, wenn keine von ihnen die benötigten Daten hat — dieser Rückgriff heißt **Cache Miss**, und ist genau der Stau, den die gesamte Hierarchie minimieren soll.
+
+## Warum die Cache-Größe speziell die Gaming-Leistung beeinflusst
+
+Spiele arbeiten oft mit Datenmustern, die überproportional von mehr Cache profitieren — mehr der aktiven Arbeitsdaten des Spiels nah an der CPU zu halten vermeidet öfter teure RAM-Rückgriffe. Das ist die direkte Logik hinter AMDs X3D-Chip-Linie, die substanziellen zusätzlichen L3-Cache auf ansonsten ähnliche Chips stapelt, speziell weil bestimmte Spiele einen bedeutend größeren realen Nutzen aus diesem zusätzlichen Cache zeigen, als die reine Kernzahl- oder Taktgeschwindigkeits-Spezifikation vorhersagen würde.
+
+## Eine einfache Analogie für die Hierarchie
+
+Stell dir L1 als die wenigen Werkzeuge auf deiner Werkbank gerade jetzt vor, L2 als die Werkzeugkiste neben dir, L3 als den Werkzeugschrank auf der anderen Seite des Raums (geteilt mit allen anderen in der Werkstatt), und RAM als ein separates Lager die Straße runter. Du prüfst immer zuerst die nächstgelegene Option — für jedes einzelne Werkzeug zum Lager zu gehen würde jede Arbeit quälend langsam machen.
+
+<Callout>
+Das ist ein Teil des größeren Bildes in unserer Erklärung [wie eine CPU ein Programm ausführt](/blog/how-cpu-runs-a-program), und verbindet sich damit, warum [RAM selbst existiert](/blog/how-ram-works-simply) als separate, langsamere Stufe unterhalb des Cache.
+</Callout>
