@@ -1,0 +1,65 @@
+---
+title: "Se lancer dans le reverse engineering en 2026"
+description: "Un point de départ pratique pour le reverse engineering en 2026 — les outils, l'état d'esprit, et les premiers exercices qui valent la peine avant de toucher une vraie cible."
+slug: "getting-started-with-reverse-engineering"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reverse-engineering"]
+category: "Reverse Engineering"
+author: "Ivan Ostroumov"
+keywords: ["comment débuter en reverse engineering", "reverse engineering pour débutants 2026", "outils de reverse engineering"]
+ogImageTitle: "Getting Started with Reverse Engineering"
+faq:
+  - question: "Dois-je connaître l'assembleur avant de commencer ?"
+    answer: "Pas complètement, mais une familiarité de base aide beaucoup — vous n'avez pas besoin d'écrire couramment de l'assembleur, mais vous devez pouvoir reconnaître des motifs courants (appels de fonction, boucles, comparaisons) quand un décompilateur vous montre du code désassemblé."
+  - question: "Le reverse engineering est-il légal ?"
+    answer: "Cela dépend entièrement de ce que vous reverse-engineerez et pourquoi — analyser votre propre logiciel, participer à un programme de bug bounty, ou travailler dans le cadre d'une mission de sécurité autorisée est généralement acceptable ; faire du reverse engineering sur le logiciel commercial de quelqu'un d'autre pour contourner des licences ou le redistribuer ne l'est généralement pas. Vérifiez les conditions spécifiques et la juridiction qui s'appliquent à vous."
+  - question: "Quel devrait être mon premier vrai projet de reverse engineering ?"
+    answer: "Un petit programme connu pour être simple que vous compilez vous-même — écrivez un minuscule programme en C avec quelques fonctions et une condition, compilez-le, puis essayez d'identifier exactement ces fonctions et cette logique dans le désassemblage. Connaître la vérité de base à l'avance rend beaucoup plus facile l'apprentissage de ce que vous regardez vraiment."
+---
+
+Le reverse engineering a une courbe d'apprentissage qui paraît raide principalement parce que les gens commencent avec la mauvaise cible. Voici une entrée plus pratique.
+
+## Les outils principaux à apprendre en premier
+
+<Callout>
+Vous n'avez pas besoin de tous les outils à la fois. Ghidra (gratuit, de la NSA) est un point de départ vraiment capable qui couvre le désassemblage, la décompilation et le scripting — pas besoin d'acheter quoi que ce soit pour acquérir une expérience réelle et utile.
+</Callout>
+
+- **Ghidra** — gratuit, open source, inclut un décompilateur qui reconvertit l'assembleur en pseudocode proche de C, considérablement plus facile à lire que l'assembleur brut pour la plupart des travaux d'analyse.
+- **x64dbg** — un débogueur Windows gratuit, utile pour observer le comportement réel d'exécution d'un programme plutôt que juste son désassemblage statique.
+- **Un désassembleur dont vous êtes à l'aise de lire la sortie** — Ghidra couvre cela, mais savoir ce qu'un débogueur comme x64dbg vous montre à l'exécution est une compétence différente et complémentaire.
+
+## Commencez avec un programme que vous avez écrit vous-même
+
+L'exercice initial le plus utile : écrivez un petit programme en C avec quelques fonctions nommées, une branche if/else, et une boucle. Compilez-le. Ouvrez ensuite le binaire compilé dans Ghidra et essayez de trouver exactement ces fonctions et structures logiques dans la sortie décompilée.
+
+Cela compte parce que vous connaissez déjà la « bonne réponse » — vous avez écrit le code source. Cela rend beaucoup plus facile la construction de la carte mentale entre « ce que j'ai écrit » et « ce que le désassembleur/décompilateur me montre », qui est la vraie compétence dont dépend le reverse engineering.
+
+```c
+int check_value(int x) {
+    if (x > 10) {
+        return 1;
+    }
+    return 0;
+}
+
+int main() {
+    int result = check_value(15);
+    return result;
+}
+```
+
+Compilez ceci, ouvrez-le dans Ghidra, et cherchez `check_value` dans la liste des fonctions — vous verrez la comparaison (`x > 10`) apparaître clairement dans le pseudocode du décompilateur, un bon premier moment « eurêka » sur la façon dont le désassemblage se rattache à la logique du code source.
+
+## Construisez la compétence de lecture avant celle d'analyse
+
+Au début, résistez à l'envie de sauter directement à l'analyse de malwares ou au crack d'une vérification de licence — ces cibles sont délibérément obfusquées et frustrantes pour un débutant. La compétence de lecture (reconnaître les prologues de fonctions, les motifs courants du compilateur, les références de chaînes) est la vraie fondation, et il est bien plus facile de la construire d'abord sur du code propre et non obfusqué.
+
+## Où aller après les bases
+
+Une fois que lire du désassemblage/de la sortie décompilée ressemble moins à du bruit, les étapes naturelles suivantes incluent l'analyse de défis CTF (Capture The Flag) simples de reverse engineering — conçus spécifiquement pour être résolubles et éducatifs — avant de passer à des cibles du monde réel comme l'[analyse d'APK Android](/blog/android-apk-reverse-engineering).
+
+<Callout type="warning">
+Confirmez toujours que vous avez le droit légal de faire du reverse engineering sur une cible spécifique avant de le faire — votre propre code, une mission de sécurité autorisée, ou le périmètre défini d'un programme de bug bounty sont des territoires sûrs ; le logiciel commercial de quelqu'un d'autre généralement pas, sauf si les conditions de licence le permettent.
+</Callout>

@@ -1,0 +1,59 @@
+---
+title: "Ghidra vs IDA Pro : lequel apprendre en premier ?"
+description: "Une comparaison pratique de Ghidra et IDA Pro pour le reverse engineering — coût, qualité du décompilateur, et lequel a du sens pour un débutant."
+slug: "ghidra-vs-ida-pro"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reverse-engineering"]
+category: "Reverse Engineering"
+author: "Ivan Ostroumov"
+keywords: ["ghidra vs ida pro", "meilleur outil de reverse engineering pour débutants", "alternative gratuite à ida pro"]
+ogImageTitle: "Ghidra vs IDA Pro"
+faq:
+  - question: "Ghidra est-il aussi bon qu'IDA Pro ?"
+    answer: "Pour la plupart de l'apprentissage et une grande partie du travail professionnel, oui — le décompilateur de Ghidra est vraiment capable et activement maintenu. IDA Pro a encore un avantage sur certains supports d'architectures de processeurs et la maturité de l'écosystème de plugins, mais l'écart s'est considérablement réduit."
+  - question: "Pourquoi quelqu'un paierait-il encore pour IDA Pro si Ghidra est gratuit ?"
+    answer: "Certains flux de travail professionnels dépendent de plugins spécifiques ou d'un support d'architecture plus mature dans l'écosystème d'IDA, et certaines équipes se standardisent dessus pour la continuité avec l'outillage et l'expertise existants. Pour la plupart de l'apprentissage individuel et de l'analyse générale, cet écart compte rarement."
+  - question: "Puis-je utiliser les deux ?"
+    answer: "Oui, et beaucoup de praticiens le font — certains binaires ou tâches sont simplement plus faciles dans la sortie du décompilateur d'un outil que de l'autre, donc avoir les deux disponibles (Ghidra est gratuit de toute façon) ne coûte que le temps d'apprendre une seconde interface."
+---
+
+Cette comparaison avait autrefois une réponse évidente (IDA Pro, si vous pouviez vous le permettre). La sortie de Ghidra a changé cela.
+
+## La version courte
+
+**Commencez par Ghidra.** Il est gratuit, activement maintenu, a un décompilateur vraiment bon, et couvre la grande majorité de ce dont un apprenant ou un praticien général a besoin. Envisagez IDA Pro plus tard si vous rencontrez une limitation spécifique que Ghidra ne couvre pas pour votre cas d'usage.
+
+## Coût
+
+<Callout>
+Ghidra est entièrement gratuit et open source, publié par la NSA en 2019. Les licences d'IDA Pro ont historiquement varié de coûteuses à très coûteuses selon l'édition — une vraie barrière pour quiconque apprend de façon indépendante plutôt que via un employeur.
+</Callout>
+
+## Qualité du décompilateur
+
+Les deux outils incluent un décompilateur qui convertit l'assembleur brut en pseudocode proche de C — c'est ce qui rend le reverse engineering moderne considérablement plus accessible que la lecture d'assembleur pur. Le décompilateur d'IDA (Hex-Rays) est mature et bien considéré ; celui de Ghidra s'est considérablement amélioré depuis sa sortie et est maintenant vraiment compétitif pour la plupart des architectures courantes (x86, x64, ARM).
+
+## Où IDA a encore un avantage
+
+- **Étendue du support d'architecture/processeur** — IDA supporte depuis longtemps une gamme inhabituellement large d'architectures de processeurs, utile pour des cibles embarquées de niche ou héritées.
+- **Maturité de l'écosystème de plugins** — une plus longue histoire signifie que plus d'outillage tiers s'est accumulé spécifiquement autour d'IDA.
+- **Certaines équipes professionnelles se standardisent dessus** — pour la continuité avec les flux de travail d'analyse existants et l'expertise institutionnelle, indépendamment d'une pure comparaison de fonctionnalités.
+
+## Tableau comparatif
+
+| | Ghidra | IDA Pro |
+|---|---|---|
+| Coût | Gratuit | Payant (paliers variables) |
+| Qualité du décompilateur | Solide, en amélioration active | Mature, bien considéré |
+| Support d'architecture | Large, croissant | Historiquement plus large/profond |
+| Scripting | Java/Python via Ghidrathon | Python (IDAPython) |
+| Idéal pour | Apprentissage, analyse générale, la plupart du travail professionnel | Besoins spécifiques en plugins/architecture, flux de travail d'équipe établis |
+
+## La recommandation pratique
+
+Apprenez d'abord Ghidra — il n'y a pas de barrière de coût, et les compétences (lire du pseudocode décompilé, naviguer dans l'interface d'un désassembleur, faire des références croisées entre fonctions et chaînes) se transfèrent directement à IDA si jamais vous en avez besoin. Très peu de débutants rencontrent réellement les cas limites spécifiques où les avantages d'IDA comptent avant d'avoir construit des bases solides dans un outil gratuit.
+
+<Callout type="warning">
+Complètement nouveau dans le reverse engineering ? Commencez par notre [guide d'introduction](/blog/getting-started-with-reverse-engineering) avant de choisir un outil — les fondamentaux comptent plus que le choix de l'outil au début.
+</Callout>
