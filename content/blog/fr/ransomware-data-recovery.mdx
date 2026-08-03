@@ -1,0 +1,58 @@
+---
+title: "Récupération de données après une attaque ransomware : ce qui est réaliste"
+description: "Ce qui arrive réellement aux fichiers pendant une attaque ransomware, quelles options de récupération existent vraiment, et pourquoi payer la rançon n'est pas la seule ni la première option."
+slug: "ransomware-data-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "digital-forensics"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["récupération après ransomware", "récupérer fichiers après ransomware", "déchiffrer fichiers ransomware sans payer"]
+ogImageTitle: "Ransomware Data Recovery"
+faq:
+  - question: "Les fichiers chiffrés par ransomware peuvent-ils toujours être déchiffrés ?"
+    answer: "Non — cela dépend entièrement de quelle souche de ransomware a été utilisée. Un chiffrement ransomware bien implémenté n'est pas cassable en pratique sans la clé, similaire au chiffrement légitime comme BitLocker. Certaines souches plus anciennes ou mal implémentées ont des failles connues que des déchiffreurs gratuits exploitent ; beaucoup de souches actuelles n'en ont pas."
+  - question: "Devrais-je payer la rançon ?"
+    answer: "Les forces de l'ordre déconseillent généralement de le faire — le paiement ne garantit pas une clé de déchiffrement fonctionnelle, finance des opérations criminelles, et peut vous marquer comme une cible prête à payer à nouveau. Cela devrait être un dernier recours, pesé avec un conseil professionnel, pas une première réponse."
+  - question: "Existe-t-il un moyen gratuit de vérifier si ma souche de ransomware a un déchiffreur connu ?"
+    answer: "Oui — nomoreransom.org est un projet conjoint entre les forces de l'ordre et l'industrie qui vous permet d'identifier une souche de ransomware et de vérifier un déchiffreur gratuit. Cela vaut la peine de vérifier avant de considérer quoi que ce soit d'autre."
+---
+
+La récupération après ransomware est traitée comme un choix binaire — payer ou tout perdre. Le tableau réel a plus d'options que cela.
+
+## D'abord : isoler avant toute autre chose
+
+<Callout type="warning">
+Déconnectez immédiatement la machine affectée du réseau — Wi-Fi et Ethernet tous les deux. Beaucoup de souches de ransomware se propagent activement vers les disques connectés et les partages réseau ; chaque minute connectée est plus de dommage potentiel.
+</Callout>
+
+## Ce que fait réellement le ransomware
+
+La plupart des ransomwares chiffrent vos fichiers sur place en utilisant la même catégorie de chiffrement utilisée à des fins légitimes (comme BitLocker) — la différence est que l'attaquant détient la clé, pas vous. Cela signifie que la question sous-jacente est identique à tout autre problème de chiffrement : sans la clé, un chiffrement bien implémenté n'est pas cassable en pratique. Les voies de récupération réalistes diffèrent cependant de ce cadrage.
+
+## Vérifiez d'abord un déchiffreur connu
+
+Tous les ransomwares ne sont pas également bien implémentés. Les souches plus anciennes, ou celles avec des implémentations cryptographiques défectueuses, ont parfois des déchiffreurs publics construits par des chercheurs en sécurité. **[nomoreransom.org](https://www.nomoreransom.org)** — un projet conjoint entre les forces de l'ordre et les entreprises de cybersécurité — vous permet d'identifier la souche spécifique à partir d'un échantillon de fichier chiffré et vérifie un déchiffreur gratuit disponible. Cette étape ne coûte rien et devrait se faire avant toute autre chose.
+
+## Vérifiez les sauvegardes avant de considérer la rançon
+
+- **Les services de sauvegarde cloud avec historique de versions** (beaucoup l'ont par défaut) peuvent souvent restaurer des versions pré-chiffrement des fichiers.
+- **Les sauvegardes locales** déconnectées au moment de l'attaque sont intactes par définition.
+- **Windows File History / macOS Time Machine**, si activés au préalable, peuvent contenir des versions récupérables.
+- **Les clichés instantanés** (Volume Shadow Copy Service de Windows) survivent parfois à une attaque, bien que beaucoup de souches de ransomware modernes essaient spécifiquement de les supprimer — cela vaut la peine de vérifier, pas de s'y fier.
+
+## Pourquoi payer est un dernier recours, pas une première réponse
+
+Payer ne garantit pas une clé de déchiffrement fonctionnelle — certains groupes n'en livrent pas même après paiement. Cela finance aussi les mêmes opérations criminelles ciblant la prochaine victime, et marque votre organisation comme une qui paie, ce qui invite à être ciblé à nouveau. Les forces de l'ordre (FBI, Europol, et équivalents) déconseillent systématiquement cela comme réponse par défaut.
+
+## Après la récupération : la partie que les gens sautent
+
+Quelle que soit la voie de récupération qui fonctionne, le point d'entrée qui a laissé entrer le ransomware existe généralement toujours à moins d'être spécifiquement traité — un email de phishing sur lequel on a cliqué, un port de bureau à distance exposé, un système obsolète. Récupérer les fichiers sans fermer cette brèche ne fait que remettre le compteur à zéro jusqu'au prochain incident.
+
+<Callout>
+Signalez l'incident — aux forces de l'ordre locales et, pour les entreprises, souvent à une agence nationale de cybersécurité. Ce n'est pas juste procédural ; cela alimente les données derrière le développement futur de déchiffreurs et l'identification des souches.
+</Callout>
+
+<Callout type="warning">
+En plein incident de ransomware en ce moment ? [Contactez-moi](/contact) — isoler la machine et vérifier un déchiffreur connu viennent avant toute autre décision, y compris s'il faut payer.
+</Callout>

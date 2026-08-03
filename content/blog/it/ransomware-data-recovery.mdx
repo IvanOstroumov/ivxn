@@ -1,0 +1,58 @@
+---
+title: "Recupero dati dopo un attacco ransomware: cosa è realistico"
+description: "Cosa succede davvero ai file durante un attacco ransomware, quali opzioni di recupero esistono genuinamente, e perché pagare il riscatto non è l'unica o la prima opzione."
+slug: "ransomware-data-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "digital-forensics"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recupero da ransomware", "recuperare file dopo ransomware", "decrittare file ransomware senza pagare"]
+ogImageTitle: "Ransomware Data Recovery"
+faq:
+  - question: "I file criptati da ransomware possono sempre essere decrittati?"
+    answer: "No — dipende interamente da quale ceppo di ransomware è stato usato. Una crittografia ransomware ben implementata non è praticamente violabile senza la chiave, similmente alla crittografia legittima come BitLocker. Alcuni ceppi più vecchi o mal implementati hanno difetti noti che i decryptor gratuiti sfruttano; molti ceppi attuali no."
+  - question: "Dovrei pagare il riscatto?"
+    answer: "Le forze dell'ordine generalmente sconsigliano — il pagamento non garantisce una chiave di decrittazione funzionante, finanzia operazioni criminali, e può marchiarti come un bersaglio disposto a pagare di nuovo. Dovrebbe essere l'ultima risorsa, ponderata con consiglio professionale, non una prima risposta."
+  - question: "C'è un modo gratuito per verificare se il mio ceppo di ransomware ha un decryptor noto?"
+    answer: "Sì — nomoreransom.org è un progetto congiunto tra forze dell'ordine e industria che ti permette di identificare un ceppo di ransomware e verificare un decryptor gratuito. Vale la pena controllarlo prima di considerare qualsiasi altra cosa."
+---
+
+Il recupero da ransomware viene trattato come una scelta binaria — pagare o perdere tutto. Il quadro reale ha più opzioni di quella.
+
+## Prima di tutto: isola prima di ogni altra cosa
+
+<Callout type="warning">
+Disconnetti immediatamente la macchina colpita dalla rete — sia Wi-Fi che Ethernet. Molti ceppi di ransomware si diffondono attivamente su dischi collegati e condivisioni di rete; ogni minuto connesso è più danno potenziale.
+</Callout>
+
+## Cosa fa davvero il ransomware
+
+La maggior parte dei ransomware cripta i tuoi file sul posto usando la stessa categoria di crittografia usata per scopi legittimi (come BitLocker) — la differenza è che l'attaccante detiene la chiave, non tu. Questo significa che la domanda sottostante è identica a qualsiasi altro problema di crittografia: senza la chiave, una crittografia ben implementata non è praticamente violabile. I percorsi di recupero realistici sono però diversi da questa impostazione.
+
+## Verifica prima un decryptor noto
+
+Non tutti i ransomware sono ugualmente ben implementati. Ceppi più vecchi, o quelli con implementazioni crittografiche difettose, a volte hanno decryptor pubblici costruiti da ricercatori di sicurezza. **[nomoreransom.org](https://www.nomoreransom.org)** — un progetto congiunto tra forze dell'ordine e aziende di cybersecurity — ti permette di identificare il ceppo specifico da un campione di file crittografato e verifica un decryptor gratuito disponibile. Questo passo non costa nulla e dovrebbe avvenire prima di ogni altra cosa.
+
+## Verifica i backup prima di considerare il riscatto
+
+- **Servizi di backup cloud con cronologia delle versioni** (molti lo hanno di default) spesso possono ripristinare versioni pre-crittografia dei file.
+- **Backup locali** disconnessi al momento dell'attacco sono intatti per definizione.
+- **Windows File History / macOS Time Machine**, se abilitati in anticipo, potrebbero contenere versioni recuperabili.
+- **Copie shadow** (Volume Shadow Copy Service di Windows) a volte sopravvivono a un attacco, anche se molti ceppi di ransomware moderni cercano specificamente di eliminarle — vale la pena controllare, non vale la pena affidarcisi.
+
+## Perché pagare è l'ultima risorsa, non una prima risposta
+
+Pagare non garantisce una chiave di decrittazione funzionante — alcuni gruppi non ne consegnano una nemmeno dopo il pagamento. Finanzia anche le stesse operazioni criminali che prendono di mira la prossima vittima, e marchia la tua organizzazione come una che paga, il che invita a essere presa di mira di nuovo. Le forze dell'ordine (FBI, Europol, ed equivalenti) sconsigliano costantemente questo come risposta predefinita.
+
+## Dopo il recupero: la parte che le persone saltano
+
+Qualunque percorso di recupero funzioni, il punto di ingresso che ha lasciato entrare il ransomware di solito esiste ancora a meno che non venga specificamente affrontato — un'email di phishing su cui si è cliccato, una porta desktop remoto esposta, un sistema obsoleto. Recuperare i file senza chiudere quella falla resetta solo il conto alla rovescia fino al prossimo incidente.
+
+<Callout>
+Denuncia l'incidente — alle forze dell'ordine locali e, per le aziende, spesso a un'agenzia nazionale di cybersecurity. Non è solo procedurale; alimenta i dati alla base dello sviluppo futuro di decryptor e dell'identificazione dei ceppi.
+</Callout>
+
+<Callout type="warning">
+Sei nel mezzo di un incidente ransomware proprio ora? [Contattami](/contact) — isolare la macchina e verificare un decryptor noto vengono prima di qualsiasi altra decisione, incluso se pagare.
+</Callout>
