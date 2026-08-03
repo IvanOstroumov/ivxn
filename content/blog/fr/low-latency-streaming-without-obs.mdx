@@ -1,0 +1,54 @@
+---
+title: "Streamer à un ami avec une latence minimale, sans OBS/Twitch"
+description: "Pourquoi le chemin de streaming standard OBS-vers-Twitch ajoute une latence qui n'a pas d'importance pour la diffusion mais compte beaucoup pour l'interaction en temps réel, et à quoi ressemble une alternative à latence plus faible."
+slug: "low-latency-streaming-without-obs"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reflux", "hardware"]
+category: "Reflux"
+author: "Ivan Ostroumov"
+keywords: ["streaming faible latence à un ami", "streamer sans délai obs twitch", "vidéo faible latence pair à pair"]
+ogImageTitle: "Low-Latency Streaming"
+faq:
+  - question: "Pourquoi le streaming Twitch/YouTube a-t-il plusieurs secondes de délai ?"
+    answer: "Les plateformes mettent délibérément en tampon la vidéo entrante pour lisser la gigue réseau pour les spectateurs à grande échelle et supporter des fonctionnalités comme le DVR/rembobinage — cela échange latence contre fiabilité et échelle, le bon compromis pour diffuser à de nombreux spectateurs, mais mauvais pour deux personnes interagissant en temps réel."
+  - question: "Le streaming pair à pair est-il plus difficile à configurer qu'OBS vers Twitch ?"
+    answer: "Cela peut nécessiter plus de configuration réseau manuelle (traversée NAT, considérations de ports) puisqu'il n'y a pas de serveur de plateforme qui fait ce travail pour vous, ce qui est exactement le compromis pour une latence plus faible — moins d'infrastructure entre les deux points d'extrémité."
+  - question: "Une latence plus faible signifie-t-elle une qualité plus faible ?"
+    answer: "Pas intrinsèquement, mais il y a un vrai compromis entre latence, qualité, et résilience réseau — une connexion qui priorise un délai minimal a moins de tampon pour lisser les accrocs réseau, donc elle est plus sensible à une connexion instable qu'un flux mis en tampon ne le serait."
+---
+
+Les configurations de streaming standard sont conçues pour diffuser à une audience, pas pour deux personnes interagissant en temps réel — et cette différence d'objectif de conception se manifeste directement comme de la latence.
+
+## Pourquoi le streaming de plateforme a un délai intégré
+
+<Callout>
+Twitch, YouTube, et des plateformes similaires mettent délibérément en tampon la vidéo entrante de plusieurs secondes. Cela absorbe la gigue réseau pour que des milliers de spectateurs simultanés obtiennent un flux fluide, et cela permet des fonctionnalités comme le rembobinage — mais c'est l'opposé de ce que vous voulez quand le « spectateur » est quelqu'un à qui vous parlez réellement en temps réel.
+</Callout>
+
+Ce délai n'est pas un bug ou un réglage corrigible dans OBS — il est inhérent au pipeline d'ingestion et de distribution propre de la plateforme, conçu pour un cas d'usage vraiment différent de l'interaction directe pair à pair.
+
+## À quoi ressemble vraiment une configuration à latence plus faible
+
+L'idée centrale : éliminer entièrement le serveur de mise en tampon de la plateforme et envoyer la vidéo plus directement entre deux points d'extrémité.
+
+- **Les outils basés sur WebRTC** sont conçus spécifiquement pour une latence en temps réel sous la seconde (les appels vidéo utilisent exactement cette technologie) — réutiliser cela pour un cas d'usage « regarde mon écran » vous donne un délai considérablement plus faible qu'un pipeline de style Twitch.
+- **Les connexions pair à pair directes** évitent entièrement le routage à travers les serveurs d'une plateforme tierce, éliminant tout un saut qui ajoute du délai.
+
+C'est l'idée sous-jacente à pourquoi j'ai construit **Reflux** — la pile de streaming standard résout un problème différent (diffuser à beaucoup de gens, de façon fiable, avec rembobinage) de celui que j'avais réellement (partage d'écran quasi instantané avec une personne spécifique).
+
+## Le vrai compromis : latence vs résilience
+
+<Callout type="warning">
+Une connexion optimisée pour un délai minimal a moins de tampon pour absorber les accrocs réseau — un bref sursaut de connexion qu'un flux Twitch mis en tampon lisserait invisiblement peut se manifester comme une saccade visible dans une configuration à faible latence. Ce n'est pas un défaut, c'est le compromis réel fait délibérément.
+</Callout>
+
+Pour une connexion stable entre deux personnes qui se connaissent, ce compromis en vaut généralement la peine — le gain de réactivité compte plus que la résilience aux problèmes réseau occasionnels qu'une connexion domestique stable a rarement de toute façon.
+
+## Où cela compte vraiment
+
+Tout scénario où le « streamer » et le « spectateur » doivent réagir l'un à l'autre en temps réel — regarder quelque chose ensemble et en parler en direct, pair programming à distance, partage d'écran pour collaboration en temps réel — bénéficie de retirer la mise en tampon de plateforme de la boucle, par rapport à des scénarios (diffusion à une audience, contenu axé VOD) où le pipeline standard OBS-vers-plateforme est vraiment le bon outil.
+
+<Callout>
+Curieux spécifiquement de Reflux, ou intéressé par un outil à faible latence similaire pour votre propre cas d'usage ? Voir la [page Projets](/projects) ou [contactez-moi](/contact).
+</Callout>
