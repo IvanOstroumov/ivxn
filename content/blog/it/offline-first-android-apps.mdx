@@ -1,0 +1,66 @@
+---
+title: "Costruire un'app Android offline-first"
+description: "Cosa significa davvero architetturalmente 'offline-first', perché non è solo una funzionalità da spuntare, e i pattern principali che la fanno funzionare."
+slug: "offline-first-android-apps"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["architettura offline first android", "app android funziona senza internet", "sincronizzare dati offline app android"]
+ogImageTitle: "Offline-First Android Apps"
+faq:
+  - question: "Offline-first è lo stesso della cache delle risposte API?"
+    answer: "Correlato, ma più ristretto — la cache memorizza solo risposte passate per il riutilizzo. Offline-first significa che l'app tratta i dati locali come la fonte di verità da cui legge l'interfaccia, con la sincronizzazione di rete come preoccupazione in background, che supporta anche scrittura/creazione di dati mentre si è offline."
+  - question: "Offline-first può essere aggiunto a un'app esistente in seguito?"
+    answer: "È possibile, ma significativamente più difficile che progettarlo fin dall'inizio — innestare un modello di database-locale-come-fonte-di-verità su un'app costruita assumendo che l'interfaccia legga direttamente dalle chiamate di rete è un cambiamento architetturale sostanziale, non incrementale."
+  - question: "Cosa succede se gli stessi dati vengono modificati sia offline che sul server?"
+    answer: "Questa è la parte difficile — la risoluzione dei conflitti necessita una strategia esplicita (l'ultima scrittura vince, logica di merge, o mostrare il conflitto all'utente), e vale la pena progettarla deliberatamente piuttosto che lasciarla come ripensamento, dato che è dove le app offline-first più spesso si comportano in modo inaspettato."
+---
+
+"Offline-first" viene usato liberamente per significare "funziona senza internet", ma l'architettura effettiva è più specifica di così.
+
+## L'idea centrale: i dati locali sono la fonte di verità
+
+<Callout>
+In un'app offline-first, l'interfaccia legge da un database locale, non direttamente dalla rete. Il compito della rete è sincronizzare quel database locale in background — l'interfaccia non ha bisogno di sapere o preoccuparsi se una sincronizzazione è appena avvenuta.
+</Callout>
+
+Questa è una forma significativamente diversa da "metti in cache l'ultima risposta API e mostrala se offline" — supporta lettura, scrittura, e persino creazione di nuovi dati mentre si è offline, con la sincronizzazione che riconcilia le cose una volta ripristinata la connettività.
+
+## Il pattern tipico
+
+1. **L'interfaccia legge da Room** (o un altro database locale), tramite Flow per aggiornamenti reattivi.
+2. **Un livello repository** decide quando recuperare dalla rete e scrive i risultati nel database locale — l'interfaccia non parla mai direttamente con la rete.
+3. **Un meccanismo di sincronizzazione** (WorkManager è la scelta moderna standard) gira in background, inviando le modifiche locali e ricevendo quelle remote, indipendentemente dal fatto che l'utente abbia attualmente l'app aperta.
+
+```kotlin
+class NotesRepository(private val dao: NoteDao, private val api: NotesApi) {
+    fun getNotes(): Flow<List<Note>> = dao.getAll()
+
+    suspend fun refresh() {
+        val remoteNotes = api.fetchNotes()
+        dao.insertAll(remoteNotes)
+    }
+}
+```
+
+L'interfaccia osserva `getNotes()` continuamente — si aggiorna automaticamente ogni volta che `refresh()` scrive nuovi dati, senza che il livello dell'interfaccia debba sapere che sia avvenuta affatto una chiamata di rete.
+
+## La parte difficile: la risoluzione dei conflitti
+
+Se lo stesso record può essere modificato sia offline (sul dispositivo) sia altrove (un altro dispositivo, una versione web, il server direttamente), serve una strategia esplicita per cosa succede quando entrambe le versioni tentano di riconciliarsi:
+
+- **L'ultima scrittura vince** — più semplice, ma può scartare silenziosamente una modifica offline dell'utente.
+- **Merge a livello di campo** — più complesso, ma evita di perdere modifiche che non entrano davvero in conflitto.
+- **Mostrare il conflitto all'utente** — appropriato quando scegliere silenziosamente un vincitore rischia di perdere qualcosa a cui l'utente tiene.
+
+Non c'è una scelta universalmente corretta qui — dipende da quanto una modifica persa conterebbe davvero per la tua app specifica.
+
+## Perché innestare questo dopo è costoso
+
+Un'app costruita assumendo che l'interfaccia legga direttamente dalle risposte di rete ha quell'assunzione incorporata in molto codice — schermate, view model, gestione degli errori tutto costruito attorno a "una chiamata di rete o ha successo o mostra un errore". Convertire questo in "l'interfaccia legge sempre dati locali, che potrebbero essere o meno appena sincronizzati" tocca la maggior parte di quegli stessi punti. Questa è esattamente il tipo di decisione che vale la pena prendere esplicitamente all'inizio — vedi la nostra [guida all'architettura Android](/blog/android-architecture-avoid-rewrites) per come questo si inserisce nel quadro più ampio delle decisioni precoci.
+
+<Callout type="warning">
+Stai pianificando un'app che deve funzionare in modo affidabile senza connessione, o stai cercando di innestare il supporto offline in una esistente? [Contattami](/contact) — le due situazioni richiedono approcci genuinamente diversi.
+</Callout>

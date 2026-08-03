@@ -1,0 +1,66 @@
+---
+title: "Eine Offline-First-Android-App bauen"
+description: "Was 'Offline-First' architektonisch tatsächlich bedeutet, warum es nicht nur ein abhakbares Feature ist, und die Kernmuster, die es funktionieren lassen."
+slug: "offline-first-android-apps"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["offline first android architektur", "android app funktioniert ohne internet", "android app offline daten synchronisieren"]
+ogImageTitle: "Offline-First Android Apps"
+faq:
+  - question: "Ist Offline-First dasselbe wie das Zwischenspeichern von API-Antworten?"
+    answer: "Verwandt, aber enger — Caching speichert nur vergangene Antworten zur Wiederverwendung. Offline-First bedeutet, dass die App lokale Daten als die Wahrheitsquelle behandelt, aus der die UI liest, wobei Netzwerksynchronisation ein Hintergrundthema ist, was auch das Schreiben/Erstellen von Daten im Offline-Zustand unterstützt."
+  - question: "Kann Offline-First später zu einer bestehenden App hinzugefügt werden?"
+    answer: "Es ist möglich, aber deutlich schwerer, als es von Anfang an zu designen — ein Modell mit lokaler Datenbank als Wahrheitsquelle nachträglich in eine App einzubauen, die davon ausgeht, dass die UI direkt aus Netzwerkaufrufen liest, ist eine substanzielle architektonische Änderung, keine schrittweise."
+  - question: "Was passiert, wenn dieselben Daten sowohl offline als auch auf dem Server bearbeitet werden?"
+    answer: "Das ist der schwierige Teil — Konfliktlösung braucht eine explizite Strategie (letzter Schreibzugriff gewinnt, Merge-Logik, oder den Konflikt dem Nutzer zeigen), und es lohnt sich, das bewusst zu designen statt es als Nachgedanken zu belassen, da genau hier Offline-First-Apps sich am häufigsten unerwartet verhalten."
+---
+
+"Offline-First" wird locker verwendet, um "funktioniert ohne Internet" zu bedeuten, aber die tatsächliche Architektur ist spezifischer als das.
+
+## Die Kernidee: lokale Daten sind die Wahrheitsquelle
+
+<Callout>
+In einer Offline-First-App liest die UI aus einer lokalen Datenbank, nicht direkt aus dem Netzwerk. Die Aufgabe des Netzwerks ist es, diese lokale Datenbank im Hintergrund zu synchronisieren — die UI muss nicht wissen oder sich darum kümmern, ob gerade eine Synchronisierung stattgefunden hat.
+</Callout>
+
+Das ist eine bedeutend andere Form als "die letzte API-Antwort zwischenspeichern und diese zeigen, falls offline" — es unterstützt Lesen, Schreiben und sogar das Erstellen neuer Daten im Offline-Zustand, wobei die Synchronisierung die Dinge abgleicht, sobald die Konnektivität zurückkehrt.
+
+## Das typische Muster
+
+1. **UI liest von Room** (oder einer anderen lokalen Datenbank), via Flow für reaktive Updates.
+2. **Eine Repository-Schicht** entscheidet, wann vom Netzwerk abgerufen wird, und schreibt Ergebnisse in die lokale Datenbank — die UI spricht nie direkt mit dem Netzwerk.
+3. **Ein Synchronisationsmechanismus** (WorkManager ist die moderne Standardwahl) läuft im Hintergrund, schiebt lokale Änderungen hoch und zieht entfernte Änderungen herunter, unabhängig davon, ob der Nutzer die App gerade geöffnet hat.
+
+```kotlin
+class NotesRepository(private val dao: NoteDao, private val api: NotesApi) {
+    fun getNotes(): Flow<List<Note>> = dao.getAll()
+
+    suspend fun refresh() {
+        val remoteNotes = api.fetchNotes()
+        dao.insertAll(remoteNotes)
+    }
+}
+```
+
+Die UI beobachtet `getNotes()` kontinuierlich — sie aktualisiert sich automatisch, wann immer `refresh()` neue Daten schreibt, ohne dass die UI-Schicht überhaupt wissen muss, dass ein Netzwerkaufruf stattgefunden hat.
+
+## Der schwierige Teil: Konfliktlösung
+
+Wenn derselbe Datensatz sowohl offline (auf dem Gerät) als auch anderswo (ein anderes Gerät, eine Web-Version, der Server direkt) bearbeitet werden kann, brauchst du eine explizite Strategie dafür, was passiert, wenn beide Versionen versuchen, sich abzugleichen:
+
+- **Letzter Schreibzugriff gewinnt** — am einfachsten, kann aber stillschweigend eine Offline-Bearbeitung eines Nutzers verwerfen.
+- **Merge auf Feldebene** — komplexer, vermeidet aber den Verlust von Änderungen, die eigentlich nicht in Konflikt stehen.
+- **Den Konflikt dem Nutzer zeigen** — angemessen, wenn stillschweigend einen Gewinner zu wählen riskiert, etwas zu verlieren, das dem Nutzer wichtig wäre.
+
+Es gibt hier keine universell korrekte Wahl — es hängt davon ab, wie sehr eine verlorene Bearbeitung für deine spezifische App tatsächlich zählen würde.
+
+## Warum das nachträgliche Einbauen teuer ist
+
+Eine App, die davon ausgeht, dass die UI direkt aus Netzwerkantworten liest, hat diese Annahme in viel Code eingebacken — Bildschirme, ViewModels, Fehlerbehandlung, alles um "ein Netzwerkaufruf gelingt entweder oder zeigt einen Fehler" herum gebaut. Das in "die UI liest immer lokale Daten, die frisch synchronisiert sein können oder nicht" umzuwandeln berührt die meisten dieser gleichen Stellen. Das ist genau die Art von Entscheidung, die es wert ist, am Anfang explizit zu treffen — siehe unseren [Android-Architektur-Guide](/blog/android-architecture-avoid-rewrites) dafür, wie sich das ins größere Bild früher Entscheidungen einfügt.
+
+<Callout type="warning">
+Planst du eine App, die zuverlässig ohne Verbindung funktionieren muss, oder versuchst du, Offline-Support nachträglich in eine bestehende einzubauen? [Melde dich](/contact) — die beiden Situationen brauchen wirklich unterschiedliche Ansätze.
+</Callout>

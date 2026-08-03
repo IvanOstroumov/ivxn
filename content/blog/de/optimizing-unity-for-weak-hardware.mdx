@@ -1,0 +1,64 @@
+---
+title: "Ein Unity-Spiel für schwache Hardware optimieren"
+description: "Praktische, wirkungsvolle Unity-Optimierungstechniken, damit ein Spiel auf schwächerer Hardware gut läuft, in der Reihenfolge, die tatsächlich zählt."
+slug: "optimizing-unity-for-weak-hardware"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["unity optimierung schwache hardware", "unity spiel performance verbessern", "unity fps einbrüche beheben"]
+ogImageTitle: "Optimizing Unity for Weak Hardware"
+faq:
+  - question: "Sollte ich fortlaufend optimieren, oder bis zum Ende warten?"
+    answer: "Meist warten — vorzeitige Optimierung von Systemen, die noch gestrichen oder neu designt werden könnten, verschwendet Aufwand. Die Ausnahme sind architektonische Entscheidungen (Object Pooling, Draw-Call-Muster), die später teuer nachzurüsten sind — die lohnt es sich, früh zu entscheiden, auch wenn du sie noch nicht vollständig implementierst."
+  - question: "Was ist die einzelne wirkungsvollste Optimierung für die meisten Unity-Spiele?"
+    answer: "Draw Calls reduzieren, meist durch Batching (statisch oder dynamisch) und Texture Atlasing — das adressiert den häufigsten Engpass (die CPU verbringt zu viel Zeit mit dem Ausgeben von Rendering-Anweisungen), bevor man etwas Exotischeres anfasst."
+  - question: "Lohnt sich Object Pooling trotz der zusätzlichen Komplexität?"
+    answer: "Für alles, was häufig erzeugt und zerstört wird — Projektile, Partikel, Gegner — ja, fast immer. Instantiate/Destroy-Aufrufe sind relativ teuer, und häufiges Spawnen ist einer der häufigsten realen Performance-Übeltäter."
+---
+
+Unity-Optimierung hat eine lange Liste möglicher Techniken, aber der meiste tatsächliche Performance-Gewinn kommt von einer kurzen, korrekt angewendeten Liste.
+
+## Erst profilieren — den Engpass nicht raten
+
+<Callout type="warning">
+Ohne vorheriges Profiling zu optimieren ist einer der häufigsten Wege, Zeit auf Änderungen zu verschwenden, die nichts bewegen. Unitys eingebauter Profiler zeigt dir genau, wohin die Frame-Zeit tatsächlich geht — CPU-Logik, Rendering, Physik, oder Garbage Collection — bevor du irgendetwas anfasst.
+</Callout>
+
+## Die wirkungsvollsten Fixes, ungefähr in Reihenfolge
+
+1. **Draw Calls reduzieren.** Batching (statisches Batching für unbewegte Objekte, dynamisches Batching oder GPU Instancing für bewegte) und Texture Atlasing (mehrere Texturen zu einer kombinieren) reduzieren die Anzahl separater Rendering-Anweisungen, die die CPU ausgeben muss — meist der größte einzelne Gewinn für schwächere Hardware.
+2. **Object Pooling für alles, was häufig erzeugt wird.** `Instantiate()` und `Destroy()` sind relativ teuer; einen Pool vorher erstellter Objekte (Projektile, Partikel, Gegner) wiederzuverwenden statt sie ständig zu erstellen und zu zerstören vermeidet sowohl diese Kosten als auch den damit verbundenen Garbage-Collection-Druck.
+3. **Garbage-Collection-Druck reduzieren.** Häufige kleine Allokationen (besonders in `Update()`, das jeden Frame läuft) lösen Garbage-Collection-Pausen aus, die sich als Ruckeln zeigen. Wiederverwendbare Objekte zu cachen und Allokationen in Hot Paths zu vermeiden (wie Pro-Frame-String-Verkettung) reduziert das erheblich.
+4. **Physik-Update-Frequenz dort senken, wo Präzision nicht kritisch ist.** Nicht jedes Objekt braucht die Standard-Fixed-Timestep-Rate — weniger kritische Physik-Interaktionen können manchmal mit reduzierter Rate laufen, ohne einen wahrnehmbaren Unterschied.
+5. **LOD (Level of Detail) und Culling.** Detail bei entfernten Objekten zu reduzieren und nicht zu rendern, was außerhalb des Bildschirms ist, reduziert direkt die Rendering-Arbeit pro Frame.
+
+```csharp
+// Naiv: alloziert jeden Frame
+void Update() {
+    string status = "HP: " + currentHp; // neue String-Allokation jeden Frame
+}
+
+// Besser: aktualisiert nur, wenn sich der Wert tatsächlich ändert
+void OnHealthChanged(int newHp) {
+    statusText.text = $"HP: {newHp}"; // nur alloziert, wenn das tatsächlich feuert
+}
+```
+
+## Was speziell auf schwacher Hardware zu prüfen ist
+
+| Symptom | Wahrscheinliche Ursache |
+|---|---|
+| Konstant niedrige Framerate | Zu viele Draw Calls, oder übermäßig komplexe Shader |
+| Periodisches Ruckeln/Einfrieren | Garbage-Collection-Spitzen durch häufige Allokationen |
+| Langsame Ladezeiten | Unkomprimierte oder übergroße Texturen/Audio |
+| Frame-Einbrüche während Kampf/Partikeln | Fehlendes Object Pooling für erzeugte Effekte |
+
+## Der Trade-off, der leicht überkorrigiert wird
+
+Nicht alles braucht die aggressivste Optimierung — unverhältnismäßigen Aufwand in die Optimierung eines selten besuchten Menübildschirms zu stecken, während die eigentliche Gameplay-Schleife unoptimiert bleibt, ist eine häufige Fehlallokation. Profilieren, herausfinden, wo die Zeit tatsächlich verbracht wird, und dort zuerst optimieren.
+
+<Callout>
+Das verbindet sich direkt mit breiteren Architekturentscheidungen — siehe unsere Notiz zum [Pet-Project-Prototyping](/blog/pet-project-to-playable-build-weekend) dafür, warum vorzeitige Optimierung während des frühen Prototypings meist der falsche Instinkt ist, im Gegensatz zur Anwendung dieser Techniken, sobald eine Mechanik als wert bestätigt wurde, weiter ausgebaut zu werden.
+</Callout>

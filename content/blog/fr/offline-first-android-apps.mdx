@@ -1,0 +1,66 @@
+---
+title: "Construire une application Android offline-first"
+description: "Ce que « offline-first » signifie vraiment architecturalement, pourquoi ce n'est pas juste une fonctionnalité à cocher, et les modèles principaux qui le font fonctionner."
+slug: "offline-first-android-apps"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["architecture offline first android", "application android fonctionne sans internet", "synchroniser données hors ligne application android"]
+ogImageTitle: "Offline-First Android Apps"
+faq:
+  - question: "Offline-first est-il la même chose que la mise en cache des réponses API ?"
+    answer: "Lié, mais plus restreint — la mise en cache stocke juste les réponses passées pour réutilisation. Offline-first signifie que l'application traite les données locales comme la source de vérité que l'interface lit, avec la synchronisation réseau comme préoccupation en arrière-plan, ce qui supporte aussi l'écriture/création de données hors ligne."
+  - question: "L'offline-first peut-il être ajouté à une application existante plus tard ?"
+    answer: "C'est possible, mais nettement plus difficile que de le concevoir dès le début — greffer un modèle de base de données locale comme source de vérité sur une application construite en supposant que l'interface lit directement les appels réseau est un changement architectural substantiel, pas incrémental."
+  - question: "Que se passe-t-il si les mêmes données sont modifiées à la fois hors ligne et sur le serveur ?"
+    answer: "C'est la partie difficile — la résolution de conflits nécessite une stratégie explicite (la dernière écriture gagne, logique de fusion, ou faire remonter le conflit à l'utilisateur), et cela vaut la peine de la concevoir délibérément plutôt que de la laisser en réflexion après coup, car c'est là que les applications offline-first se comportent le plus souvent de façon inattendue."
+---
+
+« Offline-first » est utilisé de façon lâche pour signifier « fonctionne sans internet », mais l'architecture réelle est plus spécifique que cela.
+
+## L'idée centrale : les données locales sont la source de vérité
+
+<Callout>
+Dans une application offline-first, l'interface lit depuis une base de données locale, pas directement depuis le réseau. Le travail du réseau est de synchroniser cette base de données locale en arrière-plan — l'interface n'a pas besoin de savoir ou de se soucier si une synchronisation vient de se produire.
+</Callout>
+
+C'est une forme sensiblement différente de « mettre en cache la dernière réponse API et l'afficher si hors ligne » — cela supporte la lecture, l'écriture, et même la création de nouvelles données hors ligne, avec la synchronisation qui réconcilie les choses une fois la connectivité rétablie.
+
+## Le modèle typique
+
+1. **L'interface lit depuis Room** (ou une autre base de données locale), via Flow pour des mises à jour réactives.
+2. **Une couche repository** décide quand récupérer depuis le réseau et écrit les résultats dans la base de données locale — l'interface ne parle jamais directement au réseau.
+3. **Un mécanisme de synchronisation** (WorkManager est le choix moderne standard) tourne en arrière-plan, poussant les changements locaux et tirant les changements distants, indépendamment du fait que l'utilisateur ait actuellement l'application ouverte.
+
+```kotlin
+class NotesRepository(private val dao: NoteDao, private val api: NotesApi) {
+    fun getNotes(): Flow<List<Note>> = dao.getAll()
+
+    suspend fun refresh() {
+        val remoteNotes = api.fetchNotes()
+        dao.insertAll(remoteNotes)
+    }
+}
+```
+
+L'interface observe `getNotes()` en continu — elle se met à jour automatiquement chaque fois que `refresh()` écrit de nouvelles données, sans que la couche interface ait besoin de savoir qu'un appel réseau a eu lieu du tout.
+
+## La partie difficile : la résolution de conflits
+
+Si le même enregistrement peut être modifié à la fois hors ligne (sur l'appareil) et ailleurs (un autre appareil, une version web, le serveur directement), vous avez besoin d'une stratégie explicite pour ce qui se passe quand les deux versions tentent de se réconcilier :
+
+- **La dernière écriture gagne** — le plus simple, mais peut silencieusement écarter une modification hors ligne d'un utilisateur.
+- **Fusion au niveau des champs** — plus complexe, mais évite de perdre des changements qui ne sont pas réellement en conflit.
+- **Faire remonter le conflit à l'utilisateur** — approprié quand choisir silencieusement un gagnant risque de perdre quelque chose auquel l'utilisateur tiendrait.
+
+Il n'y a pas de choix universellement correct ici — cela dépend de l'importance réelle qu'aurait une modification perdue pour votre application spécifique.
+
+## Pourquoi greffer cela plus tard est coûteux
+
+Une application construite en supposant que l'interface lit directement les réponses réseau a cette hypothèse ancrée dans beaucoup de code — écrans, view models, gestion des erreurs tous construits autour de « un appel réseau réussit ou affiche une erreur ». Convertir cela en « l'interface lit toujours des données locales, qui peuvent être ou non fraîchement synchronisées » touche la plupart de ces mêmes endroits. C'est exactement le genre de décision qui mérite d'être prise explicitement au départ — voir notre [guide d'architecture Android](/blog/android-architecture-avoid-rewrites) pour voir comment cela s'inscrit dans le tableau plus large des décisions précoces.
+
+<Callout type="warning">
+Vous planifiez une application qui doit fonctionner de façon fiable sans connexion, ou essayez-vous de greffer le support hors ligne dans une application existante ? [Contactez-moi](/contact) — les deux situations nécessitent des approches vraiment différentes.
+</Callout>
