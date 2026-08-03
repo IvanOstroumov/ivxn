@@ -1,0 +1,56 @@
+---
+title: "Segni di un HDD o SSD morente (e cosa fare prima che si guasti)"
+description: "I segnali di avvertimento che un disco rigido o SSD sta per guastarsi, e i passi pratici da fare finché c'è ancora tempo per portare via i tuoi dati."
+slug: "signs-of-a-dying-drive"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "hardware"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["segni di un disco rigido in guasto", "il mio ssd sta morendo", "segnali di avvertimento guasto disco rigido"]
+ogImageTitle: "Signs of a Dying Drive"
+faq:
+  - question: "Gli SSD danno segnali di avvertimento prima di guastarsi, come fanno gli HDD?"
+    answer: "In modo meno affidabile. Gli HDD sono meccanici e spesso mostrano sintomi fisici (rumore, rallentamenti) prima di guastarsi. Gli SSD hanno più probabilità di guastarsi improvvisamente, anche se i dati S.M.A.R.T. possono ancora mostrare indicatori precoci di usura se li controlli proattivamente."
+  - question: "Cos'è S.M.A.R.T. e come lo controllo?"
+    answer: "S.M.A.R.T. (Self-Monitoring, Analysis, and Reporting Technology) è integrato praticamente in tutti i dischi moderni e riporta indicatori di salute come settori riallocati e livello di usura. Strumenti gratuiti come CrystalDiskInfo (Windows) leggono e mostrano questi dati in linguaggio semplice."
+  - question: "Il mio disco è appena diventato lento — è un segnale di guasto?"
+    answer: "Può esserlo, ma non è conclusivo da solo — i rallentamenti avvengono anche da un disco quasi pieno, processi in background, o il controller di un SSD invecchiato che lavora più duramente. Controlla i dati S.M.A.R.T. insieme a un rallentamento prima di concludere che il disco stesso si sta guastando."
+---
+
+I dischi raramente si guastano senza alcun avvertimento — i segnali sono solo facili da perdere o giustificare. Ecco cosa osservare davvero.
+
+## Segnali di avvertimento specifici per HDD
+
+- **Rumori di clic o macinamento** — un disco rigido meccanico che fa rumori di clic ripetitivi è uno degli indicatori di guasto più affidabili che esistano. Smetti di usarlo e fai un backup immediatamente se senti questo.
+- **Settori danneggiati crescenti** — file che improvvisamente non si aprono, o nuova corruzione in file che prima andavano bene.
+- **Rallentamenti insoliti nell'accesso ai file** — il disco che fatica a leggere aree specifiche, spesso appena prima che quelle aree diventino completamente illeggibili.
+
+## Segnali di avvertimento specifici per SSD
+
+- **Modalità di sola lettura improvvisa** — alcuni controller SSD, quando rilevano di essere vicini al guasto, passano il disco alla modalità di sola lettura per prevenire ulteriore perdita di dati. Se un disco che prima era scrivibile improvvisamente non può essere scritto, fai backup di ciò che è leggibile immediatamente.
+- **Livello di usura crescente nei dati S.M.A.R.T.** — gli SSD hanno un numero finito di cicli di scrittura per cella; un "indicatore di usura del supporto" che si avvicina al suo limite è un segnale di avvertimento genuino, non un falso allarme.
+- **Blocchi o disconnessioni frequenti e inspiegabili** — specialmente sotto compiti intensivi in scrittura.
+
+## Segnali di avvertimento condivisi (sia HDD che SSD)
+
+| Segnale | Cosa di solito significa |
+|---|---|
+| File che diventano corrotti senza altra spiegazione | Settori danneggiati o controller in guasto |
+| Disco non riconosciuto in modo intermittente | Connessione o controller in guasto |
+| Boot/accesso ai file notevolmente più lento nel corso di settimane | Degrado graduale |
+| Avvertimenti S.M.A.R.T. negli strumenti di utilità disco | La diagnostica del disco stesso che segnala un problema reale |
+
+## Cosa fare effettivamente quando noti un segnale
+
+1. **Fai backup immediatamente** — non "questo weekend", ora. Un disco che mostra segnali di avvertimento può guastarsi completamente senza ulteriore preavviso.
+2. **Smetti di scrivere nuovi dati su di esso** se sei già sospettoso — ogni scrittura ora compete con la vita affidabile limitata rimanente.
+3. **Sostituisci il disco**, non limitarti a monitorarlo. Un disco che mostra genuini avvertimenti S.M.A.R.T. o sintomi fisici ti ha già dato la sua risposta.
+
+<Callout>
+Controllare occasionalmente i dati S.M.A.R.T. — anche su dischi che non mostrano sintomi — cattura i guasti legati all'usura prima che appaia qualsiasi segnale di avvertimento visibile. Richiede meno di un minuto con uno strumento gratuito e vale la pena farlo su qualsiasi disco che contiene dati che ti mancherebbero.
+</Callout>
+
+<Callout type="warning">
+Stai già vedendo questi segnali e hai bisogno di portare via i dati da un disco prima che si guasti completamente? [Contattami](/contact) — agire mentre il disco è ancora parzialmente leggibile dà probabilità significativamente migliori che aspettare finché non smette di rispondere.
+</Callout>

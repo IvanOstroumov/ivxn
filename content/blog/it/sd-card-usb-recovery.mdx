@@ -1,0 +1,44 @@
+---
+title: "Recuperare dati da una chiavetta USB o scheda SD corrotta"
+description: "Perché le chiavette USB e le schede SD si corrompono più facilmente dei dischi interni, e i passi pratici per recuperare dati da una di esse."
+slug: "sd-card-usb-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recuperare scheda sd corrotta", "recupero chiavetta usb illeggibile", "scheda sd richiede formattazione"]
+ogImageTitle: "USB Drive & SD Card Recovery"
+faq:
+  - question: "Perché le schede SD e le chiavette USB si corrompono più spesso dei dischi interni?"
+    answer: "Vengono rimosse mentre sono ancora in fase di scrittura molto più spesso dei dischi interni — estrarre una scheda o chiavetta a metà scrittura è una delle cause più comuni di corruzione del file system, ed è molto più facile farlo accidentalmente con i supporti rimovibili."
+  - question: "Dovrei cliccare 'Formatta disco' quando Windows lo suggerisce per una scheda illeggibile?"
+    answer: "No, non prima di tentare il recupero — formattare riscrive l'indice del file system, che è spesso esattamente ciò che è effettivamente recuperabile a quel punto. Prova prima uno strumento di recupero o di riparazione partizione."
+  - question: "Una scheda SD corrotta è fisicamente danneggiata?"
+    answer: "Di solito no — la maggior parte della 'corruzione' delle schede SD è a livello di file system, non danno fisico alla memoria flash. Questa è una buona notizia: significa che i dati sottostanti sono molto spesso ancora completamente intatti e recuperabili."
+---
+
+Le schede SD e le chiavette USB vengono trattate come accessori usa e getta, ma contengono dati reali e si guastano in modi specifici e ben compresi.
+
+## Perché i supporti rimovibili si corrompono più facilmente
+
+La causa più grande in assoluto è la **rimozione non sicura** — estrarre la scheda o la chiavetta mentre il sistema operativo ci stava ancora scrivendo. I dischi interni raramente affrontano questo rischio poiché non vengono rimossi fisicamente durante l'uso normale; le schede SD e le chiavette USB vengono rimosse costantemente, spesso a metà trasferimento, che è esattamente quando avviene il danno al file system.
+
+<Callout>
+"Questo disco deve essere formattato prima di poterlo usare" è uno dei messaggi più comuni legati a questo tipo di corruzione — e di solito descrive un danno all'indice del file system, non ai dati effettivi sottostanti.
+</Callout>
+
+## Cosa fare (in ordine)
+
+1. **Non formattare quando richiesto.** Quel messaggio significa che Windows non può leggere il file system, non che i tuoi file sono spariti — formattare rimuoverebbe la possibilità di recuperarli prima.
+2. **Prova uno strumento di riparazione partizione/file system** — [TestDisk](/blog/recuva-vs-testdisk-vs-photorec) gestisce specificamente bene questo tipo di danno a livello di file system, poiché spesso può ricostruire una struttura corrotta senza toccare i dati sottostanti.
+3. **Se non funziona, prova il recupero file-carving** — [PhotoRec](/blog/recuva-vs-testdisk-vs-photorec) scansiona lo storage grezzo alla ricerca di tipi di file riconoscibili indipendentemente dal fatto che il file system sia leggibile, il che funziona bene qui poiché la corruzione dei supporti rimovibili è così spesso solo a livello di file system.
+4. **Copia i file recuperati su un disco diverso**, poi riformatta la scheda/chiavetta stessa prima di riutilizzarla — non rimettere nuovi dati su un supporto che ha appena mostrato segni di instabilità senza almeno riformattarlo pulitamente prima.
+
+## Quando non è solo corruzione
+
+Se la scheda o la chiavetta non viene riconosciuta affatto da nessun dispositivo — non appare in Gestione disco, non fa alcun suono di connessione USB — questo indica un guasto fisico/del controller piuttosto che corruzione del file system, e gli strumenti sopra non aiuteranno. Questo è un problema diverso, più difficile, più vicino a un disco interno guasto che a un file system corrotto.
+
+<Callout type="warning">
+Una scheda SD o chiavetta USB con dati di cui hai bisogno si rifiuta di aprirsi, o Windows chiede di formattarla? [Contattami](/contact) prima di formattare — la maggior parte di queste situazioni sono più recuperabili di quanto sembrino.
+</Callout>
