@@ -1,0 +1,56 @@
+---
+title: "Da un'idea a una build giocabile in un weekend"
+description: "Un approccio pratico per trasformare un'idea di gioco in qualcosa di realmente giocabile entro un weekend, senza tagliare gli angoli che rendono il risultato privo di senso."
+slug: "pet-project-to-playable-build-weekend"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["approccio game jam weekend", "prototipare idea di gioco velocemente", "trasformare idea di gioco in prototipo giocabile"]
+ogImageTitle: "Playable Build in a Weekend"
+faq:
+  - question: "Cosa dovrei tagliare per primo quando il tempo sta per finire?"
+    answer: "Tutto ciò che non è la meccanica core che stai testando — rifinitura artistica, menu, schermate delle impostazioni, e funzionalità secondarie sono tutte sicure da tagliare o simulare. Il loop core è l'unica cosa che non può essere simulata, perché è l'intero punto dell'esercizio."
+  - question: "Vale la pena usare arte placeholder per un prototipo da weekend?"
+    answer: "Quasi sempre sì — spendere tempo del prototipo su arte che probabilmente verrà sostituita o tagliata del tutto è uno dei modi più comuni in cui un progetto da weekend esaurisce il tempo prima di rispondere alla sua domanda reale."
+  - question: "Cosa conta come 'finito' per un prototipo da weekend?"
+    answer: "La meccanica core è giocabile e puoi rispondere onestamente se è divertente o no — non un gioco finito, non qualcosa pronto per la pubblicazione. Se puoi rispondere a quella domanda, il weekend è stato un successo indipendentemente da quanto grezzo appaia tutto il resto."
+---
+
+Un weekend non è abbastanza tempo per costruire un gioco — ma è abbastanza tempo per rispondere alla domanda che conta davvero: l'idea core è divertente?
+
+## Decidi l'unica cosa che stai testando, prima di aprire il motore
+
+<Callout>
+Un prototipo da weekend ha esattamente un compito: rispondere se la meccanica core è divertente. Tutto il resto — arte, menu, funzionalità aggiuntive — è una distrazione da quella domanda finché non ha risposta.
+</Callout>
+
+Scrivi, in una frase, cosa stai effettivamente testando ("la schivata è soddisfacente", "il puzzle core è interessante per più di cinque minuti"). Tutto ciò che costruisci durante il weekend dovrebbe servire a rispondere a quella singola domanda.
+
+## Cosa simulare o saltare del tutto
+
+- **Arte** — forme placeholder, pacchetti di asset gratuiti, o rettangoli da "programmer art" vanno completamente bene. Tempo speso su arte vera qui è tempo non speso sulla meccanica effettiva che stai testando.
+- **Menu e impostazioni** — un avvio hardcoded, nessuna schermata opzioni, nessun sistema di salvataggio. Nulla di tutto ciò influisce sul fatto che la meccanica core sia divertente.
+- **Rifinitura e "juice"** (screen shake, effetti particellari) — aiuta genuinamente la sensazione percepita, ma solo dopo che la meccanica core stessa è confermata valere la rifinitura. Aggiungere juice a una meccanica che non è ancora divertente rende solo una meccanica noiosa più carina, non più divertente.
+- **Casi limite e gestione errori** — un prototipo da weekend può crashare su input strani; è un compromesso accettabile per il tempo risparmiato.
+
+## Un'allocazione approssimativa del tempo che funziona davvero
+
+| Blocco di tempo | Focus |
+|---|---|
+| Prime poche ore | Far funzionare l'interazione core assoluta, per quanto brutta |
+| Tratto intermedio | Iterare su quell'interazione core in base a come si sente giocandola |
+| Tratto finale | Portarla a uno stato in cui qualcun altro possa effettivamente provarla, con istruzioni minime |
+
+## Il passo che le persone saltano: far giocare qualcun altro
+
+Un prototipo giocato solo da te ti dice molto meno di uno che un amico o collega sviluppatore ha provato a freddo, senza spiegazioni da te alle sue spalle. Osservare la prima reazione di qualcun altro — dove si confonde, dove si illumina — è spesso più informativo di qualsiasi quantità di iterazione in solitaria.
+
+## Come appare davvero il "successo"
+
+Il successo non è un gioco finito — è una risposta onesta all'unica domanda che ti eri prefissato di testare. Un prototipo che mostra chiaramente "questa meccanica non è divertente, non costruirci sopra" ha altrettanto successo di uno che mostra "vale la pena continuare" — entrambi ti risparmiano dall'errore molto più costoso di costruire un gioco completo attorno a un'idea core non testata.
+
+<Callout>
+Per cosa succede dopo che un prototipo si dimostra valido da continuare, vedi la nostra nota su [ottimizzare un gioco Unity man mano che cresce](/blog/optimizing-unity-for-weak-hardware) e [andare dall'idea al primo vero playtest](/blog/idea-to-first-playtest).
+</Callout>

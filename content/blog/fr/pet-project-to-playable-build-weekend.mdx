@@ -1,0 +1,56 @@
+---
+title: "D'une idée à une build jouable en un week-end"
+description: "Une approche pratique pour transformer une idée de jeu en quelque chose de réellement jouable en un week-end, sans couper les coins qui rendraient le résultat dénué de sens."
+slug: "pet-project-to-playable-build-weekend"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["approche game jam week-end", "prototyper une idée de jeu rapidement", "transformer une idée de jeu en prototype jouable"]
+ogImageTitle: "Playable Build in a Weekend"
+faq:
+  - question: "Que dois-je couper en premier quand le temps manque ?"
+    answer: "Tout ce qui n'est pas la mécanique centrale que vous testez — le polish artistique, les menus, les écrans de paramètres, et les fonctionnalités secondaires peuvent tous être coupés ou simulés sans risque. La boucle centrale est la seule chose qui ne peut pas être simulée, car c'est tout l'intérêt de l'exercice."
+  - question: "Vaut-il la peine d'utiliser un art de substitution pour un prototype de week-end ?"
+    answer: "Presque toujours oui — passer du temps de prototype sur de l'art qui sera probablement remplacé ou entièrement coupé est l'une des façons les plus courantes dont un projet de week-end manque de temps avant de répondre à sa vraie question."
+  - question: "Qu'est-ce qui compte comme 'terminé' pour un prototype de week-end ?"
+    answer: "La mécanique centrale est jouable et vous pouvez répondre honnêtement si c'est amusant ou non — pas un jeu fini, pas quelque chose de prêt à publier. Si vous pouvez répondre à cette seule question, le week-end a réussi, peu importe à quel point tout le reste paraît brut."
+---
+
+Un week-end n'est pas assez de temps pour construire un jeu — mais c'est assez de temps pour répondre à la seule question qui compte vraiment : l'idée centrale est-elle amusante ?
+
+## Décidez la seule chose que vous testez, avant d'ouvrir le moteur
+
+<Callout>
+Un prototype de week-end a exactement un travail : répondre si la mécanique centrale est amusante. Tout le reste — art, menus, fonctionnalités supplémentaires — est une distraction de cette question tant qu'elle n'a pas de réponse.
+</Callout>
+
+Écrivez, en une phrase, ce que vous testez réellement (« esquiver est-il satisfaisant », « le puzzle central est-il intéressant pendant plus de cinq minutes »). Tout ce que vous construisez pendant le week-end devrait servir à répondre à cette seule question.
+
+## Ce qu'il faut simuler ou sauter entièrement
+
+- **L'art** — formes de substitution, packs d'assets gratuits, ou rectangles « d'art de programmeur » conviennent parfaitement. Le temps passé sur du vrai art ici est du temps non passé sur la mécanique réelle que vous testez.
+- **Menus et paramètres** — un démarrage codé en dur, pas d'écran d'options, pas de système de sauvegarde. Rien de tout cela n'affecte le caractère amusant de la mécanique centrale.
+- **Le polish et le « juice »** (tremblement d'écran, effets de particules) — aide réellement le ressenti perçu, mais seulement après que la mécanique centrale elle-même soit confirmée comme valant la peine d'être polie. Ajouter du juice à une mécanique qui n'est pas encore amusante ne fait que rendre une mécanique ennuyeuse plus jolie, pas plus amusante.
+- **Cas limites et gestion d'erreurs** — un prototype de week-end peut planter sur une entrée étrange ; c'est un compromis acceptable pour le temps gagné.
+
+## Une répartition approximative du temps qui fonctionne vraiment
+
+| Bloc de temps | Focus |
+|---|---|
+| Premières heures | Faire fonctionner l'interaction centrale absolue, aussi laide soit-elle |
+| Portion intermédiaire | Itérer sur cette interaction centrale selon ce que ça fait de la jouer |
+| Portion finale | L'amener à un état où quelqu'un d'autre peut réellement l'essayer, avec des instructions minimales |
+
+## L'étape que les gens sautent : faire jouer quelqu'un d'autre
+
+Un prototype que seul vous avez joué vous en dit beaucoup moins qu'un que ami ou collègue développeur a essayé à froid, sans explication de votre part par-dessus son épaule. Observer la première réaction de quelqu'un d'autre — où il se confond, où il s'illumine — est souvent plus informatif que n'importe quelle quantité d'itération en solo.
+
+## À quoi ressemble vraiment le « succès »
+
+Le succès n'est pas un jeu fini — c'est une réponse honnête à la seule question que vous vous étiez fixé de tester. Un prototype qui montre clairement « cette mécanique n'est pas amusante, ne construisez pas davantage dessus » a autant de succès qu'un qui montre « ça vaut la peine de continuer » — les deux vous épargnent l'erreur bien plus coûteuse de construire un jeu complet autour d'une idée centrale non testée.
+
+<Callout>
+Pour ce qui se passe après qu'un prototype se révèle valoir la peine d'être poursuivi, voir notre note sur [optimiser un jeu Unity à mesure qu'il grandit](/blog/optimizing-unity-for-weak-hardware) et [passer de l'idée au premier vrai playtest](/blog/idea-to-first-playtest).
+</Callout>
