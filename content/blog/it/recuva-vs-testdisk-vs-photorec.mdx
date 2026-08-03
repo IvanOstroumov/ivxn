@@ -1,0 +1,67 @@
+---
+title: "Recuva vs TestDisk vs PhotoRec: strumenti di recupero gratuiti a confronto"
+description: "Un confronto pratico tra tre strumenti gratuiti di recupero dati — in cosa è davvero bravo ciascuno, e quando usare quale."
+slug: "recuva-vs-testdisk-vs-photorec"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recuva vs testdisk", "miglior strumento gratuito recupero dati", "photorec vs recuva"]
+ogImageTitle: "Recuva vs TestDisk vs PhotoRec"
+faq:
+  - question: "Quale dei tre è più facile per un principiante?"
+    answer: "Recuva, di gran lunga — ha una procedura guidata grafica e un'interfaccia in stile Windows normale. TestDisk e PhotoRec sono entrambi guidati da menu testuali e presuppongono che tu sia a tuo agio nel seguire passaggi precisi."
+  - question: "Posso usare più di uno di questi strumenti sullo stesso disco?"
+    answer: "Sì, ed è spesso la mossa giusta — prova prima Recuva per una vittoria rapida, poi PhotoRec se non trova nulla, dato che usano approcci di recupero diversi e possono avere successo in situazioni diverse."
+  - question: "Qualcuno di questi strumenti funziona su dischi formattati?"
+    answer: "TestDisk in particolare è costruito per questo — può ricostruire una tabella delle partizioni danneggiata o cancellata così il disco torna leggibile, cosa che Recuva e PhotoRec non tentano."
+---
+
+Tutti e tre sono gratuiti, ampiamente usati, e bravi in cose genuinamente diverse. Scegliere quello sbagliato spreca tempo che non recuperi una volta che TRIM o un nuovo ciclo di scrittura sono passati.
+
+## Recuva: il più facile, solo Windows, basato sulla tabella dei file
+
+Recuva legge ciò che resta nei registri della file system stessa riguardo ai file cancellati — in modo simile a come li troverebbe il sistema operativo stesso, poco prima che quello spazio venga riutilizzato. Questo la rende veloce e le permette di restituire nomi di file accurati, ma significa anche che dipende dal fatto che quei registri siano ancora intatti.
+
+**Ideale per:** un file cancellato accidentalmente su un PC Windows, recuperato poco dopo la cancellazione, su un HDD (o un SSD dove TRIM non è ancora passato — vedi la nostra [guida su SSD e TRIM](/blog/ssd-deleted-files-trim)).
+
+## PhotoRec: ignora completamente il file system
+
+PhotoRec (costruito dallo stesso team di TestDisk) fa qualcosa di strutturalmente diverso: ignora il file system e scansiona i settori grezzi del disco alla ricerca di firme di file riconoscibili — i pattern di byte che segnano l'inizio di un JPEG, PDF, DOCX e centinaia di altri formati. Questo si chiama "file carving".
+
+**Compromesso:** poiché non usa il file system, non può recuperare i nomi originali dei file o la struttura delle cartelle — ottieni indietro `f0000123.jpg`, non `foto-vacanza.jpg`. Ma funziona anche quando il file system stesso è gravemente danneggiato o riformattato, il che manda in crisi Recuva.
+
+**Ideale per:** dischi formattati, file system corrotti, o quando Recuva ha già fallito.
+
+## TestDisk: ripara la partizione, non i singoli file
+
+TestDisk risolve un problema diverso: non recupera file, recupera **partizioni**. Se un disco appare come "non allocato" o "RAW" nella Gestione disco di Windows, di solito significa che la tabella delle partizioni — non i file stessi — è stata danneggiata o cancellata. TestDisk può scansionare e ricostruire quella tabella delle partizioni, il che può rendere di nuovo leggibile l'intero disco (e tutti i suoi file) in un solo passaggio.
+
+**Ideale per:** un disco che non mostra più un file system riconoscibile, o uno che chiede improvvisamente di essere "formattato" quando lo colleghi.
+
+## Tabella di confronto
+
+| | Recuva | PhotoRec | TestDisk |
+|---|---|---|---|
+| Piattaforma | Solo Windows | Windows/Mac/Linux | Windows/Mac/Linux |
+| Interfaccia | Grafica | Menu testuale | Menu testuale |
+| Recupera i nomi dei file | Sì (se la tabella dei file è intatta) | No | N/D (ripara le partizioni) |
+| Funziona su dischi formattati | No | Sì | Sì (ricostruisce la partizione) |
+| Miglior primo passo per | Cancellazione accidentale semplice | Danno al file system | Disco "non leggibile" / RAW |
+
+## Un ordine sensato in cui provarli
+
+1. **Il disco appare come illeggibile/RAW/non allocato?** Inizia con TestDisk per tentare una ricostruzione della partizione.
+2. **Disco leggibile, file specifico(i) cancellato(i), Windows, recente?** Prova prima Recuva — è veloce e preserva i nomi dei file quando funziona.
+3. **Recuva non ha trovato nulla, o il disco non è solo Windows, o è stato riformattato?** Passa a PhotoRec.
+
+<Callout type="warning">
+Installa ed esegui gli strumenti di recupero da un disco diverso da quello che stai recuperando — scrivere lo strumento stesso (o la sua cache di scansione) sul disco interessato può sovrascrivere proprio i dati che stai cercando di recuperare.
+</Callout>
+
+<Callout>
+Nessuno di questi strumenti funziona bene una volta che nuovi dati hanno sovrascritto lo spazio dei file cancellati — prima provi, migliori sono le tue probabilità, indipendentemente dallo strumento scelto.
+</Callout>
+
+Se hai già provato uno di questi senza successo, o i dati contano abbastanza da non voler continuare a tentare alla cieca, [contattami](/contact) prima di provare altri strumenti sullo stesso disco.

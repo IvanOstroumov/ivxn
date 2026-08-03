@@ -1,0 +1,87 @@
+---
+title: "Kotlin vs Java im Jahr 2026: Was für Android wählen"
+description: "Ein praktischer Vergleich von Kotlin und Java für die Android-Entwicklung 2026 — Syntax, Performance, Tooling, Einstellung und Migration."
+slug: "kotlin-vs-java-2026"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android", "kotlin", "java"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["kotlin vs java", "kotlin vs java android 2026", "welche sprache für android"]
+ogImageTitle: "Kotlin vs Java in 2026"
+faq:
+  - question: "Ist Java für die Android-Entwicklung tot?"
+    answer: "Nein. Java lässt sich weiterhin problemlos für Android kompilieren, und viele große Codebasen laufen darauf — aber Google behandelt Kotlin seit 2019 als bevorzugte Sprache, und fast alle neuen Tools, Beispiele und Jetpack-Bibliotheken sind Kotlin-first geschrieben."
+  - question: "Kann ich Kotlin und Java im selben Android-Projekt mischen?"
+    answer: "Ja, sie arbeiten direkt im selben Modul zusammen — die meisten echten Migrationen passieren Datei für Datei statt als eine große Neuschreibung."
+  - question: "Ist Kotlin zur Laufzeit langsamer als Java?"
+    answer: "Nein. Kotlin kompiliert zum selben JVM/Android-Bytecode wie Java, und in den meisten echten Apps ist der Unterschied nicht messbar. Unterschiede in der Startzeit, wo sie existieren, stammen von Bibliothekswahl, nicht von der Sprache."
+---
+
+Wenn du 2026 ein Android-Projekt startest, kommt die Sprachfrage schon am ersten Tag auf. Hier ist die praktische Antwort, nicht die theoretische.
+
+## Die Kurzversion
+
+Nutze **Kotlin** für alles Neue. Java ist immer noch eine legitime Wahl, wenn du zu einer bestehenden großen Java-Codebasis stößt, aber für ein neues Android-Projekt gibt es keinen guten Grund mehr, mit Java zu starten.
+
+## Warum Kotlin gewonnen hat
+
+<Callout>
+Google hat Kotlin 2019 zur empfohlenen Sprache für Android gemacht. Seitdem sind Jetpack Compose, Coroutinen und die meisten neuen Plattform-APIs Kotlin-first designt — Java-Support wird gepflegt, aber nicht priorisiert.
+</Callout>
+
+- **Null-Sicherheit ist ins Typsystem eingebaut.** `NullPointerException` — historisch einer der häufigsten Android-Abstürze — wird zu einem Compile-Zeit-Fehler statt einem Laufzeitfehler.
+- **Weniger Boilerplate.** Data-Klassen, Standardwerte für Parameter und Extension-Funktionen reduzieren die Zeremonie, die Java für dasselbe Verhalten braucht.
+- **Coroutinen** geben dir strukturierte Nebenläufigkeit ohne das Callback-Verschachteln oder Thread-Pool-Management, das asynchroner Java-Code braucht.
+
+## Syntax im Vergleich
+
+Ein einfacher Datenhalter in Java:
+
+```java
+public class User {
+    private final String name;
+    private final int age;
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() { return name; }
+    public int getAge() { return age; }
+}
+```
+
+Dasselbe in Kotlin:
+
+```kotlin
+data class User(val name: String, val age: Int)
+```
+
+Equality, `hashCode`, `toString` und Copy-Semantik gibt es in der Kotlin-Version gratis dazu — in Java müsstest du das alles separat schreiben oder generieren.
+
+## Vergleichstabelle
+
+| | Kotlin | Java |
+|---|---|---|
+| Null-Sicherheit | Vom Compiler erzwungen | Nicht erzwungen (`Optional` ist optional) |
+| Boilerplate | Wenig (Data-Klassen, Defaults) | Mehr (Getter/Setter, Builder) |
+| Async | Coroutinen (strukturiert, abbrechbar) | Threads / Callbacks / `CompletableFuture` |
+| Jetpack Compose | Erstklassig unterstützt | Nutzbar via Interop, nicht der Hauptweg |
+| Lernkurve für Java-Entwickler | Ein paar Tage für die Grundlagen | — |
+| Bestehende große Codebasen | Weniger, neuer | Immer noch verbreitet in älteren Enterprise-Apps |
+
+## Eine bestehende Java-Codebasis migrieren
+
+Du brauchst keine Neuschreibung. Android Studio kann einzelne `.java`-Dateien automatisch nach `.kt` konvertieren, und Kotlin/Java-Interop ist direkt — eine Kotlin-Klasse kann eine Java-Klasse erweitern und umgekehrt, im selben Modul. Der realistische Weg:
+
+1. Neue Features und neue Dateien ab Tag eins in Kotlin.
+2. Dateien opportunistisch konvertieren, wenn du sie ohnehin für einen Bugfix oder ein Feature anfasst.
+3. Stabile, selten angefasste Java-Dateien in Ruhe lassen — funktionierenden Code ohne anderen Grund zu konvertieren ist das Risiko nicht wert.
+
+## FAQ
+
+<Callout type="warning">
+Hast du eine Java-Codebasis und bist unsicher, ob eine Migration sinnvoll ist, oder willst eine zweite Meinung zu einem Android-Projekt? [Melde dich](/contact) — genau diese Entscheidung ist ein kurzes Gespräch wert, bevor du Entwicklungszeit investierst.
+</Callout>

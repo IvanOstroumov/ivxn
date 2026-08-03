@@ -1,0 +1,71 @@
+---
+title: "Cosa succede dentro la CPU quando esegui un programma"
+description: "Una spiegazione in linguaggio semplice di cosa succede realmente dentro un processore tra il doppio clic su un programma e la sua esecuzione."
+slug: "how-cpu-runs-a-program"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "Hardware"
+author: "Ivan Ostroumov"
+keywords: ["come funziona una cpu", "cosa succede quando esegui un programma", "cpu spiegata semplicemente"]
+ogImageTitle: "How a CPU Runs a Program"
+faq:
+  - question: "La CPU esegue l'intero programma in una volta?"
+    answer: "No. Esegue un'istruzione alla volta per ogni core, estremamente velocemente — le CPU moderne eseguono miliardi di istruzioni al secondo, e tecniche come il pipelining permettono a più istruzioni di trovarsi in fasi diverse di esecuzione simultaneamente."
+  - question: "Qual è la differenza tra un core e un thread?"
+    answer: "Un core è un'unità di esecuzione fisica. Un thread (nel senso della CPU, tramite multithreading simultaneo come l'Hyper-Threading) permette a un core fisico di gestire due flussi di istruzioni per riempire slot di esecuzione inutilizzati — non è la stessa cosa di avere due core completi."
+  - question: "Perché la RAM è importante se il lavoro lo fa la CPU?"
+    answer: "La CPU è abbastanza veloce da restare inattiva ad aspettare i dati per la maggior parte del tempo se leggesse tutto direttamente dalla RAM — è esattamente per questo che esiste la cache, per tenere i dati usati di frequente abbastanza vicini da non far bloccare la CPU."
+---
+
+Fai doppio clic su un'icona, e un secondo dopo il programma è in esecuzione. Ecco cosa succede realmente tra questi due momenti, senza la versione da brochure pubblicitaria di "core e gigahertz".
+
+## Passo 1: portare il programma in memoria
+
+Il codice del tuo programma vive su disco come file. Prima che la CPU possa toccarlo, il sistema operativo carica le parti rilevanti di quel file nella **RAM** — la CPU non esegue mai codice direttamente dal disco, è troppo lento per questo. Ecco perché i programmi "si caricano" prima di partire, e perché un SSD rende questo passaggio più veloce di un HDD.
+
+## Passo 2: fetch, decode, execute
+
+Una volta che il codice è in RAM, la CPU lo attraversa in un ciclo che si ripete miliardi di volte al secondo:
+
+1. **Fetch** — prendere la prossima istruzione dalla memoria, all'indirizzo indicato dal *program counter*.
+2. **Decode** — capire cosa significa realmente quell'istruzione (somma questi due numeri, carica questo valore, salta a questo indirizzo).
+3. **Execute** — farlo davvero, usando le unità di esecuzione interne della CPU.
+
+```text
+fetch → decode → execute → (ripeti, prossima istruzione)
+```
+
+Questo è il ciclo fetch-decode-execute, ed è la base su cui è costruito tutto il resto in una CPU.
+
+## Passo 3: perché esiste la cache, non solo la RAM
+
+<Callout>
+La RAM è veloce rispetto a un disco, ma lenta rispetto alla CPU stessa. Se ogni istruzione dovesse aspettare un giro completo verso la RAM, la CPU passerebbe la maggior parte del tempo inattiva.
+</Callout>
+
+Per evitarlo, le CPU mantengono piccoli pool di memoria estremamente veloci, fisicamente vicini alle unità di esecuzione — la **cache**, di solito divisa nei livelli L1, L2 e L3:
+
+| Livello | Dimensione tipica | Velocità | Condivisa? |
+|---|---|---|---|
+| L1 | ~32–64 KB per core | Più veloce | Per ogni core |
+| L2 | ~256 KB–2 MB per core | Veloce | Di solito per ogni core |
+| L3 | Diversi MB–decine di MB | Più lenta di L1/L2, ma comunque molto più veloce della RAM | Condivisa tra i core |
+
+La CPU prevede quali dati le serviranno dopo e li tiene in anticipo in cache. Quando la previsione è corretta ("cache hit"), l'esecuzione rallenta a malapena. Quando è sbagliata ("cache miss"), la CPU deve aspettare la RAM — esattamente il tipo di blocco che la cache esiste per evitare.
+
+## Passo 4: core, thread e fare più di una cosa
+
+Un core della CPU può eseguire veramente un solo flusso di istruzioni alla volta. Le CPU multi-core ottengono un parallelismo reale avendo diversi core indipendenti, ciascuno che gira il proprio ciclo fetch-decode-execute. Il multithreading simultaneo (quello che Intel chiama Hyper-Threading) è diverso: permette a un core fisico di gestire due flussi di istruzioni e alternarli negli slot di esecuzione inutilizzati — più vicino a un core che usa in modo più efficiente il proprio tempo morto che ad avere un secondo core.
+
+## Passo 5: perché le frequenze boost non sono la velocità costante
+
+Le CPU moderne indicano una frequenza "boost" più alta della loro frequenza base. La CPU raggiunge quella velocità boost solo in brevi picchi su pochi core, vincolata da temperatura ed erogazione di potenza — far girare tutti i core alla massima frequenza boost continuamente genererebbe più calore di quanto la maggior parte dei sistemi di raffreddamento riesca a smaltire, quindi la CPU rallenta una volta raggiunti i limiti termici. È un comportamento normale, non un difetto.
+
+## Mettendo tutto insieme
+
+Il doppio clic su un programma innesca: caricamento del codice in RAM → la CPU preleva le istruzioni una alla volta → la cache tiene vicini i dati "caldi" → i core (e i thread, se disponibili) elaborano in parallelo flussi di istruzioni indipendenti → la frequenza si adatta dinamicamente in base al carico e alla temperatura. Niente di tutto questo è magia — è lo stesso ciclo fetch-decode-execute, ripetuto su una scala difficile da intuire, con diversi livelli costruiti specificamente per impedire a quel ciclo di bloccarsi.
+
+<Callout type="warning">
+Curioso di sapere come questo si applica a un problema di prestazioni specifico che stai riscontrando — una build lenta, un'app che si blocca, o hardware tra cui stai scegliendo? [Contattami](/contact).
+</Callout>

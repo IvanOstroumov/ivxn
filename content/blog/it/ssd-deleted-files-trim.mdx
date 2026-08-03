@@ -1,0 +1,62 @@
+---
+title: "File cancellati su un SSD: perché TRIM cambia tutto"
+description: "Perché i file cancellati su un SSD sono molto più difficili da recuperare rispetto a un hard disk, cosa fa realmente TRIM, e quando il recupero è ancora realisticamente possibile."
+slug: "ssd-deleted-files-trim"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "hardware"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recuperare file cancellati ssd", "ssd trim recupero dati", "si possono recuperare file cancellati da ssd"]
+ogImageTitle: "SSD Deleted Files & TRIM"
+faq:
+  - question: "Si possono recuperare file cancellati da un SSD?"
+    answer: "A volte, ma in modo molto meno affidabile rispetto a un hard disk. Se TRIM è già passato sui blocchi cancellati, le celle flash sottostanti vengono fisicamente azzerate dal controller del disco, non solo marcate come libere — nessun software può recuperare quei dati."
+  - question: "Come faccio a sapere se TRIM è abilitato sul mio disco?"
+    answer: "Su Windows, esegui `fsutil behavior query DisableDeleteNotify` nel prompt dei comandi — un risultato 0 significa che TRIM è abilitato. Su Linux, `sudo systemctl status fstrim.timer` mostra se il TRIM periodico è attivo."
+  - question: "Dovrei disattivare TRIM per facilitare un futuro recupero?"
+    answer: "Non è consigliato. TRIM mantiene sane le prestazioni di scrittura e la longevità dell'SSD nel tempo. Rinunciarci per un ipotetico scenario di recupero futuro è di solito lo scambio sbagliato — piuttosto, fai backup dei dati importanti."
+---
+
+Se hai mai recuperato un file cancellato da un hard disk mesi dopo e ti aspetti lo stesso da un SSD, la brutta notizia arriva in fretta: di solito non funziona allo stesso modo. Ecco perché.
+
+## Come funziona davvero la cancellazione
+
+Su qualsiasi disco, cancellare un file non ne cancella immediatamente i dati — il sistema operativo marca semplicemente lo spazio come libero e rimuove la voce dalla tabella dei file. I byte veri e propri restano sul supporto finché qualcosa non li sovrascrive. Su un HDD, questa è tutta la storia, ed è per questo che gli strumenti di recupero spesso riescono a riportare indietro file cancellati giorni o settimane dopo.
+
+Gli SSD aggiungono un secondo passaggio che gli HDD non hanno: **TRIM**.
+
+## Cosa fa davvero TRIM
+
+<Callout>
+TRIM è un comando che il sistema operativo invia a un SSD per dirgli "questi blocchi non sono più in uso". Il controller dell'SSD cancella poi proattivamente quelle celle flash in background — indipendentemente da qualsiasi tabella dei file, e prima che lo spazio venga mai riutilizzato.
+</Callout>
+
+Questo esiste per il modo in cui funziona la memoria flash: gli SSD non possono sovrascrivere direttamente una cella usata, devono prima cancellare un intero blocco. Fare questa cancellazione in anticipo (invece che al momento della scrittura) è ciò che impedisce alle velocità di scrittura dell'SSD di degradare man mano che il disco si riempie. TRIM è una funzione di prestazioni e longevità — la recuperabilità non è mai stata un obiettivo di design.
+
+L'effetto pratico: una volta che TRIM è passato sui blocchi occupati dal tuo file cancellato, i dati sono spariti a livello hardware, non solo nascosti al file system. Nessun software di recupero — gratuito o a pagamento — può riportare indietro dati da celle fisicamente cancellate.
+
+## Quando il recupero è ancora realisticamente possibile
+
+| Scenario | Probabilità di recupero |
+|---|---|
+| Cancellato pochi secondi fa, disco ancora acceso, TRIM abilitato | Basse — TRIM spesso parte quasi immediatamente |
+| TRIM disabilitato (alcune configurazioni RAID, alcuni setup più vecchi/aziendali) | Più alte — si comporta più simile a un HDD |
+| Il disco era in un box esterno/USB senza passaggio dei comandi TRIM | Più alte — i comandi TRIM non sempre raggiungono il disco attraverso i bridge USB |
+| Il file era su un volume diverso da quello di sistema ed è stato smontato rapidamente | Più alte — meno probabilità che un ciclo TRIM sia partito prima che tu agissi |
+| Disco cifrato (BitLocker/FileVault) | Il recupero dei dati grezzi può funzionare, ma sono illeggibili senza la chiave |
+
+## Cosa fare davvero nei primi 10 minuti
+
+1. **Smetti di usare il disco.** Non installare software di recupero sullo stesso disco che stai cercando di recuperare.
+2. **Controlla se TRIM è abilitato** prima di dare per scontato che la situazione sia senza speranza — vedi le FAQ qui sotto per il comando esatto.
+3. **Se è un SSD esterno/USB**, c'è una reale possibilità che TRIM non l'abbia mai raggiunto — questi casi hanno probabilità significativamente migliori.
+4. **Se i dati contano professionalmente o legalmente**, fermati e ottieni un parere forense adeguato prima di eseguire strumenti di recupero consumer — alcuni di essi scrivono sul disco durante la scansione, il che può distruggere proprio i dati che stai cercando di salvare.
+
+## Il bilancio onesto
+
+Il recupero da SSD non è impossibile, ma le probabilità sono strutturalmente peggiori rispetto al recupero da HDD, a causa di una funzione (TRIM) che esiste specificamente per mantenere il disco veloce — non per preservare i dati cancellati. L'unica strategia di recupero che funziona in modo affidabile su un SSD è quella impostata prima che qualcosa andasse storto: i backup.
+
+<Callout type="warning">
+Sei già in una situazione in cui qualcosa di importante è stato cancellato da un SSD? [Contattami](/contact) prima di provare altri strumenti di recupero sullo stesso disco — quello che fai nei primi minuti conta più dello strumento specifico che usi.
+</Callout>

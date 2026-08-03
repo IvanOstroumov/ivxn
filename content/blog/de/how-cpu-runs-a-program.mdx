@@ -1,0 +1,71 @@
+---
+title: "Was in deiner CPU passiert, wenn du ein Programm ausführst"
+description: "Eine einfache Erklärung dessen, was tatsächlich in einem Prozessor passiert, zwischen dem Doppelklick auf ein Programm und seiner Ausführung."
+slug: "how-cpu-runs-a-program"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "Hardware"
+author: "Ivan Ostroumov"
+keywords: ["wie funktioniert eine cpu", "was passiert beim ausführen eines programms", "cpu einfach erklärt"]
+ogImageTitle: "How a CPU Runs a Program"
+faq:
+  - question: "Führt die CPU das ganze Programm auf einmal aus?"
+    answer: "Nein. Sie führt pro Kern eine Instruktion nach der anderen aus, extrem schnell — moderne CPUs führen Milliarden Instruktionen pro Sekunde aus, und Techniken wie Pipelining lassen mehrere Instruktionen gleichzeitig in verschiedenen Ausführungsstadien sein."
+  - question: "Was ist der Unterschied zwischen einem Kern und einem Thread?"
+    answer: "Ein Kern ist eine physische Ausführungseinheit. Ein Thread (im CPU-Sinn, via simultanem Multithreading wie Hyper-Threading) lässt einen physischen Kern zwei Instruktionsströme jonglieren, um ungenutzte Ausführungsslots zu füllen — das ist nicht dasselbe wie zwei volle Kerne zu haben."
+  - question: "Warum ist RAM wichtig, wenn die CPU die Arbeit macht?"
+    answer: "Die CPU ist schnell genug, dass sie die meiste Zeit untätig auf Daten warten würde, wenn sie alles direkt aus dem RAM lesen würde — genau deshalb gibt es Cache: um häufig genutzte Daten nah genug zu halten, damit die CPU nicht stockt."
+---
+
+Du doppelklickst auf ein Icon, und eine Sekunde später läuft das Programm. Hier ist, was zwischen diesen beiden Momenten tatsächlich passiert, ohne die Marketing-Broschüren-Version von "Kernen und Gigahertz."
+
+## Schritt 1: Das Programm in den Speicher bekommen
+
+Der Code deines Programms lebt als Datei auf der Festplatte. Bevor die CPU ihn anfassen kann, lädt das Betriebssystem die relevanten Teile dieser Datei in den **RAM** — die CPU führt Code nie direkt von einer Festplatte aus, das ist dafür viel zu langsam. Deshalb "laden" Programme, bevor sie starten, und deshalb macht eine SSD diesen Schritt schneller als eine HDD.
+
+## Schritt 2: Fetch, Decode, Execute
+
+Sobald Code im RAM ist, arbeitet die CPU ihn in einer Schleife ab, die sich Milliarden Mal pro Sekunde wiederholt:
+
+1. **Fetch** — die nächste Instruktion aus dem Speicher holen, an der Adresse, auf die der *Program Counter* zeigt.
+2. **Decode** — herausfinden, was diese Instruktion tatsächlich bedeutet (addiere diese zwei Zahlen, lade diesen Wert, springe zu dieser Adresse).
+3. **Execute** — es tatsächlich tun, mit den internen Ausführungseinheiten der CPU.
+
+```text
+fetch → decode → execute → (wiederholen, nächste Instruktion)
+```
+
+Das ist der Fetch-Decode-Execute-Zyklus, und er ist das Fundament, auf dem alles andere in einer CPU aufbaut.
+
+## Schritt 3: Warum es Cache gibt, nicht nur RAM
+
+<Callout>
+RAM ist schnell im Vergleich zu einer Festplatte, aber langsam im Vergleich zur CPU selbst. Wenn jede Instruktion auf eine komplette Rundreise zum RAM warten müsste, würde die CPU die meiste Zeit untätig verbringen.
+</Callout>
+
+Um das zu vermeiden, halten CPUs kleine, extrem schnelle Speicherpools physisch nah an den Ausführungseinheiten — den **Cache**, meist aufgeteilt in L1-, L2- und L3-Ebenen:
+
+| Ebene | Typische Größe | Geschwindigkeit | Geteilt? |
+|---|---|---|---|
+| L1 | ~32–64 KB pro Kern | Am schnellsten | Pro Kern |
+| L2 | ~256 KB–2 MB pro Kern | Schnell | Meist pro Kern |
+| L3 | Mehrere MB–zig MB | Langsamer als L1/L2, aber immer noch viel schneller als RAM | Von allen Kernen geteilt |
+
+Die CPU sagt voraus, welche Daten sie als Nächstes brauchen wird, und hält sie im Voraus im Cache bereit. Wenn diese Vorhersage stimmt ("Cache-Hit"), verlangsamt sich die Ausführung kaum. Wenn sie falsch ist ("Cache-Miss"), muss die CPU auf RAM warten — genau die Art von Stau, die der Cache verhindern soll.
+
+## Schritt 4: Kerne, Threads und mehr als eine Sache gleichzeitig tun
+
+Ein CPU-Kern kann wirklich nur einen Instruktionsstrom gleichzeitig ausführen. Multi-Core-CPUs erreichen echten Parallelismus, indem sie mehrere unabhängige Kerne haben, von denen jeder seine eigene Fetch-Decode-Execute-Schleife läuft. Simultanes Multithreading (was Intel Hyper-Threading nennt) ist anders: Es lässt einen physischen Kern zwei Instruktionsströme halten und in ungenutzte Ausführungsslots verschachteln — näher an einem Kern, der seine eigene Leerlaufzeit effizienter nutzt, als an einem zweiten Kern.
+
+## Schritt 5: Warum Boost-Takte nicht die Dauergeschwindigkeit sind
+
+Moderne CPUs geben einen "Boost"-Takt an, der höher ist als ihr Basistakt. Die CPU erreicht diese Boost-Geschwindigkeit nur in kurzen Schüben auf wenigen Kernen, begrenzt durch Temperatur und Stromversorgung — alle Kerne dauerhaft auf maximaler Boost-Frequenz laufen zu lassen würde mehr Wärme erzeugen, als die meisten Kühllösungen abführen können, also drosselt die CPU wieder, sobald thermische Grenzen erreicht sind. Das ist normales Verhalten, kein Defekt.
+
+## Alles zusammengefügt
+
+Der Doppelklick auf ein Programm löst aus: Code wird in RAM geladen → die CPU holt Instruktionen eine nach der anderen → Cache hält die "heißen" Daten in der Nähe → Kerne (und Threads, falls verfügbar) arbeiten parallel unabhängige Instruktionsströme ab → die Taktrate passt sich dynamisch an Last und Temperatur an. Nichts davon ist Magie — es ist derselbe Fetch-Decode-Execute-Zyklus, wiederholt in einer Größenordnung, die schwer intuitiv zu erfassen ist, mit mehreren Schichten, die speziell dafür gebaut wurden, diesen Zyklus am Stocken zu hindern.
+
+<Callout type="warning">
+Neugierig, wie das auf ein konkretes Performance-Problem zutrifft, das du siehst — einen langsamen Build, eine ruckelnde App, oder Hardware, zwischen der du dich entscheiden willst? [Melde dich](/contact).
+</Callout>

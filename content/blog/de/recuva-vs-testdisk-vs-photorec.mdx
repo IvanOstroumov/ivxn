@@ -1,0 +1,67 @@
+---
+title: "Recuva vs TestDisk vs PhotoRec: Kostenlose Wiederherstellungstools im Vergleich"
+description: "Ein praktischer Vergleich dreier kostenloser Datenwiederherstellungstools — worin jedes wirklich gut ist, und wann man welches nutzt."
+slug: "recuva-vs-testdisk-vs-photorec"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recuva vs testdisk", "bestes kostenloses datenwiederherstellungstool", "photorec vs recuva"]
+ogImageTitle: "Recuva vs TestDisk vs PhotoRec"
+faq:
+  - question: "Welches der drei ist am einfachsten für Anfänger?"
+    answer: "Recuva, mit großem Abstand — es hat einen grafischen Assistenten und eine normale Windows-Oberfläche. TestDisk und PhotoRec werden beide über Textmenüs bedient und setzen voraus, dass du dich wohl dabei fühlst, präzisen Schritten zu folgen."
+  - question: "Kann ich mehr als eines dieser Tools auf demselben Laufwerk verwenden?"
+    answer: "Ja, und das ist oft der richtige Schritt — probiere zuerst Recuva für einen schnellen Erfolg, dann PhotoRec, wenn nichts gefunden wird, da sie unterschiedliche Wiederherstellungsansätze nutzen und in unterschiedlichen Situationen erfolgreich sein können."
+  - question: "Funktioniert eines dieser Tools auf formatierten Laufwerken?"
+    answer: "TestDisk ist speziell dafür gebaut — es kann eine beschädigte oder gelöschte Partitionstabelle wiederherstellen, sodass das Laufwerk wieder lesbar wird, was Recuva und PhotoRec nicht versuchen."
+---
+
+Alle drei sind kostenlos, weit verbreitet und wirklich gut in unterschiedlichen Dingen. Das falsche zu wählen verschwendet Zeit, die du nicht zurückbekommst, sobald TRIM oder ein neuer Schreibzyklus gelaufen ist.
+
+## Recuva: am einfachsten, nur Windows, dateitabellenbasiert
+
+Recuva liest, was in den eigenen Aufzeichnungen des Dateisystems über gelöschte Dateien übrig ist — ähnlich wie das Betriebssystem sie selbst finden würde, kurz bevor dieser Speicherplatz wiederverwendet wird. Das macht es schnell und liefert genaue Dateinamen zurück, bedeutet aber auch, dass es davon abhängt, dass diese Aufzeichnungen noch intakt sind.
+
+**Am besten für:** eine versehentlich gelöschte Datei auf einem Windows-PC, bald nach der Löschung wiederhergestellt, auf einer HDD (oder einer SSD, auf der TRIM noch nicht gelaufen ist — siehe unseren [SSD/TRIM-Guide](/blog/ssd-deleted-files-trim)).
+
+## PhotoRec: ignoriert das Dateisystem komplett
+
+PhotoRec (vom selben Team wie TestDisk gebaut) macht etwas strukturell anderes: Es ignoriert das Dateisystem und scannt die rohen Festplattensektoren nach erkennbaren Dateisignaturen — den Byte-Mustern, die den Anfang einer JPEG-, PDF-, DOCX- und Hunderter anderer Formate markieren. Das nennt man "File Carving".
+
+**Kompromiss:** Da es das Dateisystem nicht nutzt, kann es weder ursprüngliche Dateinamen noch die Ordnerstruktur wiederherstellen — du bekommst `f0000123.jpg` zurück, nicht `urlaubsfoto.jpg`. Aber es funktioniert selbst, wenn das Dateisystem selbst stark beschädigt oder neu formatiert wurde, was Recuva ins Stocken bringt.
+
+**Am besten für:** formatierte Laufwerke, beschädigte Dateisysteme, oder wenn Recuva bereits nichts gefunden hat.
+
+## TestDisk: repariert die Partition, nicht einzelne Dateien
+
+TestDisk löst ein anderes Problem: Es stellt keine Dateien wieder her, sondern **Partitionen**. Wenn ein Laufwerk in der Windows-Datenträgerverwaltung als "nicht zugeordnet" oder "RAW" erscheint, bedeutet das meist, dass die Partitionstabelle — nicht die Dateien selbst — beschädigt oder gelöscht wurde. TestDisk kann diese Partitionstabelle scannen und wiederherstellen, was das gesamte Laufwerk (und alle seine Dateien) in einem Schritt wieder lesbar machen kann.
+
+**Am besten für:** ein Laufwerk, das kein erkennbares Dateisystem mehr zeigt, oder eines, das beim Anschließen plötzlich zur "Formatierung" auffordert.
+
+## Vergleichstabelle
+
+| | Recuva | PhotoRec | TestDisk |
+|---|---|---|---|
+| Plattform | Nur Windows | Windows/Mac/Linux | Windows/Mac/Linux |
+| Oberfläche | Grafisch | Textmenü | Textmenü |
+| Stellt Dateinamen wieder her | Ja (wenn Dateitabelle intakt) | Nein | N/A (repariert Partitionen) |
+| Funktioniert auf formatierten Laufwerken | Nein | Ja | Ja (baut Partition neu auf) |
+| Bester erster Schritt für | Einfache versehentliche Löschung | Dateisystemschaden | "Laufwerk nicht lesbar" / RAW-Laufwerk |
+
+## Eine sinnvolle Reihenfolge zum Ausprobieren
+
+1. **Laufwerk erscheint als nicht lesbar/RAW/nicht zugeordnet?** Beginne mit TestDisk für einen Versuch der Partitionswiederherstellung.
+2. **Laufwerk lesbar, bestimmte Datei(en) gelöscht, Windows, kürzlich?** Probiere zuerst Recuva — es ist schnell und erhält Dateinamen, wenn es funktioniert.
+3. **Recuva fand nichts, oder das Laufwerk ist nicht nur Windows, oder wurde neu formatiert?** Wechsle zu PhotoRec.
+
+<Callout type="warning">
+Installiere und führe Wiederherstellungstools von einem anderen Laufwerk aus als dem, das du wiederherstellst — das Schreiben des Tools selbst (oder seines Scan-Caches) auf das betroffene Laufwerk kann genau die Daten überschreiben, die du zurückholen willst.
+</Callout>
+
+<Callout>
+Keines dieser Tools funktioniert gut, sobald neue Daten den Platz der gelöschten Dateien überschrieben haben — je früher du es versuchst, desto besser deine Chancen, unabhängig vom gewählten Tool.
+</Callout>
+
+Wenn du bereits eines davon ohne Erfolg probiert hast, oder die Daten wichtig genug sind, dass du nicht weiter raten willst, [melde dich](/contact), bevor du weitere Tools auf demselben Laufwerk ausprobierst.

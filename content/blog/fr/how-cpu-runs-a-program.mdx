@@ -1,0 +1,71 @@
+---
+title: "Ce qui se passe dans votre CPU quand vous lancez un programme"
+description: "Une explication en langage simple de ce qui se passe réellement dans un processeur entre le double-clic sur un programme et son exécution."
+slug: "how-cpu-runs-a-program"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "Hardware"
+author: "Ivan Ostroumov"
+keywords: ["comment fonctionne un cpu", "que se passe-t-il quand on lance un programme", "cpu expliqué simplement"]
+ogImageTitle: "How a CPU Runs a Program"
+faq:
+  - question: "Le CPU exécute-t-il tout le programme d'un coup ?"
+    answer: "Non. Il exécute une instruction à la fois par cœur, extrêmement vite — les CPU modernes exécutent des milliards d'instructions par seconde, et des techniques comme le pipelining permettent à plusieurs instructions d'être à différentes étapes d'exécution simultanément."
+  - question: "Quelle est la différence entre un cœur et un thread ?"
+    answer: "Un cœur est une unité d'exécution physique. Un thread (au sens CPU, via le multithreading simultané comme l'Hyper-Threading) permet à un cœur physique de jongler avec deux flux d'instructions pour remplir des créneaux d'exécution inutilisés — ce n'est pas la même chose qu'avoir deux cœurs complets."
+  - question: "Pourquoi la RAM est-elle importante si c'est le CPU qui fait le travail ?"
+    answer: "Le CPU est assez rapide pour rester inactif la plupart du temps à attendre des données s'il lisait tout directement depuis la RAM — c'est exactement pour ça que le cache existe : garder les données fréquemment utilisées assez proches pour que le CPU ne se bloque pas."
+---
+
+Vous double-cliquez sur une icône, et une seconde plus tard le programme tourne. Voici ce qui se passe réellement entre ces deux moments, sans la version « brochure marketing » des « cœurs et gigahertz ».
+
+## Étape 1 : faire entrer le programme en mémoire
+
+Le code de votre programme vit sur le disque sous forme de fichier. Avant que le CPU puisse y toucher, le système d'exploitation charge les parties pertinentes de ce fichier dans la **RAM** — le CPU n'exécute jamais de code directement depuis un disque, c'est bien trop lent pour ça. C'est pourquoi les programmes « chargent » avant de démarrer, et pourquoi un SSD rend cette étape plus rapide qu'un disque dur.
+
+## Étape 2 : fetch, decode, execute
+
+Une fois le code en RAM, le CPU le parcourt dans une boucle qui se répète des milliards de fois par seconde :
+
+1. **Fetch** — récupérer la prochaine instruction en mémoire, à l'adresse pointée par le *compteur de programme*.
+2. **Decode** — déterminer ce que cette instruction signifie réellement (additionner ces deux nombres, charger cette valeur, sauter à cette adresse).
+3. **Execute** — le faire réellement, en utilisant les unités d'exécution internes du CPU.
+
+```text
+fetch → decode → execute → (répéter, instruction suivante)
+```
+
+C'est le cycle fetch-decode-execute, et c'est la fondation sur laquelle tout le reste d'un CPU est construit.
+
+## Étape 3 : pourquoi il y a du cache, pas seulement de la RAM
+
+<Callout>
+La RAM est rapide comparée à un disque, mais lente comparée au CPU lui-même. Si chaque instruction devait attendre un aller-retour complet vers la RAM, le CPU passerait la majorité de son temps inactif.
+</Callout>
+
+Pour éviter cela, les CPU gardent de petits pools de mémoire extrêmement rapides, physiquement proches des unités d'exécution — le **cache**, généralement divisé en niveaux L1, L2 et L3 :
+
+| Niveau | Taille typique | Vitesse | Partagé ? |
+|---|---|---|---|
+| L1 | ~32–64 Ko par cœur | Le plus rapide | Par cœur |
+| L2 | ~256 Ko–2 Mo par cœur | Rapide | Généralement par cœur |
+| L3 | Plusieurs Mo–dizaines de Mo | Plus lent que L1/L2, mais bien plus rapide que la RAM | Partagé entre les cœurs |
+
+Le CPU prédit quelles données lui seront nécessaires ensuite et les garde à l'avance en cache. Quand cette prédiction est correcte (un « cache hit »), l'exécution ralentit à peine. Quand elle est fausse (un « cache miss »), le CPU doit attendre la RAM — exactement le genre de blocage que le cache existe pour éviter.
+
+## Étape 4 : cœurs, threads, et faire plus d'une chose à la fois
+
+Un cœur de CPU ne peut vraiment exécuter qu'un seul flux d'instructions à la fois. Les CPU multi-cœurs obtiennent un vrai parallélisme en ayant plusieurs cœurs indépendants, chacun exécutant sa propre boucle fetch-decode-execute. Le multithreading simultané (ce qu'Intel appelle l'Hyper-Threading) est différent : il permet à un cœur physique de tenir deux flux d'instructions et de les entrelacer dans des créneaux d'exécution inutilisés — plus proche d'un cœur utilisant plus efficacement son propre temps mort que d'avoir un second cœur.
+
+## Étape 5 : pourquoi les fréquences boost ne sont pas la vitesse permanente
+
+Les CPU modernes indiquent une fréquence « boost » supérieure à leur fréquence de base. Le CPU n'atteint cette vitesse boost que par courtes rafales sur quelques cœurs, contraint par la température et l'alimentation électrique — faire tourner tous les cœurs à la fréquence boost maximale en continu générerait plus de chaleur que la plupart des systèmes de refroidissement ne peuvent en évacuer, donc le CPU redescend une fois les limites thermiques atteintes. C'est un comportement normal, pas un défaut.
+
+## Assembler le tout
+
+Le double-clic sur un programme déclenche : chargement du code en RAM → le CPU récupère les instructions une par une → le cache garde les données « chaudes » à proximité → les cœurs (et threads, si disponibles) traitent en parallèle des flux d'instructions indépendants → la fréquence s'ajuste dynamiquement selon la charge et la température. Rien de tout cela n'est magique — c'est le même cycle fetch-decode-execute, répété à une échelle difficile à appréhender intuitivement, avec plusieurs couches construites spécifiquement pour empêcher ce cycle de se bloquer.
+
+<Callout type="warning">
+Curieux de savoir comment cela s'applique à un problème de performance spécifique que vous rencontrez — une build lente, une appli qui rame, ou du matériel entre lequel vous hésitez ? [Contactez-moi](/contact).
+</Callout>

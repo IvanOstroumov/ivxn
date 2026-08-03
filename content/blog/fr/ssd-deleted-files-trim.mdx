@@ -1,0 +1,62 @@
+---
+title: "Fichiers supprimés sur un SSD : pourquoi TRIM change tout"
+description: "Pourquoi les fichiers supprimés sur un SSD sont bien plus difficiles à récupérer que sur un disque dur, ce que fait vraiment TRIM, et quand la récupération est encore réellement possible."
+slug: "ssd-deleted-files-trim"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "hardware"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["récupérer fichiers supprimés ssd", "ssd trim récupération de données", "peut-on récupérer des fichiers supprimés d'un ssd"]
+ogImageTitle: "SSD Deleted Files & TRIM"
+faq:
+  - question: "Peut-on récupérer des fichiers supprimés d'un SSD ?"
+    answer: "Parfois, mais de façon bien moins fiable que sur un disque dur. Si TRIM a déjà été exécuté sur les blocs supprimés, les cellules flash sous-jacentes sont physiquement effacées par le contrôleur du disque, pas seulement marquées comme libres — aucun logiciel ne peut récupérer ces données."
+  - question: "Comment savoir si TRIM est activé sur mon disque ?"
+    answer: "Sous Windows, exécutez `fsutil behavior query DisableDeleteNotify` dans une invite de commandes — un résultat de 0 signifie que TRIM est activé. Sous Linux, `sudo systemctl status fstrim.timer` indique si le TRIM périodique est actif."
+  - question: "Devrais-je désactiver TRIM pour faciliter une future récupération ?"
+    answer: "Non recommandé. TRIM maintient la performance d'écriture et la longévité du SSD dans le temps. Sacrifier cela pour un scénario de récupération hypothétique futur est généralement le mauvais compromis — sauvegardez plutôt vos données importantes."
+---
+
+Si vous avez déjà récupéré un fichier supprimé d'un disque dur des mois plus tard et attendez la même chose d'un SSD, la mauvaise nouvelle arrive vite : ça ne fonctionne généralement pas de la même façon. Voici pourquoi.
+
+## Comment fonctionne vraiment la suppression
+
+Sur n'importe quel disque, supprimer un fichier n'efface pas immédiatement ses données — le système d'exploitation marque simplement l'espace comme libre et retire l'entrée de la table des fichiers. Les octets réels restent sur le support jusqu'à ce que quelque chose les écrase. Sur un disque dur, c'est toute l'histoire, ce qui explique pourquoi les outils de récupération peuvent souvent ramener des fichiers supprimés des jours ou des semaines plus tard.
+
+Les SSD ajoutent une deuxième étape que les disques durs n'ont pas : **TRIM**.
+
+## Ce que fait vraiment TRIM
+
+<Callout>
+TRIM est une commande que le système d'exploitation envoie à un SSD pour lui dire « ces blocs ne sont plus utilisés ». Le contrôleur du SSD efface alors proactivement ces cellules flash en arrière-plan — indépendamment de toute table de fichiers, et avant même que l'espace soit réutilisé.
+</Callout>
+
+Cela existe à cause du fonctionnement de la mémoire flash : les SSD ne peuvent pas réécrire directement une cellule utilisée, ils doivent d'abord effacer un bloc entier. Effectuer cet effacement à l'avance (plutôt qu'au moment de l'écriture) est ce qui empêche les vitesses d'écriture du SSD de se dégrader à mesure que le disque se remplit. TRIM est une fonctionnalité de performance et de longévité — la récupérabilité n'a jamais été un objectif de conception.
+
+L'effet pratique : une fois que TRIM a été exécuté sur les blocs occupés par votre fichier supprimé, les données ont disparu au niveau matériel, pas seulement cachées du système de fichiers. Aucun logiciel de récupération — gratuit ou payant — ne peut ramener des données de cellules physiquement effacées.
+
+## Quand la récupération est encore réellement possible
+
+| Scénario | Chances de récupération |
+|---|---|
+| Supprimé il y a quelques secondes, disque toujours alimenté, TRIM activé | Faibles — TRIM s'exécute souvent presque immédiatement |
+| TRIM désactivé (certaines configurations RAID, certains anciens systèmes/entreprise) | Plus élevées — se comporte plus comme un disque dur |
+| Le disque était dans un boîtier externe/USB sans transmission des commandes TRIM | Plus élevées — les commandes TRIM n'atteignent pas toujours le disque à travers les ponts USB |
+| Le fichier était sur un volume différent du disque système et démonté rapidement | Plus élevées — moins de chances qu'un cycle TRIM ait tourné avant votre intervention |
+| Disque chiffré (BitLocker/FileVault) | La récupération des données brutes peut fonctionner, mais elles sont illisibles sans la clé |
+
+## Que faire réellement dans les 10 premières minutes
+
+1. **Arrêtez d'utiliser le disque.** N'installez pas de logiciel de récupération sur le même disque que vous essayez de récupérer.
+2. **Vérifiez si TRIM est activé** avant de considérer la situation comme désespérée — voir la FAQ ci-dessous pour la commande exacte.
+3. **S'il s'agit d'un SSD externe/USB**, il y a une vraie chance que TRIM ne l'ait jamais atteint — ces cas ont des chances nettement meilleures.
+4. **Si les données ont une importance professionnelle ou légale**, arrêtez-vous et obtenez un avis forensique approprié avant d'exécuter des outils de récupération grand public — certains écrivent sur le disque pendant l'analyse, ce qui peut détruire les données mêmes que vous essayez de sauver.
+
+## Le bilan honnête
+
+La récupération sur SSD n'est pas impossible, mais les chances sont structurellement pires que sur un disque dur, à cause d'une fonctionnalité (TRIM) qui existe spécifiquement pour garder le disque rapide — pas pour préserver les données supprimées. La seule stratégie de récupération qui fonctionne de façon fiable sur un SSD est celle mise en place avant que quoi que ce soit ne tourne mal : les sauvegardes.
+
+<Callout type="warning">
+Déjà dans une situation où quelque chose d'important a été supprimé d'un SSD ? [Contactez-moi](/contact) avant d'essayer d'autres outils de récupération sur le même disque — ce que vous faites dans les premières minutes compte plus que l'outil spécifique utilisé.
+</Callout>

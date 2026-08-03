@@ -1,0 +1,67 @@
+---
+title: "Recuva vs TestDisk vs PhotoRec : comparatif des outils de récupération gratuits"
+description: "Une comparaison pratique de trois outils gratuits de récupération de données — ce en quoi chacun excelle réellement, et quand utiliser lequel."
+slug: "recuva-vs-testdisk-vs-photorec"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recuva vs testdisk", "meilleur outil gratuit de récupération de données", "photorec vs recuva"]
+ogImageTitle: "Recuva vs TestDisk vs PhotoRec"
+faq:
+  - question: "Lequel des trois est le plus facile pour un débutant ?"
+    answer: "Recuva, de loin — il a un assistant graphique et une interface classique de style Windows. TestDisk et PhotoRec sont tous deux pilotés par des menus textuels et supposent que vous êtes à l'aise pour suivre des étapes précises."
+  - question: "Puis-je utiliser plusieurs de ces outils sur le même disque ?"
+    answer: "Oui, et c'est souvent la bonne approche — essayez d'abord Recuva pour un gain rapide, puis PhotoRec s'il ne trouve rien, car ils utilisent des approches de récupération différentes et peuvent réussir dans des situations différentes."
+  - question: "L'un de ces outils fonctionne-t-il sur des disques formatés ?"
+    answer: "TestDisk est spécifiquement conçu pour cela — il peut reconstruire une table de partitions endommagée ou supprimée pour que le disque redevienne lisible, ce que Recuva et PhotoRec ne tentent pas."
+---
+
+Ces trois outils sont gratuits, largement utilisés, et vraiment doués pour des choses différentes. Choisir le mauvais fait perdre un temps que vous ne récupérerez pas une fois que TRIM ou un nouveau cycle d'écriture s'est exécuté.
+
+## Recuva : le plus simple, Windows uniquement, basé sur la table des fichiers
+
+Recuva lit ce qui reste dans les propres registres du système de fichiers concernant les fichiers supprimés — un peu comme le système d'exploitation lui-même les trouverait, juste avant que cet espace soit réutilisé. Cela le rend rapide et lui permet de restituer des noms de fichiers précis, mais cela signifie aussi qu'il dépend de l'intégrité de ces registres.
+
+**Idéal pour :** un fichier supprimé accidentellement sur un PC Windows, récupéré peu après la suppression, sur un disque dur (ou un SSD où TRIM n'a pas encore tourné — voir notre [guide SSD/TRIM](/blog/ssd-deleted-files-trim)).
+
+## PhotoRec : ignore complètement le système de fichiers
+
+PhotoRec (conçu par la même équipe que TestDisk) fait quelque chose de structurellement différent : il ignore le système de fichiers et scanne les secteurs bruts du disque à la recherche de signatures de fichiers reconnaissables — les motifs d'octets qui marquent le début d'un JPEG, PDF, DOCX et des centaines d'autres formats. C'est ce qu'on appelle le « file carving ».
+
+**Compromis :** comme il n'utilise pas le système de fichiers, il ne peut pas récupérer les noms de fichiers originaux ni la structure des dossiers — vous récupérez `f0000123.jpg`, pas `photo-vacances.jpg`. Mais il fonctionne même quand le système de fichiers lui-même est gravement endommagé ou reformaté, ce qui met Recuva en échec.
+
+**Idéal pour :** les disques formatés, les systèmes de fichiers corrompus, ou quand Recuva n'a déjà rien trouvé.
+
+## TestDisk : répare la partition, pas les fichiers individuels
+
+TestDisk résout un problème différent : il ne récupère pas des fichiers, il récupère des **partitions**. Si un disque apparaît comme « non alloué » ou « RAW » dans la gestion des disques Windows, cela signifie généralement que la table des partitions — pas les fichiers eux-mêmes — a été endommagée ou supprimée. TestDisk peut scanner et reconstruire cette table des partitions, ce qui peut rendre tout le disque (et tous ses fichiers) à nouveau lisible en une seule étape.
+
+**Idéal pour :** un disque qui ne montre plus de système de fichiers reconnaissable, ou qui demande soudainement à être « formaté » quand vous le branchez.
+
+## Tableau comparatif
+
+| | Recuva | PhotoRec | TestDisk |
+|---|---|---|---|
+| Plateforme | Windows uniquement | Windows/Mac/Linux | Windows/Mac/Linux |
+| Interface | Graphique | Menu textuel | Menu textuel |
+| Récupère les noms de fichiers | Oui (si la table des fichiers est intacte) | Non | N/A (répare les partitions) |
+| Fonctionne sur disques formatés | Non | Oui | Oui (reconstruit la partition) |
+| Meilleure première étape pour | Suppression accidentelle simple | Dommage au système de fichiers | Disque « illisible » / RAW |
+
+## Un ordre raisonnable pour les essayer
+
+1. **Le disque apparaît comme illisible/RAW/non alloué ?** Commencez par TestDisk pour tenter une reconstruction de partition.
+2. **Disque lisible, fichier(s) spécifique(s) supprimé(s), Windows, récent ?** Essayez d'abord Recuva — il est rapide et préserve les noms de fichiers quand ça marche.
+3. **Recuva n'a rien trouvé, ou le disque n'est pas Windows uniquement, ou il a été reformaté ?** Passez à PhotoRec.
+
+<Callout type="warning">
+Installez et exécutez les outils de récupération depuis un disque différent de celui que vous récupérez — écrire l'outil lui-même (ou son cache de scan) sur le disque affecté peut écraser les données mêmes que vous essayez de récupérer.
+</Callout>
+
+<Callout>
+Aucun de ces outils ne fonctionne bien une fois que de nouvelles données ont écrasé l'espace des fichiers supprimés — plus vous essayez tôt, meilleures sont vos chances, quel que soit l'outil choisi.
+</Callout>
+
+Si vous avez déjà essayé l'un d'eux sans succès, ou si les données comptent assez pour ne pas vouloir continuer à deviner, [contactez-moi](/contact) avant d'essayer d'autres outils sur le même disque.
