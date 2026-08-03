@@ -1,0 +1,53 @@
+---
+title: "OBS vs. eine maßgeschneiderte Lösung: Warum ich Reflux gebaut habe"
+description: "Warum ein bestehendes, ausgereiftes Tool wie OBS nicht die richtige Wahl für einen spezifischen Streaming-Bedarf war, und die Begründung hinter dem Bau von Reflux stattdessen."
+slug: "why-i-built-reflux-instead-of-obs"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reflux"]
+category: "Reflux"
+author: "Ivan Ostroumov"
+keywords: ["obs alternative eigenes tool", "warum eigene software statt bestehendes tool bauen", "reflux vs obs"]
+ogImageTitle: "OBS vs a Custom Solution"
+faq:
+  - question: "Ist OBS ein schlechtes Tool?"
+    answer: "Nein — OBS ist exzellent in dem, wofür es gebaut ist: Broadcasting, Aufnahme, und Streaming zu Plattformen mit einer breiten Palette an Szenenkomposition und Produktionsfeatures. Die Diskrepanz bestand mit einem spezifischen, engeren Anwendungsfall, um den OBS nicht herum entworfen wurde, kein Mangel in OBS selbst."
+  - question: "Wann ist es sinnvoll, ein eigenes Tool zu bauen statt ein bestehendes zu verwenden?"
+    answer: "Wenn die Kern-Designannahmen des bestehenden Tools nicht eng genug mit deinem tatsächlichen Bedarf übereinstimmen, sodass Konfiguration oder Plugins die Lücke überbrücken können — nicht nur wenn ein bestehendes Tool unvollkommen ist, da fast jedes Tool etwas Reibung hat."
+  - question: "Ist der Bau eigener Software nicht immer mehr Arbeit als die Konfiguration eines bestehenden Tools?"
+    answer: "Normalerweise ja, im Voraus — die Rechtfertigung muss davon kommen, dass das bestehende Tool ein wirklich anderes Problem löst, nicht nur davon, etwas leicht anderes zu wollen. Wenn die Diskrepanz klein ist, ist die Konfiguration des bestehenden Tools fast immer der bessere Tausch."
+---
+
+Eigene Software zu bauen, statt ein etabliertes Tool zu verwenden, braucht eine echte Rechtfertigung — "ich wollte etwas leicht anderes" ist normalerweise keine. Hier ist die tatsächliche Begründung für Reflux.
+
+## OBS ist wirklich exzellent in dem, wofür es gebaut ist
+
+<Callout>
+OBS ist eines der besten verfügbaren Tools für Broadcasting, Aufnahme, und Multi-Szenen-Produktions-Streaming. Nichts von dem, was folgt, ist eine Kritik an OBS als Tool — es ist eine Diskrepanz zwischen OBS' Designzielen und einem spezifischen, anderen Anwendungsfall.
+</Callout>
+
+OBS ist um das Komponieren von Szenen, das Kodieren für Plattform-Auslieferung, und die Unterstützung des Broadcasting-Workflows (mehrere Zuschauer, Plattform-Integration, Aufnahme) herum gebaut. Das ist ein anderes Problem als das, was ich tatsächlich brauchte.
+
+## Der tatsächliche Bedarf: nahezu sofortiges Bildschirmteilen mit einer Person
+
+Ich wollte meinen Bildschirm mit einem Freund mit minimaler Verzögerung teilen — näher an einem Videoanruf als an einem Broadcast. OBS' Pipeline, um Plattform-Auslieferung (Twitch, YouTube) herum gebaut, trägt den Buffering- und Kodierungs-Overhead, den Broadcasting erfordert, den ein eins-zu-eins Echtzeit-Anwendungsfall aber überhaupt nicht braucht. Siehe unseren [Leitfaden zu Low-Latency-Streaming](/blog/low-latency-streaming-without-obs) für die technische Begründung, warum diese Verzögerung strukturell existiert, nicht als behebbare Einstellung.
+
+## Der Entscheidungsprozess, ehrlich
+
+1. **Versuchte, OBS aggressiver in Richtung niedriger Latenz zu konfigurieren** — manche Einstellungen helfen, aber die zugrunde liegende, plattform-auslieferungsorientierte Pipeline trägt immer noch Overhead, den ein wirklich Peer-to-Peer-Ansatz überhaupt nicht zahlen muss.
+2. **Suchte nach bestehenden Peer-to-Peer-Low-Latency-Tools**, die für diesen spezifischen Anwendungsfall gebaut sind — manche existieren, aber keines passte eng genug zu dem, was ich wollte, ohne bedeutenden Kompromiss.
+3. **Entschied, dass die Lücke echt war, nicht kosmetisch** — speziell um WebRTC-artige Peer-to-Peer-Auslieferung herum zu bauen, die Plattform-Broadcast-Pipeline komplett zu überspringen, entsprach dem tatsächlichen Bedarf direkt, statt ein für etwas anderes gebautes Tool zu umgehen.
+
+## Die ehrlichen Kompromisse beim eigenen Bau
+
+- **Mehr Vorabarbeit** als die Konfiguration eines bestehenden Tools — das ist real und sollte nicht untertrieben werden.
+- **Weniger Features** als OBS' ausgereiftes Szenenkompositions- und Plugin-Ökosystem — Reflux macht eine Sache, nicht alles, was OBS macht.
+- **Eine bessere Passung für den spezifischen Anwendungsfall**, um den es herum gebaut wurde — der ganze Sinn der Übung.
+
+## Das allgemeine Prinzip
+
+Der Bau eigener Software ist sinnvoll, wenn die Kern-Designannahmen eines bestehenden Tools — nicht nur seine Konfigurationsoptionen — nicht zu deinem tatsächlichen Problem passen. Wenn die Diskrepanz eher "ich wünschte, es hätte noch eine Einstellung mehr" ist, ist die Konfiguration des bestehenden Tools fast immer der bessere Tausch, als etwas Neues zu bauen.
+
+<Callout>
+Siehe die [Projektseite](/projects) für mehr zu Reflux, oder [melde dich](/contact), wenn du eine ähnliche "bestehende Tools passen nicht ganz" Situation hast, zu der du eine zweite Meinung möchtest.
+</Callout>

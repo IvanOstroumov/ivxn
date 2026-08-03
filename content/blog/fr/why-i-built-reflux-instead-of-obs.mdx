@@ -1,0 +1,53 @@
+---
+title: "OBS vs une solution personnalisée : pourquoi j'ai construit Reflux"
+description: "Pourquoi un outil existant et mature comme OBS n'était pas le bon choix pour un besoin de streaming spécifique, et le raisonnement derrière la construction de Reflux à la place."
+slug: "why-i-built-reflux-instead-of-obs"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reflux"]
+category: "Reflux"
+author: "Ivan Ostroumov"
+keywords: ["alternative obs outil personnalisé", "pourquoi construire un logiciel personnalisé plutôt qu'un outil existant", "reflux vs obs"]
+ogImageTitle: "OBS vs a Custom Solution"
+faq:
+  - question: "OBS est-il un mauvais outil ?"
+    answer: "Non — OBS est excellent dans ce pour quoi il est construit : diffusion, enregistrement, et streaming vers des plateformes avec une large gamme de fonctionnalités de composition de scène et de production. L'inadéquation était avec un cas d'usage spécifique et plus étroit autour duquel OBS n'a pas été conçu, pas un défaut d'OBS lui-même."
+  - question: "Quand est-il logique de construire un outil personnalisé plutôt que d'utiliser un existant ?"
+    answer: "Quand les hypothèses de conception fondamentales de l'outil existant ne correspondent pas assez étroitement à votre besoin réel pour que la configuration ou les plugins puissent combler l'écart — pas juste quand un outil existant est imparfait, puisque presque tout outil a une certaine friction."
+  - question: "Construire un logiciel personnalisé n'est-il pas toujours plus de travail que de configurer un outil existant ?"
+    answer: "Généralement oui, au départ — la justification doit venir du fait que l'outil existant résout un problème véritablement différent, pas juste du désir de quelque chose de légèrement différent. Si l'inadéquation est petite, configurer l'outil existant est presque toujours le meilleur compromis."
+---
+
+Construire un logiciel personnalisé plutôt que d'utiliser un outil établi nécessite une véritable justification — « je voulais quelque chose de légèrement différent » n'en est généralement pas une. Voici le raisonnement réel pour Reflux.
+
+## OBS est véritablement excellent dans ce pour quoi il est construit
+
+<Callout>
+OBS est l'un des meilleurs outils disponibles pour la diffusion, l'enregistrement, et le streaming de production multi-scènes. Rien de ce qui suit n'est une critique d'OBS en tant qu'outil — c'est une inadéquation entre les objectifs de conception d'OBS et un cas d'usage spécifique et différent.
+</Callout>
+
+OBS est construit autour de la composition de scènes, de l'encodage pour la livraison à la plateforme, et du support du flux de travail de diffusion (plusieurs spectateurs, intégration de plateforme, enregistrement). C'est un problème différent de ce dont j'avais réellement besoin.
+
+## Le besoin réel : partage d'écran quasi instantané avec une personne
+
+Je voulais partager mon écran avec un ami avec un délai minimal — plus proche d'un appel vidéo que d'une diffusion. Le pipeline d'OBS, construit autour de la livraison à la plateforme (Twitch, YouTube), porte la surcharge de mise en tampon et d'encodage que la diffusion exige mais dont un cas d'usage un-à-un en temps réel n'a pas du tout besoin. Voir notre [guide de streaming à faible latence](/blog/low-latency-streaming-without-obs) pour le raisonnement technique derrière pourquoi ce délai existe structurellement, pas comme un paramètre réparable.
+
+## Le processus de décision, honnêtement
+
+1. **J'ai essayé de configurer OBS plus agressivement vers une faible latence** — certains paramètres aident, mais le pipeline sous-jacent orienté vers la livraison à la plateforme porte toujours une surcharge qu'une approche véritablement pair-à-pair n'a pas du tout besoin de payer.
+2. **J'ai cherché des outils pair-à-pair à faible latence existants** construits pour ce cas d'usage spécifique — certains existent, mais aucun ne correspondait assez étroitement à ce que je voulais sans compromis significatif.
+3. **J'ai décidé que l'écart était réel, pas cosmétique** — construire spécifiquement autour d'une livraison pair-à-pair de style WebRTC, en sautant entièrement le pipeline de diffusion de plateforme, correspondait directement au besoin réel plutôt que de contourner un outil construit pour autre chose.
+
+## Les compromis honnêtes de la construction personnalisée
+
+- **Plus de travail initial** que de configurer un outil existant — c'est réel et ne devrait pas être sous-estimé.
+- **Moins de fonctionnalités** que l'écosystème mature de composition de scènes et de plugins d'OBS — Reflux fait une chose, pas tout ce que fait OBS.
+- **Une meilleure adéquation pour le cas d'usage spécifique** autour duquel il a été construit — tout l'intérêt de l'exercice.
+
+## Le principe général
+
+Construire un logiciel personnalisé a du sens quand les hypothèses de conception fondamentales d'un outil existant — pas juste ses options de configuration — ne correspondent pas à votre problème réel. Si l'inadéquation est plus proche de « j'aimerais que ça ait un paramètre de plus », configurer l'outil existant est presque toujours le meilleur compromis que de construire quelque chose de nouveau.
+
+<Callout>
+Voir la [page Projets](/projects) pour en savoir plus sur Reflux, ou [contactez-moi](/contact) si vous avez une situation similaire « les outils existants ne correspondent pas tout à fait » sur laquelle vous aimeriez un second avis.
+</Callout>
