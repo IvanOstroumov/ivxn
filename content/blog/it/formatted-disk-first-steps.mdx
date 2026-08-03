@@ -1,0 +1,49 @@
+---
+title: "Hai formattato un disco per errore: cosa fare nei primi 10 minuti"
+description: "Una checklist di cosa fare immediatamente dopo aver formattato accidentalmente un disco, e perché i primi minuti contano più dello strumento di recupero scelto."
+slug: "formatted-disk-first-steps"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["disco formattato accidentalmente", "recuperare dati dopo formattazione", "formattato disco sbagliato per errore"]
+ogImageTitle: "Formatted a Disk by Mistake"
+faq:
+  - question: "I dati sono davvero spariti dopo una formattazione rapida?"
+    answer: "Di solito non immediatamente. Una formattazione rapida riscrive l'indice del file system, non i dati effettivi dei file — i byte sono ancora sul disco finché qualcosa non li sovrascrive, in modo simile a una cancellazione normale."
+  - question: "E una formattazione completa, non rapida?"
+    answer: "Una formattazione completa può sovrascrivere l'intero disco con zeri sulle versioni più vecchie di Windows, il che è molto più difficile da cui recuperare — controlla quale tipo è stato eseguito prima di assumere le stesse probabilità di una formattazione rapida."
+  - question: "Dovrei provare subito da solo il software di recupero?"
+    answer: "Per una vittoria rapida su un disco non critico, sì. Per qualsiasi cosa che non puoi permetterti di perdere o che ha peso legale/professionale, fermati dopo il passo 3 sotto e ottieni un parere adeguato prima di eseguire qualsiasi cosa che scriva sul disco."
+---
+
+Formattare il disco sbagliato capita quasi a tutti prima o poi. Ciò che fai nei minuti successivi influisce sulle tue probabilità più dello strumento specifico che alla fine userai.
+
+## La checklist
+
+<Callout type="warning">
+Non installare nulla sul disco formattato stesso — non uno strumento di recupero, niente. Ogni scrittura su quel disco rischia di sovrascrivere esattamente i dati che stai cercando di salvare.
+</Callout>
+
+1. **Smetti immediatamente di usare il disco.** Non creare nuovi file, non salvarci nulla, non lasciare che software di backup o strumenti di sincronizzazione lo tocchino.
+2. **Controlla che tipo di formattazione è stata eseguita.** Una formattazione rapida cancella solo l'indice; una formattazione completa può azzerare l'intero disco su alcune versioni di Windows. Se non sei sicuro di cosa sia successo, trattalo come se i dati potessero essere ancora lì — assumere il peggio troppo presto spreca solo la finestra in cui il recupero era ancora possibile.
+3. **Se è la tua unica copia di qualcosa che conta professionalmente, finanziariamente, o legalmente** — fermati qui e ottieni aiuto prima di eseguire qualsiasi cosa da solo.
+4. **Per tutto il resto, installa uno strumento di recupero su un disco *diverso*** e puntalo su quello formattato. [PhotoRec](/blog/recuva-vs-testdisk-vs-photorec) è un punto di partenza ragionevole specificamente dopo una formattazione, dato che non dipende dal file system appena cancellato.
+5. **Recupera in una terza posizione** — non di nuovo sullo stesso disco, anche se c'è spazio libero. I file recuperati dovrebbero finire da tutt'altra parte finché non hai confermato che tutto ciò che ti serve è tornato.
+
+## Perché la velocità conta più della scelta dello strumento
+
+I dati sottostanti da prima di una formattazione rapida rimangono nella stessa posizione fisica finché il sistema operativo non decide di riutilizzare quello spazio per qualcosa di nuovo. Ogni file che salvi, ogni backup automatico che gira, ogni file temporaneo che il sistema operativo scrive aumenta la possibilità che quello spazio venga sovrascritto. Questo è vero indipendentemente dallo strumento di recupero che alla fine scegli — lo strumento conta meno di quanto hai fatto sul disco tra la formattazione e il tentativo di recupero.
+
+<Callout>
+Su un SSD specificamente, c'è un fattore in più: TRIM. Se vuoi il quadro completo del perché gli SSD si comportano diversamente qui, vedi la nostra [guida dedicata su SSD e TRIM](/blog/ssd-deleted-files-trim).
+</Callout>
+
+## Quando fermarsi e chiamare qualcuno
+
+Se il disco formattato contiene documenti aziendali, prove per una questione legale, o qualsiasi altra cosa dove "probabilmente va bene" non è abbastanza buono, il calcolo cambia. Gli strumenti di recupero consumer possono scrivere e scrivono effettivamente sul disco durante una scansione in alcune configurazioni, e un tentativo fai-da-te fallito può trasformare una situazione recuperabile in una irrecuperabile.
+
+<Callout type="warning">
+Hai già formattato qualcosa che ti serve indietro? [Contattami](/contact) — prima è, meglio è, specialmente prima di eseguire altri strumenti sullo stesso disco.
+</Callout>

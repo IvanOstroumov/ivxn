@@ -1,0 +1,49 @@
+---
+title: "Disque formaté par erreur : que faire dans les 10 premières minutes"
+description: "Une checklist de ce qu'il faut faire immédiatement après avoir formaté accidentellement un disque, et pourquoi les premières minutes comptent plus que l'outil de récupération choisi."
+slug: "formatted-disk-first-steps"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["disque formaté accidentellement", "récupérer des données après formatage", "mauvais disque formaté par erreur"]
+ogImageTitle: "Formatted a Disk by Mistake"
+faq:
+  - question: "Les données sont-elles vraiment parties après un formatage rapide ?"
+    answer: "Généralement pas immédiatement. Un formatage rapide réécrit l'index du système de fichiers, pas les données réelles des fichiers — les octets sont encore sur le disque jusqu'à ce que quelque chose les écrase, similaire à une suppression normale."
+  - question: "Qu'en est-il d'un formatage complet, pas rapide ?"
+    answer: "Un formatage complet peut écraser tout le disque avec des zéros sur les anciennes versions de Windows, ce qui est bien plus difficile à récupérer — vérifiez quel type a été exécuté avant de supposer les mêmes chances qu'un formatage rapide."
+  - question: "Devrais-je essayer immédiatement un logiciel de récupération moi-même ?"
+    answer: "Pour un gain rapide sur un disque non critique, oui. Pour tout ce que vous ne pouvez pas vous permettre de perdre ou qui a un poids juridique/professionnel, arrêtez-vous après l'étape 3 ci-dessous et obtenez un avis approprié avant d'exécuter quoi que ce soit qui écrit sur le disque."
+---
+
+Formater le mauvais disque arrive à presque tout le monde tôt ou tard. Ce que vous faites dans les minutes qui suivent affecte vos chances plus que l'outil spécifique que vous finirez par utiliser.
+
+## La checklist
+
+<Callout type="warning">
+N'installez rien sur le disque formaté lui-même — pas d'outil de récupération, rien. Chaque écriture sur ce disque risque d'écraser exactement les données que vous essayez de sauver.
+</Callout>
+
+1. **Arrêtez immédiatement d'utiliser le disque.** Ne créez pas de nouveaux fichiers, n'y enregistrez rien, ne laissez pas un logiciel de sauvegarde ou des outils de synchronisation le toucher.
+2. **Vérifiez quel type de formatage a été exécuté.** Un formatage rapide efface juste l'index ; un formatage complet peut mettre à zéro tout le disque sur certaines versions de Windows. Si vous n'êtes pas sûr de ce qui s'est passé, traitez-le comme si les données pouvaient encore être là — supposer le pire trop tôt gaspille juste la fenêtre où la récupération était encore possible.
+3. **Si c'est votre seule copie de quelque chose d'important professionnellement, financièrement, ou légalement** — arrêtez-vous ici et obtenez de l'aide avant d'exécuter quoi que ce soit vous-même.
+4. **Pour tout le reste, installez un outil de récupération sur un disque *différent*** et pointez-le vers celui formaté. [PhotoRec](/blog/recuva-vs-testdisk-vs-photorec) est un point de départ raisonnable spécifiquement après un formatage, car il ne dépend pas du système de fichiers qui vient d'être effacé.
+5. **Récupérez vers un troisième emplacement** — pas de retour sur le même disque, même s'il y a de l'espace libre. Les fichiers récupérés devraient atterrir ailleurs complètement jusqu'à ce que vous ayez confirmé que tout ce dont vous avez besoin est revenu.
+
+## Pourquoi la vitesse compte plus que le choix de l'outil
+
+Les données sous-jacentes d'avant un formatage rapide restent au même endroit physique jusqu'à ce que le système d'exploitation décide de réutiliser cet espace pour autre chose. Chaque fichier que vous enregistrez, chaque sauvegarde automatique qui s'exécute, chaque fichier temporaire que le système écrit augmente la chance que cet espace soit écrasé. Cela est vrai quel que soit l'outil de récupération que vous choisissez finalement — l'outil compte moins que ce que vous avez fait sur le disque entre le formatage et la tentative de récupération.
+
+<Callout>
+Sur un SSD spécifiquement, il y a un facteur supplémentaire : TRIM. Si vous voulez le tableau complet de pourquoi les SSD se comportent différemment ici, voir notre [guide dédié sur les SSD et TRIM](/blog/ssd-deleted-files-trim).
+</Callout>
+
+## Quand s'arrêter et appeler quelqu'un
+
+Si le disque formaté contient des documents professionnels, des preuves pour une affaire juridique, ou tout autre chose où « probablement bon » n'est pas suffisant, le calcul change. Les outils de récupération grand public peuvent écrire, et écrivent effectivement, sur le disque pendant une analyse dans certaines configurations, et une tentative de bricolage ratée peut transformer une situation récupérable en une situation irrécupérable.
+
+<Callout type="warning">
+Vous avez déjà formaté quelque chose dont vous avez besoin ? [Contactez-moi](/contact) — le plus tôt sera le mieux, surtout avant d'exécuter d'autres outils sur le même disque.
+</Callout>

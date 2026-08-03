@@ -1,0 +1,49 @@
+---
+title: "Versehentlich ein Laufwerk formatiert: Was in den ersten 10 Minuten zu tun ist"
+description: "Eine Checkliste, was sofort nach dem versehentlichen Formatieren eines Laufwerks zu tun ist, und warum die ersten Minuten mehr zählen als das gewählte Wiederherstellungstool."
+slug: "formatted-disk-first-steps"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["versehentlich laufwerk formatiert", "daten nach formatierung wiederherstellen", "falsches laufwerk versehentlich formatiert"]
+ogImageTitle: "Formatted a Disk by Mistake"
+faq:
+  - question: "Sind Daten nach einer Schnellformatierung tatsächlich weg?"
+    answer: "Meist nicht sofort. Eine Schnellformatierung schreibt den Index des Dateisystems neu, nicht die tatsächlichen Dateidaten — die Bytes sind noch auf der Festplatte, bis etwas sie überschreibt, ähnlich wie bei einer normalen Löschung."
+  - question: "Was ist mit einer vollständigen Formatierung, nicht einer schnellen?"
+    answer: "Eine vollständige Formatierung kann das gesamte Laufwerk bei älteren Windows-Versionen mit Nullen überschreiben, was viel schwerer wiederherzustellen ist — prüfe, welcher Typ gelaufen ist, bevor du dieselben Chancen wie bei einer Schnellformatierung annimmst."
+  - question: "Sollte ich sofort selbst Wiederherstellungssoftware ausprobieren?"
+    answer: "Für einen schnellen Erfolg bei einem unkritischen Laufwerk, ja. Für alles, das du dir nicht leisten kannst zu verlieren, oder das rechtliches/berufliches Gewicht hat, stoppe nach Schritt 3 unten und hol dir eine richtige Einschätzung, bevor du irgendetwas ausführst, das auf das Laufwerk schreibt."
+---
+
+Das falsche Laufwerk zu formatieren passiert fast jedem irgendwann. Was du in den nächsten Minuten tust, beeinflusst deine Chancen mehr als das spezifische Tool, das du am Ende benutzt.
+
+## Die Checkliste
+
+<Callout type="warning">
+Installiere nichts auf dem formatierten Laufwerk selbst — kein Wiederherstellungstool, nichts. Jedes Schreiben auf dieses Laufwerk riskiert, genau die Daten zu überschreiben, die du zu retten versuchst.
+</Callout>
+
+1. **Hör sofort auf, das Laufwerk zu benutzen.** Erstelle keine neuen Dateien, speichere nichts darauf, lass Backup-Software oder Sync-Tools es nicht anfassen.
+2. **Prüfe, welche Art von Formatierung gelaufen ist.** Eine Schnellformatierung löscht nur den Index; eine vollständige Formatierung kann bei manchen Windows-Versionen das ganze Laufwerk auf null setzen. Wenn du nicht sicher bist, was passiert ist, behandle es so, als könnten die Daten noch da sein — das Schlimmste zu früh anzunehmen verschwendet nur das Fenster, in dem Wiederherstellung noch möglich war.
+3. **Wenn es deine einzige Kopie von etwas beruflich, finanziell oder rechtlich Wichtigem ist** — stoppe hier und hol dir Hilfe, bevor du selbst irgendetwas ausführst.
+4. **Für alles andere installiere ein Wiederherstellungstool auf einem *anderen* Laufwerk** und richte es auf das formatierte. [PhotoRec](/blog/recuva-vs-testdisk-vs-photorec) ist speziell nach einer Formatierung ein vernünftiger Ausgangspunkt, da es nicht auf das gerade gelöschte Dateisystem angewiesen ist.
+5. **Stelle an einem dritten Ort wieder her** — nicht zurück auf dasselbe Laufwerk, selbst wenn freier Speicherplatz vorhanden ist. Wiederhergestellte Dateien sollten komplett woanders landen, bis du bestätigt hast, dass alles Benötigte zurück ist.
+
+## Warum Geschwindigkeit mehr zählt als die Toolwahl
+
+Die zugrunde liegenden Daten von vor einer Schnellformatierung liegen am selben physischen Ort, bis das Betriebssystem entscheidet, diesen Platz für etwas Neues wiederzuverwenden. Jede gespeicherte Datei, jedes laufende automatische Backup, jede vom Betriebssystem geschriebene Temp-Datei erhöht die Chance, dass dieser Platz überschrieben wird. Das gilt unabhängig davon, welches Wiederherstellungstool du am Ende wählst — das Tool zählt weniger als das, was du zwischen der Formatierung und dem Wiederherstellungsversuch auf dem Laufwerk getan hast.
+
+<Callout>
+Bei einer SSD gibt es speziell einen zusätzlichen Faktor: TRIM. Wenn du das volle Bild davon willst, warum sich SSDs hier anders verhalten, siehe unseren [eigenen Guide zu SSDs und TRIM](/blog/ssd-deleted-files-trim).
+</Callout>
+
+## Wann man stoppen und jemanden rufen sollte
+
+Wenn das formatierte Laufwerk Geschäftsunterlagen, Beweise für eine rechtliche Angelegenheit oder irgendetwas anderes enthält, wo "wahrscheinlich in Ordnung" nicht gut genug ist, ändert sich die Rechnung. Consumer-Wiederherstellungstools können und schreiben tatsächlich während eines Scans in manchen Konfigurationen auf das Laufwerk, und ein gescheiterter Do-it-yourself-Versuch kann eine wiederherstellbare Situation in eine unwiederherstellbare verwandeln.
+
+<Callout type="warning">
+Hast du schon etwas formatiert, das du zurückbrauchst? [Melde dich](/contact) — je früher, desto besser, besonders bevor du weitere Tools auf demselben Laufwerk ausführst.
+</Callout>
