@@ -1,0 +1,56 @@
+---
+title: "Wie eine digitalforensische Untersuchung tatsächlich abläuft"
+description: "Ein Durchgang, wie eine digitalforensische Untersuchung von Beweismitteln tatsächlich abläuft, von der Aufnahme bis zum Bericht, und warum der Prozess genauso zählt wie die Ergebnisse."
+slug: "digital-forensics-expertise-process"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["digital-forensics"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["digitalforensischer untersuchungsprozess", "wie funktioniert digitale forensik", "beweismittelkette digitale beweise"]
+ogImageTitle: "The Digital Forensics Process"
+faq:
+  - question: "Warum kann ich die Dateien nicht einfach selbst wiederherstellen und übergeben?"
+    answer: "Eigenständige Wiederherstellung kann Metadaten verändern, nicht zugeordneten Speicherplatz überschreiben, der andere relevante Daten enthielt, oder die Beweismittelkette brechen, die nötig ist, damit die Ergebnisse vertrauenswürdig oder zulässig sind — der Prozess zählt genauso wie das, was gefunden wird."
+  - question: "Was ist die 'Beweismittelkette' und warum ist sie wichtig?"
+    answer: "Es ist eine dokumentierte, lückenlose Aufzeichnung darüber, wer zu jedem Zeitpunkt von der Beschlagnahme bis zur Untersuchung Zugang zum Beweismittel und Gerät hatte. Jede Lücke in dieser Aufzeichnung gibt Grund, zu hinterfragen, ob die Beweise verändert wurden — unabhängig davon, ob sie es tatsächlich waren."
+  - question: "Erfordert eine forensische Untersuchung immer das Originalgerät?"
+    answer: "Nicht immer — ein forensisches Image (eine vollständige, verifizierte Bit-für-Bit-Kopie) wird oft zuerst erstellt, speziell damit die Untersuchung an einer Kopie stattfindet, nicht am Original, und das Quellgerät unberührt bleibt."
+---
+
+Digitale Forensik wird sich vorgestellt als Wiederherstellungssoftware, die auf ein Laufwerk gerichtet wird. Der tatsächliche Prozess hat mehr Schritte, und die meisten existieren, um die Ergebnisse vertrauenswürdig zu machen, nicht nur genau.
+
+## Schritt 1: Erhaltung, vor allem anderen
+
+<Callout type="warning">
+Die erste Regel einer forensischen Untersuchung ist, nichts am Originalgerät zu ändern. Selbst das Öffnen einer Datei ändert ihren "zuletzt aufgerufen"-Zeitstempel — eine kleine Änderung, die aber später zählen kann.
+</Callout>
+
+Deshalb beginnen Untersuchungen typischerweise mit der Erstellung eines **forensischen Images**: einer vollständigen, Bit-für-Bit-Kopie des Speichergeräts, verifiziert mit einem kryptografischen Hash, sodass bewiesen werden kann, dass sie identisch zum Original ist. Die gesamte tatsächliche Analyse findet auf dieser Kopie statt, während das Quellgerät unberührt bleibt.
+
+## Schritt 2: Beweismittelkette
+
+Jeder Kontaktpunkt mit dem Gerät — wer es beschlagnahmt hat, wer es transportiert hat, wer es untersucht hat, wann — wird dokumentiert. Das ist keine Bürokratie um ihrer selbst willen: Wenn später eine Lücke oder Unstimmigkeit auftaucht, gibt das Grund, zu hinterfragen, ob die Beweise manipuliert wurden — unabhängig davon, ob sie es tatsächlich waren. Eine saubere Beweismittelkette ist das, was es erlaubt, den Ergebnissen zu vertrauen (und, wo relevant, rechtlich standzuhalten).
+
+## Schritt 3: Analyse
+
+Mit einem verifizierten Image in der Hand passiert die eigentliche technische Arbeit — gelöschte Dateien wiederherstellen, Dateisystem-Metadaten untersuchen, Aktivitäts-Zeitlinien rekonstruieren, Nachrichten oder Browserverlauf extrahieren, nach Anzeichen von Manipulation oder genutzten Löschtools suchen. Hier werden die in unseren anderen Guides behandelten Wiederherstellungstechniken (gelöschte Dateien, [SSD/TRIM-Verhalten](/blog/ssd-deleted-files-trim), [gelöschte Nachrichten](/blog/digital-forensics-deleted-messages)) tatsächlich angewendet.
+
+## Schritt 4: Dokumentation und Bericht
+
+Ergebnisse werden so aufgeschrieben, dass nicht nur erklärt wird, *was* gefunden wurde, sondern auch *wie* es gefunden wurde und *warum* die Methode zuverlässig ist — weil ein forensischer Bericht der Prüfung durch jemanden standhalten muss, der nicht im Raum war, möglicherweise viel später.
+
+| Phase | Ziel |
+|---|---|
+| Erhaltung | Originalgerät bleibt unverändert |
+| Beweismittelkette | Jeder Zugriff auf Beweismittel dokumentiert |
+| Analyse | Tatsächliche Wiederherstellung/Untersuchung findet auf verifizierter Kopie statt |
+| Bericht | Ergebnisse klar genug erklärt, um Prüfung standzuhalten |
+
+## Wo das in der Praxis zählt
+
+Ermittlungen am Arbeitsplatz, Sorgerechtsstreitigkeiten, Betrugsfälle und Strafsachen hängen alle davon ab, dass dieser Prozess korrekt befolgt wird — nicht nur davon, dass die technische Wiederherstellung möglich ist. Eine brillante Wiederherstellung mit gebrochener Beweismittelkette kann weniger wert sein als eine bescheidene, die korrekt durchgeführt wurde.
+
+<Callout type="warning">
+Brauchst du eine forensische Untersuchung, die von Anfang an richtig gehandhabt wird — nicht zuerst versuchte Wiederherstellung, die später formalisiert wird? [Melde dich](/contact), bevor du das Gerät anfasst.
+</Callout>

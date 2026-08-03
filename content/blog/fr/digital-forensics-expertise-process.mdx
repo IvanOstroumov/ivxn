@@ -1,0 +1,56 @@
+---
+title: "À quoi ressemble vraiment un examen d'informatique légale"
+description: "Un parcours de la façon dont un examen d'informatique légale des preuves se déroule réellement, de la prise en charge au rapport, et pourquoi le processus compte autant que les résultats."
+slug: "digital-forensics-expertise-process"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["digital-forensics"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["processus examen informatique légale", "comment fonctionne l'informatique légale", "chaîne de possession preuves numériques"]
+ogImageTitle: "The Digital Forensics Process"
+faq:
+  - question: "Pourquoi ne puis-je pas simplement récupérer les fichiers moi-même et les remettre ?"
+    answer: "Une récupération autonome peut altérer les métadonnées, écraser de l'espace non alloué contenant d'autres données pertinentes, ou briser la chaîne de possession nécessaire pour que les résultats soient fiables ou recevables — le processus compte autant que ce qui est trouvé."
+  - question: "Qu'est-ce que la « chaîne de possession » et pourquoi est-ce important ?"
+    answer: "C'est un registre documenté et ininterrompu de qui a eu accès à la preuve et à l'appareil à chaque instant, de la saisie à l'examen. Toute lacune dans ce registre donne des motifs de remettre en question si la preuve a été altérée, indépendamment du fait qu'elle l'ait été ou non."
+  - question: "Un examen forensique nécessite-t-il toujours l'appareil original ?"
+    answer: "Pas toujours — une image forensique (une copie complète et vérifiée bit par bit) est souvent prise en premier justement pour que l'examen se déroule sur une copie, pas sur l'original, préservant l'appareil source intact."
+---
+
+L'informatique légale est imaginée comme pointer un logiciel de récupération sur un disque. Le processus réel comporte plus d'étapes, et la plupart existent pour rendre les résultats dignes de confiance, pas seulement exacts.
+
+## Étape 1 : la préservation, avant tout le reste
+
+<Callout type="warning">
+La première règle d'un examen forensique est de ne rien changer sur l'appareil original. Même ouvrir un fichier change son horodatage de « dernier accès » — un petit changement, mais qui peut compter plus tard.
+</Callout>
+
+C'est pourquoi les examens commencent généralement par la création d'une **image forensique** : une copie complète, bit par bit, de l'appareil de stockage, vérifiée avec un hash cryptographique afin de pouvoir prouver qu'elle est identique à l'original. Toute l'analyse réelle se déroule sur cette copie, laissant l'appareil source intact.
+
+## Étape 2 : la chaîne de possession
+
+Chaque point de contact avec l'appareil — qui l'a saisi, qui l'a transporté, qui l'a examiné, quand — est documenté. Ce n'est pas de la paperasse pour elle-même : si une lacune ou une incohérence apparaît plus tard, cela donne des motifs de remettre en question si la preuve a été altérée, indépendamment du fait qu'elle l'ait été ou non. Une chaîne de possession propre est ce qui permet aux résultats d'être fiables (et, le cas échéant, de tenir légalement).
+
+## Étape 3 : l'analyse
+
+Avec une image vérifiée en main, le travail technique réel se déroule — récupérer des fichiers supprimés, examiner les métadonnées du système de fichiers, reconstruire des chronologies d'activité, extraire des messages ou l'historique de navigation, vérifier des signes de falsification ou d'utilisation d'outils d'effacement. C'est là que les techniques de récupération abordées dans nos autres guides (fichiers supprimés, [comportement SSD/TRIM](/blog/ssd-deleted-files-trim), [messages supprimés](/blog/digital-forensics-deleted-messages)) sont réellement appliquées.
+
+## Étape 4 : documentation et rapport
+
+Les résultats sont rédigés d'une manière qui explique non seulement *ce qui* a été trouvé mais *comment* cela a été trouvé et *pourquoi* la méthode est fiable — car un rapport forensique doit résister à l'examen de quelqu'un qui n'était pas dans la pièce, peut-être bien plus tard.
+
+| Étape | Objectif |
+|---|---|
+| Préservation | L'appareil original reste inaltéré |
+| Chaîne de possession | Chaque accès à la preuve documenté |
+| Analyse | La récupération/enquête réelle se déroule sur une copie vérifiée |
+| Rapport | Résultats expliqués assez clairement pour résister à l'examen |
+
+## Où cela compte en pratique
+
+Les enquêtes en milieu de travail, les litiges de garde, les affaires de fraude et les questions pénales dépendent toutes du bon respect de ce processus — pas seulement de la possibilité de récupération technique. Une récupération brillante avec une chaîne de possession brisée peut valoir moins qu'une récupération modeste faite correctement.
+
+<Callout type="warning">
+Besoin d'un examen forensique géré correctement dès le départ — pas d'une récupération tentée d'abord et formalisée après ? [Contactez-moi](/contact) avant de toucher à l'appareil.
+</Callout>

@@ -1,0 +1,56 @@
+---
+title: "Come appare davvero un esame di digital forensics"
+description: "Un percorso di come procede davvero un esame di digital forensics delle prove, dalla presa in carico al rapporto, e perché il processo conta quanto i risultati."
+slug: "digital-forensics-expertise-process"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["digital-forensics"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["processo esame digital forensics", "come funziona la digital forensics", "catena di custodia prove digitali"]
+ogImageTitle: "The Digital Forensics Process"
+faq:
+  - question: "Perché non posso semplicemente recuperare i file da solo e consegnarli?"
+    answer: "Un recupero autonomo può alterare i metadati, sovrascrivere spazio non allocato che conteneva altri dati rilevanti, o rompere la catena di custodia necessaria affinché i risultati siano affidabili o ammissibili — il processo conta quanto ciò che viene trovato."
+  - question: "Cos'è la 'catena di custodia' e perché conta?"
+    answer: "È un registro documentato e ininterrotto di chi ha avuto accesso alle prove e al dispositivo in ogni momento, dal sequestro all'esame. Qualsiasi lacuna in quel registro dà motivo di mettere in dubbio se le prove sono state alterate, indipendentemente dal fatto che lo siano state davvero."
+  - question: "L'esame forense richiede sempre il dispositivo originale?"
+    answer: "Non sempre — un'immagine forense (una copia completa e verificata bit per bit) viene spesso presa per prima proprio affinché l'esame avvenga su una copia, non sull'originale, preservando intatto il dispositivo sorgente."
+---
+
+La digital forensics viene immaginata come puntare un software di recupero su un disco. Il processo reale ha più passaggi, e la maggior parte esiste per rendere i risultati affidabili, non solo accurati.
+
+## Passo 1: preservazione, prima di ogni altra cosa
+
+<Callout type="warning">
+La prima regola di un esame forense è non cambiare nulla sul dispositivo originale. Anche aprire un file cambia il suo timestamp di "ultimo accesso" — un piccolo cambiamento, ma che può contare dopo.
+</Callout>
+
+Ecco perché gli esami iniziano tipicamente creando un'**immagine forense**: una copia completa, bit per bit, del dispositivo di archiviazione, verificata con un hash crittografico così da poter dimostrare che è identica all'originale. Tutta l'analisi effettiva avviene su questa copia, lasciando intatto il dispositivo sorgente.
+
+## Passo 2: catena di custodia
+
+Ogni punto di contatto con il dispositivo — chi lo ha sequestrato, chi lo ha trasportato, chi lo ha esaminato, quando — viene documentato. Questo non è burocrazia fine a se stessa: se una lacuna o un'incongruenza emerge più tardi, dà motivo di mettere in dubbio se le prove siano state manomesse, indipendentemente dal fatto che lo siano state davvero. Una catena di custodia pulita è ciò che permette ai risultati di essere affidabili (e, dove rilevante, di reggere legalmente).
+
+## Passo 3: analisi
+
+Con un'immagine verificata in mano, avviene il lavoro tecnico effettivo — recuperare file cancellati, esaminare i metadati del file system, ricostruire cronologie di attività, estrarre messaggi o cronologia di navigazione, verificare segni di manomissione o uso di strumenti di cancellazione. È qui che le tecniche di recupero trattate nelle nostre altre guide (file cancellati, [comportamento SSD/TRIM](/blog/ssd-deleted-files-trim), [messaggi cancellati](/blog/digital-forensics-deleted-messages)) vengono effettivamente applicate.
+
+## Passo 4: documentazione e rapporto
+
+I risultati vengono scritti in un modo che spiega non solo *cosa* è stato trovato ma *come* è stato trovato e *perché* il metodo è affidabile — perché un rapporto forense deve resistere all'esame di qualcuno che non era nella stanza, forse molto più tardi.
+
+| Fase | Obiettivo |
+|---|---|
+| Preservazione | Il dispositivo originale rimane inalterato |
+| Catena di custodia | Ogni accesso alle prove documentato |
+| Analisi | Il recupero/indagine effettivo avviene su una copia verificata |
+| Rapporto | Risultati spiegati abbastanza chiaramente da resistere all'esame |
+
+## Dove questo conta nella pratica
+
+Indagini sul posto di lavoro, dispute di affidamento, casi di frode e questioni penali dipendono tutti dal fatto che questo processo venga seguito correttamente — non solo dalla possibilità del recupero tecnico. Un recupero brillante con una catena di custodia compromessa può valere meno di uno modesto fatto correttamente.
+
+<Callout type="warning">
+Hai bisogno di un esame forense gestito correttamente fin dall'inizio — non un recupero tentato prima e formalizzato dopo? [Contattami](/contact) prima di toccare il dispositivo.
+</Callout>
