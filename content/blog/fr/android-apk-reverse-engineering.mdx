@@ -1,0 +1,65 @@
+---
+title: "Comment analyser un fichier APK Android étape par étape"
+description: "Un guide pratique des outils et étapes utilisés pour décompiler et analyser un fichier APK Android, du désassemblage à la lecture du code source décompilé."
+slug: "android-apk-reverse-engineering"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reverse-engineering", "android"]
+category: "Reverse Engineering"
+author: "Ivan Ostroumov"
+keywords: ["comment décompiler un apk", "outils reverse engineering apk android", "analyser un fichier apk"]
+ogImageTitle: "Analyzing an Android APK"
+faq:
+  - question: "Est-il légal de décompiler un APK ?"
+    answer: "Analyser sa propre application, ou une pour laquelle vous avez une autorisation explicite (le périmètre d'un bug bounty, une évaluation de sécurité autorisée), est généralement acceptable. Décompiler l'application de quelqu'un d'autre pour la redistribuer, contourner des licences ou extraire de la logique propriétaire sans permission ne l'est généralement pas — vérifiez les conditions de l'application et la loi applicable."
+  - question: "Pourquoi le code décompilé est-il différent de ce que le développeur a réellement écrit ?"
+    answer: "La compilation et (souvent) l'obfuscation du code perdent ou dissimulent délibérément des informations — noms de variables, commentaires et certains choix structurels ne survivent pas à la compilation, et des outils comme ProGuard/R8 renomment les éléments spécifiquement pour réduire et obfusquer les builds de production."
+  - question: "Quelle est la différence entre un APK et le vrai code source de l'application ?"
+    answer: "Un APK est l'application compilée et empaquetée — plus proche d'un produit fini que d'un plan. Le décompiler reconstruit une approximation du code source (souvent avec des noms génériques comme a, b, c pour les identifiants obfusqués), pas le vrai code source original du développeur avec de vrais noms et commentaires."
+---
+
+L'analyse d'APK est l'un des exercices de reverse engineering du monde réel les plus accessibles, car les APK sont un format standard bien documenté.
+
+## Étape 1 : désassembler l'APK
+
+Un APK est simplement une archive ZIP avec une structure interne spécifique. Des outils comme **apktool** le désassemblent et — élément crucial — décodent les ressources compilées et `AndroidManifest.xml` pour les rendre à nouveau lisibles par un humain :
+
+```text
+apktool d target-app.apk -o output-folder
+```
+
+Cela vous donne le manifeste (permissions, activités, services déclarés), les ressources (chaînes, layouts, images), et le bytecode compilé de l'application (fichiers `.smali` — une représentation lisible du bytecode Dalvik/ART d'Android).
+
+## Étape 2 : passer du bytecode à un code source proche de Java
+
+Smali est lisible mais verbeux et de bas niveau. Pour une analyse réelle de la logique, des outils comme **jadx** décompilent le bytecode de l'APK directement en code source proche de Java, bien plus facile à lire que smali pour comprendre ce que fait vraiment l'application :
+
+```text
+jadx target-app.apk -d decompiled-output
+```
+
+## Étape 3 : commencez par le manifeste, pas par le code
+
+<Callout>
+`AndroidManifest.xml` vous indique de quoi l'application est capable avant même que vous lisiez une seule ligne de logique — permissions demandées, composants exportés, activités et services déclarés. C'est souvent le moyen le plus rapide de comprendre la surface d'attaque ou les capacités d'une application d'un coup d'œil.
+</Callout>
+
+## Étape 4 : suivez les points d'entrée, pas des fichiers au hasard
+
+Plutôt que de lire le code décompilé fichier par fichier, partez des points d'entrée déclarés de l'application (l'activité principale, les composants exportés du manifeste) et remontez à partir de là — cela reflète la façon dont l'application s'exécute réellement et évite de se perdre dans du code utilitaire sans rapport.
+
+## Étape 5 : attendez-vous à de l'obfuscation sur les vraies applications
+
+Les applications en production passent couramment par **ProGuard** ou **R8**, qui renomment classes, méthodes et variables en identifiants courts et sans signification (`a`, `b`, `c`) spécifiquement pour réduire la taille de l'application et compliquer le reverse engineering. Le code obfusqué décompilé reste lisible logiquement — le flux de contrôle survit — mais vous perdez les noms significatifs d'origine, ce qui rend l'analyse plus lente et plus basée sur des déductions.
+
+## Un résumé raisonnable de la chaîne d'outils
+
+| Étape | Outil | Résultat |
+|---|---|---|
+| Désassemblage + décodage des ressources | apktool | Manifeste, ressources, smali |
+| Décompilation en code source lisible | jadx | Code source proche de Java |
+| Analyse à l'exécution (optionnel, avancé) | Frida | Comportement en direct, hooking |
+
+<Callout type="warning">
+N'analysez que des APK que vous possédez, que vous avez construits vous-même, ou pour lesquels vous avez une autorisation explicite (périmètre d'un bug bounty, évaluation autorisée). Voir notre [guide d'introduction au reverse engineering](/blog/getting-started-with-reverse-engineering) pour les limites légales en termes plus généraux.
+</Callout>

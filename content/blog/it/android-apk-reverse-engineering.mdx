@@ -1,0 +1,65 @@
+---
+title: "Come analizzare un file APK Android passo dopo passo"
+description: "Una guida pratica agli strumenti e ai passaggi usati per decompilare e analizzare un file APK Android, dall'estrazione alla lettura del sorgente decompilato."
+slug: "android-apk-reverse-engineering"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reverse-engineering", "android"]
+category: "Reverse Engineering"
+author: "Ivan Ostroumov"
+keywords: ["come decompilare apk", "strumenti reverse engineering apk android", "analizzare file apk"]
+ogImageTitle: "Analyzing an Android APK"
+faq:
+  - question: "È legale decompilare un APK?"
+    answer: "Analizzare la propria app, o una per cui si ha un permesso esplicito (l'ambito di un bug bounty, una valutazione di sicurezza autorizzata), va generalmente bene. Decompilare l'app di qualcun altro per ridistribuirla, aggirare le licenze o estrarre logica proprietaria senza permesso di solito no — controlla i termini dell'app e la legge applicabile."
+  - question: "Perché il codice decompilato appare diverso da ciò che lo sviluppatore ha realmente scritto?"
+    answer: "La compilazione e (spesso) l'offuscamento del codice perdono o nascondono deliberatamente informazioni — nomi di variabili, commenti e alcune scelte strutturali non sopravvivono alla compilazione, e strumenti come ProGuard/R8 rinominano le cose specificamente per ridurre e offuscare le build di rilascio."
+  - question: "Qual è la differenza tra un APK e il vero codice sorgente dell'app?"
+    answer: "Un APK è l'app compilata e impacchettata — più vicina a un prodotto finito che a un progetto. Decompilarlo ricostruisce un'approssimazione del sorgente (spesso con nomi generici come a, b, c per identificatori offuscati), non il vero codice sorgente originale dello sviluppatore con nomi reali e commenti."
+---
+
+L'analisi degli APK è uno degli esercizi di reverse engineering nel mondo reale più accessibili, dato che gli APK sono un formato standard e ben documentato.
+
+## Passo 1: estrarre l'APK
+
+Un APK è semplicemente un archivio ZIP con una struttura interna specifica. Strumenti come **apktool** lo estraggono e — cosa fondamentale — decodificano le risorse compilate e `AndroidManifest.xml` di nuovo in forma leggibile:
+
+```text
+apktool d target-app.apk -o output-folder
+```
+
+Questo ti dà il manifest (permessi, activity dichiarate, servizi), le risorse (stringhe, layout, immagini) e il bytecode compilato dell'app (file `.smali` — una rappresentazione leggibile del bytecode Dalvik/ART di Android).
+
+## Passo 2: dal bytecode a un sorgente simile a Java
+
+Smali è leggibile ma verboso e di basso livello. Per l'analisi effettiva della logica, strumenti come **jadx** decompilano il bytecode dell'APK direttamente in codice sorgente simile a Java, molto più facile da leggere di smali per capire cosa fa davvero l'app:
+
+```text
+jadx target-app.apk -d decompiled-output
+```
+
+## Passo 3: inizia dal manifest, non dal codice
+
+<Callout>
+`AndroidManifest.xml` ti dice di cosa è capace l'app prima ancora di leggere una sola riga di logica — permessi richiesti, componenti esportati, activity e servizi dichiarati. Questo è spesso il modo più veloce per capire la superficie d'attacco o le capacità di un'app a colpo d'occhio.
+</Callout>
+
+## Passo 4: segui i punti di ingresso, non file a caso
+
+Invece di leggere il codice decompilato file per file, parti dai punti di ingresso dichiarati dell'app (l'activity principale, i componenti esportati dal manifest) e traccia verso l'esterno da lì — questo rispecchia come l'app viene effettivamente eseguita ed evita di perdersi in codice di utilità non correlato.
+
+## Passo 5: aspettati offuscamento nelle app reali
+
+Le app in produzione passano comunemente attraverso **ProGuard** o **R8**, che rinominano classi, metodi e variabili in identificatori corti e privi di significato (`a`, `b`, `c`) specificamente per ridurre l'app e rendere più difficile il reverse engineering. Il codice offuscato decompilato è ancora leggibile logicamente — il flusso di controllo sopravvive — ma perdi i nomi originali significativi, rendendo l'analisi più lenta e basata su inferenze.
+
+## Un riepilogo ragionevole della toolchain
+
+| Passo | Strumento | Output |
+|---|---|---|
+| Estrazione + decodifica risorse | apktool | Manifest, risorse, smali |
+| Decompilazione in sorgente leggibile | jadx | Sorgente simile a Java |
+| Analisi runtime (opzionale, avanzato) | Frida | Comportamento live, hooking |
+
+<Callout type="warning">
+Analizza solo APK che possiedi, che hai costruito tu stesso, o per cui hai un'autorizzazione esplicita (ambito di un bug bounty, una valutazione autorizzata). Vedi la nostra [guida introduttiva al reverse engineering](/blog/getting-started-with-reverse-engineering) per i confini legali in termini più generali.
+</Callout>

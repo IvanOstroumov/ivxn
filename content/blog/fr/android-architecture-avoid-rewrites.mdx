@@ -1,0 +1,59 @@
+---
+title: "Concevoir l'architecture Android pour ne pas tout réécrire plus tard"
+description: "Les décisions architecturales qui comptent vraiment au début d'un projet Android — celles qui sont coûteuses à changer plus tard si on se trompe."
+slug: "android-architecture-avoid-rewrites"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["bonnes pratiques architecture app android", "éviter de réécrire une app android", "architecture mvvm android"]
+ogImageTitle: "Android Architecture Decisions"
+faq:
+  - question: "Ai-je besoin de MVVM pour une petite application ?"
+    answer: "Pas nécessairement dès le premier jour, mais séparer l'interface de la logique métier dès le départ (même de façon souple) rend l'adoption ultérieure d'un pattern plus complet comme MVVM bien plus facile, plutôt que de greffer la séparation sur du code étroitement couplé."
+  - question: "Quelle est la seule erreur architecturale la plus coûteuse ?"
+    answer: "Placer la logique métier directement dans des Activities/Fragments (ou Composables) sans couche de séparation — c'est le pattern qui force le plus sûrement une réécriture une fois que l'application dépasse une petite taille, car logique et interface deviennent impossibles à modifier indépendamment."
+  - question: "Jetpack Compose est-il pertinent pour cette décision ?"
+    answer: "Oui — Compose rend la gestion de l'interface et de l'état plus explicite, ce qui renforce en fait l'argument de séparer la logique métier de l'interface dès le début, puisque le modèle de recomposition de Compose sanctionne plus visiblement la logique étroitement couplée que ne le faisait l'ancien système de Views."
+---
+
+La plupart des réécritures Android n'arrivent pas parce que le code original était mal écrit ligne par ligne — elles arrivent parce qu'une poignée de décisions structurelles précoces ont rendu le changement coûteux.
+
+## La décision la plus importante : séparer la logique de l'interface
+
+<Callout type="warning">
+La logique métier vivant directement dans une Activity, un Fragment ou un Composable est la raison unique la plus courante pour laquelle les applications finissent par nécessiter une réécriture coûteuse — elle devient non testable isolément et impossible à modifier sans risquer l'interface, et vice versa.
+</Callout>
+
+Vous n'avez pas besoin d'adopter un pattern architectural pleinement réalisé dès le premier jour, mais garder la logique dans des classes séparées (un ViewModel, un repository, de simples classes use-case) dès le départ — même de façon souple — garde la porte ouverte pour formaliser cela en MVVM ou un pattern similaire plus tard, sans réécriture.
+
+## Une structure de départ minimale et défendable
+
+```text
+ui/          — Activities, Fragments, Composables — affichage uniquement
+viewmodel/   — maintient l'état, expose ce dont l'interface a besoin
+repository/  — accès aux données (réseau, base de données), cache la source au reste de l'app
+data/        — modèles, entités de base de données, types de réponse API
+```
+
+Ce n'est pas un framework rigide — c'est une barre minimale : le code d'interface ne parle pas directement à une base de données ou une API réseau, il passe par une couche qui peut changer indépendamment.
+
+## Décisions vraiment difficiles à inverser plus tard
+
+- **Choix de la base de données et conception du schéma** — migrer les modèles de données une fois que de vraies données utilisateur existent est nettement plus difficile que de les concevoir soigneusement à l'avance. Voir notre [comparaison Room vs SharedPreferences vs DataStore](/blog/room-vs-sharedpreferences-vs-datastore) pour les vrais compromis.
+- **Le support hors ligne est-il envisagé dès le départ** — greffer un comportement offline-first sur une application construite en supposant une connectivité constante est un remaniement substantiel, pas un ajout incrémental. Voir notre [guide offline-first](/blog/offline-first-android-apps).
+- **Structure de navigation** — une configuration de navigation profondément imbriquée et ad hoc devient coûteuse à restructurer une fois que de nombreux écrans dépendent de sa forme actuelle.
+
+## Décisions bon marché à changer plus tard (ne les sur-ingénierez pas)
+
+- Choix spécifiques de composants d'interface, systèmes de style, remplacements mineurs de bibliothèques pour des choses comme le chargement d'images — généralement assez contenus pour être changés sans toucher au reste de l'application.
+- Conventions exactes de nommage des dossiers — utiles pour la cohérence, mais pas structurellement porteuses.
+
+## Le message pratique
+
+Consacrez votre effort de conception initial aux décisions coûteuses à inverser (séparation logique/interface, conception de la couche de données, stratégie hors ligne) et évitez consciemment de sur-investir dans celles qui sont bon marché à changer plus tard. Inverser cet équilibre — peaufiner les conventions de style pendant que la logique métier vit directement dans les Activities — est un piège courant et évitable.
+
+<Callout>
+Vous démarrez un nouveau projet Android et voulez un second avis sur l'architecture avant d'écrire beaucoup de code ? [Contactez-moi](/contact) — c'est une conversation bon marché à avoir tôt et une erreur coûteuse à corriger tard.
+</Callout>

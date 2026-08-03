@@ -1,0 +1,59 @@
+---
+title: "Android-Architektur so gestalten, dass du später nicht alles neu schreibst"
+description: "Die architektonischen Entscheidungen, die früh in einem Android-Projekt wirklich zählen — die, die teuer zu ändern sind, wenn man sie falsch trifft."
+slug: "android-architecture-avoid-rewrites"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["android app architektur best practices", "android app neuschreiben vermeiden", "android mvvm architektur"]
+ogImageTitle: "Android Architecture Decisions"
+faq:
+  - question: "Brauche ich MVVM für eine kleine App?"
+    answer: "Nicht unbedingt vom ersten Tag an, aber UI und Business-Logik von Anfang an zu trennen (selbst locker) macht es dramatisch einfacher, später ein vollständigeres Muster wie MVVM zu übernehmen, statt Trennung nachträglich in eng gekoppelten Code einzubauen."
+  - question: "Was ist der teuerste einzelne Architekturfehler?"
+    answer: "Business-Logik direkt in Activities/Fragments (oder Composables) ohne Trennungsschicht zu platzieren — das ist das Muster, das am zuverlässigsten eine Neuschreibung erzwingt, sobald die App über eine kleine Größe hinauswächst, weil Logik und UI unabhängig voneinander nicht mehr änderbar werden."
+  - question: "Ist Jetpack Compose relevant für diese Entscheidung?"
+    answer: "Ja — Compose macht UI- und State-Management expliziter, was das Argument für die Trennung von Business-Logik und UI von Anfang an tatsächlich verstärkt, da Composes Recomposition-Modell eng gekoppelte Logik sichtbarer bestraft als es das alte View-System tat."
+---
+
+Die meisten Android-Neuschreibungen passieren nicht, weil der ursprüngliche Code Zeile für Zeile schlecht geschrieben war — sie passieren, weil eine Handvoll früher struktureller Entscheidungen Änderungen teuer gemacht hat.
+
+## Die wichtigste Entscheidung: Logik von UI trennen
+
+<Callout type="warning">
+Business-Logik, die direkt in einer Activity, einem Fragment oder Composable lebt, ist der mit Abstand häufigste Grund, warum Apps schließlich eine teure Neuschreibung brauchen — sie wird isoliert nicht testbar und unmöglich zu ändern, ohne die UI zu riskieren, und umgekehrt.
+</Callout>
+
+Du musst nicht am ersten Tag ein voll ausgereiftes Architekturmuster übernehmen, aber Logik von Anfang an in separaten Klassen zu halten (ein ViewModel, ein Repository, einfache Use-Case-Klassen) — selbst locker — hält die Tür offen, das später zu MVVM oder einem ähnlichen Muster zu formalisieren, ohne Neuschreibung.
+
+## Eine minimale, vertretbare Startstruktur
+
+```text
+ui/          — Activities, Fragments, Composables — nur Darstellung
+viewmodel/   — hält Zustand, stellt bereit, was die UI braucht
+repository/  — Datenzugriff (Netzwerk, Datenbank), verbirgt die Quelle vor dem Rest der App
+data/        — Modelle, Datenbank-Entitäten, API-Antworttypen
+```
+
+Das ist kein starres Framework — es ist eine Mindestanforderung: UI-Code spricht nicht direkt mit einer Datenbank oder Netzwerk-API, sondern geht durch eine Schicht, die unabhängig geändert werden kann.
+
+## Entscheidungen, die später wirklich schwer umkehrbar sind
+
+- **Datenbankwahl und Schema-Design** — Datenmodelle zu migrieren, nachdem echte Nutzerdaten existieren, ist deutlich schwerer als sie im Voraus durchdacht zu gestalten. Siehe unseren [Room vs SharedPreferences vs DataStore Vergleich](/blog/room-vs-sharedpreferences-vs-datastore) für die tatsächlichen Trade-offs.
+- **Ob Offline-Support von Anfang an bedacht wird** — Offline-First-Verhalten nachträglich in eine App einzubauen, die von ständiger Konnektivität ausgeht, ist eine substanzielle Überarbeitung, keine schrittweise Ergänzung. Siehe unseren [Offline-First-Guide](/blog/offline-first-android-apps).
+- **Navigationsstruktur** — ein tief verschachteltes, ad-hoc aufgebautes Navigationssetup wird teuer umzustrukturieren, sobald viele Bildschirme von seiner aktuellen Form abhängen.
+
+## Entscheidungen, die später günstig zu ändern sind (nicht überengineeren)
+
+- Spezifische UI-Komponentenwahl, Styling-Systeme, kleinere Bibliothekswechsel für Dinge wie Bildladen — diese sind meist eingegrenzt genug, um sie zu ändern, ohne den Rest der App anzufassen.
+- Genaue Namenskonventionen für Ordner — hilfreich für Konsistenz, aber architektonisch nicht tragend.
+
+## Das praktische Fazit
+
+Investiere deinen frühen Design-Aufwand in die Entscheidungen, die teuer umzukehren sind (Logik/UI-Trennung, Datenschicht-Design, Offline-Strategie), und überinvestiere bewusst nicht in die, die später günstig zu ändern sind. Diese Balance falsch herum zu haben — Styling-Konventionen zu perfektionieren, während Business-Logik direkt in Activities lebt — ist eine verbreitete und vermeidbare Falle.
+
+<Callout>
+Startest du ein neues Android-Projekt und willst eine zweite Meinung zur Architektur, bevor du viel Code schreibst? [Melde dich](/contact) — das ist ein günstiges Gespräch früh und ein teurer Fehler, wenn man ihn spät korrigiert.
+</Callout>
