@@ -2,8 +2,15 @@ import { useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { CTAButton } from "@/components/CTAButton";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, SITE_URL } from "@/lib/seo";
 import { Reveal } from "@/components/Reveal";
+
+const SKILL_GROUPS = [
+  { key: "languages", items: ["C#", "Java", "Kotlin", "PHP", "Python", "JavaScript", "TypeScript"] },
+  { key: "development", items: ["Android", "Desktop", "Backend", "Databases", "APIs"] },
+  { key: "technologies", items: ["Git", "Linux", "Cloud", "AI tools", "Automation"] },
+  { key: "other", items: ["Digital Forensics", "Data Recovery", "Reverse Engineering", "Problem Solving"] },
+] as const;
 
 export async function generateMetadata({
   params,
@@ -25,8 +32,25 @@ export async function generateMetadata({
 
 export default function AboutPage() {
   const t = useTranslations("about");
+  const tSkills = useTranslations("skills");
+
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Ivan Ostroumov",
+    alternateName: "Ivan Labs",
+    url: `${SITE_URL}/about`,
+    jobTitle: "Software Developer",
+    description: t("body1"),
+    knowsAbout: SKILL_GROUPS.flatMap((group) => group.items),
+  };
+
   return (
     <main className="mx-auto max-w-2xl px-6 py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <h1 className="text-3xl font-semibold">{t("title")}</h1>
       <div className="mt-6 space-y-4 text-[var(--text-muted)]">
         <Reveal>
@@ -56,6 +80,29 @@ export default function AboutPage() {
           <li>{t("setupTools")}</li>
         </ul>
         <p className="mt-3 text-xs text-[var(--text-muted)] opacity-70">{t("setupNote")}</p>
+      </Reveal>
+
+      <Reveal delay={0.5} className="mt-10">
+        <h2 className="text-xl font-semibold">{tSkills("title")}</h2>
+        <div className="mt-6 space-y-8">
+          {SKILL_GROUPS.map((group) => (
+            <div key={group.key}>
+              <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-muted)]">
+                {tSkills(`categories.${group.key}`)}
+              </h3>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {group.items.map((skill) => (
+                  <span
+                    key={skill}
+                    className="rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-sm"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </Reveal>
     </main>
   );

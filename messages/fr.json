@@ -5,7 +5,7 @@
     "services": "Services",
     "projects": "Projets",
     "tools": "Outils",
-    "skills": "Compétences",
+    "blog": "Blog",
     "contact": "Contact"
   },
   "cta": {
@@ -91,11 +91,39 @@
     "formSending": "Envoi…",
     "formSuccess": "Merci — message envoyé, je vous répondrai bientôt."
   },
+  "blogPage": {
+    "title": "Blog",
+    "description": "Guides sur le développement Android, la récupération de données, l'informatique légale, et sur le fonctionnement réel du matériel sous le capot.",
+    "readingTime": "{minutes} min de lecture",
+    "publishedOn": "Publié le {date}",
+    "updatedOn": "Mis à jour le {date}",
+    "relatedArticles": "Articles similaires",
+    "tableOfContents": "Sur cette page",
+    "allTags": "Tous les tags",
+    "filterAll": "Tous",
+    "backToBlog": "Retour au Blog",
+    "emptyState": "Pas encore d'articles — revenez bientôt.",
+    "notTranslatedNote": "Cet article n'est disponible qu'en anglais pour le moment.",
+    "ctaTitle": "Besoin d'aide avec ça ?",
+    "ctaBody": "Contactez-moi et je vous aiderai à régler ça.",
+    "ctaButton": "Me contacter",
+    "faqTitle": "Questions fréquentes",
+    "share": "Partager :",
+    "tagPagePrefix": "Tag",
+    "tags": {
+      "android": "Android",
+      "kotlin": "Kotlin",
+      "java": "Java",
+      "data-recovery": "Récupération de données",
+      "hardware": "Matériel",
+      "cpu": "CPU"
+    }
+  },
   "seo": {
     "homeDescription": "Ivan Ostroumov — développeur logiciel : je construis des outils, des applications et résous des problèmes techniques. Jeux Unity, applications Android, outils web et automatisation.",
-    "aboutDescription": "À propos d'Ivan Ostroumov : développeur avec une expérience en jeux Unity, applications Android, outils web et automatisation, aujourd'hui concentré sur la récupération de données et l'informatique légale.",
+    "aboutDescription": "À propos d'Ivan Ostroumov : développeur avec une expérience en jeux Unity, applications Android, outils web et automatisation, aujourd'hui concentré sur la récupération de données et l'informatique légale. Compétences : C#, Java, Kotlin, PHP, Python, JavaScript/TypeScript, développement Android et backend, Git, Linux, cloud et automatisation.",
     "servicesDescription": "Développement logiciel, applications mobiles, outils sur mesure, automatisation, conseil technique et récupération de données / informatique légale par Ivan Ostroumov.",
-    "skillsDescription": "Compétences techniques d'Ivan Ostroumov : C#, Java, Kotlin, PHP, Python, JavaScript/TypeScript, développement Android et backend, Git, Linux, cloud, automatisation et informatique légale.",
+    "blogDescription": "Guides et articles sur le développement Android, la récupération de données, l'informatique légale, le reverse engineering, l'automatisation et le matériel — par Ivan Ostroumov.",
     "projectsDescription": "Projets logiciels d'Ivan Ostroumov : jeux Unity dont Beat the Piano et SAMT: All Stars, l'outil web Parserize, et plus encore.",
     "toolsDescription": "Outils téléchargeables créés par Ivan Ostroumov, dont Rhyme Studio et World Travel Tracker.",
     "contactDescription": "Contactez Ivan Ostroumov par email, GitHub, Telegram, WhatsApp ou LinkedIn."

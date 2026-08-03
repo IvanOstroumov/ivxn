@@ -193,3 +193,122 @@ button.card:hover {
 .nav-link:hover::after {
   transform: scaleX(1);
 }
+
+/* ---------------------------------------------------------------------
+   Blog / MDX content. Reuses existing theme tokens (surface, border,
+   accent, text-muted) so it inherits all 4 themes automatically — no new
+   per-theme color values needed here.
+   ------------------------------------------------------------------- */
+
+.prose-article {
+  max-width: 70ch;
+  color: var(--text);
+  line-height: 1.75;
+}
+.prose-article h2 {
+  margin-top: 2.5em;
+  margin-bottom: 0.6em;
+  font-size: 1.4rem;
+}
+.prose-article h3 {
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  font-size: 1.15rem;
+}
+.prose-article p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.prose-article ul,
+.prose-article ol {
+  margin: 1em 0;
+  padding-left: 1.5em;
+}
+.prose-article li {
+  margin: 0.35em 0;
+}
+.prose-article a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-article blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1em;
+  margin: 1.5em 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.prose-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 0.9rem;
+}
+.prose-article th,
+.prose-article td {
+  border: 1px solid var(--border);
+  padding: 0.5em 0.75em;
+  text-align: left;
+}
+.prose-article th {
+  background: var(--surface-2);
+}
+/* Heading anchor links (rehype-autolink-headings, behavior: "wrap") */
+.prose-article h2 a[id],
+.prose-article h3 a[id] {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Callout block — reuses surface-2/accent tokens, no new per-theme colors. */
+.callout {
+  background: var(--surface-2);
+  border-left-color: var(--accent);
+  color: var(--text);
+}
+.callout[data-callout-type="warning"] {
+  border-left-color: var(--accent-2);
+}
+
+/* Code blocks (rehype-pretty-code / shiki dual-theme output). Shiki emits
+   --shiki-light / --shiki-dark custom properties per token; we pick which
+   one wins based on the active data-theme attribute, since this site
+   switches themes explicitly rather than via prefers-color-scheme. Cyber
+   and Experimental are the site's two dark themes, so they get the dark
+   Shiki palette; Minimal and Glass get the light one. */
+.prose-article pre {
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-theme);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  margin: 1.5em 0;
+  font-size: 0.85rem;
+  background-color: var(--surface-2);
+}
+.prose-article pre span {
+  color: var(--shiki-light);
+}
+.prose-article :not(pre) > code {
+  background: var(--surface-2);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.9em;
+}
+[data-theme="cyber"] .prose-article pre span,
+[data-theme="experimental"] .prose-article pre span {
+  color: var(--shiki-dark);
+}
+
+/* Table of contents */
+.toc-link {
+  display: block;
+  padding: 0.25em 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+.toc-link:hover {
+  color: var(--text);
+}

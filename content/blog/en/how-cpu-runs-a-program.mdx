@@ -1,0 +1,71 @@
+---
+title: "What Happens Inside Your CPU When You Run a Program"
+description: "A plain-language walkthrough of what actually happens inside a processor between double-clicking a program and seeing it run."
+slug: "how-cpu-runs-a-program"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "Hardware"
+author: "Ivan Ostroumov"
+keywords: ["how does a cpu work", "what happens when you run a program", "cpu explained simply"]
+ogImageTitle: "How a CPU Runs a Program"
+faq:
+  - question: "Does the CPU run the whole program at once?"
+    answer: "No. It executes one instruction at a time per core, extremely fast — modern CPUs run billions of instructions per second, and techniques like pipelining let multiple instructions be in different stages of execution simultaneously."
+  - question: "What's the difference between a core and a thread?"
+    answer: "A core is a physical execution unit. A thread (in the CPU sense, via simultaneous multithreading like Hyper-Threading) lets one physical core juggle two instruction streams to fill idle execution slots — it's not the same as having two full cores."
+  - question: "Why does RAM matter if the CPU does the work?"
+    answer: "The CPU is fast enough that it would sit idle waiting on data most of the time if it read everything from RAM directly — that's exactly why cache exists, to keep frequently used data close enough that the CPU doesn't stall."
+---
+
+You double-click an icon, and a second later the program is running. Here's what actually happens between those two moments, without the marketing-brochure version of "cores and gigahertz."
+
+## Step 1: Getting the program into memory
+
+Your program's code lives on disk as a file. Before the CPU can touch it, the operating system loads the relevant parts of that file into **RAM** — the CPU never executes code directly off a disk, it's far too slow for that. This is why programs "load" before they run, and why an SSD makes that step faster than an HDD.
+
+## Step 2: Fetch, decode, execute
+
+Once code is in RAM, the CPU works through it in a loop that repeats billions of times per second:
+
+1. **Fetch** — grab the next instruction from memory, at the address the *program counter* points to.
+2. **Decode** — figure out what that instruction actually means (add these two numbers, load this value, jump to this address).
+3. **Execute** — actually do it, using the CPU's internal execution units.
+
+```text
+fetch  → decode → execute → (repeat, next instruction)
+```
+
+This is the fetch-decode-execute cycle, and it's the foundation everything else in a CPU is built on top of.
+
+## Step 3: Why there's cache, not just RAM
+
+<Callout>
+RAM is fast compared to a disk, but slow compared to the CPU itself. If every instruction had to wait on a full round-trip to RAM, the CPU would spend most of its time idle.
+</Callout>
+
+To avoid that, CPUs keep small, extremely fast memory pools physically close to the execution units — the **cache**, usually split into L1, L2, and L3 levels:
+
+| Level | Typical size | Speed | Shared? |
+|---|---|---|---|
+| L1 | ~32–64 KB per core | Fastest | Per core |
+| L2 | ~256 KB–2 MB per core | Fast | Per core (usually) |
+| L3 | Several MB–tens of MB | Slower than L1/L2, still much faster than RAM | Shared across cores |
+
+The CPU predicts what data it'll need next and keeps it in cache ahead of time. When that prediction is right (a "cache hit"), execution barely slows down. When it's wrong (a "cache miss"), the CPU has to wait on RAM — which is exactly the kind of stall cache exists to avoid.
+
+## Step 4: Cores, threads, and doing more than one thing
+
+A CPU core can only truly execute one instruction stream at a time. Multi-core CPUs get real parallelism by having several independent cores each running their own fetch-decode-execute loop. Simultaneous multithreading (what Intel calls Hyper-Threading) is different: it lets one physical core hold two instruction streams and interleave them into idle execution slots — closer to a core more efficiently using its own downtime than to having a second core.
+
+## Step 5: Why boost clocks aren't the full-time speed
+
+Modern CPUs list a "boost" clock speed that's higher than their base clock. The CPU only reaches that boost speed for short bursts on a few cores, constrained by temperature and power delivery — running all cores at the maximum boost frequency continuously would generate more heat than most cooling solutions can remove, so the CPU throttles back down once thermal limits are hit. This is normal behavior, not a defect.
+
+## Putting it together
+
+Double-clicking a program triggers: load code into RAM → CPU fetches instructions one at a time → cache keeps the hot data close by → cores (and threads, if available) work through independent instruction streams in parallel → clock speed adjusts dynamically based on load and thermals. None of it is magic — it's the same fetch-decode-execute loop, repeated at a scale that's hard to intuit, with several layers built specifically to stop that loop from stalling.
+
+<Callout type="warning">
+Curious how this applies to a specific performance problem you're seeing — a slow build, a laggy app, or hardware you're trying to choose between? [Get in touch](/contact).
+</Callout>

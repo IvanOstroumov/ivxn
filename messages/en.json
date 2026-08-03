@@ -5,7 +5,7 @@
     "services": "Services",
     "projects": "Projects",
     "tools": "Tools",
-    "skills": "Skills",
+    "blog": "Blog",
     "contact": "Contact"
   },
   "cta": {
@@ -91,11 +91,39 @@
     "formSending": "Sending…",
     "formSuccess": "Thanks — message sent, I'll get back to you soon."
   },
+  "blogPage": {
+    "title": "Blog",
+    "description": "Guides on Android development, data recovery, digital forensics, and how the hardware underneath it all actually works.",
+    "readingTime": "{minutes} min read",
+    "publishedOn": "Published {date}",
+    "updatedOn": "Updated {date}",
+    "relatedArticles": "Related articles",
+    "tableOfContents": "On this page",
+    "allTags": "All tags",
+    "filterAll": "All",
+    "backToBlog": "Back to Blog",
+    "emptyState": "No articles yet — check back soon.",
+    "notTranslatedNote": "This article is only available in English so far.",
+    "ctaTitle": "Need help with this?",
+    "ctaBody": "Get in touch and I'll help you sort it out.",
+    "ctaButton": "Contact me",
+    "faqTitle": "Frequently asked questions",
+    "share": "Share:",
+    "tagPagePrefix": "Tag",
+    "tags": {
+      "android": "Android",
+      "kotlin": "Kotlin",
+      "java": "Java",
+      "data-recovery": "Data Recovery",
+      "hardware": "Hardware",
+      "cpu": "CPU"
+    }
+  },
   "seo": {
     "homeDescription": "Ivan Ostroumov — software developer building tools, applications, and solving technical problems. Unity games, Android apps, web tools, and automation.",
-    "aboutDescription": "About Ivan Ostroumov: software developer with a background in Unity games, Android apps, web tools, and automation, currently focused on data recovery and digital forensics.",
+    "aboutDescription": "About Ivan Ostroumov: software developer with a background in Unity games, Android apps, web tools, and automation, currently focused on data recovery and digital forensics. Skills: C#, Java, Kotlin, PHP, Python, JavaScript/TypeScript, Android and backend development, Git, Linux, cloud, and automation.",
     "servicesDescription": "Software development, mobile apps, custom tools, automation, technical consulting, and data recovery / digital forensics services from Ivan Ostroumov.",
-    "skillsDescription": "Ivan Ostroumov's technical skills: C#, Java, Kotlin, PHP, Python, JavaScript/TypeScript, Android and backend development, Git, Linux, cloud, automation, and digital forensics.",
+    "blogDescription": "Guides and write-ups on Android development, data recovery, digital forensics, reverse engineering, automation, and hardware — by Ivan Ostroumov.",
     "projectsDescription": "Software projects by Ivan Ostroumov: Unity games including Beat the Piano and SAMT: All Stars, the Parserize web tool, and more.",
     "toolsDescription": "Downloadable tools built by Ivan Ostroumov, including Rhyme Studio and World Travel Tracker.",
     "contactDescription": "Contact Ivan Ostroumov by email, GitHub, Telegram, WhatsApp, or LinkedIn."

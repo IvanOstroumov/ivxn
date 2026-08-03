@@ -21,7 +21,7 @@ export async function GET() {
   lines.push(`- [Home](${SITE_URL}/en)`);
   lines.push(`- [About](${SITE_URL}/en/about)`);
   lines.push(`- [Services](${SITE_URL}/en/services)`);
-  lines.push(`- [Skills](${SITE_URL}/en/skills)`);
+  lines.push(`- [Blog](${SITE_URL}/en/blog)`);
   lines.push(`- [Contact](${SITE_URL}/en/contact)`);
   lines.push(
     "- Available in English, Russian, Italian, German, and French (swap `/en/` for `/ru/`, `/it/`, `/de/`, `/fr/`)."

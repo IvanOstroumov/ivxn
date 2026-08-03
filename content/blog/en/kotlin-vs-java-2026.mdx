@@ -1,0 +1,87 @@
+---
+title: "Kotlin vs Java in 2026: What to Choose for Android"
+description: "A practical comparison of Kotlin and Java for Android development in 2026 — syntax, performance, tooling, hiring, and migration."
+slug: "kotlin-vs-java-2026"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android", "kotlin", "java"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["kotlin vs java", "kotlin vs java android 2026", "which language for android"]
+ogImageTitle: "Kotlin vs Java in 2026"
+faq:
+  - question: "Is Java dead for Android development?"
+    answer: "No. Java still compiles fine on Android and plenty of large codebases run on it, but Google has treated Kotlin as the preferred language since 2019, and almost all new tooling, samples, and Jetpack libraries are written Kotlin-first."
+  - question: "Can I mix Kotlin and Java in the same Android project?"
+    answer: "Yes, they interoperate directly in the same module — most real migrations happen file by file rather than as one big rewrite."
+  - question: "Is Kotlin slower than Java at runtime?"
+    answer: "No. Kotlin compiles to the same JVM/Android bytecode as Java, and in most real apps the difference is not measurable. Startup time differences, where they exist, come from library choices, not the language."
+---
+
+If you're starting an Android project in 2026, the language question comes up on day one. Here's the practical answer, not the theoretical one.
+
+## The short version
+
+Use **Kotlin** for anything new. Java is still a legitimate choice if you're joining an existing large Java codebase, but for a fresh Android project there's no longer a good reason to start in Java.
+
+## Why Kotlin won
+
+<Callout>
+Google made Kotlin the recommended language for Android in 2019. Since then, Jetpack Compose, coroutines, and most new platform APIs have been designed Kotlin-first — Java support is maintained, not prioritized.
+</Callout>
+
+- **Null safety is built into the type system.** `NullPointerException` — historically one of the most common Android crashes — becomes a compile-time error instead of a runtime one.
+- **Less boilerplate.** Data classes, default parameter values, and extension functions cut down the ceremony Java requires for the same behavior.
+- **Coroutines** give you structured concurrency without the callback nesting or thread-pool bookkeeping that async Java code needs.
+
+## Syntax side by side
+
+A simple data holder in Java:
+
+```java
+public class User {
+    private final String name;
+    private final int age;
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() { return name; }
+    public int getAge() { return age; }
+}
+```
+
+The same thing in Kotlin:
+
+```kotlin
+data class User(val name: String, val age: Int)
+```
+
+Equality, `hashCode`, `toString`, and copy semantics come for free with the Kotlin version — in Java you'd write or generate all of that separately.
+
+## Comparison table
+
+| | Kotlin | Java |
+|---|---|---|
+| Null safety | Enforced by the compiler | Not enforced (`Optional` is opt-in) |
+| Boilerplate | Low (data classes, defaults) | Higher (getters/setters, builders) |
+| Async | Coroutines (structured, cancellable) | Threads / callbacks / `CompletableFuture` |
+| Jetpack Compose | First-class | Usable via interop, not the primary path |
+| Learning curve for Java devs | A few days for basics | — |
+| Existing large codebases | Fewer, newer | Still common in older enterprise apps |
+
+## Migrating an existing Java codebase
+
+You don't need a rewrite. Android Studio can auto-convert individual `.java` files to `.kt`, and Kotlin/Java interop is direct — a Kotlin class can extend a Java class, and vice versa, in the same module. The realistic path is:
+
+1. Set new features and new files to Kotlin from day one.
+2. Convert files opportunistically when you're already touching them for a bug fix or feature.
+3. Leave stable, rarely-touched Java files alone — converting working code with no other reason to touch it isn't worth the risk.
+
+## FAQ
+
+<Callout type="warning">
+Have a Java codebase you're not sure whether to migrate, or an Android project you want a second opinion on? [Get in touch](/contact) — this is exactly the kind of decision worth a short conversation before you commit engineering time to it.
+</Callout>

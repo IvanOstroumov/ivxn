@@ -89,8 +89,8 @@ export async function GET() {
   lines.push("## Site structure");
   lines.push(
     "Locales: en, ru, it, de, fr (prefix every path below, e.g. /ru/about). Static pages: " +
-      "/, /about, /services, /projects, /tools, /skills, /contact. Dynamic pages: " +
-      "/projects/{slug}, /tools/{slug}. A private, non-indexed /admin panel manages content " +
+      "/, /about, /services, /projects, /tools, /blog, /contact. Dynamic pages: " +
+      "/projects/{slug}, /tools/{slug}, /blog/{slug}, /blog/tag/{tag}. A private, non-indexed /admin panel manages content " +
       "and is excluded via robots.txt."
   );
   lines.push("");
