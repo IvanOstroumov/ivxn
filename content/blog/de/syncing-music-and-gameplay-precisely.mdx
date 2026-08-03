@@ -1,0 +1,61 @@
+---
+title: "Musik und Gameplay mit Frame-genauer Präzision synchronisieren"
+description: "Der technische Ansatz, um Musik- und Gameplay-Ereignisse in einem Spiel perfekt synchron zu halten, und warum naive timer-basierte Ansätze im Laufe der Zeit driften."
+slug: "syncing-music-and-gameplay-precisely"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["musik mit gameplay synchronisieren unity", "audio sync drift game engine", "präzises timing rhythm game unity"]
+ogImageTitle: "Syncing Music and Gameplay"
+faq:
+  - question: "Warum driftet die Verwendung von Update() oder einem einfachen Timer für Musiksynchronisation letztendlich?"
+    answer: "Update()-basiertes Timing akkumuliert kleine Ungenauigkeiten Frame für Frame — die Frame-Zeit ist nicht perfekt konsistent, und diese kleinen Fehler summieren sich über einen mehrminütigen Song zu hörbarem, merklichem Drift bis zum Ende."
+  - question: "Was sollte stattdessen verwendet werden?"
+    answer: "Die eigene Wiedergabeposition des Audiosystems (Unitys AudioSource.time, oder besser, Samples über einen DSP-Time-basierten Ansatz) als die eine Quelle der Wahrheit für 'wo sind wir im Song', statt eines separat laufenden Spiel-Timers, der versucht, dasselbe unabhängig zu verfolgen."
+  - question: "Zählt das auch für Spiele, die keine Rhythm-Games sind?"
+    answer: "Ja, jederzeit wenn Gameplay auf Musik-Beats reagieren muss — dynamische Musiksysteme, beat-synchronisierte visuelle Effekte, oder timing-empfindliche Audio-Cues in einem Nicht-Rhythm-Game haben alle dasselbe zugrunde liegende Drift-Risiko, wenn sie auf einem naiven Timer aufgebaut sind."
+---
+
+Gameplay für die ersten zehn Sekunden synchron zur Musik wirken zu lassen ist einfach. Es für den gesamten Song synchron zu halten ist, wo naive Ansätze auseinanderfallen.
+
+## Warum einfache Timer driften
+
+<Callout type="warning">
+Die Verwendung von `Update()` (oder jedem Pro-Frame-Delta-Time-Akkumulator), um zu verfolgen "wie weit sind wir im Song", akkumuliert kleine Timing-Fehler bei jedem einzelnen Frame. Einzeln unsichtbar, summieren sich diese Fehler — bis zum Ende eines 3-minütigen Songs kann ein naiver timer-basierter Ansatz merklich außer Sync mit der tatsächlichen Audio-Wiedergabe sein.
+</Callout>
+
+Die Frame-Zeit ist nicht perfekt konsistent (selbst bei stabiler Framerate gibt es Jitter), und ein Timer, der einfach jeden Frame `Time.deltaTime` addiert, erbt all diese Ungenauigkeit kumulativ.
+
+## Die Lösung: das Audiosystem ist die Quelle der Wahrheit
+
+Statt Zeit unabhängig zu verfolgen und zu hoffen, dass sie zum Audio passt, lies die tatsächliche Wiedergabeposition **vom Audiosystem selbst** jeden Frame:
+
+```csharp
+// Naiv (driftet im Laufe der Zeit):
+private float songTime = 0f;
+void Update() { songTime += Time.deltaTime; }
+
+// Besser: direkt von der Audioquelle lesen
+void Update() {
+    float songTime = audioSource.time;
+    // Diesen maßgeblichen Wert für Note-Spawning / Wertung verwenden
+}
+```
+
+`AudioSource.time` spiegelt wider, wo das Audiosystem tatsächlich in der Wiedergabe ist, nicht wo ein separater Akkumulator vermutet, dass es sein sollte — dies eliminiert Drift vollständig, da Gameplay jetzt dieselbe Uhr liest, auf der Audio tatsächlich läuft, statt einer parallelen Annäherung daran.
+
+## Weiter gehen: sample-genaues Timing
+
+Für Spiele, die engere Präzision benötigen, als `AudioSource.time` bietet (das sich einmal pro Frame aktualisiert, nicht mit Sample-Genauigkeit), verwendet ein gängiger Ansatz Unitys `AudioSettings.dspTime` — die eigene hochpräzise Uhr des Audiosystems — geplant gegen exakte Sample-Zählungen, statt frame-basiertem Polling überhaupt. Dies zählt mehr für wirklich kompetitive Rhythm-Games als für Casual-Games, wo Frame-Level-Präzision von `AudioSource.time` normalerweise ausreicht.
+
+## Vorberechnung des Note-Timings relativ zum Song, nicht zur realen Zeit
+
+Ein verwandtes Prinzip: Note-Charts sollten als Zeitstempel innerhalb des Songs verfasst und gespeichert werden (z.B. "diese Note tritt bei 12,450 Sekunden im Track auf"), nicht als Sequenz von Verzögerungen relativ zueinander. Relative Verzögerungen summieren Rundungsfehler auf dieselbe Weise wie naive Pro-Frame-Timer; absolute song-relative Zeitstempel, verglichen mit der maßgeblichen Wiedergabeposition, tun das nicht.
+
+<Callout>
+Dasselbe Prinzip — von der tatsächlichen Quelle der Wahrheit lesen, statt eine parallele Annäherung zu verfolgen — taucht ständig in der Spieleentwicklung jenseits von Audio auf, und es lohnt sich, es als allgemeines Muster zu verinnerlichen, nicht nur als audio-spezifischen Trick.
+</Callout>
+
+Für die breiteren Designüberlegungen rund um das Rhythm-Game-Gefühl (Timing-Fenster, Kalibrierung, Schwierigkeit), siehe unseren [Leitfaden zu Rhythm-Game-Mechaniken](/blog/rhythm-game-mechanics-beat-the-piano).

@@ -1,0 +1,53 @@
+---
+title: "Unity vs. Godot für ein 2D-Kampfspiel: Warum ich Unity für SAMT: All Stars gewählt habe"
+description: "Ein praktischer Vergleich von Unity und Godot für den Bau eines 2D-Kampfspiels, und die Begründung hinter der Wahl von Unity für SAMT: All Stars."
+slug: "unity-vs-godot-2d-fighting-game"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["unity vs godot 2d kampfspiel", "bestes engine für kampfspiel", "godot vs unity 2026"]
+ogImageTitle: "Unity vs Godot for Fighting Games"
+faq:
+  - question: "Ist Godot fähig, die präzisen Timing-Anforderungen eines Kampfspiels zu bewältigen?"
+    answer: "Ja, im Prinzip — Godot ist erheblich gereift und präzise frame-basierte Logik ist darin erreichbar. Die Wahl kam mehr auf Ökosystem und vorherige Erfahrung an als auf eine harte technische Einschränkung auf Godot-Seite."
+  - question: "Ist Unitys Lizenzierung ein Problem für Indie-Entwickler von Kampfspielen?"
+    answer: "Es lohnt sich, die aktuellen Bedingungen vor einer Verpflichtung zu prüfen, da sich Lizenzbedingungen im Laufe der Zeit geändert haben und nach Umsatzstufe variieren — dies ist ein echter, nicht-technischer Faktor bei einer Engine-Wahl, der früh leicht übersehen wird."
+  - question: "Beeinflusst die Engine-Wahl tatsächlich das Kampfspiel-Gefühl so sehr?"
+    answer: "Weniger als framework-agnostische Faktoren wie Input-Buffering-Design, Hitbox-/Hurtbox-Präzision, und Netcode (falls Online-Spiel geplant ist) — die Engine liefert die Werkzeuge, aber die kampfspielspezifischen Systeme müssen trotzdem bewusst gebaut werden, unabhängig von der Engine."
+---
+
+Engine-Debatten neigen dazu, hitziger zu werden, als die eigentliche Entscheidung normalerweise verdient. Hier ist die ehrliche Begründung hinter der Wahl von Unity speziell für SAMT: All Stars.
+
+## Die tatsächlichen entscheidenden Faktoren, nach Gewicht geordnet
+
+<Callout>
+Für ein so timing-empfindliches Genre wie Kampfspiele zählt die Engine weniger als wie bewusst du die kampfspielspezifischen Systeme (Hitboxen, Input-Buffering, Frame-Daten) darauf aufbaust — die meisten modernen Engines sind technisch fähig für die Aufgabe.
+</Callout>
+
+1. **Vorherige Erfahrung und Vertrautheit mit bestehendem Tooling** — auf einer Engine zu bauen, die ich bereits gut kannte, bedeutete mehr Zeit für die tatsächlichen Spielsysteme und weniger für das Neuerlernen engine-spezifischer Workflows.
+2. **Asset- und Plugin-Ökosystem** — Unitys längere Geschichte bedeutet einen tieferen Pool bestehender Tools und Community-Lösungen für genrespezifische Probleme (Hitbox-Visualisierung, Input-Handling-Utilities), was die Menge dessen reduzierte, was komplett von Grund auf neu gebaut wurde.
+3. **Reife des 2D-Toolings** — Unitys 2D-spezifische Tools (Sprite-Handling, 2D-Physik, Animation) waren ausgereift genug für die Bedürfnisse des Projekts ohne zusätzliche Plugins.
+
+## Wo Godot eine echt starke Alternative ist
+
+Godot hat einen Großteil der Lücke in neueren Versionen geschlossen — sein Szenensystem ist wohl intuitiver für 2D-first-Projekte, es ist vollständig Open Source ohne Lizenzbedingungen zum Verfolgen, und sein GDScript (oder C#, falls bevorzugt) ist zugänglich. Für ein Team ohne vorherige Unity-spezifische Erfahrung, oder eines, das Open-Source-Tooling von Anfang an priorisiert, ist Godot eine legitime erste Wahl, nicht nur ein Rückfallplan.
+
+## Vergleichstabelle
+
+| | Unity | Godot |
+|---|---|---|
+| Reife des 2D-Toolings | Stark, lange etabliert | Stark, wohl 2D-nativer im Design |
+| Lizenzierung | Kommerziell, Bedingungen haben sich im Laufe der Zeit geändert — aktuelle Regeln prüfen | Vollständig Open Source (MIT), keine Lizenzbedenken |
+| Ökosystem-/Plugin-Tiefe | Größer, längere Geschichte | Kleiner, aber stetig wachsend |
+| C#-Unterstützung | Nativ und ausgereift | Unterstützt, GDScript ist die sich nativer anfühlende Option |
+| Lernkurve bei Neuling in beidem | Moderat | Oft als etwas sanfter für 2D-first-Projekte betrachtet |
+
+## Was das Kampfspiel-Gefühl tatsächlich formte (engine-unabhängig)
+
+Unabhängig von der Engine werden die Systeme, die ein Kampfspiel reaktionsschnell und fair wirken lassen, auf jeder gewählten Engine aufgebaut, nicht von ihr bereitgestellt: präzise [Hitbox-/Hurtbox-Handhabung](/blog/hitbox-hurtbox-fighting-games), konsistente Frame-Daten, und bewusstes Input-Buffering. Diese richtig hinzubekommen zählte für das endgültige Gefühl weit mehr als die Unity-vs-Godot-Wahl selbst.
+
+<Callout type="warning">
+Wählst du eine Engine für dein eigenes Projekt und bist zwischen Unity und Godot hin- und hergerissen? Die ehrliche Antwort ist, dass beide gut funktionieren können — der entscheidende Faktor ist normalerweise die bestehende Vertrautheit deines Teams und die spezifischen Tooling-Lücken, die du füllen müsstest, nicht eine universell "bessere" Engine.
+</Callout>

@@ -1,0 +1,53 @@
+---
+title: "Unity vs Godot pour un jeu de combat 2D : pourquoi j'ai choisi Unity pour SAMT: All Stars"
+description: "Une comparaison pratique d'Unity et Godot pour construire un jeu de combat 2D, et le raisonnement derrière le choix d'Unity pour SAMT: All Stars."
+slug: "unity-vs-godot-2d-fighting-game"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["unity vs godot jeu de combat 2d", "meilleur moteur pour jeu de combat", "godot vs unity 2026"]
+ogImageTitle: "Unity vs Godot for Fighting Games"
+faq:
+  - question: "Godot est-il capable de gérer les besoins de timing précis d'un jeu de combat ?"
+    answer: "Oui, en principe — Godot a considérablement mûri et une logique précise basée sur les frames y est réalisable. Le choix s'est résumé à l'écosystème et à l'expérience préalable plus qu'à une limitation technique dure du côté de Godot."
+  - question: "La licence d'Unity est-elle une préoccupation pour les développeurs indépendants de jeux de combat ?"
+    answer: "Cela vaut la peine de vérifier les conditions actuelles avant de s'engager, puisque les conditions de licence ont changé au fil du temps et varient selon le palier de revenus — c'est un facteur réel, non technique, dans un choix de moteur qui est facile à négliger au début."
+  - question: "Le choix du moteur affecte-t-il vraiment autant le ressenti du jeu de combat ?"
+    answer: "Moins que des facteurs agnostiques au framework comme le design du buffering d'input, la précision hitbox/hurtbox, et le netcode (si le jeu en ligne est prévu) — le moteur fournit les outils, mais les systèmes spécifiques au jeu de combat doivent quand même être construits délibérément, quel que soit le moteur."
+---
+
+Les débats sur les moteurs ont tendance à s'échauffer plus que la décision réelle ne le mérite habituellement. Voici le raisonnement honnête derrière le choix d'Unity spécifiquement pour SAMT: All Stars.
+
+## Les facteurs décisifs réels, par ordre de poids
+
+<Callout>
+Pour un genre aussi sensible au timing que les jeux de combat, le moteur compte moins que la façon dont vous construisez délibérément les systèmes spécifiques au jeu de combat (hitboxes, buffering d'input, frame data) par-dessus — la plupart des moteurs modernes sont techniquement capables de faire le travail.
+</Callout>
+
+1. **Expérience préalable et familiarité avec l'outillage existant** — construire sur un moteur que je connaissais déjà bien signifiait plus de temps sur les systèmes réels du jeu et moins sur le réapprentissage de workflows spécifiques au moteur.
+2. **Écosystème d'assets et de plugins** — l'histoire plus longue d'Unity signifie un vivier plus profond d'outils existants et de solutions communautaires pour des problèmes spécifiques au genre (visualisation de hitbox, utilitaires de gestion d'input), ce qui a réduit la quantité construite entièrement de zéro.
+3. **Maturité de l'outillage 2D** — les outils spécifiques 2D d'Unity (gestion de sprites, physique 2D, animation) étaient assez matures pour les besoins du projet sans plugins supplémentaires.
+
+## Où Godot est une alternative véritablement solide
+
+Godot a comblé une grande partie de l'écart dans les versions récentes — son système de scènes est sans doute plus intuitif pour les projets 2D-first, il est entièrement open-source sans conditions de licence à suivre, et son GDScript (ou C#, si préféré) est accessible. Pour une équipe sans expérience préalable spécifique à Unity, ou une qui priorise l'outillage open-source dès le départ, Godot est un premier choix légitime, pas juste un plan de secours.
+
+## Tableau comparatif
+
+| | Unity | Godot |
+|---|---|---|
+| Maturité de l'outillage 2D | Forte, établie de longue date | Forte, sans doute plus nativement 2D par conception |
+| Licence | Commerciale, les conditions ont changé au fil du temps — vérifier les règles actuelles | Entièrement open-source (MIT), aucune préoccupation de licence |
+| Profondeur écosystème/plugins | Plus grande, histoire plus longue | Plus petite mais en croissance constante |
+| Support C# | Natif et mature | Supporté, GDScript est l'option qui semble plus native |
+| Courbe d'apprentissage si nouveau aux deux | Modérée | Souvent considérée légèrement plus douce pour les projets 2D-first |
+
+## Ce qui a réellement façonné le ressenti du jeu de combat (indépendant du moteur)
+
+Quel que soit le moteur, les systèmes qui rendent un jeu de combat réactif et équitable sont construits par-dessus quel que soit le moteur choisi, pas fournis par lui : [gestion précise des hitbox/hurtbox](/blog/hitbox-hurtbox-fighting-games), frame data cohérente, et buffering d'input délibéré. Bien faire cela a compté bien plus pour le ressenti final que le choix Unity-contre-Godot lui-même.
+
+<Callout type="warning">
+Vous choisissez un moteur pour votre propre projet et êtes déchiré entre Unity et Godot ? La réponse honnête est que les deux peuvent bien fonctionner — le facteur décisif est généralement la familiarité existante de votre équipe et les lacunes d'outillage spécifiques que vous devriez combler, pas un moteur universellement « meilleur ».
+</Callout>

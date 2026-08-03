@@ -1,0 +1,61 @@
+---
+title: "Synchroniser musique et gameplay avec une précision au niveau de la frame"
+description: "L'approche technique pour garder la musique et les événements de gameplay parfaitement synchronisés dans un jeu, et pourquoi les approches naïves basées sur un timer dérivent avec le temps."
+slug: "syncing-music-and-gameplay-precisely"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["synchroniser musique et gameplay unity", "dérive synchronisation audio moteur de jeu", "timing précis rhythm game unity"]
+ogImageTitle: "Syncing Music and Gameplay"
+faq:
+  - question: "Pourquoi utiliser Update() ou un simple timer pour la synchronisation musicale finit-il par dériver ?"
+    answer: "Le timing basé sur Update() accumule de petites imprécisions frame après frame — le temps de frame n'est pas parfaitement cohérent, et ces petites erreurs se composent sur une chanson de plusieurs minutes en une dérive audible et notable d'ici la fin."
+  - question: "Que devrait-on utiliser à la place ?"
+    answer: "La propre position de lecture du système audio (AudioSource.time d'Unity, ou mieux, les samples via une approche basée sur DSP-time) comme unique source de vérité pour « où en sommes-nous dans la chanson », plutôt qu'un timer de jeu s'exécutant séparément essayant de suivre la même chose indépendamment."
+  - question: "Cela compte-t-il pour les jeux qui ne sont pas des rhythm games ?"
+    answer: "Oui, chaque fois que le gameplay doit réagir aux beats de musique — systèmes musicaux dynamiques, effets visuels synchronisés au beat, ou signaux audio sensibles au timing dans un jeu non-rhythm ont tous le même risque de dérive sous-jacent s'ils sont construits sur un timer naïf."
+---
+
+Faire en sorte que le gameplay se sente synchronisé avec la musique pendant les dix premières secondes est facile. Le garder synchronisé pour toute la chanson est là où les approches naïves s'effondrent.
+
+## Pourquoi les timers simples dérivent
+
+<Callout type="warning">
+Utiliser `Update()` (ou tout accumulateur de delta-time par frame) pour suivre « jusqu'où sommes-nous dans la chanson » accumule de petites erreurs de timing à chaque frame. Individuellement invisibles, ces erreurs se composent — d'ici la fin d'une chanson de 3 minutes, une approche naïve basée sur un timer peut être notablement désynchronisée de la lecture audio réelle.
+</Callout>
+
+Le temps de frame n'est pas parfaitement cohérent (même à un framerate stable, il y a du jitter), et un timer qui ajoute simplement `Time.deltaTime` chaque frame hérite cumulativement de toute cette imprécision.
+
+## La solution : le système audio est la source de vérité
+
+Au lieu de suivre le temps indépendamment et d'espérer qu'il corresponde à l'audio, lisez la position de lecture réelle **depuis le système audio lui-même** chaque frame :
+
+```csharp
+// Naïf (dérive avec le temps) :
+private float songTime = 0f;
+void Update() { songTime += Time.deltaTime; }
+
+// Mieux : lire directement depuis la source audio
+void Update() {
+    float songTime = audioSource.time;
+    // Utiliser cette valeur faisant autorité pour l'apparition des notes / le score
+}
+```
+
+`AudioSource.time` reflète où le système audio se trouve réellement dans la lecture, pas où un accumulateur séparé devine qu'il devrait être — cela élimine entièrement la dérive, puisque le gameplay lit maintenant la même horloge sur laquelle l'audio fonctionne réellement plutôt qu'une approximation parallèle de celle-ci.
+
+## Aller plus loin : timing précis au sample
+
+Pour les jeux nécessitant une précision plus fine que celle que fournit `AudioSource.time` (qui se met à jour une fois par frame, pas avec une précision au sample), une approche courante utilise `AudioSettings.dspTime` d'Unity — l'horloge haute précision propre au système audio — planifiée contre des comptes de samples exacts, plutôt que du polling basé sur les frames du tout. Cela compte davantage pour des rhythm games véritablement compétitifs que pour des jeux casual, où la précision au niveau frame de `AudioSource.time` est généralement suffisante.
+
+## Précalculer le timing des notes par rapport à la chanson, pas au temps réel
+
+Un principe connexe : les charts de notes devraient être créés et stockés comme des horodatages au sein de la chanson (par exemple, « cette note se produit à 12,450 secondes dans la piste »), pas comme une séquence de délais relatifs les uns aux autres. Les délais relatifs composent les erreurs d'arrondi de la même manière que les timers naïfs par frame ; les horodatages absolus relatifs à la chanson comparés à la position de lecture faisant autorité, non.
+
+<Callout>
+Ce même principe — lire depuis la source de vérité réelle au lieu de suivre une approximation parallèle — revient constamment dans le développement de jeux au-delà de l'audio, et vaut la peine d'être intériorisé comme un pattern général, pas juste une astuce spécifique à l'audio.
+</Callout>
+
+Pour les considérations de design plus larges autour du ressenti d'un rhythm game (fenêtres de timing, calibration, difficulté), voir notre [guide des mécaniques de rhythm game](/blog/rhythm-game-mechanics-beat-the-piano).
