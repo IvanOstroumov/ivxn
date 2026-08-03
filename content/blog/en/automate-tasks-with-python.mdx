@@ -1,0 +1,78 @@
+---
+title: "Automating Repetitive Tasks with Python: A Practical Starting Point"
+description: "How to identify what's worth automating and a real, working Python script example for renaming and organizing files automatically."
+slug: "automate-tasks-with-python"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["automation", "python"]
+category: "Automation"
+author: "Ivan Ostroumov"
+keywords: ["automate tasks with python", "python automation script example", "what to automate first"]
+ogImageTitle: "Automating Tasks with Python"
+faq:
+  - question: "Do I need to know Python well before automating anything?"
+    answer: "No — most useful automation scripts are short and use a handful of standard-library modules (os, shutil, pathlib). You can get real value from Python knowing far less of the language than people assume."
+  - question: "What's the easiest first thing to automate?"
+    answer: "Anything you do manually, on a schedule or repeatedly, that follows the same steps every time — file organization, renaming batches of files, or pulling the same report from the same place. If you can describe the steps as a numbered list, it's usually automatable."
+  - question: "Is it worth automating something I only do once a month?"
+    answer: "Sometimes — if the manual version takes 20+ minutes and is error-prone, a script you run once a month still pays for the time it took to write within a few months, and it removes the mistakes that come from doing something rarely enough to forget the steps."
+---
+
+Most automation advice jumps straight to code. The actually useful first step is figuring out what's worth automating at all.
+
+## What's worth automating
+
+<Callout>
+A good candidate for automation: you do the same steps, in the same order, more than a couple of times, and the steps themselves rarely change. A bad candidate: something that needs judgment calls every time, or that you do once and will never do again.
+</Callout>
+
+Common first targets:
+- Renaming or organizing batches of files (downloads, exports, photos)
+- Pulling the same data from the same source on a schedule
+- Converting files from one format to another in bulk
+- Cleaning up log files or old temporary files
+
+## A real example: organizing a messy downloads folder
+
+Here's a complete, working script that sorts files in a folder into subfolders by extension — a genuinely common request.
+
+```python
+import shutil
+from pathlib import Path
+
+SOURCE = Path.home() / "Downloads"
+
+def organize_by_extension(source: Path):
+    for file in source.iterdir():
+        if file.is_dir():
+            continue
+        extension = file.suffix.lower().lstrip(".") or "no_extension"
+        destination_folder = source / extension
+        destination_folder.mkdir(exist_ok=True)
+        shutil.move(str(file), str(destination_folder / file.name))
+
+if __name__ == "__main__":
+    organize_by_extension(SOURCE)
+    print(f"Organized files in {SOURCE}")
+```
+
+What this does, line by line: it looks at every file directly inside the Downloads folder, figures out its extension, creates a subfolder named after that extension if one doesn't exist yet, and moves the file there. Run it once, and every `.pdf` ends up in a `pdf/` folder, every `.jpg` in a `jpg/` folder, and so on.
+
+<Callout type="warning">
+Test any file-moving script on a copy of a folder first, not the original — `shutil.move` doesn't ask for confirmation, and a bug in a first draft can misplace files faster than you can fix it by hand.
+</Callout>
+
+## Scheduling it so you don't have to remember
+
+A script only saves time if it actually runs without you remembering to run it.
+
+- **Windows:** Task Scheduler can run a Python script on a schedule (daily, at login, etc.) without needing anything installed beyond Python itself.
+- **Linux/macOS:** `cron` does the same job — a one-line crontab entry can run the script every night.
+
+## Where to go from here
+
+Once a simple script works, the natural next steps are: adding error handling for files that are locked or in use, logging what it did (so you can check later instead of guessing), and — if it's touching anything important — a dry-run mode that prints what it *would* do without actually doing it.
+
+<Callout>
+Have a specific repetitive task eating time every week and not sure it's automatable, or want a script built for it? [Get in touch](/contact).
+</Callout>

@@ -116,7 +116,11 @@
       "java": "Java",
       "data-recovery": "Datenwiederherstellung",
       "hardware": "Hardware",
-      "cpu": "CPU"
+      "cpu": "CPU",
+      "raid": "RAID",
+      "storage": "Speicher",
+      "automation": "Automatisierung",
+      "python": "Python"
     }
   },
   "seo": {

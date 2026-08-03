@@ -116,7 +116,11 @@
       "java": "Java",
       "data-recovery": "Восстановление данных",
       "hardware": "Железо",
-      "cpu": "Процессор"
+      "cpu": "Процессор",
+      "raid": "RAID",
+      "storage": "Хранение данных",
+      "automation": "Автоматизация",
+      "python": "Python"
     }
   },
   "seo": {

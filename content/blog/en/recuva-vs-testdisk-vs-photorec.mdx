@@ -1,0 +1,67 @@
+---
+title: "Recuva vs TestDisk vs PhotoRec: Free Recovery Tools Compared"
+description: "A practical comparison of three free data recovery tools — what each one is actually good at, and when to reach for which one."
+slug: "recuva-vs-testdisk-vs-photorec"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recuva vs testdisk", "best free data recovery tool", "photorec vs recuva"]
+ogImageTitle: "Recuva vs TestDisk vs PhotoRec"
+faq:
+  - question: "Which of these three is easiest for a beginner?"
+    answer: "Recuva, by a wide margin — it has a graphical wizard and a normal Windows-style interface. TestDisk and PhotoRec are both text-menu driven and assume you're comfortable following precise steps."
+  - question: "Can I use more than one of these tools on the same drive?"
+    answer: "Yes, and it's often the right move — try Recuva first for a quick win, then PhotoRec if it comes up empty, since they use different recovery approaches and can succeed in different situations."
+  - question: "Do any of these tools work on formatted drives?"
+    answer: "TestDisk specifically is built for this — it can rebuild a damaged or deleted partition table so the drive becomes readable again, which Recuva and PhotoRec don't attempt."
+---
+
+All three of these are free, widely used, and good at genuinely different things. Reaching for the wrong one wastes time you don't get back once TRIM or a new write cycle has run.
+
+## Recuva: easiest, Windows-only, file-table based
+
+Recuva reads what's left in the file system's own records of deleted files — similar to how the OS itself would find them, just before that space gets reused. That makes it fast and gives it back accurate filenames, but it also means it depends on those records still being intact.
+
+**Best for:** an accidentally deleted file on a Windows PC, recovered soon after deletion, on an HDD (or an SSD where TRIM hasn't run yet — see our [SSD/TRIM guide](/blog/ssd-deleted-files-trim)).
+
+## PhotoRec: ignores the file system entirely
+
+PhotoRec (built by the same team as TestDisk) does something structurally different: it ignores the file system and scans the raw disk sectors for recognizable file signatures — the byte patterns that mark the start of a JPEG, PDF, DOCX, and hundreds of other formats. This is called "file carving."
+
+**Trade-off:** because it doesn't use the file system, it can't recover original filenames or folder structure — you get back `f0000123.jpg`, not `vacation-photo.jpg`. But it works even when the file system itself is badly damaged or reformatted, which defeats Recuva.
+
+**Best for:** formatted drives, corrupted file systems, or when Recuva already came up empty.
+
+## TestDisk: fixes the partition, not individual files
+
+TestDisk solves a different problem: it doesn't recover files, it recovers **partitions**. If a drive shows up as "unallocated" or "RAW" in Windows Disk Management, it usually means the partition table — not the files themselves — got damaged or deleted. TestDisk can scan for and rebuild that partition table, which can make the entire drive (and all its files) readable again in one step.
+
+**Best for:** a drive that no longer shows a recognizable file system, or one that suddenly asks to be "formatted" when you plug it in.
+
+## Comparison table
+
+| | Recuva | PhotoRec | TestDisk |
+|---|---|---|---|
+| Platform | Windows only | Windows/Mac/Linux | Windows/Mac/Linux |
+| Interface | Graphical | Text menu | Text menu |
+| Recovers filenames | Yes (if file table intact) | No | N/A (fixes partitions) |
+| Works on formatted drives | No | Yes | Yes (rebuilds partition) |
+| Best first step for | Simple accidental deletion | File-system damage | "Drive not readable" / RAW drive |
+
+## A sane order to try them in
+
+1. **Drive shows as unreadable/RAW/unallocated?** Start with TestDisk to attempt a partition rebuild.
+2. **Drive readable, specific file(s) deleted, Windows, recent?** Try Recuva first — it's fast and preserves filenames when it works.
+3. **Recuva came up empty, or the drive isn't Windows-only, or it's been reformatted?** Move to PhotoRec.
+
+<Callout type="warning">
+Install and run recovery tools from a different drive than the one you're recovering — writing the tool itself (or its scan cache) to the affected drive can overwrite the very data you're trying to get back.
+</Callout>
+
+<Callout>
+None of these tools work well once new data has overwritten the deleted files' space — the earlier you try, the better your odds, regardless of which tool you pick.
+</Callout>
+
+If you've already tried one of these without success, or the data matters enough that you don't want to keep guessing, [get in touch](/contact) before trying more tools on the same drive.

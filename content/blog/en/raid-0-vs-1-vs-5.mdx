@@ -1,0 +1,69 @@
+---
+title: "RAID 0 vs RAID 1 vs RAID 5: The Simple Explanation"
+description: "What RAID 0, RAID 1, and RAID 5 actually do differently — speed, redundancy, and what happens when a drive fails in each."
+slug: "raid-0-vs-1-vs-5"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "raid", "storage"]
+category: "Hardware"
+author: "Ivan Ostroumov"
+keywords: ["raid 0 vs raid 1", "raid 5 explained", "which raid level should i use"]
+ogImageTitle: "RAID 0 vs 1 vs 5"
+faq:
+  - question: "Is RAID a backup?"
+    answer: "No. RAID protects against a drive failing, not against deletion, ransomware, or corruption — a mistaken delete or a virus is copied across every drive in the array just as reliably as a good file. Backups and RAID solve different problems."
+  - question: "Which RAID level should I use for a home NAS?"
+    answer: "RAID 1 (mirroring) for two drives, or RAID 5 for four or more if you want more usable capacity with drive-failure protection. RAID 0 is rarely the right default for storing anything you'd miss."
+  - question: "How many drives can fail before RAID 5 loses data?"
+    answer: "Exactly one. A second drive failing before the array finishes rebuilding after the first means the data is gone — this is the main reason larger, higher-capacity drives have pushed some setups toward RAID 6 or RAID 10 instead."
+---
+
+RAID gets recommended a lot and explained clearly less often. Here's what the three most common levels actually do.
+
+## RAID 0: speed, zero protection
+
+<Callout type="warning">
+RAID 0 does not protect your data — it makes things worse. If either drive fails, you lose everything on the array, not just half of it.
+</Callout>
+
+RAID 0 splits data across two (or more) drives — half of every file goes to each drive. Reading and writing happen in parallel, so it's genuinely faster. But a file isn't stored whole on either drive, so if one drive fails, every file is now incomplete. There's no redundancy at all; the name is misleading if you associate "RAID" with safety.
+
+**Use case:** video editing scratch disks, temporary render caches — data you can afford to lose because it's disposable or already backed up elsewhere.
+
+## RAID 1: safety through duplication
+
+RAID 1 mirrors the same data across two drives — every write happens twice, once to each drive. If one drive fails, the other has a complete, current copy.
+
+**Trade-off:** you only get the usable capacity of one drive, even though you bought two. Two 2TB drives in RAID 1 give you 2TB of usable space, not 4TB.
+
+**Use case:** the correct default for a small home NAS where you want simple, well-understood protection against a drive dying.
+
+## RAID 5: a middle ground
+
+RAID 5 needs at least three drives. Data is striped across all of them like RAID 0, but one drive's worth of space (rotated across all drives, not fixed to one physical drive) is used for parity — a mathematical checksum that can reconstruct any single missing drive's data.
+
+**Result:** you get the usable capacity of (N-1) drives, and can survive exactly one drive failing. Four 2TB drives in RAID 5 give roughly 6TB usable, with protection against any single drive dying.
+
+## Comparison table
+
+| | RAID 0 | RAID 1 | RAID 5 |
+|---|---|---|---|
+| Minimum drives | 2 | 2 | 3 |
+| Usable capacity | 100% (all drives) | 50% (1 of 2 drives) | (N-1)/N of total |
+| Survives 1 drive failing? | No | Yes | Yes |
+| Read/write speed | Fastest | Write: no gain, Read: some gain | Good, parity adds slight write overhead |
+| Best for | Disposable/scratch data | Small arrays, simplicity | Larger arrays, more usable space per drive |
+
+## The part people skip: RAID is not a backup
+
+A RAID array protects against **hardware failure** — a drive dying. It does nothing against a mistaken deletion, ransomware encrypting your files, or a corrupted filesystem, because those changes get written (or replicated) to every drive in the array exactly like any other write. If you delete a file by mistake on a RAID 1 array, it's deleted on both mirrors.
+
+The practical rule: RAID answers "what if a drive dies," backups answer "what if I lose the data itself." You need both, and one doesn't substitute for the other.
+
+<Callout>
+Rebuilding a RAID 5 array after a drive failure puts significant read stress on the remaining drives — this is exactly when a second drive failure is most likely, especially with older or larger drives. Don't treat a rebuild as routine maintenance; treat it as a window where you're one more failure away from data loss.
+</Callout>
+
+<Callout type="warning">
+Dealing with a failed RAID array right now, or planning a storage setup and unsure which level fits? [Get in touch](/contact) before you rebuild anything.
+</Callout>
