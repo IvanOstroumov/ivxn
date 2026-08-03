@@ -1,0 +1,60 @@
+---
+title: "Designing Rhythm Game Mechanics: Lessons from Beat the Piano"
+description: "How the core mechanics of a rhythm game get designed, using Beat the Piano as a working example — timing windows, feedback, and difficulty curves."
+slug: "rhythm-game-mechanics-beat-the-piano"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["rhythm game design mechanics", "how to design a rhythm game", "beat the piano game design"]
+ogImageTitle: "Rhythm Game Mechanics"
+faq:
+  - question: "What's the hardest part of designing a rhythm game?"
+    answer: "Getting the timing windows right — too strict and the game feels unfair even to skilled players due to unavoidable input/audio latency; too generous and hitting the beat doesn't feel meaningful. This is tuned by playtesting, not calculated in advance."
+  - question: "Why do rhythm games feel unfair on some hardware but not others?"
+    answer: "Audio and input latency varies by device — Bluetooth headphones in particular can introduce noticeable audio delay, which is why well-designed rhythm games include a calibration step to measure and compensate for a specific setup's actual latency."
+  - question: "Should difficulty come from note density or from more forgiving timing windows?"
+    answer: "Primarily note density and pattern complexity — narrowing timing windows to increase difficulty tends to feel punishing rather than skillful, whereas denser, more complex note patterns reward practice in a way that feels earned."
+---
+
+Rhythm games look simple from the outside — hit the note on the beat — but the mechanics that make one feel good versus frustrating are subtle.
+
+## Timing windows: the core design problem
+
+<Callout>
+A timing window is the range around the exact beat where an input still counts as a hit, usually split into tiers (perfect, good, okay). Too narrow, and the game feels unfair regardless of skill, because real-world audio and input latency exist. Too wide, and hitting the beat stops feeling meaningful.
+</Callout>
+
+This is genuinely tuned through playtesting, not derived mathematically — the "correct" window size depends on the specific game's feel and target audience (a casual rhythm game and a hardcore one make different, valid choices here).
+
+## Why calibration matters more than people expect
+
+Different hardware introduces different audio and input latency — Bluetooth headphones especially can add a noticeable, inconsistent delay between when a note visually or audibly "should" be hit and when the sound actually reaches the player. A rhythm game that doesn't offer a calibration step (having the player tap along to a simple beat to measure their actual perceived latency, then compensating for it) will feel randomly unfair to a meaningful share of players through no fault of their own timing.
+
+## Difficulty should come from patterns, not punishment
+
+The tempting way to add difficulty is narrowing the timing windows further at harder levels. In practice, this tends to feel punishing rather than skillful — the player did the same thing that worked before, and it stopped counting. A better lever is **note density and pattern complexity**: more notes, trickier rhythms, patterns that require actual practice to internalize. This rewards genuine skill growth instead of just demanding faster reflexes against an increasingly unforgiving clock.
+
+## Feedback has to be immediate and layered
+
+Visual feedback (a hit flash, a combo counter), audio feedback (a distinct hit sound separate from the song itself), and sometimes haptic feedback all reinforce whether an input landed — and they need to be near-instant. A delay here, even a small one, muddies the player's sense of their own timing and makes it harder to self-correct.
+
+## A simplified core loop
+
+```text
+1. Note spawns, travels toward the hit zone
+2. Player input arrives
+3. Compare input timestamp to the note's ideal timestamp (adjusted for calibrated latency)
+4. Classify as perfect/good/miss based on tuned timing windows
+5. Immediate visual/audio feedback
+6. Update combo/score
+```
+
+## What I'd tell someone starting their first rhythm game
+
+Build the calibration step early, not as a late addition — it changes how you think about timing windows from the start. And playtest with people who aren't you; timing that feels perfectly tuned to the developer (who's played it hundreds of times) is a very different experience for a first-time player.
+
+<Callout>
+Curious about the broader Unity-vs-alternatives decision for a game like this? See our comparison of [Unity vs Godot for a 2D fighting game](/blog/unity-vs-godot-2d-fighting-game) for a related but different genre's engine considerations.
+</Callout>

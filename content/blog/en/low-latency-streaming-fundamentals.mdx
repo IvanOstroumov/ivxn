@@ -1,0 +1,54 @@
+---
+title: "The Technical Fundamentals of Low-Latency Streaming"
+description: "How low-latency video streaming actually works technically — codecs, buffering, and protocol choices, and how they trade off against each other."
+slug: "low-latency-streaming-fundamentals"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reflux", "hardware"]
+category: "Reflux"
+author: "Ivan Ostroumov"
+keywords: ["low latency video streaming technical explanation", "how streaming latency works", "webrtc vs rtmp latency"]
+ogImageTitle: "Low-Latency Streaming Fundamentals"
+faq:
+  - question: "What's the main difference between RTMP/HLS and WebRTC for latency?"
+    answer: "RTMP/HLS-based pipelines (used by most platform streaming) are built around buffering for reliability at scale, typically adding several seconds of delay. WebRTC is built specifically for real-time, sub-second communication (video calls), trading some of that buffering resilience for speed."
+  - question: "Does a faster codec always mean lower latency?"
+    answer: "Encoding speed is one factor among several — network transport method and buffering strategy usually matter more for overall latency than which specific codec is used, though a slow encoder can still be a bottleneck on weaker hardware."
+  - question: "Can you get zero latency in video streaming?"
+    answer: "No — encoding, network transmission, and decoding all take some non-zero time. 'Low latency' means minimizing this to a small fraction of a second, not eliminating it entirely, which isn't physically possible."
+---
+
+Latency in video streaming comes from several distinct stages, each with its own trade-offs — understanding them explains why some approaches are inherently faster than others.
+
+## The stages that add up to total latency
+
+<Callout>
+Total latency is the sum of: capture time, encoding time, network transmission time, buffering time (often the largest and most controllable factor), and decoding/display time on the receiving end.
+</Callout>
+
+Of these, **buffering** is usually the largest and most deliberately-chosen factor — it's a design decision, not an unavoidable physical cost the way encoding and transmission partially are.
+
+## Why buffering exists and why it adds delay
+
+Network conditions vary — packets arrive at inconsistent intervals (jitter), and buffering smooths this out by holding a small queue of data before playback, so brief network hiccups don't cause visible stutter. More buffer means more resilience to bad network conditions, at the direct cost of more delay between "this happened" and "you see it."
+
+## Protocol choice matters more than codec choice for latency
+
+| Approach | Typical latency | Built for |
+|---|---|---|
+| RTMP → platform (Twitch/YouTube) → HLS/DASH to viewers | Several seconds | Reliable delivery to many simultaneous viewers, at scale |
+| WebRTC (peer-to-peer or SFU-based) | Sub-second | Real-time, interactive communication (video calls) |
+
+RTMP/HLS-based pipelines are built around the assumption that many viewers need a reliable stream and some latency is an acceptable cost for that reliability. WebRTC is built around the opposite assumption — a small number of participants where responsiveness matters more than large-scale reliability.
+
+## Codec choice: a secondary factor
+
+Modern codecs (H.264, H.265/HEVC, AV1) differ in compression efficiency and encoding speed, which affects bandwidth usage and how much CPU/GPU work encoding requires — this can matter for latency on weaker hardware where encoding itself becomes a bottleneck, but it's a smaller factor than the buffering/protocol choice above for most real-world setups.
+
+## Why this isn't a solved, one-size-fits-all problem
+
+A platform serving millions of simultaneous viewers genuinely needs the reliability that buffering provides — removing it would cause visible stutter for a meaningful share of those viewers on imperfect connections. A tool built for one-to-one, real-time interaction (like [Reflux](/blog/why-i-built-reflux-instead-of-obs)) can make the opposite trade, since the resilience buffering provides matters less than the responsiveness it costs, for that specific, smaller-scale use case.
+
+<Callout>
+This is the underlying technical reasoning behind why [platform streaming inherently has delay](/blog/low-latency-streaming-without-obs) that isn't fixable through OBS settings alone.
+</Callout>

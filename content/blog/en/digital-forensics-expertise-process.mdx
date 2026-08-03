@@ -1,0 +1,56 @@
+---
+title: "What a Digital Forensics Examination Actually Looks Like"
+description: "A walkthrough of how a digital forensics examination of evidence actually proceeds, from intake to report, and why the process matters as much as the findings."
+slug: "digital-forensics-expertise-process"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["digital-forensics"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["digital forensics examination process", "how does digital forensics work", "chain of custody digital evidence"]
+ogImageTitle: "The Digital Forensics Process"
+faq:
+  - question: "Why can't I just recover the files myself and hand them over?"
+    answer: "Self-directed recovery can alter metadata, overwrite unallocated space that held other relevant data, or break the chain of custody needed for the findings to be trusted or admissible — the process matters as much as what's found."
+  - question: "What is 'chain of custody' and why does it matter?"
+    answer: "It's a documented, unbroken record of who had access to the evidence and device at every point from seizure to examination. Any gap in that record gives grounds to question whether the evidence was altered, regardless of whether it actually was."
+  - question: "Does forensic examination always require the original device?"
+    answer: "Not always — a forensic image (a complete, verified bit-for-bit copy) is often taken first specifically so the examination happens on a copy, not the original, preserving the source device untouched."
+---
+
+Digital forensics gets imagined as pointing recovery software at a drive. The actual process has more steps, and most of them exist to make the findings trustworthy, not just accurate.
+
+## Step 1: Preservation, before anything else
+
+<Callout type="warning">
+The first rule of a forensic examination is to change nothing on the original device. Even opening a file changes its "last accessed" timestamp — a small change, but one that can matter later.
+</Callout>
+
+This is why examinations typically start with creating a **forensic image**: a complete, bit-for-bit copy of the storage device, verified with a cryptographic hash so it can be proven identical to the original. All actual analysis happens on this copy, leaving the source device untouched.
+
+## Step 2: Chain of custody
+
+Every point of contact with the device — who seized it, who transported it, who examined it, when — gets documented. This isn't paperwork for its own sake: if a gap or inconsistency shows up later, it gives grounds to question whether the evidence was tampered with, regardless of whether it actually was. A clean chain of custody is what lets findings be trusted (and, where relevant, hold up legally).
+
+## Step 3: Analysis
+
+With a verified image in hand, the actual technical work happens — recovering deleted files, examining file-system metadata, reconstructing timelines of activity, extracting messages or browsing history, checking for signs of tampering or wiping tools having been used. This is where the recovery techniques covered in our other guides (deleted files, [SSD/TRIM behavior](/blog/ssd-deleted-files-trim), [deleted messages](/blog/digital-forensics-deleted-messages)) actually get applied.
+
+## Step 4: Documentation and report
+
+Findings get written up in a way that explains not just *what* was found but *how* it was found and *why* the method is reliable — because a forensic report needs to withstand scrutiny from someone who wasn't in the room, possibly much later.
+
+| Stage | Goal |
+|---|---|
+| Preservation | Original device stays unaltered |
+| Chain of custody | Every access to evidence documented |
+| Analysis | Actual recovery/investigation happens on a verified copy |
+| Report | Findings explained clearly enough to withstand scrutiny |
+
+## Where this matters in practice
+
+Workplace investigations, custody disputes, fraud cases, and criminal matters all depend on this process being followed correctly — not just on the technical recovery being possible. A brilliant recovery with a broken chain of custody can be worth less than a modest one done properly.
+
+<Callout type="warning">
+Need a forensic examination handled properly from the start — not recovery attempted first and formalized later? [Get in touch](/contact) before touching the device.
+</Callout>

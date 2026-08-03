@@ -1,0 +1,58 @@
+---
+title: "Indie Game Development in a Team of 2-3 People: What Actually Works"
+description: "Practical lessons on keeping a small indie game development team functional and avoiding the friction that sinks small projects."
+slug: "indie-game-dev-small-team"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["small indie team game development", "2 person game dev team tips", "avoid conflict indie game team"]
+ogImageTitle: "Small Indie Team Game Dev"
+faq:
+  - question: "What's the biggest cause of small indie teams falling apart?"
+    answer: "Unclear ownership of decisions, not disagreement itself — disagreement is normal and healthy; the problem is when nobody has clear authority to actually make a final call, so decisions stall or get relitigated repeatedly."
+  - question: "Should everyone in a small team be able to work on everything?"
+    answer: "Some overlap is healthy for resilience if someone's unavailable, but genuinely undefined roles ('we'll all just figure it out together') tend to create the exact ownership ambiguity that causes friction — a rough default owner per area still helps, even if others can pitch in."
+  - question: "Is version control overkill for a 2-3 person project?"
+    answer: "No — this is one of the least optional tools even at the smallest scale, since merge conflicts and lost work happen just as easily with 2 people as with 20, and the cost of setting it up properly is tiny compared to the cost of losing work without it."
+---
+
+A 2-3 person indie team has a completely different failure mode than a large studio — the risks are social and structural, not process-heavy.
+
+## The real risk isn't disagreement — it's unclear ownership
+
+<Callout>
+Disagreement about creative direction is normal and often healthy. The actual project-killer is when no one has clear authority over a given area, so decisions get relitigated repeatedly instead of made once and moved past.
+</Callout>
+
+A practical fix that doesn't require heavy process: assign a rough default owner per area (one person leans "final call" on gameplay feel, another on art direction, for example) — not as rigid ownership that excludes input from others, but as a tiebreaker so disagreements have a resolution path instead of stalling indefinitely.
+
+## Version control is not optional, even at this size
+
+Losing work to overwritten files or conflicting edits happens just as easily with two people as with twenty — Git (with a shared remote repository) costs almost nothing to set up and avoids a failure mode that has ended more than a few small projects. This applies to code and, with the right tooling, to some art/design assets too.
+
+## Communication cadence matters more than tooling choice
+
+A short, regular check-in (even 15 minutes, even just async in a chat) prevents two people from silently drifting in different directions on the same feature for a week. The specific tool (Discord, Slack, whatever) matters far less than actually having a predictable cadence people rely on.
+
+## Scope discipline is harder with fewer people, not easier
+
+<Callout type="warning">
+Small teams often assume they'll naturally stay scoped down because there's no one to delegate scope creep to — in practice, the opposite often happens, since there's no one whose job it is to push back on "just one more feature" ideas.
+</Callout>
+
+Writing down what's explicitly out of scope (not just what's in) gives the team something concrete to point back to when a tempting addition threatens the actual timeline.
+
+## A reasonable minimal structure for 2-3 people
+
+| Area | Practice |
+|---|---|
+| Code/assets | Git with a shared remote, from day one |
+| Decisions | Rough default owner per area, as a tiebreaker |
+| Communication | A predictable, low-effort check-in cadence |
+| Scope | An explicit "not doing this" list, referenced when tempted |
+
+## The honest upside of staying this small
+
+A 2-3 person team can make decisions and pivot far faster than anything larger — that speed is a real competitive advantage for an indie project specifically, and it's worth protecting deliberately rather than accidentally recreating large-team process overhead that erodes the exact advantage small size provides.

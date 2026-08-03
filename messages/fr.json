@@ -120,7 +120,14 @@
       "raid": "RAID",
       "storage": "Stockage",
       "automation": "Automatisation",
-      "python": "Python"
+      "python": "Python",
+      "reverse-engineering": "Rétro-ingénierie",
+      "digital-forensics": "Informatique légale",
+      "unity": "Unity",
+      "gamedev": "Développement de jeux",
+      "reflux": "Reflux",
+      "consulting": "Conseil",
+      "career": "Carrière"
     }
   },
   "seo": {

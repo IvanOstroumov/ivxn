@@ -1,0 +1,61 @@
+---
+title: "Syncing Music and Gameplay with Frame-Level Precision"
+description: "The technical approach to keeping music and gameplay events perfectly synchronized in a game, and why naive timer-based approaches drift over time."
+slug: "syncing-music-and-gameplay-precisely"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["sync music to gameplay unity", "audio sync drift game engine", "precise timing rhythm game unity"]
+ogImageTitle: "Syncing Music and Gameplay"
+faq:
+  - question: "Why does using Update() or a simple timer for music sync eventually drift?"
+    answer: "Update()-based timing accumulates small inaccuracies frame over frame — frame time isn't perfectly consistent, and those small errors compound over a multi-minute song into audible, noticeable drift by the end."
+  - question: "What should be used instead?"
+    answer: "The audio system's own playback position (Unity's AudioSource.time, or better, samples via a DSP-time-based approach) as the single source of truth for 'where are we in the song,' rather than a separately-running game timer trying to track the same thing independently."
+  - question: "Does this matter for games that aren't rhythm games?"
+    answer: "Yes, any time gameplay needs to react to music beats — dynamic music systems, beat-synced visual effects, or timing-sensitive audio cues in a non-rhythm game all have the same underlying drift risk if built on a naive timer."
+---
+
+Getting gameplay to feel synced to music for the first ten seconds is easy. Keeping it synced for the whole song is where naive approaches fall apart.
+
+## Why simple timers drift
+
+<Callout type="warning">
+Using `Update()` (or any per-frame delta-time accumulator) to track "how far into the song are we" accumulates small timing errors every single frame. Individually invisible, these errors compound — by the end of a 3-minute song, a naive timer-based approach can be noticeably out of sync with the actual audio playback.
+</Callout>
+
+Frame time isn't perfectly consistent (even at a stable frame rate, there's jitter), and a timer that just adds `Time.deltaTime` every frame inherits all of that imprecision cumulatively.
+
+## The fix: the audio system is the source of truth
+
+Instead of tracking time independently and hoping it matches the audio, read the actual playback position **from the audio system itself** every frame:
+
+```csharp
+// Naive (drifts over time):
+private float songTime = 0f;
+void Update() { songTime += Time.deltaTime; }
+
+// Better: read directly from the audio source
+void Update() {
+    float songTime = audioSource.time;
+    // Use this authoritative value for note spawning / scoring
+}
+```
+
+`AudioSource.time` reflects where the audio system actually is in playback, not where a separate accumulator guesses it should be — this eliminates drift entirely, since gameplay is now reading the same clock the audio is actually running on rather than a parallel approximation of it.
+
+## Going further: sample-accurate timing
+
+For games needing tighter precision than `AudioSource.time` provides (which updates once per frame, not with sample accuracy), a common approach uses Unity's `AudioSettings.dspTime` — the audio system's own high-precision clock — scheduled against exact sample counts, rather than frame-based polling at all. This matters more for genuinely competitive rhythm games than for casual ones, where frame-level precision from `AudioSource.time` is usually sufficient.
+
+## Precomputing note timing against the song, not against real time
+
+A related principle: note charts should be authored and stored as timestamps within the song (e.g., "this note occurs at 12.450 seconds into the track"), not as a sequence of delays relative to each other. Relative delays compound rounding errors the same way naive per-frame timers do; absolute song-relative timestamps compared against the authoritative playback position don't.
+
+<Callout>
+This same principle — read from the actual source of truth instead of tracking a parallel approximation — comes up constantly in game development beyond audio, and it's worth internalizing as a general pattern, not just an audio-specific trick.
+</Callout>
+
+For the broader design considerations around rhythm game feel (timing windows, calibration, difficulty), see our [rhythm game mechanics guide](/blog/rhythm-game-mechanics-beat-the-piano).

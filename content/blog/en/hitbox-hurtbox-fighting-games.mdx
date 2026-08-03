@@ -1,0 +1,76 @@
+---
+title: "Building a Hitbox/Hurtbox System for a 2D Fighting Game"
+description: "How hitbox and hurtbox systems actually work in 2D fighting games, and the practical implementation details that determine whether combat feels fair."
+slug: "hitbox-hurtbox-fighting-games"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["hitbox hurtbox fighting game", "how fighting game collision works", "frame data fighting games"]
+ogImageTitle: "Hitbox/Hurtbox Systems"
+faq:
+  - question: "What's the difference between a hitbox and a hurtbox?"
+    answer: "A hitbox is the area that can deal damage (attached to an attacking move); a hurtbox is the area that can receive damage (attached to a character's body). A hit registers when an active hitbox overlaps an opponent's hurtbox — they're deliberately separate shapes, not the same collider."
+  - question: "Why not just use the character's sprite bounds as the hitbox?"
+    answer: "Sprite bounds are usually much larger and less precise than what feels fair for combat — a punch's actual hitbox should cover roughly the fist during the strike frames, not the character's whole silhouette, or the game will feel like it's hitting from impossible distances."
+  - question: "What are 'active frames' in fighting game terms?"
+    answer: "The specific frames during an attack's animation where its hitbox is actually enabled and can register a hit — a punch has startup frames (winding up, no hitbox), active frames (hitbox live), and recovery frames (no hitbox, vulnerable) that all need separate handling."
+---
+
+Fighting game combat feel comes down to a lot of careful, unglamorous collision detail — this is where a lot of that detail actually lives.
+
+## Hitboxes and hurtboxes are separate shapes, on purpose
+
+<Callout>
+A hurtbox represents where a character can be hit; a hitbox represents where an attack can deal damage. They are deliberately different, independently-sized shapes — never the same collider serving both roles.
+</Callout>
+
+Using a single shared collider for both roles is a common early mistake — it makes it impossible to tune "how easy is this character to hit" separately from "how far does this attack reach," which are genuinely different design questions that need independent answers.
+
+## Attacks need frame-by-frame hitbox state, not a single collider
+
+A real attack has distinct phases:
+
+- **Startup** — the wind-up animation, no hitbox active yet (this is what makes moves punishable if telegraphed and blocked/dodged).
+- **Active** — the specific frames where the hitbox is actually enabled and can register a hit.
+- **Recovery** — after the hitbox turns off, before the character can act again — this is what "punishing a whiffed attack" actually exploits.
+
+```csharp
+public class AttackHitbox : MonoBehaviour {
+    public int startupFrames = 4;
+    public int activeFrames = 3;
+    public int recoveryFrames = 8;
+    private int currentFrame = 0;
+    private Collider2D hitboxCollider;
+
+    void FixedUpdate() {
+        currentFrame++;
+        bool isActive = currentFrame > startupFrames &&
+                         currentFrame <= startupFrames + activeFrames;
+        hitboxCollider.enabled = isActive;
+    }
+}
+```
+
+This is deliberately driven by a frame counter, not by "is the animation currently playing" in a loose sense — fighting games need exact, reproducible frame data, since players will (and should be able to) learn and rely on exact timing.
+
+## Fixed timestep matters here more than most genres
+
+Fighting games are unusually sensitive to timing consistency — using Unity's `FixedUpdate` (a consistent physics timestep) for hitbox state, rather than the variable-rate `Update`, keeps frame data actually consistent regardless of rendering frame rate. A move that's "4 frames startup" needs to mean the same real-world duration every time, on every machine, not vary with rendering performance.
+
+## A simplified state flow
+
+| Phase | Hitbox state | Player state |
+|---|---|---|
+| Startup | Inactive | Committed to the move, no new input yet |
+| Active | Enabled, can hit | Committed, hitbox live |
+| Recovery | Inactive again | Vulnerable, punishable if blocked/dodged |
+
+## Why this level of care matters
+
+Fighting game players — even casual ones — develop an intuitive feel for whether hits are "fair," and inconsistent or sprite-bounds-based hit detection is one of the fastest ways to make a fighting game feel bad even if the core mechanics are otherwise solid. This is unglamorous implementation work, but it's a large share of what actually determines whether combat feels good.
+
+<Callout>
+For the broader engine decision behind SAMT: All Stars, see our [Unity vs Godot comparison](/blog/unity-vs-godot-2d-fighting-game).
+</Callout>

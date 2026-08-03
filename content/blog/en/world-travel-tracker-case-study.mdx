@@ -1,0 +1,56 @@
+---
+title: "Building World Travel Tracker: An Android App Case Study"
+description: "How World Travel Tracker — an Android app for tracking visited countries with a map and JSON export — was designed and built, and the decisions behind it."
+slug: "world-travel-tracker-case-study"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["world travel tracker app", "android travel tracking app development", "building a map based android app"]
+ogImageTitle: "World Travel Tracker Case Study"
+faq:
+  - question: "Why build a dedicated app instead of just using a spreadsheet?"
+    answer: "A spreadsheet doesn't give you a visual map of what's been visited, doesn't work well on mobile for quick updates while traveling, and doesn't export in a structured, reusable format — a purpose-built app solves all three at once."
+  - question: "Why JSON export specifically, instead of a proprietary format?"
+    answer: "JSON is human-readable, easy to back up, and easy to import into other tools or scripts later — a proprietary format would lock the data into the app with no easy way out if a user wanted their data elsewhere."
+  - question: "Is offline support relevant for a travel-tracking app?"
+    answer: "Very much so — travel is exactly the scenario where connectivity is least reliable, so an app for tracking countries visited needs to work fully offline by design, not as an afterthought."
+---
+
+World Travel Tracker started from a simple, personal itch: wanting a visual record of which countries I'd actually been to, without relying on a spreadsheet or memory.
+
+## The core idea
+
+A map-based interface where visited countries get marked directly, with the data structured well enough to export and use elsewhere — not locked into the app.
+
+## Why a map, not a list
+
+A list of country names is functionally complete but doesn't give the same at-a-glance sense of coverage a visual map does — seeing which regions are unvisited is immediately obvious on a map in a way a text list doesn't convey. This was the actual reason to build a dedicated app instead of just using a spreadsheet or note.
+
+## Offline-first by necessity, not preference
+
+Travel is precisely the situation where connectivity is least reliable — the app needed to work fully without a connection, since checking off a visited country in a remote area with no signal is a completely normal use case, not an edge case. This meant designing the data layer around local storage as the source of truth from the start (see our [offline-first architecture guide](/blog/offline-first-android-apps) for the general pattern this follows) rather than retrofitting it later.
+
+## Why JSON export
+
+The data model is simple — a list of visited countries with metadata — which makes JSON a natural fit: human-readable, easy to back up manually, and easy to bring into other tools or scripts if someone wanted to do more with their own data than the app's built-in views provide. A proprietary binary format would have solved nothing the app itself needed and would have made the user's own data harder for them to access outside the app.
+
+```json
+{
+  "visitedCountries": [
+    { "code": "IT", "name": "Italy", "visitedDate": "2024-06-12" },
+    { "code": "DE", "name": "Germany", "visitedDate": "2023-11-03" }
+  ]
+}
+```
+
+## What I'd emphasize for anyone building something similar
+
+- **Start with the data model, not the map UI.** The map is a rendering of the data — getting the underlying structure (what counts as a "visit," what metadata matters) right first makes the visual layer straightforward afterward, not the reverse.
+- **Offline-first isn't optional for travel-context apps** — it's close to the core requirement, not a nice-to-have.
+- **Export in an open format** if there's any chance users will want their data outside your app — it costs little upfront and avoids a real trust problem later.
+
+<Callout>
+This kind of project — a personal utility that grows into something worth polishing and sharing — is one of my favorite categories to build. See the [Projects page](/projects) for more like it.
+</Callout>

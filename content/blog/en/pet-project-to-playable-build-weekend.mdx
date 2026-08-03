@@ -1,0 +1,56 @@
+---
+title: "From Idea to a Playable Build in a Weekend"
+description: "A practical approach to turning a game idea into something actually playable within a weekend, without cutting the corners that make the result meaningless."
+slug: "pet-project-to-playable-build-weekend"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["weekend game jam approach", "prototype game idea fast", "turn game idea into playable prototype"]
+ogImageTitle: "Playable Build in a Weekend"
+faq:
+  - question: "What should I cut first when time is running out?"
+    answer: "Anything that isn't the core mechanic you're testing — art polish, menus, settings screens, and secondary features are all safe to cut or fake. The core loop is the one thing that can't be faked, because it's the entire point of the exercise."
+  - question: "Is it worth using placeholder art for a weekend prototype?"
+    answer: "Almost always yes — spending prototype time on art that will likely get replaced or cut entirely is one of the most common ways a weekend project runs out of time before answering its actual question."
+  - question: "What counts as 'done' for a weekend prototype?"
+    answer: "The core mechanic is playable and you can honestly answer whether it's fun or not — not a finished game, not something ready to publish. If you can answer that one question, the weekend succeeded regardless of how rough everything else looks."
+---
+
+A weekend isn't enough time to build a game — but it's enough time to answer the one question that actually matters: is the core idea fun?
+
+## Decide the one thing you're testing, before opening the engine
+
+<Callout>
+A weekend prototype has exactly one job: answer whether the core mechanic is fun. Everything else — art, menus, additional features — is a distraction from that question until it's answered.
+</Callout>
+
+Write down, in one sentence, what you're actually testing ("does dodging feel satisfying," "is the core puzzle mechanic interesting for more than five minutes"). Everything you build over the weekend should serve answering that one question.
+
+## What to fake or skip entirely
+
+- **Art** — placeholder shapes, free asset packs, or programmer-art rectangles are completely fine. Time spent on real art here is time not spent on the actual mechanic you're testing.
+- **Menus and settings** — a hardcoded start, no options screen, no save system. None of this affects whether the core mechanic is fun.
+- **Polish and juice** (screen shake, particle effects) — genuinely helps perceived feel, but only after the core mechanic itself is confirmed worth polishing. Adding juice to a mechanic that isn't fun yet just makes a boring mechanic look nicer, not more fun.
+- **Edge cases and error handling** — a weekend prototype can crash on weird input; that's an acceptable trade for the time saved.
+
+## A rough time allocation that actually works
+
+| Time block | Focus |
+|---|---|
+| First few hours | Get the absolute core interaction working, however ugly |
+| Middle stretch | Iterate on that core interaction based on how it feels to play |
+| Final stretch | Get it into a state someone else can actually try, with minimal instructions |
+
+## The step people skip: let someone else play it
+
+A prototype only you've played tells you much less than one a friend or fellow developer has tried cold, with no explanation from you standing over their shoulder. Watching someone else's first reaction — where they get confused, where they light up — is often more informative than any amount of solo iteration.
+
+## What "success" actually looks like
+
+Success isn't a finished game — it's an honest answer to the one question you set out to test. A prototype that clearly shows "this mechanic isn't fun, don't build further on it" is just as successful as one that shows "this is worth pursuing" — both save you from the much more expensive mistake of building a full game around an untested core idea.
+
+<Callout>
+For what happens after a prototype proves worth pursuing, see our note on [optimizing a Unity game as it grows](/blog/optimizing-unity-for-weak-hardware) and [going from idea to first real playtest](/blog/idea-to-first-playtest).
+</Callout>

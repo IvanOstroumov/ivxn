@@ -1,0 +1,58 @@
+---
+title: "Your RAID Array Failed: Can the Data Be Recovered?"
+description: "What actually happens when a RAID array fails, when recovery is realistic, and the mistakes that turn a recoverable RAID failure into data loss."
+slug: "raid-array-failure-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "raid", "hardware"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["raid array failed recovery", "raid 5 two drives failed", "recover data from broken raid"]
+ogImageTitle: "RAID Array Failure Recovery"
+faq:
+  - question: "One drive in my RAID 5 failed — is my data safe?"
+    answer: "Yes, for now — RAID 5 tolerates exactly one drive failing. Replace the failed drive and let the array rebuild as soon as reasonably possible, since a second failure during that window would cause data loss."
+  - question: "Can data be recovered if two drives fail in a RAID 5 array?"
+    answer: "Sometimes, but it's a specialized recovery, not a standard one — it typically requires imaging the surviving drives and reconstructing data through the array's parity math manually, which is meaningfully harder than a single-drive failure."
+  - question: "I rebuilt the array and now data is missing — what happened?"
+    answer: "A rebuild attempted with drives in the wrong order, an incorrect array configuration, or a rebuild started with an already-marginal second drive are the most common causes — this is a common way a recoverable situation turns into a harder one."
+---
+
+RAID failure recovery isn't one problem — it depends heavily on which drive(s) failed and what's been done to the array since.
+
+## First: don't guess at a rebuild
+
+<Callout type="warning">
+Rebuilding a RAID array with drives in the wrong order, or with the wrong array parameters guessed from memory, is one of the most common ways to turn a recoverable failure into an unrecoverable one. If you're not certain of the exact original configuration, don't attempt a rebuild from scratch.
+</Callout>
+
+## Single drive failure: usually fine, act promptly
+
+If your array is designed to tolerate one drive failing (RAID 1, RAID 5, RAID 6, RAID 10 — see our [RAID levels comparison](/blog/raid-0-vs-1-vs-5)) and exactly one has failed, the data is intact. The priority is replacing the failed drive and rebuilding **before** a second failure happens — which is a real risk, since rebuilding puts unusually high read load on the remaining drives, right when you can least afford another failure.
+
+## Two or more drives failed (beyond what the array tolerates)
+
+This is a genuinely harder recovery. It usually means:
+
+1. Imaging each surviving drive individually first — never working directly against the only remaining copies.
+2. Reconstructing the array's logical structure (stripe size, drive order, parity algorithm) from what's recoverable, since this metadata is sometimes what's actually damaged rather than the data itself.
+3. Extracting files from the reconstructed virtual array once the structure is rebuilt correctly.
+
+This is meaningfully more specialized than single-drive recovery and is where DIY attempts most often make things worse — guessing at stripe size or drive order during reconstruction can produce garbled output that looks like corruption but is actually a reconstruction error.
+
+## Common causes worth knowing about
+
+| Cause | What happened |
+|---|---|
+| Controller failure (not drive failure) | The RAID controller card itself died — drives may be completely fine and readable once moved to compatible hardware |
+| Multiple drive failures from the same batch | Drives bought together often have similar wear, so failing close together isn't a coincidence |
+| Failed rebuild attempt | Wrong order/parameters used during a DIY rebuild attempt |
+| Accidental array deletion/reconfiguration | Reconfiguring a NAS or RAID controller without realizing it would wipe the array definition |
+
+<Callout>
+If the RAID controller itself failed rather than the drives, the drives may hold completely intact data — the fix in that specific case can be as simple as getting compatible replacement hardware, not data recovery at all.
+</Callout>
+
+<Callout type="warning">
+Dealing with a failed RAID array right now? Stop before attempting a rebuild if you're not certain of the original configuration — [get in touch](/contact) first.
+</Callout>

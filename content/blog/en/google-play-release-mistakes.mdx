@@ -1,0 +1,59 @@
+---
+title: "5 Mistakes to Avoid on Your First Google Play Release"
+description: "The most common, avoidable mistakes first-time Android developers make when releasing to Google Play, and how to sidestep each one."
+slug: "google-play-release-mistakes"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["first google play release mistakes", "android app store rejection reasons", "google play launch checklist"]
+ogImageTitle: "Google Play Release Mistakes"
+faq:
+  - question: "How long does Google Play review usually take?"
+    answer: "It varies, from a few hours to several days, and can take longer for accounts or apps triggering additional policy review (especially around sensitive permissions). Don't plan a launch date that assumes instant approval."
+  - question: "Can I fix a rejected app and resubmit?"
+    answer: "Yes — rejections come with a stated reason, and most are fixable without a full re-review cycle once the specific issue is addressed. Read the actual rejection reason carefully rather than guessing at what to change."
+  - question: "Do I need a privacy policy even for a simple app?"
+    answer: "Almost certainly yes — Google Play requires a privacy policy for the large majority of apps, including many that feel simple, if they request any permissions or collect any data at all, which most apps do even unintentionally (crash reporting, analytics)."
+---
+
+Most first-release problems on Google Play aren't about the app's quality — they're process and policy mistakes that are easy to avoid once you know they exist.
+
+## 1. Requesting permissions you don't clearly justify
+
+<Callout type="warning">
+Google Play policy requires that permissions map to a clear, declared use in your app — requesting broad permissions "just in case" is a common rejection reason, and sensitive permissions (location, contacts, SMS) get extra scrutiny.
+</Callout>
+
+Request only what the app actually uses, and be ready to justify each one in the Play Console's data safety section.
+
+## 2. Skipping the privacy policy
+
+Nearly every app needs one — including apps that feel too simple to need it, if they use analytics, crash reporting, or any permission at all (most do, even unintentionally through included libraries). A missing or inadequate privacy policy is one of the most common avoidable rejections.
+
+## 3. Not testing on a range of real device sizes
+
+Android's device fragmentation means an app that looks fine on your one test device or emulator can break badly on a different screen size, aspect ratio, or Android version. Test on at least a small phone, a large phone, and a tablet-sized screen before submitting — this catches layout bugs cheaply, before users find them.
+
+## 4. Treating the app listing as an afterthought
+
+Screenshots, description, and the app icon aren't just marketing — a weak or generic listing hurts discoverability and conversion regardless of how good the app itself is. This is worth real time before launch, not something to throw together the night before submitting.
+
+## 5. Not planning for the review-to-launch gap
+
+Review isn't instant — it can take anywhere from hours to several days, longer if your app touches sensitive permission categories. Don't announce a specific launch date publicly before the app has actually cleared review; "submitted" and "live" are different states, and the gap between them is outside your control.
+
+## A pre-submission checklist
+
+| Check | Why it matters |
+|---|---|
+| Permissions match actual, declared use | Common rejection reason |
+| Privacy policy present and accurate | Required for nearly all apps |
+| Tested on multiple screen sizes | Fragmentation causes real bugs |
+| Listing (screenshots, description) is finished | Affects discoverability, not just polish |
+| Submitted with buffer before any announced date | Review isn't instant |
+
+<Callout>
+Getting close to a first release and want a second pair of eyes on the submission before you send it in? [Get in touch](/contact).
+</Callout>

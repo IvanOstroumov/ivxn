@@ -1,0 +1,66 @@
+---
+title: "Building an Offline-First Android App"
+description: "What 'offline-first' actually means architecturally, why it's not just a checkbox feature, and the core patterns that make it work."
+slug: "offline-first-android-apps"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["offline first android architecture", "android app works without internet", "sync android app offline data"]
+ogImageTitle: "Offline-First Android Apps"
+faq:
+  - question: "Is offline-first the same as caching API responses?"
+    answer: "Related, but narrower — caching just stores past responses for reuse. Offline-first means the app treats local data as the source of truth the UI reads from, with network sync as a background concern, which also supports writing/creating data while offline."
+  - question: "Can offline-first be added to an existing app later?"
+    answer: "It's possible, but meaningfully harder than designing for it from the start — retrofitting a local-database-as-source-of-truth model onto an app built assuming the UI reads directly from network calls is a substantial architectural change, not an incremental one."
+  - question: "What happens if the same data is edited both offline and on the server?"
+    answer: "This is the hard part — conflict resolution needs an explicit strategy (last-write-wins, merge logic, or surfacing the conflict to the user), and it's worth designing deliberately rather than leaving as an afterthought, since it's where offline-first apps most often behave unexpectedly."
+---
+
+"Offline-first" gets used loosely to mean "works without internet," but the actual architecture is more specific than that.
+
+## The core idea: local data is the source of truth
+
+<Callout>
+In an offline-first app, the UI reads from a local database, not directly from the network. The network's job is to sync that local database in the background — the UI doesn't need to know or care whether a sync just happened.
+</Callout>
+
+This is a meaningfully different shape from "cache the last API response and show that if offline" — it supports reading, writing, and even creating new data while offline, with sync reconciling things once connectivity returns.
+
+## The typical pattern
+
+1. **UI reads from Room** (or another local database), via Flow for reactive updates.
+2. **A repository layer** decides when to fetch from network and writes results into the local database — the UI never talks to the network directly.
+3. **A sync mechanism** (WorkManager is the standard modern choice) runs in the background, pushing local changes up and pulling remote changes down, independent of whether the user currently has the app open.
+
+```kotlin
+class NotesRepository(private val dao: NoteDao, private val api: NotesApi) {
+    fun getNotes(): Flow<List<Note>> = dao.getAll()
+
+    suspend fun refresh() {
+        val remoteNotes = api.fetchNotes()
+        dao.insertAll(remoteNotes)
+    }
+}
+```
+
+The UI observes `getNotes()` continuously — it updates automatically whenever `refresh()` writes new data, without the UI layer needing to know a network call happened at all.
+
+## The hard part: conflict resolution
+
+If the same record can be edited both offline (on-device) and elsewhere (another device, a web version, the server directly), you need an explicit strategy for what happens when both versions try to reconcile:
+
+- **Last-write-wins** — simplest, but can silently discard a user's offline edit.
+- **Field-level merging** — more complex, but avoids losing changes that don't actually conflict.
+- **Surface the conflict to the user** — appropriate when silently picking a winner risks losing something the user would care about.
+
+There's no universally correct choice here — it depends on how much a lost edit would actually matter for your specific app.
+
+## Why retrofitting this later is expensive
+
+An app built assuming the UI reads directly from network responses has that assumption baked into a lot of code — screens, view models, error handling all built around "a network call either succeeds or shows an error." Converting that to "the UI always reads local data, which may or may not be freshly synced" touches most of those same places. This is exactly the kind of decision worth making explicitly at the start — see our [Android architecture guide](/blog/android-architecture-avoid-rewrites) for how this fits into the bigger early-decisions picture.
+
+<Callout type="warning">
+Planning an app that needs to work reliably without a connection, or trying to retrofit offline support into an existing one? [Get in touch](/contact) — the two situations need genuinely different approaches.
+</Callout>

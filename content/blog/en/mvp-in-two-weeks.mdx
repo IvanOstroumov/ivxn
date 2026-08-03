@@ -1,0 +1,64 @@
+---
+title: "What You Can Realistically Build as an MVP in 2 Weeks"
+description: "A realistic look at what fits into a genuine 2-week MVP timeline, and the scope decisions that make that timeline achievable without cutting corners that matter."
+slug: "mvp-in-two-weeks"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["consulting", "automation"]
+category: "Consulting"
+author: "Ivan Ostroumov"
+keywords: ["2 week mvp scope", "what can you build in 2 weeks", "realistic mvp timeline"]
+ogImageTitle: "MVP in 2 Weeks"
+faq:
+  - question: "What's the biggest thing that blows a 2-week MVP timeline?"
+    answer: "Scope that grows mid-build, not underestimating the original list — a 2-week MVP scoped honestly and left alone is very achievable; the same scope with 'while we're at it' additions accumulating daily rarely survives the deadline."
+  - question: "Should an MVP include user accounts and authentication?"
+    answer: "Only if the core thing being tested actually requires them — if the goal is validating a core workflow, a single hardcoded test account is often enough for two weeks, with real multi-user auth deferred until the concept is validated."
+  - question: "Is it worth building a real backend for a 2-week MVP, or faking data?"
+    answer: "Depends on what's being tested — if the backend logic itself is the risky, uncertain part, build a real (if minimal) one. If the goal is testing UI/UX or a workflow concept, a fake or hardcoded data layer can be legitimate and faster, as long as you're honest that it's not production-ready."
+---
+
+Two weeks sounds short for software, and it is — but it's enough time to test a real, specific hypothesis if the scope matches the timeline honestly.
+
+## The first question: what exactly are you testing?
+
+<Callout>
+An MVP built in 2 weeks needs one clear job: test a specific assumption. "Will people actually use this workflow" is testable in 2 weeks. "Build our whole product vision" isn't — those are different goals requiring different timelines, and conflating them is the most common way a 2-week MVP fails.
+</Callout>
+
+## What realistically fits in 2 weeks
+
+- **One core workflow, end to end** — not every feature, one complete path a user can actually walk through.
+- **Minimal or fake authentication** if real multi-user accounts aren't the thing being tested — a single hardcoded test login is often sufficient.
+- **A real (if minimal) data layer** if the backend logic itself is what's uncertain — faking data here would mean not actually testing the risky part.
+- **Deliberately unpolished UI** — functional, not pretty. Polish is a later-stage investment once the core idea is validated.
+
+## What doesn't fit, and shouldn't be attempted
+
+- Full account management (password reset, email verification, multiple auth providers) unless that's specifically the thing being tested.
+- Comprehensive error handling for edge cases beyond the core happy path.
+- Admin panels, reporting dashboards, or anything supporting the product rather than being the product's core test.
+- Production-grade security hardening beyond basic responsible practices — this matters before real launch, not before a 2-week internal or limited test.
+
+## A reasonable 2-week shape
+
+| Days | Focus |
+|---|---|
+| 1-2 | Core data model and minimal setup |
+| 3-8 | The one core workflow, built end to end |
+| 9-11 | Testing the workflow yourself, fixing what's obviously broken |
+| 12-14 | A small, real playtest/user test, and reacting to what you learn |
+
+## Why cutting scope, not cutting corners, is the actual skill
+
+<Callout type="warning">
+"Cutting corners" (skipping error handling on the actual core path, ignoring an obvious bug) produces something that looks done but isn't trustworthy even for a test. "Cutting scope" (not building the account system at all, faking secondary features) produces something narrower but honest about what it is. The second is the actual skill a 2-week MVP requires.
+</Callout>
+
+## What happens after the 2 weeks
+
+A 2-week MVP's job ends with a real answer to the question it was built to test — not with a launch. What comes next (building it out properly, or stopping because the test failed) is a different, separate decision informed by what you learned, not a continuation of the same 2-week sprint pace.
+
+<Callout>
+Have an idea you want to test with a genuinely scoped 2-week build rather than an open-ended one? [Get in touch](/contact).
+</Callout>

@@ -1,0 +1,44 @@
+---
+title: "Recovering Data from a Corrupted USB Drive or SD Card"
+description: "Why USB drives and SD cards corrupt more easily than internal drives, and the practical steps to recover data from one."
+slug: "sd-card-usb-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recover corrupted sd card", "usb drive not readable recovery", "sd card says needs formatting"]
+ogImageTitle: "USB Drive & SD Card Recovery"
+faq:
+  - question: "Why do SD cards and USB drives corrupt more often than internal drives?"
+    answer: "They're removed while still being written to far more often than internal drives — pulling a card or drive mid-write is one of the most common causes of file-system corruption, and it's much easier to do accidentally with removable media."
+  - question: "Should I click 'Format disk' when Windows suggests it for an unreadable card?"
+    answer: "No, not before attempting recovery — formatting rewrites the file system's index, which is often the exact thing that's actually recoverable at that point. Try a recovery tool or partition-repair tool first."
+  - question: "Is a corrupted SD card physically damaged?"
+    answer: "Usually not — most SD card 'corruption' is file-system-level, not physical damage to the flash memory. This is good news: it means the underlying data is very often still fully intact and recoverable."
+---
+
+SD cards and USB drives get treated like disposable accessories, but they hold real data and fail in specific, well-understood ways.
+
+## Why removable media corrupts more easily
+
+The single biggest cause is **unsafe removal** — pulling the card or drive out while the operating system was still writing to it. Internal drives rarely face this risk since they're not physically removed during normal use; SD cards and USB drives are removed constantly, often mid-transfer, which is exactly when file-system damage happens.
+
+<Callout>
+"This drive needs to be formatted before you can use it" is one of the most common messages tied to this kind of corruption — and it usually describes damage to the file system's index, not the actual data underneath it.
+</Callout>
+
+## What to do (in order)
+
+1. **Don't format when prompted.** That message means Windows can't read the file system, not that your files are gone — formatting would remove the chance to recover them first.
+2. **Try a partition/file-system repair tool** — [TestDisk](/blog/recuva-vs-testdisk-vs-photorec) specifically handles this kind of file-system-level damage well, since it can often rebuild a corrupted structure without touching the underlying data.
+3. **If that doesn't work, try file-carving recovery** — [PhotoRec](/blog/recuva-vs-testdisk-vs-photorec) scans the raw storage for recognizable file types regardless of whether the file system is readable, which works well here since removable-media corruption is so often file-system-only.
+4. **Copy recovered files to a different drive**, then reformat the card/drive itself before reusing it — don't put new data back onto media that just showed signs of instability without at least reformatting it cleanly first.
+
+## When it's not just corruption
+
+If the card or drive isn't recognized by any device at all — not showing up in Disk Management, not making any USB connection sound — that points toward physical/controller failure rather than file-system corruption, and the tools above won't help. That's a different, harder problem, closer to a failed internal drive than a corrupted file system.
+
+<Callout type="warning">
+An SD card or USB drive with data you need is refusing to open, or Windows is asking to format it? [Get in touch](/contact) before formatting — most of these situations are more recoverable than they look.
+</Callout>

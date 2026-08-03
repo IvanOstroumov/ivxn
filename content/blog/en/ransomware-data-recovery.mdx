@@ -1,0 +1,58 @@
+---
+title: "Data Recovery After a Ransomware Attack: What's Realistic"
+description: "What actually happens to files during a ransomware attack, what recovery options genuinely exist, and why paying the ransom isn't the only or first option."
+slug: "ransomware-data-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "digital-forensics"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["ransomware recovery", "recover files after ransomware", "decrypt ransomware files without paying"]
+ogImageTitle: "Ransomware Data Recovery"
+faq:
+  - question: "Can ransomware-encrypted files always be decrypted?"
+    answer: "No — it depends entirely on which ransomware strain was used. Well-implemented ransomware encryption is not practically breakable without the key, similar to legitimate encryption like BitLocker. Some older or poorly implemented strains have known flaws that free decryptors exploit; many current strains don't."
+  - question: "Should I pay the ransom?"
+    answer: "Law enforcement agencies generally advise against it — payment doesn't guarantee a working decryption key, funds criminal operations, and can mark you as a target willing to pay again. It should be a last resort, weighed against professional advice, not a first response."
+  - question: "Is there a free way to check if my ransomware strain has a known decryptor?"
+    answer: "Yes — nomoreransom.org is a joint law-enforcement/industry project that lets you identify a ransomware strain and check for a free decryptor. It's worth checking before considering anything else."
+---
+
+Ransomware recovery gets treated as one binary choice — pay or lose everything. The real picture has more options than that.
+
+## First: isolate before anything else
+
+<Callout type="warning">
+Disconnect the affected machine from the network immediately — Wi-Fi and Ethernet both. Many ransomware strains actively spread to connected drives and network shares; every minute connected is more potential damage.
+</Callout>
+
+## What ransomware actually does
+
+Most ransomware encrypts your files in place using the same category of encryption used for legitimate purposes (like BitLocker) — the difference is the attacker holds the key, not you. This means the underlying question is identical to any other encryption problem: without the key, well-implemented encryption isn't practically breakable. The realistic recovery paths are different from that framing, though.
+
+## Check for a known decryptor first
+
+Not all ransomware is equally well-implemented. Older strains, or ones with flawed cryptographic implementations, sometimes have public decryptors built by security researchers. **[nomoreransom.org](https://www.nomoreransom.org)** — a joint project between law enforcement and cybersecurity companies — lets you identify the specific strain from a sample encrypted file and checks for an available free decryptor. This step costs nothing and should happen before anything else.
+
+## Check backups before considering the ransom
+
+- **Cloud backup services with version history** (many have this by default) can often restore pre-encryption versions of files.
+- **Local backups** disconnected at the time of the attack are untouched by definition.
+- **Windows File History / macOS Time Machine**, if enabled beforehand, may hold recoverable versions.
+- **Shadow copies** (Windows' Volume Shadow Copy Service) sometimes survive an attack, though many modern ransomware strains specifically try to delete these — worth checking, not worth relying on.
+
+## Why paying is a last resort, not a first response
+
+Paying doesn't guarantee a working decryption key — some groups don't deliver one even after payment. It also funds the same criminal operations targeting the next victim, and marks your organization as one that pays, which invites repeat targeting. Law enforcement (FBI, Europol, and equivalents) consistently advise against it as a default response.
+
+## After recovery: the part people skip
+
+Whatever recovery path works, the entry point that let ransomware in usually still exists unless specifically addressed — a phishing email that was clicked, an exposed remote-desktop port, an outdated system. Recovering the files without closing that gap just resets the clock until the next incident.
+
+<Callout>
+Report the incident — to local law enforcement and, for businesses, often to a national cybersecurity agency. This isn't just procedural; it feeds the data behind future decryptor development and strain identification.
+</Callout>
+
+<Callout type="warning">
+In the middle of a ransomware incident right now? [Get in touch](/contact) — isolating the machine and checking for a known decryptor come before any other decision, including whether to pay.
+</Callout>

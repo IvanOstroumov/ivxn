@@ -1,0 +1,56 @@
+---
+title: "Signs of a Dying HDD or SSD (and What to Do Before It Fails)"
+description: "The warning signs that a hard drive or SSD is about to fail, and the practical steps to take while there's still time to get your data off it."
+slug: "signs-of-a-dying-drive"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "hardware"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["signs of a failing hard drive", "is my ssd dying", "hard drive failure warning signs"]
+ogImageTitle: "Signs of a Dying Drive"
+faq:
+  - question: "Do SSDs give warning signs before failing, like HDDs do?"
+    answer: "Less reliably. HDDs are mechanical and often show physical symptoms (noise, slowdowns) before failing. SSDs are more likely to fail suddenly, though S.M.A.R.T. data can still show early wear indicators if you check it proactively."
+  - question: "What is S.M.A.R.T. and how do I check it?"
+    answer: "S.M.A.R.T. (Self-Monitoring, Analysis, and Reporting Technology) is built into virtually all modern drives and reports health indicators like reallocated sectors and wear level. Free tools like CrystalDiskInfo (Windows) read and display this data in plain language."
+  - question: "My drive just got slow — is that a failure sign?"
+    answer: "It can be, but it's not conclusive on its own — slowdowns also happen from a nearly-full drive, background processes, or an aging SSD's controller working harder. Check S.M.A.R.T. data alongside a slowdown before concluding the drive itself is failing."
+---
+
+Drives rarely fail with zero warning — the signs are just easy to miss or explain away. Here's what to actually watch for.
+
+## HDD-specific warning signs
+
+- **Clicking or grinding noises** — a mechanical hard drive making repetitive clicking sounds is one of the most reliable failure indicators there is. Stop using it and back up immediately if you hear this.
+- **Increasing bad sectors** — files that suddenly won't open, or new corruption in files that were fine before.
+- **Unusual slowdowns on file access** — the drive struggling to read specific areas, often just before those areas become unreadable entirely.
+
+## SSD-specific warning signs
+
+- **Sudden read-only mode** — some SSD controllers, when they detect they're near failure, switch the drive to read-only to prevent further data loss. If a drive that was previously writable suddenly can't be written to, back up what's readable immediately.
+- **Increasing wear level in S.M.A.R.T. data** — SSDs have a finite number of write cycles per cell; a "media wearout indicator" approaching its limit is a genuine warning sign, not a false alarm.
+- **Frequent, unexplained freezes or disconnects** — especially under write-heavy tasks.
+
+## Shared warning signs (both HDD and SSD)
+
+| Sign | What it usually means |
+|---|---|
+| Files becoming corrupted with no other explanation | Bad sectors or failing controller |
+| Drive not recognized intermittently | Failing connection or controller |
+| Noticeably slower boot/file access over weeks | Gradual degradation |
+| S.M.A.R.T. warnings in disk utility tools | The drive's own diagnostics flagging a real issue |
+
+## What to actually do when you notice a sign
+
+1. **Back up immediately** — not "this weekend," now. A drive showing warning signs can fail completely with no further notice.
+2. **Stop writing new data to it** if you're already suspicious — every write is now competing with limited remaining reliable life.
+3. **Replace the drive**, don't just monitor it. A drive showing genuine S.M.A.R.T. warnings or physical symptoms has already told you its answer.
+
+<Callout>
+Checking S.M.A.R.T. data occasionally — even on drives showing no symptoms — catches wear-related failures before any visible warning sign appears. It takes under a minute with a free tool and is worth doing on any drive holding data you'd miss.
+</Callout>
+
+<Callout type="warning">
+Already seeing these signs and need data off a drive before it fails completely? [Get in touch](/contact) — acting while the drive is still partially readable gives meaningfully better odds than waiting until it stops responding.
+</Callout>

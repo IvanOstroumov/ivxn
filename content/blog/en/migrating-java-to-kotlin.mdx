@@ -1,0 +1,66 @@
+---
+title: "Migrating an Existing Java Codebase to Kotlin Without Breaking Everything"
+description: "A practical, incremental approach to migrating a real Java Android codebase to Kotlin without a risky full rewrite."
+slug: "migrating-java-to-kotlin"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android", "kotlin", "java"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["migrate java to kotlin android", "kotlin migration strategy", "convert java project to kotlin"]
+ogImageTitle: "Migrating Java to Kotlin"
+faq:
+  - question: "Do I need to convert the whole codebase at once?"
+    answer: "No — Kotlin and Java interoperate directly in the same module, so files can be converted individually over time without a big-bang rewrite."
+  - question: "Does Android Studio's auto-convert tool actually work well?"
+    answer: "For straightforward files, yes, and it's a reasonable starting point — but it often produces verbose or non-idiomatic Kotlin that benefits from manual cleanup afterward, especially around nullability annotations."
+  - question: "What's the riskiest part of a Java-to-Kotlin migration?"
+    answer: "Nullability assumptions — Java has no compile-time null safety, so converted code often ends up full of platform types and nullable assertions until someone deliberately tightens the types, which is where the real benefit of the migration actually shows up."
+---
+
+The temptation with a Java-to-Kotlin migration is to plan a full rewrite. The realistic, lower-risk path is almost always incremental.
+
+## Why a full rewrite is usually the wrong call
+
+<Callout type="warning">
+Rewriting a working, tested codebase from scratch resets your test coverage and reintroduces bugs that were already fixed once. Unless the existing code is genuinely unmaintainable, incremental migration preserves what already works while gaining Kotlin's benefits gradually.
+</Callout>
+
+## The incremental approach
+
+1. **New code goes in Kotlin from day one.** No new Java files, starting now — this alone means the Java portion only shrinks over time, never grows.
+2. **Convert files you're already touching.** When you're in a Java file for a bug fix or small feature anyway, convert it as part of that same change — the cost is already being paid in review/testing time, so the incremental conversion cost is low.
+3. **Use Android Studio's built-in converter as a starting point, not a finish line.** It handles the mechanical translation reasonably well but often produces Kotlin that's technically correct but not idiomatic — platform types, unnecessary null checks, and Java-style verbosity are common outputs worth cleaning up.
+4. **Leave stable, rarely-touched files alone.** Converting working code that nobody needs to modify adds risk (new bugs, review overhead) for no practical benefit — this is the least valuable part of a migration, not the most.
+
+## The nullability question is the real work
+
+Java has no compile-time null safety, so a converted file typically ends up with a lot of **platform types** (types Kotlin can't verify null-safety for, because the Java source gave no such guarantee) or defensive `!!` assertions. The actual value of Kotlin's null safety only shows up once someone deliberately goes back and tightens these to real nullable/non-null types based on actual knowledge of the code's behavior — the auto-converter can't infer that, only a person familiar with the logic can.
+
+```kotlin
+// Auto-converted, technically works, but not the goal state:
+fun getUserName(user: User?): String {
+    return user!!.name
+}
+
+// After deliberate cleanup, the actual benefit of the migration:
+fun getUserName(user: User?): String {
+    return user?.name ?: "Unknown"
+}
+```
+
+## Interop works both directions
+
+A Kotlin class can extend a Java class and vice versa, in the same module, without any special setup — this is what makes the file-by-file approach realistic instead of theoretical. You don't need an isolated "Kotlin module" to start; existing Java and new Kotlin code coexist directly.
+
+## A reasonable migration order
+
+| Priority | What to convert first |
+|---|---|
+| High | Files actively being modified for other reasons |
+| Medium | Small, self-contained utility classes (low risk, quick wins) |
+| Low | Large, stable, rarely-touched files — often not worth converting at all |
+
+<Callout>
+For the broader "why Kotlin" case beyond migration mechanics, see our [Kotlin vs Java comparison](/blog/kotlin-vs-java-2026).
+</Callout>

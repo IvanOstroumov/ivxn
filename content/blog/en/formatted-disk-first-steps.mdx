@@ -1,0 +1,49 @@
+---
+title: "Formatted a Disk by Mistake: What to Do in the First 10 Minutes"
+description: "A checklist for what to do immediately after accidentally formatting a drive, and why the first few minutes matter more than the recovery tool you pick."
+slug: "formatted-disk-first-steps"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["accidentally formatted drive", "recover data after format", "formatted wrong drive by mistake"]
+ogImageTitle: "Formatted a Disk by Mistake"
+faq:
+  - question: "Is data actually gone after a quick format?"
+    answer: "Usually not immediately. A quick format rewrites the file system's index, not the actual file data — the bytes are still on the disk until something overwrites them, similar to a regular deletion."
+  - question: "What about a full format, not a quick one?"
+    answer: "A full format can overwrite the whole drive with zeros on older Windows versions, which is much harder to recover from — check which type ran before assuming the same odds as a quick format."
+  - question: "Should I try recovery software immediately myself?"
+    answer: "For a quick win on a non-critical drive, yes. For anything you can't afford to lose or that has legal/professional weight, stop after step 3 below and get a proper opinion before running anything that writes to the drive."
+---
+
+Formatting the wrong drive happens to almost everyone eventually. What you do in the next few minutes affects your odds more than which specific tool you eventually use.
+
+## The checklist
+
+<Callout type="warning">
+Do not install anything onto the formatted drive itself — not a recovery tool, not anything. Every write to that drive risks overwriting the exact data you're trying to save.
+</Callout>
+
+1. **Stop using the drive immediately.** Don't create new files, don't save anything to it, don't let backup software or sync tools touch it.
+2. **Check what kind of format ran.** A quick format just clears the index; a full format can zero out the whole drive on some Windows versions. If you're not sure which happened, treat it as if the data might still be there — assuming the worst too early just wastes the window where recovery was still possible.
+3. **If it's your only copy of something that matters professionally, financially, or legally** — stop here and get help before running anything yourself.
+4. **For anything else, install a recovery tool on a *different* drive** and point it at the formatted one. [PhotoRec](/blog/recuva-vs-testdisk-vs-photorec) is a reasonable starting point after a format specifically, since it doesn't rely on the file system that was just wiped.
+5. **Recover to a third location** — not back onto the same drive, even if there's free space. Recovered files should land somewhere else entirely until you've confirmed everything you need is back.
+
+## Why speed matters more than tool choice
+
+The underlying data from before a quick format sits in the same physical location until the operating system decides to reuse that space for something new. Every file you save, every automatic backup that runs, every temp file the OS writes increases the chance that space gets overwritten. This is true regardless of which recovery tool you eventually pick — the tool matters less than how much you did on the drive between the format and the recovery attempt.
+
+<Callout>
+On an SSD specifically, there's an extra factor: TRIM. If you want the full picture on why SSDs behave differently here, see our [dedicated guide on SSDs and TRIM](/blog/ssd-deleted-files-trim).
+</Callout>
+
+## When to stop and call someone
+
+If the formatted drive holds business records, evidence for a legal matter, or anything else where "probably fine" isn't good enough, the calculation changes. Consumer recovery tools can and do write to the drive during a scan in some configurations, and a failed DIY attempt can turn a recoverable situation into an unrecoverable one.
+
+<Callout type="warning">
+Already formatted something you need back? [Get in touch](/contact) — the sooner, the better, especially before running more tools on the same drive.
+</Callout>

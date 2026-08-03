@@ -1,0 +1,51 @@
+---
+title: "Recovering Data from a BitLocker-Encrypted Drive"
+description: "What's actually possible when you need to recover data from a BitLocker-encrypted drive — and what genuinely isn't, no matter what tool you use."
+slug: "bitlocker-encrypted-drive-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recover data from bitlocker drive", "bitlocker recovery key lost", "encrypted drive data recovery"]
+ogImageTitle: "BitLocker Drive Recovery"
+faq:
+  - question: "Can data be recovered from a BitLocker drive without the recovery key?"
+    answer: "The raw encrypted data can often be extracted, but it's unreadable without the key or password — BitLocker's encryption is specifically designed so this isn't practically breakable. Recovery in this case means finding the key, not bypassing the encryption."
+  - question: "Where do I find my BitLocker recovery key?"
+    answer: "Commonly in your Microsoft account online (account.microsoft.com/devices/recoverykey), printed if you saved it that way, on a USB drive if you exported it there, or in your organization's IT system if the drive is work-managed."
+  - question: "Can a corrupted BitLocker drive still be decrypted if I have the key?"
+    answer: "Often yes — corruption to the file system and encryption are separate layers. With the correct key, the drive can usually be unlocked, after which normal file-recovery methods apply to whatever data recovery is still needed underneath."
+---
+
+BitLocker recovery gets treated as one problem when it's really two: getting past the encryption, and then recovering data from what's underneath it. They need completely different approaches.
+
+## Layer 1: The encryption itself
+
+<Callout>
+BitLocker's encryption doing its job correctly means there is no realistic way to read the data without the key or password. This isn't a limitation of recovery tools — it's the entire point of the encryption. Any tool claiming to "bypass" BitLocker encryption without the key should be treated with suspicion.
+</Callout>
+
+If you can't unlock the drive, the actual task is **finding the recovery key**, not defeating the encryption:
+
+- **Microsoft account:** if the PC was signed into a Microsoft account when BitLocker was turned on, the key is often backed up automatically at `account.microsoft.com/devices/recoverykey`.
+- **Printed or saved key:** check anywhere you might have saved it when BitLocker was first enabled — a printout, a text file, a USB drive.
+- **Work/managed device:** your organization's IT department or device management system (Intune, Active Directory) usually holds a copy for company machines.
+- **Azure AD-joined devices:** the key may be recoverable through the organization's Azure AD portal by an admin.
+
+## Layer 2: Recovery after unlocking
+
+Once the drive is unlocked with the correct key, the encryption is no longer the obstacle — whatever's actually wrong with the data (a deleted file, a corrupted file system, a failing physical drive) becomes a normal recovery problem, and normal recovery approaches apply from there.
+
+## What genuinely doesn't work
+
+- Recovery software run directly against a still-locked BitLocker volume — it sees encrypted noise, not files, because that's exactly what encryption is supposed to produce.
+- "Recovery key generators" or similar tools claiming to derive the key from the drive itself — if this worked reliably, the encryption would be broken by design, which isn't the case for BitLocker's implementation.
+
+## The realistic path if the key is genuinely lost
+
+If there's truly no copy of the recovery key anywhere — no Microsoft account backup, no IT department, no printed copy — the honest answer is that properly implemented encryption is designed to make the data unreadable in exactly this situation. This is a real risk of using encryption, not a flaw in it, and it's why backing up the recovery key in at least one other location matters as much as backing up the data itself.
+
+<Callout type="warning">
+Working through a BitLocker recovery situation and not sure whether the key is truly unrecoverable? [Get in touch](/contact) before assuming the data is gone — there are often more places to check than people expect.
+</Callout>

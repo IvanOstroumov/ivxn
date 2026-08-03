@@ -1,0 +1,54 @@
+---
+title: "Streaming to a Friend with Minimal Latency, Without OBS/Twitch"
+description: "Why the standard OBS-to-Twitch streaming path adds latency that doesn't matter for broadcasting but matters a lot for real-time interaction, and what a lower-latency alternative looks like."
+slug: "low-latency-streaming-without-obs"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reflux", "hardware"]
+category: "Reflux"
+author: "Ivan Ostroumov"
+keywords: ["low latency streaming to a friend", "stream without obs twitch delay", "peer to peer low latency video"]
+ogImageTitle: "Low-Latency Streaming"
+faq:
+  - question: "Why does Twitch/YouTube streaming have several seconds of delay?"
+    answer: "Platforms deliberately buffer video to smooth out network jitter for viewers at scale and to support features like DVR/rewind — this trades latency for reliability and scale, which is the right trade-off for broadcasting to many viewers, but wrong for two people interacting in real time."
+  - question: "Is peer-to-peer streaming harder to set up than OBS to Twitch?"
+    answer: "It can require more manual network configuration (NAT traversal, port considerations) since there's no platform server doing that work for you, which is exactly the trade-off for lower latency — less infrastructure standing between the two endpoints."
+  - question: "Does lower latency mean lower quality?"
+    answer: "Not inherently, but there's a real trade-off between latency, quality, and network resilience — a connection that prioritizes minimal delay has less buffer to smooth over network hiccups, so it's more sensitive to an unstable connection than a buffered stream would be."
+---
+
+Standard streaming setups are built for broadcasting to an audience, not for two people interacting in real time — and that difference in design goal shows up directly as latency.
+
+## Why platform streaming has built-in delay
+
+<Callout>
+Twitch, YouTube, and similar platforms deliberately buffer incoming video by several seconds. This absorbs network jitter so thousands of simultaneous viewers get a smooth stream, and it enables features like rewind — but it's the opposite of what you want when the "viewer" is someone you're actually talking to in real time.
+</Callout>
+
+This delay isn't a bug or a fixable setting in OBS — it's inherent to the platform's own ingest and distribution pipeline, built for a genuinely different use case than direct peer-to-peer interaction.
+
+## What a lower-latency setup actually looks like
+
+The core idea: cut out the platform's buffering server entirely and send video more directly between two endpoints.
+
+- **WebRTC-based tools** are built specifically for real-time, sub-second latency (video calls use this exact technology) — repurposing this for a "watch my screen" use case gets you dramatically lower delay than a Twitch-style pipeline.
+- **Direct peer-to-peer connections** avoid routing through a third-party platform's servers at all, cutting out a whole hop that adds delay.
+
+This is the underlying idea behind why I built **Reflux** — the standard streaming stack solves a different problem (broadcasting to many people, reliably, with rewind) than the one I actually had (near-instant screen sharing with one specific person).
+
+## The real trade-off: latency vs resilience
+
+<Callout type="warning">
+A connection optimized for minimal delay has less buffer to absorb network hiccups — a brief connection blip that a buffered Twitch stream would smooth over invisibly can show up as a visible stutter in a low-latency setup. This isn't a flaw, it's the actual trade-off being made deliberately.
+</Callout>
+
+For a stable connection between two people who know each other, this trade-off is usually worth it — the responsiveness gain matters more than resilience to occasional network issues that a stable home connection rarely has anyway.
+
+## Where this actually matters
+
+Any scenario where the "streamer" and "viewer" need to react to each other in real time — watching something together and talking about it live, remote pair programming, screen-sharing for real-time collaboration — benefits from cutting platform buffering out of the loop, versus scenarios (broadcasting to an audience, VOD-focused content) where the standard OBS-to-platform pipeline is genuinely the right tool.
+
+<Callout>
+Curious about Reflux specifically, or interested in a similar low-latency tool for your own use case? See the [Projects page](/projects) or [get in touch](/contact).
+</Callout>

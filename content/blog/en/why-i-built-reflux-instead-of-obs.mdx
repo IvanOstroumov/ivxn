@@ -1,0 +1,53 @@
+---
+title: "OBS vs a Custom Solution: Why I Built Reflux"
+description: "Why an existing, mature tool like OBS wasn't the right fit for a specific streaming need, and the reasoning behind building Reflux instead."
+slug: "why-i-built-reflux-instead-of-obs"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reflux"]
+category: "Reflux"
+author: "Ivan Ostroumov"
+keywords: ["obs alternative custom tool", "why build custom software instead of existing tool", "reflux vs obs"]
+ogImageTitle: "OBS vs a Custom Solution"
+faq:
+  - question: "Is OBS a bad tool?"
+    answer: "No — OBS is excellent at what it's built for: broadcasting, recording, and streaming to platforms with a wide range of scene composition and production features. The mismatch was with a specific, narrower use case OBS wasn't designed around, not a flaw in OBS itself."
+  - question: "When does it make sense to build a custom tool instead of using an existing one?"
+    answer: "When the existing tool's core design assumptions don't match your actual need closely enough that configuration or plugins can bridge the gap — not just when an existing tool is imperfect, since almost every tool has some friction."
+  - question: "Isn't building custom software always more work than configuring an existing tool?"
+    answer: "Usually yes, upfront — the justification has to come from the existing tool solving a genuinely different problem, not just from wanting something slightly different. If the mismatch is small, configuring the existing tool is almost always the better trade."
+---
+
+Building custom software instead of using an established tool needs a real justification — "I wanted something slightly different" usually isn't one. Here's the actual reasoning for Reflux.
+
+## OBS is genuinely excellent at what it's built for
+
+<Callout>
+OBS is one of the best tools available for broadcasting, recording, and multi-scene production streaming. None of what follows is a criticism of OBS as a tool — it's a mismatch between OBS's design goals and a specific, different use case.
+</Callout>
+
+OBS is built around composing scenes, encoding for platform delivery, and supporting the broadcasting workflow (multiple viewers, platform integration, recording). That's a different problem than what I actually needed.
+
+## The actual need: near-instant screen sharing with one person
+
+I wanted to share my screen with a friend with minimal delay — closer to a video call than a broadcast. OBS's pipeline, built around platform delivery (Twitch, YouTube), carries the buffering and encoding overhead that broadcasting requires but that a one-to-one, real-time use case doesn't need at all. See our [low-latency streaming guide](/blog/low-latency-streaming-without-obs) for the technical reasoning behind why that delay exists structurally, not as a fixable setting.
+
+## The decision process, honestly
+
+1. **Tried configuring OBS more aggressively toward low latency** — some settings help, but the platform-delivery-oriented pipeline underneath still carries overhead that a genuinely peer-to-peer approach doesn't need to pay at all.
+2. **Looked for existing peer-to-peer low-latency tools** built for this specific use case — some exist, but none matched closely enough for what I wanted without meaningful compromise.
+3. **Decided the gap was real, not cosmetic** — building specifically around WebRTC-style peer-to-peer delivery, skipping the platform-broadcast pipeline entirely, matched the actual need directly rather than working around a tool built for something else.
+
+## The honest trade-offs of building custom
+
+- **More upfront work** than configuring an existing tool — this is real and shouldn't be understated.
+- **Fewer features** than OBS's mature scene-composition and plugin ecosystem — Reflux does one thing, not everything OBS does.
+- **A better fit for the specific use case** it was built around — the entire point of the exercise.
+
+## The general principle
+
+Building custom software makes sense when an existing tool's core design assumptions — not just its configuration options — don't match your actual problem. If the mismatch is closer to "I wish this had one more setting," configuring the existing tool is almost always the better trade than building something new.
+
+<Callout>
+See the [Projects page](/projects) for more on Reflux, or [get in touch](/contact) if you have a similar "existing tools don't quite fit" situation you'd like a second opinion on.
+</Callout>

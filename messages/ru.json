@@ -120,7 +120,14 @@
       "raid": "RAID",
       "storage": "Хранение данных",
       "automation": "Автоматизация",
-      "python": "Python"
+      "python": "Python",
+      "reverse-engineering": "Реверс-инжиниринг",
+      "digital-forensics": "Цифровая криминалистика",
+      "unity": "Unity",
+      "gamedev": "Геймдев",
+      "reflux": "Reflux",
+      "consulting": "Консалтинг",
+      "career": "Карьера"
     }
   },
   "seo": {

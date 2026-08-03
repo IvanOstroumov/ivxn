@@ -1,0 +1,72 @@
+---
+title: "Room vs SharedPreferences vs DataStore: Which Storage for What"
+description: "A practical comparison of Android's three main local storage options — Room, SharedPreferences, and DataStore — and when each one is actually the right choice."
+slug: "room-vs-sharedpreferences-vs-datastore"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["room vs sharedpreferences vs datastore", "android local storage comparison", "when to use room database"]
+ogImageTitle: "Room vs SharedPreferences vs DataStore"
+faq:
+  - question: "Is SharedPreferences deprecated?"
+    answer: "Not formally removed, but Google recommends DataStore as its replacement for new code — SharedPreferences has known issues (synchronous API on the main thread, no strong typing) that DataStore was built specifically to address."
+  - question: "Can I use more than one of these in the same app?"
+    answer: "Yes, and it's common — Room for structured data (a list of items, user records), DataStore for simple app settings and preferences, used together rather than as competing choices for the same job."
+  - question: "Do I need Room for a simple settings screen?"
+    answer: "No — Room is built for structured, queryable data with relationships. A handful of user preferences (theme choice, notification toggle) is exactly what DataStore is designed for instead."
+---
+
+These three get compared as if you pick one for the whole app. In practice, they solve different problems and often coexist.
+
+## SharedPreferences: the old default, being phased out
+
+Simple key-value storage, historically the default for small settings. Known limitations: it's easy to misuse with synchronous reads on the main thread (causing jank), offers no compile-time type safety, and Google now recommends **DataStore** as its replacement for new code.
+
+## DataStore: the modern replacement for simple key-value data
+
+DataStore comes in two flavors — **Preferences DataStore** (similar shape to SharedPreferences but async and safer) and **Proto DataStore** (fully typed, using protocol buffers). Either way, it's built for the same job SharedPreferences did — simple settings and flags — done correctly: asynchronous by default, with a defined data-consistency model.
+
+```kotlin
+val Context.dataStore by preferencesDataStore(name = "settings")
+
+val THEME_KEY = stringPreferencesKey("theme")
+
+suspend fun saveTheme(context: Context, theme: String) {
+    context.dataStore.edit { prefs -> prefs[THEME_KEY] = theme }
+}
+```
+
+## Room: for actual structured, queryable data
+
+Room is a full SQLite abstraction — an ORM-style layer for structured data with relationships, queries, and (via coroutines/Flow) reactive updates. This is the right tool when you have a genuine collection of structured records: a list of saved items, cached API results, anything you'd naturally describe as a table with rows.
+
+```kotlin
+@Entity
+data class Note(@PrimaryKey val id: Int, val title: String, val body: String)
+
+@Dao
+interface NoteDao {
+    @Query("SELECT * FROM Note ORDER BY id DESC")
+    fun getAll(): Flow<List<Note>>
+}
+```
+
+## Comparison table
+
+| | SharedPreferences | DataStore | Room |
+|---|---|---|---|
+| Best for | Legacy code (avoid for new code) | Simple settings/flags | Structured, queryable data |
+| Type safety | None | Strong (especially Proto DataStore) | Strong |
+| Async by default | No (a common source of bugs) | Yes | Yes (with coroutines/Flow) |
+| Handles relationships/queries | No | No | Yes |
+| Google's current recommendation | Being phased out | Yes, for key-value data | Yes, for structured data |
+
+## The practical rule
+
+If it's a handful of flags or preferences (theme, whether onboarding was shown, a notification toggle), use DataStore. If it's a genuine collection of structured records you'd query, filter, or relate to other data, use Room. Avoid starting new code with SharedPreferences — the migration cost to DataStore later is avoidable by just starting there.
+
+<Callout>
+This decision connects directly to the broader architecture question — see our guide on [designing Android architecture to avoid rewrites](/blog/android-architecture-avoid-rewrites) for how data layer choices fit into the bigger picture.
+</Callout>

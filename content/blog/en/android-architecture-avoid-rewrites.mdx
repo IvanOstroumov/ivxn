@@ -1,0 +1,59 @@
+---
+title: "Designing Android Architecture So You Don't Rewrite Everything Later"
+description: "The architectural decisions that actually matter early in an Android project — the ones that are expensive to change later if you get them wrong."
+slug: "android-architecture-avoid-rewrites"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["android app architecture best practices", "avoid rewriting android app", "android mvvm architecture"]
+ogImageTitle: "Android Architecture Decisions"
+faq:
+  - question: "Do I need MVVM for a small app?"
+    answer: "Not necessarily on day one, but separating your UI from your business logic from the very start (even loosely) makes it dramatically easier to adopt a fuller pattern like MVVM later, versus retrofitting separation into tightly coupled code."
+  - question: "What's the single most expensive architectural mistake?"
+    answer: "Putting business logic directly inside Activities/Fragments (or Composables) with no separation layer — this is the pattern that most reliably forces a rewrite once the app grows past a small size, because logic and UI become impossible to change independently."
+  - question: "Is Jetpack Compose relevant to this decision?"
+    answer: "Yes — Compose makes UI and state management more explicit, which actually reinforces the case for separating business logic from UI from the start, since Compose's recomposition model punishes tightly coupled logic more visibly than the older View system did."
+---
+
+Most Android rewrites don't happen because the original code was badly written line by line — they happen because a handful of early structural decisions made change expensive.
+
+## The decision that matters most: separate logic from UI
+
+<Callout type="warning">
+Business logic living directly inside an Activity, Fragment, or Composable is the single most common reason apps eventually need a costly rewrite — it becomes untestable in isolation and impossible to change without risking the UI, and vice versa.
+</Callout>
+
+You don't need to adopt a fully-realized architecture pattern on day one, but keeping logic in separate classes (a ViewModel, a repository, plain use-case classes) from the very start — even loosely — keeps the door open to formalizing that into MVVM or a similar pattern later, without a rewrite.
+
+## A minimal, defensible starting structure
+
+```text
+ui/          — Activities, Fragments, Composables — display only
+viewmodel/   — state holding, exposes what the UI needs
+repository/  — data access (network, database), hides the source from the rest of the app
+data/        — models, database entities, API response types
+```
+
+This isn't a rigid framework — it's a minimum bar: UI code doesn't talk to a database or network API directly, it goes through a layer that can change independently.
+
+## Decisions that are genuinely hard to reverse later
+
+- **Database choice and schema design** — migrating data models after real user data exists is meaningfully harder than designing them thoughtfully up front. See our [Room vs SharedPreferences vs DataStore comparison](/blog/room-vs-sharedpreferences-vs-datastore) for the actual trade-offs.
+- **Whether offline support is considered from the start** — retrofitting offline-first behavior into an app built assuming constant connectivity is a substantial rework, not an incremental addition. See our [offline-first guide](/blog/offline-first-android-apps).
+- **Navigation structure** — a deeply nested, ad-hoc navigation setup becomes expensive to restructure once many screens depend on its current shape.
+
+## Decisions that are cheap to change later (don't over-engineer these)
+
+- Specific UI component choices, styling systems, minor library swaps for things like image loading — these are usually contained enough to change without touching the rest of the app.
+- Exact folder naming conventions — helpful for consistency, not architecturally load-bearing.
+
+## The practical takeaway
+
+Spend your early design effort on the decisions that are expensive to reverse (logic/UI separation, data layer design, offline strategy) and consciously don't over-invest in the ones that are cheap to change later. Getting this balance backward — perfecting styling conventions while business logic lives directly in Activities — is a common and avoidable trap.
+
+<Callout>
+Starting a new Android project and want a second opinion on the architecture before writing much code? [Get in touch](/contact) — this is a cheap conversation to have early and an expensive mistake to fix late.
+</Callout>
