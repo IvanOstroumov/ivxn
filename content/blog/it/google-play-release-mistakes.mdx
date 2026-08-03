@@ -1,0 +1,59 @@
+---
+title: "5 errori da evitare al tuo primo rilascio su Google Play"
+description: "Gli errori più comuni ed evitabili che gli sviluppatori Android alle prime armi commettono rilasciando su Google Play, e come evitarli."
+slug: "google-play-release-mistakes"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["errori primo rilascio google play", "motivi di rifiuto app store android", "checklist lancio google play"]
+ogImageTitle: "Google Play Release Mistakes"
+faq:
+  - question: "Quanto dura di solito la revisione di Google Play?"
+    answer: "Varia, da poche ore a diversi giorni, e può richiedere più tempo per account o app che innescano una revisione delle policy aggiuntiva (specialmente riguardo permessi sensibili). Non pianificare una data di lancio che presuppone un'approvazione istantanea."
+  - question: "Posso correggere un'app rifiutata e reinviarla?"
+    answer: "Sì — i rifiuti arrivano con una ragione dichiarata, e la maggior parte sono risolvibili senza un ciclo di ri-revisione completo una volta affrontato il problema specifico. Leggi attentamente la ragione effettiva del rifiuto invece di indovinare cosa cambiare."
+  - question: "Ho bisogno di una privacy policy anche per un'app semplice?"
+    answer: "Quasi certamente sì — Google Play richiede una privacy policy per la stragrande maggioranza delle app, incluse molte che sembrano troppo semplici per averne bisogno, se richiedono permessi o raccolgono dati in qualsiasi modo, cosa che fanno la maggior parte delle app anche involontariamente (crash reporting, analytics)."
+---
+
+La maggior parte dei problemi del primo rilascio su Google Play non riguarda la qualità dell'app — sono errori di processo e di policy facili da evitare una volta che sai che esistono.
+
+## 1. Richiedere permessi che non giustifichi chiaramente
+
+<Callout type="warning">
+La policy di Google Play richiede che i permessi corrispondano a un uso chiaro e dichiarato nella tua app — richiedere permessi ampi "per ogni evenienza" è una comune ragione di rifiuto, e i permessi sensibili (posizione, contatti, SMS) ricevono un controllo extra.
+</Callout>
+
+Richiedi solo ciò che l'app effettivamente usa, e sii pronto a giustificare ciascuno nella sezione sicurezza dati della Play Console.
+
+## 2. Saltare la privacy policy
+
+Quasi ogni app ne ha bisogno — incluse le app che sembrano troppo semplici per averne bisogno, se usano analytics, crash reporting, o qualsiasi permesso (la maggior parte lo fa, anche involontariamente tramite librerie incluse). Una privacy policy mancante o inadeguata è uno dei rifiuti evitabili più comuni.
+
+## 3. Non testare su una gamma di dimensioni di dispositivi reali
+
+La frammentazione dei dispositivi Android significa che un'app che appare bene sul tuo unico dispositivo di test o emulatore può rompersi male su una dimensione di schermo, rapporto d'aspetto, o versione Android diversa. Testa almeno su un telefono piccolo, un telefono grande, e uno schermo dimensione tablet prima di inviare — questo cattura bug di layout a basso costo, prima che li trovino gli utenti.
+
+## 4. Trattare la scheda dell'app come un ripensamento
+
+Screenshot, descrizione, e icona dell'app non sono solo marketing — una scheda debole o generica danneggia la scopribilità e la conversione indipendentemente da quanto sia buona l'app stessa. Vale la pena dedicarci tempo reale prima del lancio, non qualcosa da improvvisare la notte prima dell'invio.
+
+## 5. Non pianificare il divario tra revisione e lancio
+
+La revisione non è istantanea — può richiedere da ore a diversi giorni, più a lungo se la tua app tocca categorie di permessi sensibili. Non annunciare pubblicamente una data di lancio specifica prima che l'app abbia effettivamente superato la revisione; "inviato" e "pubblicato" sono stati diversi, e il divario tra loro è fuori dal tuo controllo.
+
+## Una checklist pre-invio
+
+| Verifica | Perché conta |
+|---|---|
+| I permessi corrispondono all'uso reale e dichiarato | Motivo di rifiuto comune |
+| Privacy policy presente e accurata | Richiesta per quasi tutte le app |
+| Testato su più dimensioni di schermo | La frammentazione causa bug reali |
+| La scheda (screenshot, descrizione) è completa | Influisce sulla scopribilità, non solo sulla rifinitura |
+| Inviato con margine prima di qualsiasi data annunciata | La revisione non è istantanea |
+
+<Callout>
+Ti stai avvicinando a un primo rilascio e vuoi un secondo paio d'occhi sull'invio prima di mandarlo? [Contattami](/contact).
+</Callout>

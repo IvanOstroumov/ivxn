@@ -1,0 +1,76 @@
+---
+title: "Costruire un sistema hitbox/hurtbox per un gioco di combattimento 2D"
+description: "Come funzionano davvero i sistemi hitbox e hurtbox nei giochi di combattimento 2D, e i dettagli pratici di implementazione che determinano se il combattimento sembra equo."
+slug: "hitbox-hurtbox-fighting-games"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["hitbox hurtbox fighting game", "come funzionano le collisioni nei picchiaduro", "frame data picchiaduro"]
+ogImageTitle: "Hitbox/Hurtbox Systems"
+faq:
+  - question: "Qual è la differenza tra un hitbox e un hurtbox?"
+    answer: "Un hitbox è l'area che può infliggere danno (attaccata a una mossa offensiva); un hurtbox è l'area che può ricevere danno (attaccata al corpo di un personaggio). Un colpo si registra quando un hitbox attivo si sovrappone all'hurtbox di un avversario — sono deliberatamente forme separate, non lo stesso collider."
+  - question: "Perché non usare semplicemente i confini dello sprite del personaggio come hitbox?"
+    answer: "I confini dello sprite sono di solito molto più grandi e meno precisi di ciò che sembra equo per il combattimento — l'hitbox effettivo di un pugno dovrebbe coprire approssimativamente il pugno durante i frame di colpo, non l'intera sagoma del personaggio, o il gioco sembrerà colpire da distanze impossibili."
+  - question: "Cosa sono i 'frame attivi' nei termini dei picchiaduro?"
+    answer: "I frame specifici durante l'animazione di un attacco in cui il suo hitbox è effettivamente abilitato e può registrare un colpo — un pugno ha frame di startup (caricamento, nessun hitbox), frame attivi (hitbox attivo), e frame di recovery (nessun hitbox, vulnerabile) che necessitano tutti di gestione separata."
+---
+
+La sensazione di combattimento nei picchiaduro si riduce a molti dettagli di collisione curati e poco affascinanti — è qui che vive davvero gran parte di quel dettaglio.
+
+## Hitbox e hurtbox sono forme separate, di proposito
+
+<Callout>
+Un hurtbox rappresenta dove un personaggio può essere colpito; un hitbox rappresenta dove un attacco può infliggere danno. Sono deliberatamente forme diverse, dimensionate indipendentemente — mai lo stesso collider che serve entrambi i ruoli.
+</Callout>
+
+Usare un singolo collider condiviso per entrambi i ruoli è un errore comune iniziale — rende impossibile calibrare "quanto è facile colpire questo personaggio" separatamente da "quanto arriva lontano questo attacco", che sono domande di design genuinamente diverse che necessitano risposte indipendenti.
+
+## Gli attacchi hanno bisogno di stato hitbox frame per frame, non un singolo collider
+
+Un vero attacco ha fasi distinte:
+
+- **Startup** — l'animazione di caricamento, nessun hitbox ancora attivo (questo è ciò che rende le mosse punibili se telegrafate e bloccate/schivate).
+- **Active** — i frame specifici in cui l'hitbox è effettivamente abilitato e può registrare un colpo.
+- **Recovery** — dopo che l'hitbox si disattiva, prima che il personaggio possa agire di nuovo — questo è ciò che "punire un attacco mancato" sfrutta davvero.
+
+```csharp
+public class AttackHitbox : MonoBehaviour {
+    public int startupFrames = 4;
+    public int activeFrames = 3;
+    public int recoveryFrames = 8;
+    private int currentFrame = 0;
+    private Collider2D hitboxCollider;
+
+    void FixedUpdate() {
+        currentFrame++;
+        bool isActive = currentFrame > startupFrames &&
+                         currentFrame <= startupFrames + activeFrames;
+        hitboxCollider.enabled = isActive;
+    }
+}
+```
+
+Questo è deliberatamente guidato da un contatore di frame, non da "l'animazione sta attualmente giocando" in senso vago — i picchiaduro necessitano di frame data esatti e riproducibili, dato che i giocatori impareranno (e dovrebbero poter) fare affidamento su un timing esatto.
+
+## Il timestep fisso conta qui più che nella maggior parte dei generi
+
+I picchiaduro sono insolitamente sensibili alla coerenza del timing — usare il `FixedUpdate` di Unity (un timestep fisico coerente) per lo stato dell'hitbox, piuttosto che l'`Update` a frequenza variabile, mantiene la frame data effettivamente coerente indipendentemente dal frame rate di rendering. Una mossa con "4 frame di startup" deve significare la stessa durata reale ogni volta, su ogni macchina, non variare con le prestazioni di rendering.
+
+## Un flusso di stati semplificato
+
+| Fase | Stato hitbox | Stato giocatore |
+|---|---|---|
+| Startup | Inattivo | Impegnato nella mossa, nessun nuovo input ancora |
+| Active | Abilitato, può colpire | Impegnato, hitbox attivo |
+| Recovery | Di nuovo inattivo | Vulnerabile, punibile se bloccato/schivato |
+
+## Perché questo livello di cura conta
+
+I giocatori di picchiaduro — anche quelli occasionali — sviluppano una sensazione intuitiva di se i colpi sono "equi", e un rilevamento dei colpi incoerente o basato sui confini dello sprite è uno dei modi più veloci per far sembrare un picchiaduro scadente anche se la meccanica di base è altrimenti solida. Questo è lavoro di implementazione poco affascinante, ma è una grossa fetta di ciò che determina davvero se il combattimento sembra buono.
+
+<Callout>
+Per la decisione più ampia sul motore dietro SAMT: All Stars, vedi il nostro [confronto Unity vs Godot](/blog/unity-vs-godot-2d-fighting-game).
+</Callout>

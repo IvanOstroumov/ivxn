@@ -1,0 +1,59 @@
+---
+title: "5 erreurs à éviter pour votre première publication sur Google Play"
+description: "Les erreurs les plus courantes et évitables que font les développeurs Android débutants lors de la publication sur Google Play, et comment les éviter."
+slug: "google-play-release-mistakes"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["erreurs première publication google play", "raisons de rejet app store android", "checklist lancement google play"]
+ogImageTitle: "Google Play Release Mistakes"
+faq:
+  - question: "Combien de temps dure généralement la revue de Google Play ?"
+    answer: "Cela varie, de quelques heures à plusieurs jours, et peut prendre plus de temps pour des comptes ou applications déclenchant une revue de politique supplémentaire (surtout autour des permissions sensibles). Ne planifiez pas une date de lancement qui suppose une approbation instantanée."
+  - question: "Puis-je corriger une application rejetée et la soumettre à nouveau ?"
+    answer: "Oui — les rejets viennent avec une raison indiquée, et la plupart sont corrigibles sans cycle de revue complet une fois le problème spécifique traité. Lisez attentivement la vraie raison du rejet plutôt que de deviner quoi changer."
+  - question: "Ai-je besoin d'une politique de confidentialité même pour une application simple ?"
+    answer: "Presque certainement oui — Google Play exige une politique de confidentialité pour la grande majorité des applications, y compris beaucoup qui semblent trop simples pour en avoir besoin, si elles demandent des permissions ou collectent des données, ce que font la plupart des applications même involontairement (rapports de crash, analytics)."
+---
+
+La plupart des problèmes de première publication sur Google Play ne concernent pas la qualité de l'application — ce sont des erreurs de processus et de politique faciles à éviter une fois qu'on sait qu'elles existent.
+
+## 1. Demander des permissions que vous ne justifiez pas clairement
+
+<Callout type="warning">
+La politique de Google Play exige que les permissions correspondent à un usage clair et déclaré dans votre application — demander de larges permissions « au cas où » est une raison de rejet courante, et les permissions sensibles (localisation, contacts, SMS) reçoivent un contrôle supplémentaire.
+</Callout>
+
+Ne demandez que ce que l'application utilise réellement, et soyez prêt à justifier chacune dans la section sécurité des données de la Play Console.
+
+## 2. Négliger la politique de confidentialité
+
+Presque chaque application en a besoin — y compris les applications qui semblent trop simples pour cela, si elles utilisent des analytics, des rapports de crash, ou n'importe quelle permission (la plupart le font, même involontairement via des bibliothèques incluses). Une politique de confidentialité manquante ou inadéquate est l'un des rejets évitables les plus courants.
+
+## 3. Ne pas tester sur une gamme de tailles d'appareils réels
+
+La fragmentation des appareils Android signifie qu'une application qui semble bien sur votre unique appareil de test ou émulateur peut mal se casser sur une taille d'écran, un ratio d'aspect, ou une version Android différente. Testez au moins sur un petit téléphone, un grand téléphone, et un écran taille tablette avant de soumettre — cela attrape des bugs de mise en page à moindre coût, avant que les utilisateurs ne les trouvent.
+
+## 4. Traiter la fiche de l'application comme une réflexion après coup
+
+Captures d'écran, description, et icône de l'application ne sont pas que du marketing — une fiche faible ou générique nuit à la découvrabilité et à la conversion, quelle que soit la qualité de l'application elle-même. Cela mérite du vrai temps avant le lancement, pas quelque chose à bâcler la veille de la soumission.
+
+## 5. Ne pas planifier l'écart entre revue et lancement
+
+La revue n'est pas instantanée — elle peut prendre de quelques heures à plusieurs jours, plus longtemps si votre application touche des catégories de permissions sensibles. N'annoncez pas publiquement une date de lancement précise avant que l'application n'ait réellement passé la revue ; « soumis » et « en ligne » sont des états différents, et l'écart entre les deux est hors de votre contrôle.
+
+## Une checklist avant soumission
+
+| Vérification | Pourquoi c'est important |
+|---|---|
+| Les permissions correspondent à l'usage réel et déclaré | Raison de rejet courante |
+| Politique de confidentialité présente et précise | Requise pour presque toutes les applications |
+| Testé sur plusieurs tailles d'écran | La fragmentation cause de vrais bugs |
+| La fiche (captures d'écran, description) est terminée | Affecte la découvrabilité, pas juste la finition |
+| Soumis avec une marge avant toute date annoncée | La revue n'est pas instantanée |
+
+<Callout>
+Vous approchez d'une première publication et voulez un second avis sur la soumission avant de l'envoyer ? [Contactez-moi](/contact).
+</Callout>

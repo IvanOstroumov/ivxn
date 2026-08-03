@@ -1,0 +1,76 @@
+---
+title: "Construire un système hitbox/hurtbox pour un jeu de combat 2D"
+description: "Comment fonctionnent réellement les systèmes hitbox et hurtbox dans les jeux de combat 2D, et les détails pratiques d'implémentation qui déterminent si le combat semble équitable."
+slug: "hitbox-hurtbox-fighting-games"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["hitbox hurtbox jeu de combat", "comment fonctionnent les collisions dans les jeux de combat", "frame data jeux de combat"]
+ogImageTitle: "Hitbox/Hurtbox Systems"
+faq:
+  - question: "Quelle est la différence entre une hitbox et une hurtbox ?"
+    answer: "Une hitbox est la zone qui peut infliger des dégâts (attachée à un mouvement offensif) ; une hurtbox est la zone qui peut recevoir des dégâts (attachée au corps d'un personnage). Un coup est enregistré quand une hitbox active chevauche la hurtbox d'un adversaire — ce sont délibérément des formes séparées, pas le même collider."
+  - question: "Pourquoi ne pas simplement utiliser les limites du sprite du personnage comme hitbox ?"
+    answer: "Les limites du sprite sont généralement bien plus grandes et moins précises que ce qui semble équitable pour le combat — la hitbox réelle d'un coup de poing devrait couvrir approximativement le poing pendant les frames de frappe, pas toute la silhouette du personnage, sinon le jeu semblera frapper depuis des distances impossibles."
+  - question: "Que sont les « frames actives » en termes de jeux de combat ?"
+    answer: "Les frames spécifiques pendant l'animation d'une attaque où sa hitbox est réellement activée et peut enregistrer un coup — un coup de poing a des frames de démarrage (préparation, pas de hitbox), des frames actives (hitbox active), et des frames de récupération (pas de hitbox, vulnérable) qui nécessitent toutes un traitement séparé."
+---
+
+La sensation de combat dans les jeux de combat se résume à beaucoup de détails de collision soignés et peu glamour — c'est là que vit vraiment une grande partie de ce détail.
+
+## Les hitbox et hurtbox sont des formes séparées, intentionnellement
+
+<Callout>
+Une hurtbox représente où un personnage peut être touché ; une hitbox représente où une attaque peut infliger des dégâts. Ce sont délibérément des formes différentes, dimensionnées indépendamment — jamais le même collider servant les deux rôles.
+</Callout>
+
+Utiliser un seul collider partagé pour les deux rôles est une erreur courante en début de développement — cela rend impossible de calibrer « à quel point ce personnage est-il facile à toucher » séparément de « jusqu'où porte cette attaque », qui sont des questions de design vraiment différentes nécessitant des réponses indépendantes.
+
+## Les attaques ont besoin d'un état de hitbox image par image, pas d'un seul collider
+
+Une vraie attaque a des phases distinctes :
+
+- **Démarrage (Startup)** — l'animation de préparation, pas encore de hitbox active (c'est ce qui rend les mouvements punissables s'ils sont télégraphiés et bloqués/esquivés).
+- **Active** — les frames spécifiques où la hitbox est réellement activée et peut enregistrer un coup.
+- **Récupération (Recovery)** — après que la hitbox se désactive, avant que le personnage puisse à nouveau agir — c'est ce que « punir une attaque ratée » exploite réellement.
+
+```csharp
+public class AttackHitbox : MonoBehaviour {
+    public int startupFrames = 4;
+    public int activeFrames = 3;
+    public int recoveryFrames = 8;
+    private int currentFrame = 0;
+    private Collider2D hitboxCollider;
+
+    void FixedUpdate() {
+        currentFrame++;
+        bool isActive = currentFrame > startupFrames &&
+                         currentFrame <= startupFrames + activeFrames;
+        hitboxCollider.enabled = isActive;
+    }
+}
+```
+
+C'est délibérément piloté par un compteur de frames, pas par « l'animation est-elle en cours de lecture » au sens vague — les jeux de combat ont besoin de frame data exactes et reproductibles, car les joueurs vont (et devraient pouvoir) apprendre et compter sur un timing exact.
+
+## Le pas de temps fixe compte ici plus que dans la plupart des genres
+
+Les jeux de combat sont inhabituellement sensibles à la cohérence du timing — utiliser le `FixedUpdate` d'Unity (un pas de temps physique cohérent) pour l'état de la hitbox, plutôt que l'`Update` à taux variable, garde la frame data réellement cohérente indépendamment du taux de rafraîchissement du rendu. Un mouvement avec « 4 frames de démarrage » doit signifier la même durée réelle à chaque fois, sur chaque machine, sans varier avec les performances de rendu.
+
+## Un flux d'états simplifié
+
+| Phase | État de la hitbox | État du joueur |
+|---|---|---|
+| Démarrage | Inactive | Engagé dans le mouvement, pas encore de nouvelle entrée |
+| Active | Activée, peut toucher | Engagé, hitbox active |
+| Récupération | À nouveau inactive | Vulnérable, punissable si bloqué/esquivé |
+
+## Pourquoi ce niveau de soin compte
+
+Les joueurs de jeux de combat — même occasionnels — développent un sentiment intuitif de savoir si les coups sont « équitables », et une détection de coups incohérente ou basée sur les limites du sprite est l'un des moyens les plus rapides de faire paraître un jeu de combat mauvais même si la mécanique de base est par ailleurs solide. C'est un travail d'implémentation peu glamour, mais cela représente une grande part de ce qui détermine réellement si le combat semble bon.
+
+<Callout>
+Pour la décision de moteur plus large derrière SAMT: All Stars, voir notre [comparaison Unity vs Godot](/blog/unity-vs-godot-2d-fighting-game).
+</Callout>

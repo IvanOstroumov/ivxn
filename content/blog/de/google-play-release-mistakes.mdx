@@ -1,0 +1,59 @@
+---
+title: "5 Fehler, die du bei deiner ersten Google-Play-Veröffentlichung vermeiden solltest"
+description: "Die häufigsten, vermeidbaren Fehler, die Android-Entwickler bei ihrer ersten Veröffentlichung auf Google Play machen, und wie man jeden umgeht."
+slug: "google-play-release-mistakes"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["fehler erste google play veröffentlichung", "android app store ablehnungsgründe", "google play launch checkliste"]
+ogImageTitle: "Google Play Release Mistakes"
+faq:
+  - question: "Wie lange dauert die Google-Play-Überprüfung normalerweise?"
+    answer: "Das variiert, von wenigen Stunden bis zu mehreren Tagen, und kann bei Konten oder Apps, die eine zusätzliche Richtlinienprüfung auslösen (besonders bei sensiblen Berechtigungen), länger dauern. Plane kein Launch-Datum, das eine sofortige Genehmigung voraussetzt."
+  - question: "Kann ich eine abgelehnte App korrigieren und erneut einreichen?"
+    answer: "Ja — Ablehnungen kommen mit einem genannten Grund, und die meisten sind ohne einen vollständigen erneuten Prüfzyklus behebbar, sobald das spezifische Problem behoben ist. Lies den tatsächlichen Ablehnungsgrund sorgfältig, statt zu raten, was zu ändern ist."
+  - question: "Brauche ich auch für eine einfache App eine Datenschutzerklärung?"
+    answer: "Fast sicher ja — Google Play verlangt für die große Mehrheit der Apps eine Datenschutzerklärung, einschließlich vieler, die sich zu einfach dafür anfühlen, wenn sie irgendwelche Berechtigungen anfordern oder überhaupt Daten sammeln, was die meisten Apps tun, sogar unabsichtlich (Absturzberichte, Analytics)."
+---
+
+Die meisten Probleme bei der ersten Veröffentlichung auf Google Play haben nichts mit der Qualität der App zu tun — es sind Prozess- und Richtlinienfehler, die leicht zu vermeiden sind, sobald man weiß, dass sie existieren.
+
+## 1. Berechtigungen anfordern, die du nicht klar begründest
+
+<Callout type="warning">
+Die Google-Play-Richtlinie verlangt, dass Berechtigungen einer klaren, erklärten Nutzung in deiner App entsprechen — breite Berechtigungen "nur für den Fall" anzufordern ist ein häufiger Ablehnungsgrund, und sensible Berechtigungen (Standort, Kontakte, SMS) werden zusätzlich geprüft.
+</Callout>
+
+Fordere nur an, was die App tatsächlich nutzt, und sei bereit, jede im Datenschutz-Abschnitt der Play Console zu begründen.
+
+## 2. Die Datenschutzerklärung auslassen
+
+Fast jede App braucht eine — einschließlich Apps, die sich zu einfach dafür anfühlen, wenn sie Analytics, Absturzberichte, oder überhaupt eine Berechtigung nutzen (die meisten tun das, sogar unabsichtlich durch enthaltene Bibliotheken). Eine fehlende oder unzureichende Datenschutzerklärung ist eine der häufigsten vermeidbaren Ablehnungen.
+
+## 3. Nicht auf verschiedenen echten Gerätegrößen testen
+
+Androids Gerätefragmentierung bedeutet, dass eine App, die auf deinem einen Testgerät oder Emulator gut aussieht, auf einer anderen Bildschirmgröße, einem anderen Seitenverhältnis oder einer anderen Android-Version stark kaputtgehen kann. Teste mindestens auf einem kleinen Handy, einem großen Handy und einem tablet-großen Bildschirm vor der Einreichung — das fängt Layout-Bugs günstig ab, bevor Nutzer sie finden.
+
+## 4. Den App-Eintrag als Nachgedanken behandeln
+
+Screenshots, Beschreibung und das App-Icon sind nicht nur Marketing — ein schwacher oder generischer Eintrag schadet der Auffindbarkeit und Konversion, unabhängig davon, wie gut die App selbst ist. Das ist echte Zeit vor dem Launch wert, nicht etwas, das man am Abend vor der Einreichung zusammenwirft.
+
+## 5. Die Lücke zwischen Überprüfung und Launch nicht einplanen
+
+Die Überprüfung ist nicht sofort — sie kann von Stunden bis zu mehreren Tagen dauern, länger, wenn deine App sensible Berechtigungskategorien berührt. Kündige kein bestimmtes Launch-Datum öffentlich an, bevor die App die Überprüfung tatsächlich bestanden hat; "eingereicht" und "live" sind unterschiedliche Zustände, und die Lücke dazwischen liegt außerhalb deiner Kontrolle.
+
+## Eine Checkliste vor der Einreichung
+
+| Prüfung | Warum es wichtig ist |
+|---|---|
+| Berechtigungen entsprechen der tatsächlichen, erklärten Nutzung | Häufiger Ablehnungsgrund |
+| Datenschutzerklärung vorhanden und korrekt | Für fast alle Apps erforderlich |
+| Auf mehreren Bildschirmgrößen getestet | Fragmentierung verursacht echte Bugs |
+| Eintrag (Screenshots, Beschreibung) ist fertig | Beeinflusst Auffindbarkeit, nicht nur den Feinschliff |
+| Mit Puffer vor jedem angekündigten Datum eingereicht | Überprüfung ist nicht sofort |
+
+<Callout>
+Näherst du dich einer ersten Veröffentlichung und willst ein zweites Augenpaar auf die Einreichung, bevor du sie abschickst? [Melde dich](/contact).
+</Callout>
