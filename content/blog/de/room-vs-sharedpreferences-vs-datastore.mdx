@@ -1,0 +1,72 @@
+---
+title: "Room vs. SharedPreferences vs. DataStore: Welcher Speicher für was"
+description: "Ein praktischer Vergleich von Androids drei wichtigsten lokalen Speicheroptionen — Room, SharedPreferences, und DataStore — und wann jede tatsächlich die richtige Wahl ist."
+slug: "room-vs-sharedpreferences-vs-datastore"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["room vs sharedpreferences vs datastore", "android lokaler speicher vergleich", "wann room datenbank verwenden"]
+ogImageTitle: "Room vs SharedPreferences vs DataStore"
+faq:
+  - question: "Ist SharedPreferences veraltet?"
+    answer: "Nicht formal entfernt, aber Google empfiehlt DataStore als Ersatz für neuen Code — SharedPreferences hat bekannte Probleme (synchrone API im Hauptthread, keine starke Typisierung), die DataStore speziell beheben sollte."
+  - question: "Kann ich mehr als eines davon in derselben App verwenden?"
+    answer: "Ja, und das ist üblich — Room für strukturierte Daten (eine Liste von Elementen, Benutzerdatensätze), DataStore für einfache App-Einstellungen und Präferenzen, zusammen verwendet statt als konkurrierende Wahl für dieselbe Aufgabe."
+  - question: "Brauche ich Room für einen einfachen Einstellungsbildschirm?"
+    answer: "Nein — Room ist für strukturierte, abfragbare Daten mit Beziehungen gebaut. Eine Handvoll Benutzereinstellungen (Themenwahl, Benachrichtigungsumschalter) ist genau das, wofür DataStore stattdessen entworfen ist."
+---
+
+Diese drei werden verglichen, als würde man eines für die gesamte App auswählen. In der Praxis lösen sie unterschiedliche Probleme und koexistieren oft.
+
+## SharedPreferences: der alte Standard, der ausläuft
+
+Einfacher Schlüssel-Wert-Speicher, historisch der Standard für kleine Einstellungen. Bekannte Einschränkungen: es ist leicht mit synchronen Lesevorgängen im Hauptthread falsch zu verwenden (verursacht Jank), bietet keine Compile-Zeit-Typsicherheit, und Google empfiehlt jetzt **DataStore** als Ersatz für neuen Code.
+
+## DataStore: der moderne Ersatz für einfache Schlüssel-Wert-Daten
+
+DataStore kommt in zwei Varianten — **Preferences DataStore** (ähnliche Form wie SharedPreferences, aber asynchron und sicherer) und **Proto DataStore** (vollständig typisiert, mit Protocol Buffers). So oder so ist es für dieselbe Aufgabe gebaut, die SharedPreferences erledigte — einfache Einstellungen und Flags — richtig gemacht: standardmäßig asynchron, mit einem definierten Datenkonsistenzmodell.
+
+```kotlin
+val Context.dataStore by preferencesDataStore(name = "settings")
+
+val THEME_KEY = stringPreferencesKey("theme")
+
+suspend fun saveTheme(context: Context, theme: String) {
+    context.dataStore.edit { prefs -> prefs[THEME_KEY] = theme }
+}
+```
+
+## Room: für echte strukturierte, abfragbare Daten
+
+Room ist eine vollständige SQLite-Abstraktion — eine ORM-artige Schicht für strukturierte Daten mit Beziehungen, Abfragen, und (über Coroutines/Flow) reaktiven Updates. Dies ist das richtige Werkzeug, wenn du eine echte Sammlung strukturierter Datensätze hast: eine Liste gespeicherter Elemente, gecachte API-Ergebnisse, alles, was du natürlicherweise als Tabelle mit Zeilen beschreiben würdest.
+
+```kotlin
+@Entity
+data class Note(@PrimaryKey val id: Int, val title: String, val body: String)
+
+@Dao
+interface NoteDao {
+    @Query("SELECT * FROM Note ORDER BY id DESC")
+    fun getAll(): Flow<List<Note>>
+}
+```
+
+## Vergleichstabelle
+
+| | SharedPreferences | DataStore | Room |
+|---|---|---|---|
+| Am besten für | Legacy-Code (für neuen Code vermeiden) | Einfache Einstellungen/Flags | Strukturierte, abfragbare Daten |
+| Typsicherheit | Keine | Stark (besonders Proto DataStore) | Stark |
+| Standardmäßig asynchron | Nein (häufige Fehlerquelle) | Ja | Ja (mit Coroutines/Flow) |
+| Handhabt Beziehungen/Abfragen | Nein | Nein | Ja |
+| Aktuelle Google-Empfehlung | Läuft aus | Ja, für Schlüssel-Wert-Daten | Ja, für strukturierte Daten |
+
+## Die praktische Regel
+
+Wenn es eine Handvoll Flags oder Präferenzen sind (Theme, ob Onboarding gezeigt wurde, ein Benachrichtigungsumschalter), verwende DataStore. Wenn es eine echte Sammlung strukturierter Datensätze ist, die du abfragen, filtern, oder mit anderen Daten in Beziehung setzen würdest, verwende Room. Vermeide es, neuen Code mit SharedPreferences zu beginnen — die spätere Migrationskosten zu DataStore sind vermeidbar, indem man einfach dort beginnt.
+
+<Callout>
+Diese Entscheidung verbindet sich direkt mit der breiteren Architekturfrage — siehe unseren Leitfaden zum [Entwerfen von Android-Architektur zur Vermeidung von Neuschreibungen](/blog/android-architecture-avoid-rewrites) dafür, wie sich Datenschicht-Entscheidungen ins größere Bild einfügen.
+</Callout>
