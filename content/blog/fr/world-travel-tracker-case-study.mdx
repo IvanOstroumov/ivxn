@@ -1,0 +1,56 @@
+---
+title: "Construire World Travel Tracker : une étude de cas d'app Android"
+description: "Comment World Travel Tracker — une app Android pour suivre les pays visités avec une carte et un export JSON — a été conçue et construite, et les décisions derrière elle."
+slug: "world-travel-tracker-case-study"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["app world travel tracker", "développement app android suivi de voyage", "construire une app android basée sur une carte"]
+ogImageTitle: "World Travel Tracker Case Study"
+faq:
+  - question: "Pourquoi construire une app dédiée plutôt que d'utiliser simplement un tableur ?"
+    answer: "Un tableur ne vous donne pas de carte visuelle de ce qui a été visité, ne fonctionne pas bien sur mobile pour des mises à jour rapides en voyage, et n'exporte pas dans un format structuré et réutilisable — une app conçue spécifiquement résout les trois à la fois."
+  - question: "Pourquoi l'export JSON spécifiquement, plutôt qu'un format propriétaire ?"
+    answer: "JSON est lisible par un humain, facile à sauvegarder, et facile à importer dans d'autres outils ou scripts plus tard — un format propriétaire aurait enfermé les données dans l'app sans issue facile si un utilisateur voulait ses données ailleurs."
+  - question: "Le support hors ligne est-il pertinent pour une app de suivi de voyage ?"
+    answer: "Absolument — le voyage est exactement le scénario où la connectivité est la moins fiable, donc une app pour suivre les pays visités doit fonctionner entièrement hors ligne par conception, pas comme une réflexion après coup."
+---
+
+World Travel Tracker a commencé par une simple démangeaison personnelle : vouloir un enregistrement visuel des pays où j'avais réellement été, sans dépendre d'un tableur ou de la mémoire.
+
+## L'idée centrale
+
+Une interface basée sur une carte où les pays visités sont marqués directement, avec les données structurées assez bien pour être exportées et utilisées ailleurs — pas enfermées dans l'app.
+
+## Pourquoi une carte, pas une liste
+
+Une liste de noms de pays est fonctionnellement complète mais ne donne pas le même sens de couverture en un coup d'œil qu'une carte visuelle — voir quelles régions ne sont pas visitées est immédiatement évident sur une carte d'une manière qu'une liste de texte ne transmet pas. C'était la vraie raison de construire une app dédiée plutôt que d'utiliser simplement un tableur ou une note.
+
+## Hors ligne d'abord par nécessité, pas par préférence
+
+Le voyage est précisément la situation où la connectivité est la moins fiable — l'app devait fonctionner entièrement sans connexion, puisque cocher un pays visité dans une zone reculée sans signal est un cas d'usage complètement normal, pas un cas limite. Cela signifiait concevoir la couche de données autour du stockage local comme source de vérité dès le départ (voir notre [guide d'architecture hors-ligne-d'abord](/blog/offline-first-android-apps) pour le pattern général que cela suit) plutôt que de l'adapter plus tard.
+
+## Pourquoi l'export JSON
+
+Le modèle de données est simple — une liste de pays visités avec métadonnées — ce qui fait de JSON un choix naturel : lisible par un humain, facile à sauvegarder manuellement, et facile à apporter dans d'autres outils ou scripts si quelqu'un voulait faire plus avec ses propres données que ce que fournissent les vues intégrées de l'app. Un format binaire propriétaire n'aurait rien résolu dont l'app elle-même avait besoin et aurait rendu les propres données de l'utilisateur plus difficiles à accéder en dehors de l'app.
+
+```json
+{
+  "visitedCountries": [
+    { "code": "IT", "name": "Italy", "visitedDate": "2024-06-12" },
+    { "code": "DE", "name": "Germany", "visitedDate": "2023-11-03" }
+  ]
+}
+```
+
+## Ce que je soulignerais pour quiconque construit quelque chose de similaire
+
+- **Commencez par le modèle de données, pas l'UI de la carte.** La carte est un rendu des données — bien obtenir la structure sous-jacente d'abord (ce qui compte comme une « visite », quelles métadonnées comptent) rend la couche visuelle simple ensuite, pas l'inverse.
+- **Hors-ligne-d'abord n'est pas optionnel pour les apps en contexte de voyage** — c'est proche de l'exigence centrale, pas un plus agréable.
+- **Exportez dans un format ouvert** s'il y a une chance que les utilisateurs veuillent leurs données en dehors de votre app — cela coûte peu en amont et évite un vrai problème de confiance plus tard.
+
+<Callout>
+Ce genre de projet — un utilitaire personnel qui grandit en quelque chose qui vaut la peine d'être peaufiné et partagé — est l'une de mes catégories préférées à construire. Voir la [page Projets](/projects) pour plus dans ce genre.
+</Callout>

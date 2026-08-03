@@ -1,0 +1,56 @@
+---
+title: "World Travel Tracker bauen: Eine Android-App-Fallstudie"
+description: "Wie World Travel Tracker — eine Android-App zum Verfolgen besuchter Länder mit einer Karte und JSON-Export — entworfen und gebaut wurde, und die Entscheidungen dahinter."
+slug: "world-travel-tracker-case-study"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["world travel tracker app", "android reise-tracking-app entwicklung", "kartenbasierte android app bauen"]
+ogImageTitle: "World Travel Tracker Case Study"
+faq:
+  - question: "Warum eine dedizierte App bauen statt nur eine Tabellenkalkulation zu verwenden?"
+    answer: "Eine Tabellenkalkulation gibt dir keine visuelle Karte dessen, was besucht wurde, funktioniert auf Mobilgeräten für schnelle Updates während der Reise nicht gut, und exportiert nicht in einem strukturierten, wiederverwendbaren Format — eine zweckgebaute App löst alle drei auf einmal."
+  - question: "Warum speziell JSON-Export, statt eines proprietären Formats?"
+    answer: "JSON ist menschenlesbar, leicht zu sichern, und leicht später in andere Tools oder Skripte zu importieren — ein proprietäres Format hätte die Daten in der App eingeschlossen, ohne einfachen Ausweg, falls ein Nutzer seine Daten anderswo haben wollte."
+  - question: "Ist Offline-Unterstützung für eine Reise-Tracking-App relevant?"
+    answer: "Sehr — Reisen ist genau das Szenario, wo Konnektivität am unzuverlässigsten ist, also muss eine App zum Verfolgen besuchter Länder von Natur aus vollständig offline funktionieren, nicht als nachträglicher Einfall."
+---
+
+World Travel Tracker begann mit einem einfachen, persönlichen Bedürfnis: eine visuelle Aufzeichnung davon zu wollen, in welchen Ländern ich tatsächlich gewesen war, ohne mich auf eine Tabellenkalkulation oder das Gedächtnis zu verlassen.
+
+## Die Kernidee
+
+Eine kartenbasierte Oberfläche, in der besuchte Länder direkt markiert werden, mit Daten, die gut genug strukturiert sind, um exportiert und anderswo verwendet zu werden — nicht in der App eingeschlossen.
+
+## Warum eine Karte, keine Liste
+
+Eine Liste von Ländernamen ist funktional vollständig, gibt aber nicht dasselbe Gefühl der Abdeckung auf einen Blick, das eine visuelle Karte gibt — zu sehen, welche Regionen unbesucht sind, ist auf einer Karte sofort offensichtlich, auf eine Weise, die eine Textliste nicht vermittelt. Das war der eigentliche Grund, eine dedizierte App zu bauen, statt nur eine Tabellenkalkulation oder Notiz zu verwenden.
+
+## Offline-first aus Notwendigkeit, nicht aus Vorliebe
+
+Reisen ist genau die Situation, in der Konnektivität am unzuverlässigsten ist — die App musste vollständig ohne Verbindung funktionieren, da das Abhaken eines besuchten Landes in einem abgelegenen Gebiet ohne Signal ein vollkommen normaler Anwendungsfall ist, kein Randfall. Das bedeutete, die Datenschicht von Anfang an um lokalen Speicher als Quelle der Wahrheit herum zu entwerfen (siehe unseren [Offline-First-Architektur-Leitfaden](/blog/offline-first-android-apps) für das allgemeine Muster, dem dies folgt), statt es später nachzurüsten.
+
+## Warum JSON-Export
+
+Das Datenmodell ist einfach — eine Liste besuchter Länder mit Metadaten — was JSON zu einer natürlichen Wahl macht: menschenlesbar, leicht manuell zu sichern, und leicht in andere Tools oder Skripte zu übertragen, falls jemand mehr mit seinen eigenen Daten machen wollte, als die eingebauten Ansichten der App bieten. Ein proprietäres Binärformat hätte nichts gelöst, was die App selbst brauchte, und hätte die eigenen Daten des Nutzers außerhalb der App schwerer zugänglich gemacht.
+
+```json
+{
+  "visitedCountries": [
+    { "code": "IT", "name": "Italy", "visitedDate": "2024-06-12" },
+    { "code": "DE", "name": "Germany", "visitedDate": "2023-11-03" }
+  ]
+}
+```
+
+## Was ich für jeden betonen würde, der etwas Ähnliches baut
+
+- **Beginne mit dem Datenmodell, nicht der Karten-UI.** Die Karte ist eine Darstellung der Daten — die zugrunde liegende Struktur zuerst richtig hinzubekommen (was als "Besuch" zählt, welche Metadaten wichtig sind) macht die visuelle Schicht danach unkompliziert, nicht umgekehrt.
+- **Offline-first ist für Apps im Reisekontext nicht optional** — es ist nahe an der Kernanforderung, kein nettes Extra.
+- **Exportiere in einem offenen Format**, falls es irgendeine Chance gibt, dass Nutzer ihre Daten außerhalb deiner App wollen — es kostet im Voraus wenig und vermeidet später ein echtes Vertrauensproblem.
+
+<Callout>
+Diese Art von Projekt — ein persönliches Hilfsmittel, das zu etwas heranwächst, das es wert ist, poliert und geteilt zu werden — ist eine meiner Lieblingskategorien zum Bauen. Siehe die [Projektseite](/projects) für mehr davon.
+</Callout>
