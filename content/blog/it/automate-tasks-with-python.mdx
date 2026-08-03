@@ -1,0 +1,78 @@
+---
+title: "Automatizzare compiti ripetitivi con Python: un punto di partenza pratico"
+description: "Come identificare cosa vale la pena automatizzare e un esempio reale e funzionante di script Python per rinominare e organizzare automaticamente i file."
+slug: "automate-tasks-with-python"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["automation", "python"]
+category: "Automation"
+author: "Ivan Ostroumov"
+keywords: ["automatizzare compiti con python", "esempio script automazione python", "cosa automatizzare per primo"]
+ogImageTitle: "Automating Tasks with Python"
+faq:
+  - question: "Devo conoscere bene Python prima di automatizzare qualcosa?"
+    answer: "No — la maggior parte degli script di automazione utili sono brevi e usano una manciata di moduli della libreria standard (os, shutil, pathlib). Puoi ottenere un vero valore da Python conoscendo molto meno del linguaggio di quanto si pensi."
+  - question: "Qual è la cosa più facile da automatizzare per prima?"
+    answer: "Qualsiasi cosa fai manualmente, su base regolare o ripetutamente, seguendo gli stessi passaggi ogni volta — organizzazione di file, rinominare lotti di file, o recuperare lo stesso report dallo stesso posto. Se puoi descrivere i passaggi come una lista numerata, di solito è automatizzabile."
+  - question: "Vale la pena automatizzare qualcosa che faccio solo una volta al mese?"
+    answer: "A volte — se la versione manuale richiede 20+ minuti ed è soggetta a errori, uno script che esegui una volta al mese ripaga comunque il tempo impiegato a scriverlo entro pochi mesi, ed elimina gli errori che derivano dal fare qualcosa abbastanza raramente da dimenticare i passaggi."
+---
+
+La maggior parte dei consigli sull'automazione salta subito al codice. Il primo passo davvero utile è capire cosa vale la pena automatizzare in generale.
+
+## Cosa vale la pena automatizzare
+
+<Callout>
+Un buon candidato per l'automazione: fai gli stessi passaggi, nello stesso ordine, più di un paio di volte, e i passaggi stessi cambiano raramente. Un cattivo candidato: qualcosa che richiede valutazioni ogni volta, o che fai una volta e non farai mai più.
+</Callout>
+
+Obiettivi iniziali comuni:
+- Rinominare o organizzare lotti di file (download, esportazioni, foto)
+- Recuperare gli stessi dati dalla stessa fonte a intervalli regolari
+- Convertire file da un formato all'altro in massa
+- Ripulire file di log o vecchi file temporanei
+
+## Un esempio reale: organizzare una cartella download disordinata
+
+Ecco uno script completo e funzionante che ordina i file in una cartella in sottocartelle per estensione — una richiesta genuinamente comune.
+
+```python
+import shutil
+from pathlib import Path
+
+SOURCE = Path.home() / "Downloads"
+
+def organize_by_extension(source: Path):
+    for file in source.iterdir():
+        if file.is_dir():
+            continue
+        extension = file.suffix.lower().lstrip(".") or "no_extension"
+        destination_folder = source / extension
+        destination_folder.mkdir(exist_ok=True)
+        shutil.move(str(file), str(destination_folder / file.name))
+
+if __name__ == "__main__":
+    organize_by_extension(SOURCE)
+    print(f"Organized files in {SOURCE}")
+```
+
+Cosa fa, riga per riga: guarda ogni file direttamente dentro la cartella Download, capisce la sua estensione, crea una sottocartella con il nome di quell'estensione se non esiste già, e sposta il file lì. Eseguilo una volta, e ogni `.pdf` finisce in una cartella `pdf/`, ogni `.jpg` in una cartella `jpg/`, e così via.
+
+<Callout type="warning">
+Testa qualsiasi script che sposta file prima su una copia di una cartella, non sull'originale — `shutil.move` non chiede conferma, e un bug in una prima bozza può spostare male i file più velocemente di quanto tu possa correggerli a mano.
+</Callout>
+
+## Pianificarlo per non doverlo ricordare
+
+Uno script fa risparmiare tempo solo se viene effettivamente eseguito senza che tu debba ricordarti di eseguirlo.
+
+- **Windows:** l'Utilità di pianificazione può eseguire uno script Python secondo una pianificazione (giornaliera, all'accesso, ecc.) senza bisogno di installare nulla oltre a Python stesso.
+- **Linux/macOS:** `cron` fa lo stesso lavoro — una voce di una riga nel crontab può eseguire lo script ogni notte.
+
+## Dove andare da qui
+
+Una volta che uno script semplice funziona, i passi successivi naturali sono: aggiungere gestione degli errori per i file bloccati o in uso, registrare cosa ha fatto (così puoi controllare dopo invece di indovinare), e — se tocca qualcosa di importante — una modalità dry-run che stampa cosa *farebbe* senza effettivamente farlo.
+
+<Callout>
+Hai un compito ripetitivo specifico che consuma tempo ogni settimana e non sei sicuro sia automatizzabile, o vuoi uno script costruito per questo? [Contattami](/contact).
+</Callout>

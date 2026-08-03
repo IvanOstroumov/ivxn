@@ -1,0 +1,51 @@
+---
+title: "Récupérer des données depuis un disque chiffré avec BitLocker"
+description: "Ce qui est réellement possible quand vous devez récupérer des données depuis un disque chiffré avec BitLocker — et ce qui ne l'est vraiment pas, quel que soit l'outil utilisé."
+slug: "bitlocker-encrypted-drive-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["récupérer données disque bitlocker", "clé de récupération bitlocker perdue", "récupération de données disque chiffré"]
+ogImageTitle: "BitLocker Drive Recovery"
+faq:
+  - question: "Peut-on récupérer des données d'un disque BitLocker sans la clé de récupération ?"
+    answer: "Les données brutes chiffrées peuvent souvent être extraites, mais elles sont illisibles sans la clé ou le mot de passe — le chiffrement de BitLocker est spécifiquement conçu pour que cela ne soit pas cassable en pratique. La récupération dans ce cas signifie trouver la clé, pas contourner le chiffrement."
+  - question: "Où trouver ma clé de récupération BitLocker ?"
+    answer: "Généralement dans votre compte Microsoft en ligne (account.microsoft.com/devices/recoverykey), imprimée si vous l'avez sauvegardée ainsi, sur une clé USB si vous l'y avez exportée, ou dans le système informatique de votre organisation si le disque est géré par le travail."
+  - question: "Un disque BitLocker corrompu peut-il encore être déchiffré si j'ai la clé ?"
+    answer: "Souvent oui — la corruption du système de fichiers et le chiffrement sont des couches séparées. Avec la bonne clé, le disque peut généralement être déverrouillé, après quoi les méthodes normales de récupération de fichiers s'appliquent à toute récupération de données encore nécessaire en dessous."
+---
+
+La récupération BitLocker est traitée comme un seul problème alors qu'il y en a en fait deux : passer outre le chiffrement, puis récupérer les données de ce qu'il y a en dessous. Ils nécessitent des approches complètement différentes.
+
+## Couche 1 : le chiffrement lui-même
+
+<Callout>
+Le chiffrement de BitLocker faisant correctement son travail signifie qu'il n'y a aucun moyen réaliste de lire les données sans la clé ou le mot de passe. Ce n'est pas une limitation des outils de récupération — c'est tout l'objectif du chiffrement. Tout outil prétendant « contourner » le chiffrement BitLocker sans la clé doit être considéré avec suspicion.
+</Callout>
+
+Si vous ne pouvez pas déverrouiller le disque, la vraie tâche est de **trouver la clé de récupération**, pas de vaincre le chiffrement :
+
+- **Compte Microsoft :** si le PC était connecté à un compte Microsoft quand BitLocker a été activé, la clé est souvent sauvegardée automatiquement sur `account.microsoft.com/devices/recoverykey`.
+- **Clé imprimée ou sauvegardée :** vérifiez partout où vous auriez pu la sauvegarder lors de la première activation de BitLocker — une impression, un fichier texte, une clé USB.
+- **Appareil professionnel/géré :** le service informatique de votre organisation ou le système de gestion des appareils (Intune, Active Directory) détient généralement une copie pour les machines de l'entreprise.
+- **Appareils joints à Azure AD :** la clé peut être récupérable via le portail Azure AD de l'organisation par un administrateur.
+
+## Couche 2 : récupération après déverrouillage
+
+Une fois le disque déverrouillé avec la bonne clé, le chiffrement n'est plus l'obstacle — quel que soit le vrai problème avec les données (un fichier supprimé, un système de fichiers corrompu, un disque physique défaillant), cela devient un problème de récupération normal, et les approches normales de récupération s'appliquent à partir de là.
+
+## Ce qui ne fonctionne vraiment pas
+
+- Un logiciel de récupération exécuté directement contre un volume BitLocker encore verrouillé — il voit du bruit chiffré, pas des fichiers, car c'est exactement ce que le chiffrement est censé produire.
+- Les « générateurs de clé de récupération » ou outils similaires prétendant dériver la clé du disque lui-même — si cela fonctionnait de façon fiable, le chiffrement serait cassé par conception, ce qui n'est pas le cas de l'implémentation de BitLocker.
+
+## Le chemin réaliste si la clé est véritablement perdue
+
+S'il n'y a vraiment aucune copie de la clé de récupération nulle part — pas de sauvegarde de compte Microsoft, pas de service informatique, pas de copie imprimée — la réponse honnête est qu'un chiffrement correctement implémenté est conçu pour rendre les données illisibles exactement dans cette situation. C'est un risque réel de l'utilisation du chiffrement, pas un défaut, et c'est pourquoi sauvegarder la clé de récupération à au moins un autre endroit compte autant que sauvegarder les données elles-mêmes.
+
+<Callout type="warning">
+Vous traversez une situation de récupération BitLocker et n'êtes pas sûr que la clé soit vraiment irrécupérable ? [Contactez-moi](/contact) avant de supposer que les données sont perdues — il y a souvent plus d'endroits à vérifier qu'on ne le pense.
+</Callout>

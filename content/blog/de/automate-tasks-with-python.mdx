@@ -1,0 +1,78 @@
+---
+title: "Wiederkehrende Aufgaben mit Python automatisieren: ein praktischer Einstieg"
+description: "Wie man erkennt, was sich zu automatisieren lohnt, und ein echtes, funktionierendes Python-Skript-Beispiel zum automatischen Umbenennen und Organisieren von Dateien."
+slug: "automate-tasks-with-python"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["automation", "python"]
+category: "Automation"
+author: "Ivan Ostroumov"
+keywords: ["aufgaben mit python automatisieren", "python automatisierungs-skript beispiel", "was zuerst automatisieren"]
+ogImageTitle: "Automating Tasks with Python"
+faq:
+  - question: "Muss ich Python gut kennen, bevor ich etwas automatisiere?"
+    answer: "Nein — die meisten nützlichen Automatisierungsskripte sind kurz und nutzen eine Handvoll Standardbibliotheks-Module (os, shutil, pathlib). Du kannst echten Nutzen aus Python ziehen, während du die Sprache viel weniger beherrschst, als man annimmt."
+  - question: "Was ist am einfachsten zuerst zu automatisieren?"
+    answer: "Alles, was du manuell, regelmäßig oder wiederholt tust und dabei jedes Mal denselben Schritten folgst — Dateiorganisation, Umbenennen von Dateistapeln, oder denselben Bericht immer von derselben Stelle abrufen. Wenn du die Schritte als nummerierte Liste beschreiben kannst, ist es meist automatisierbar."
+  - question: "Lohnt es sich, etwas zu automatisieren, das ich nur einmal im Monat mache?"
+    answer: "Manchmal — wenn die manuelle Version 20+ Minuten dauert und fehleranfällig ist, zahlt sich ein Skript, das du einmal im Monat ausführst, innerhalb weniger Monate für die Schreibzeit aus, und es entfernt die Fehler, die entstehen, wenn man etwas selten genug macht, um die Schritte zu vergessen."
+---
+
+Die meisten Automatisierungsratschläge springen direkt zum Code. Der eigentlich nützliche erste Schritt ist herauszufinden, was sich überhaupt zu automatisieren lohnt.
+
+## Was sich zu automatisieren lohnt
+
+<Callout>
+Ein guter Kandidat für Automatisierung: Du machst dieselben Schritte, in derselben Reihenfolge, mehr als ein paar Mal, und die Schritte selbst ändern sich selten. Ein schlechter Kandidat: etwas, das jedes Mal Ermessensentscheidungen braucht, oder das du einmal machst und nie wieder.
+</Callout>
+
+Häufige erste Ziele:
+- Umbenennen oder Organisieren von Dateistapeln (Downloads, Exporte, Fotos)
+- Regelmäßiges Abrufen derselben Daten von derselben Quelle
+- Massenkonvertierung von Dateien von einem Format ins andere
+- Aufräumen von Log-Dateien oder alten temporären Dateien
+
+## Ein echtes Beispiel: einen unordentlichen Downloads-Ordner organisieren
+
+Hier ist ein vollständiges, funktionierendes Skript, das Dateien in einem Ordner nach Erweiterung in Unterordner sortiert — eine wirklich häufige Anfrage.
+
+```python
+import shutil
+from pathlib import Path
+
+SOURCE = Path.home() / "Downloads"
+
+def organize_by_extension(source: Path):
+    for file in source.iterdir():
+        if file.is_dir():
+            continue
+        extension = file.suffix.lower().lstrip(".") or "no_extension"
+        destination_folder = source / extension
+        destination_folder.mkdir(exist_ok=True)
+        shutil.move(str(file), str(destination_folder / file.name))
+
+if __name__ == "__main__":
+    organize_by_extension(SOURCE)
+    print(f"Organized files in {SOURCE}")
+```
+
+Was das Zeile für Zeile macht: Es schaut sich jede Datei direkt im Downloads-Ordner an, ermittelt ihre Erweiterung, erstellt einen nach dieser Erweiterung benannten Unterordner, falls noch keiner existiert, und verschiebt die Datei dorthin. Führe es einmal aus, und jede `.pdf` landet in einem `pdf/`-Ordner, jede `.jpg` in einem `jpg/`-Ordner, und so weiter.
+
+<Callout type="warning">
+Teste jedes Datei-verschiebende Skript zuerst an einer Kopie eines Ordners, nicht am Original — `shutil.move` fragt nicht nach Bestätigung, und ein Bug in einem ersten Entwurf kann Dateien schneller verlegen, als du sie von Hand korrigieren kannst.
+</Callout>
+
+## Es planen, damit du nicht daran denken musst
+
+Ein Skript spart nur Zeit, wenn es tatsächlich läuft, ohne dass du dich erinnern musst, es auszuführen.
+
+- **Windows:** Die Aufgabenplanung kann ein Python-Skript nach Zeitplan ausführen (täglich, bei Anmeldung usw.), ohne dass etwas außer Python selbst installiert werden muss.
+- **Linux/macOS:** `cron` erledigt denselben Job — ein einzeiliger Crontab-Eintrag kann das Skript jede Nacht ausführen.
+
+## Wo es von hier aus weitergeht
+
+Sobald ein einfaches Skript funktioniert, sind die natürlichen nächsten Schritte: Fehlerbehandlung für gesperrte oder in Benutzung befindliche Dateien hinzufügen, protokollieren, was getan wurde (damit du später nachschauen kannst, statt zu raten), und — wenn es etwas Wichtiges berührt — ein Dry-Run-Modus, der ausgibt, was es tun *würde*, ohne es tatsächlich zu tun.
+
+<Callout>
+Hast du eine bestimmte wiederkehrende Aufgabe, die jede Woche Zeit frisst, und bist unsicher, ob sie automatisierbar ist, oder willst du ein Skript dafür? [Melde dich](/contact).
+</Callout>

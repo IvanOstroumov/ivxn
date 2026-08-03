@@ -1,0 +1,51 @@
+---
+title: "Recuperare dati da un disco cifrato con BitLocker"
+description: "Cosa è davvero possibile quando devi recuperare dati da un disco cifrato con BitLocker — e cosa genuinamente non lo è, qualunque strumento tu usi."
+slug: "bitlocker-encrypted-drive-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recuperare dati da disco bitlocker", "chiave di ripristino bitlocker persa", "recupero dati disco cifrato"]
+ogImageTitle: "BitLocker Drive Recovery"
+faq:
+  - question: "Si possono recuperare dati da un disco BitLocker senza la chiave di ripristino?"
+    answer: "I dati grezzi cifrati possono spesso essere estratti, ma sono illeggibili senza la chiave o la password — la cifratura di BitLocker è progettata specificamente perché questo non sia praticamente violabile. Il recupero in questo caso significa trovare la chiave, non aggirare la cifratura."
+  - question: "Dove trovo la mia chiave di ripristino BitLocker?"
+    answer: "Comunemente nel tuo account Microsoft online (account.microsoft.com/devices/recoverykey), stampata se l'hai salvata così, su una chiavetta USB se l'hai esportata lì, o nel sistema IT della tua organizzazione se il disco è gestito dal lavoro."
+  - question: "Un disco BitLocker corrotto può ancora essere decifrato se ho la chiave?"
+    answer: "Spesso sì — la corruzione del file system e la cifratura sono livelli separati. Con la chiave corretta, il disco di solito può essere sbloccato, dopodiché si applicano i normali metodi di recupero file per qualsiasi recupero dati sia ancora necessario sotto."
+---
+
+Il recupero BitLocker viene trattato come un unico problema quando in realtà sono due: superare la cifratura, e poi recuperare i dati da ciò che c'è sotto. Richiedono approcci completamente diversi.
+
+## Livello 1: la cifratura stessa
+
+<Callout>
+La cifratura di BitLocker che fa correttamente il suo lavoro significa che non c'è modo realistico di leggere i dati senza la chiave o la password. Questa non è una limitazione degli strumenti di recupero — è l'intero scopo della cifratura. Qualsiasi strumento che affermi di "aggirare" la cifratura BitLocker senza la chiave dovrebbe essere trattato con sospetto.
+</Callout>
+
+Se non riesci a sbloccare il disco, il compito reale è **trovare la chiave di ripristino**, non sconfiggere la cifratura:
+
+- **Account Microsoft:** se il PC era collegato a un account Microsoft quando BitLocker è stato attivato, la chiave è spesso salvata automaticamente su `account.microsoft.com/devices/recoverykey`.
+- **Chiave stampata o salvata:** controlla ovunque potresti averla salvata quando BitLocker è stato abilitato per la prima volta — una stampa, un file di testo, una chiavetta USB.
+- **Dispositivo aziendale/gestito:** il reparto IT della tua organizzazione o il sistema di gestione dei dispositivi (Intune, Active Directory) di solito conserva una copia per le macchine aziendali.
+- **Dispositivi collegati ad Azure AD:** la chiave potrebbe essere recuperabile tramite il portale Azure AD dell'organizzazione da un amministratore.
+
+## Livello 2: recupero dopo lo sblocco
+
+Una volta che il disco è sbloccato con la chiave corretta, la cifratura non è più l'ostacolo — qualunque cosa sia realmente sbagliata nei dati (un file cancellato, un file system corrotto, un disco fisico che si sta guastando) diventa un normale problema di recupero, e da lì si applicano i normali approcci di recupero.
+
+## Cosa genuinamente non funziona
+
+- Software di recupero eseguito direttamente contro un volume BitLocker ancora bloccato — vede rumore cifrato, non file, perché è esattamente ciò che la cifratura dovrebbe produrre.
+- "Generatori di chiave di ripristino" o strumenti simili che affermano di derivare la chiave dal disco stesso — se funzionasse in modo affidabile, la cifratura sarebbe rotta per progettazione, il che non è il caso dell'implementazione di BitLocker.
+
+## Il percorso realistico se la chiave è genuinamente perduta
+
+Se non c'è veramente alcuna copia della chiave di ripristino da nessuna parte — nessun backup nell'account Microsoft, nessun reparto IT, nessuna copia stampata — la risposta onesta è che una cifratura correttamente implementata è progettata per rendere i dati illeggibili esattamente in questa situazione. Questo è un rischio reale dell'uso della cifratura, non un difetto, ed è per questo che fare il backup della chiave di ripristino in almeno un altro posto conta quanto fare il backup dei dati stessi.
+
+<Callout type="warning">
+Stai affrontando una situazione di recupero BitLocker e non sei sicuro se la chiave sia davvero irrecuperabile? [Contattami](/contact) prima di dare per scontato che i dati siano persi — spesso ci sono più posti da controllare di quanto ci si aspetti.
+</Callout>
