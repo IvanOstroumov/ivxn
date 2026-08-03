@@ -1,0 +1,58 @@
+---
+title: "Sviluppo di giochi indie in un team di 2-3 persone: cosa funziona davvero"
+description: "Lezioni pratiche su come mantenere funzionale un piccolo team di sviluppo di giochi indie ed evitare gli attriti che affondano i piccoli progetti."
+slug: "indie-game-dev-small-team"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["sviluppo giochi piccolo team indie", "consigli team sviluppo giochi 2 persone", "evitare conflitti team indie"]
+ogImageTitle: "Small Indie Team Game Dev"
+faq:
+  - question: "Qual è la causa più grande del fallimento dei piccoli team indie?"
+    answer: "La proprietà poco chiara delle decisioni, non il disaccordo in sé — il disaccordo è normale e spesso sano; il problema è quando nessuno ha l'autorità chiara di prendere effettivamente una decisione finale, così le decisioni si bloccano o vengono ridiscusse ripetutamente."
+  - question: "Tutti in un piccolo team dovrebbero poter lavorare su tutto?"
+    answer: "Una certa sovrapposizione è sana per la resilienza se qualcuno non è disponibile, ma ruoli genuinamente indefiniti ('ce la caveremo tutti insieme') tendono a creare esattamente l'ambiguità di proprietà che causa attriti — un proprietario predefinito approssimativo per area aiuta comunque, anche se altri possono contribuire."
+  - question: "Il controllo di versione è eccessivo per un progetto di 2-3 persone?"
+    answer: "No — è uno degli strumenti meno opzionali anche alla scala più piccola, dato che i conflitti di merge e il lavoro perso capitano con la stessa facilità con 2 persone come con 20, e il costo di configurarlo correttamente è minuscolo rispetto al costo di perdere lavoro senza di esso."
+---
+
+Un team indie di 2-3 persone ha una modalità di fallimento completamente diversa da uno studio grande — i rischi sono sociali e strutturali, non pesanti di processo.
+
+## Il vero rischio non è il disaccordo — è la proprietà poco chiara
+
+<Callout>
+Il disaccordo sulla direzione creativa è normale e spesso sano. Il vero killer del progetto è quando nessuno ha autorità chiara su una determinata area, così le decisioni vengono ridiscusse ripetutamente invece di essere prese una volta e superate.
+</Callout>
+
+Una soluzione pratica che non richiede processi pesanti: assegna un proprietario predefinito approssimativo per area (una persona propende per la "decisione finale" sulla sensazione del gameplay, un'altra sulla direzione artistica, per esempio) — non come proprietà rigida che esclude il contributo degli altri, ma come elemento decisivo affinché i disaccordi abbiano un percorso di risoluzione invece di bloccarsi indefinitamente.
+
+## Il controllo di versione non è opzionale, anche a questa dimensione
+
+Perdere lavoro per file sovrascritti o modifiche in conflitto capita con la stessa facilità con due persone come con venti — Git (con un repository remoto condiviso) costa quasi nulla da configurare ed evita una modalità di fallimento che ha posto fine a più di qualche piccolo progetto. Questo si applica al codice e, con gli strumenti giusti, anche ad alcuni asset artistici/di design.
+
+## Il ritmo di comunicazione conta più della scelta degli strumenti
+
+Un check-in breve e regolare (anche 15 minuti, anche solo in modo asincrono in una chat) impedisce a due persone di derivare silenziosamente in direzioni diverse sulla stessa funzionalità per una settimana. Lo strumento specifico (Discord, Slack, qualsiasi cosa) conta molto meno dell'avere effettivamente un ritmo prevedibile su cui le persone contano.
+
+## La disciplina dell'ambito è più difficile con meno persone, non più facile
+
+<Callout type="warning">
+I piccoli team spesso presumono che rimarranno naturalmente entro l'ambito perché non c'è nessuno a cui delegare l'espansione incontrollata — in pratica, spesso succede il contrario, dato che non c'è nessuno il cui lavoro sia respingere le idee "solo un'altra funzionalità".
+</Callout>
+
+Scrivere cosa è esplicitamente fuori ambito (non solo cosa è dentro) dà al team qualcosa di concreto a cui fare riferimento quando un'aggiunta allettante minaccia la tempistica effettiva.
+
+## Una struttura minima ragionevole per 2-3 persone
+
+| Area | Pratica |
+|---|---|
+| Codice/asset | Git con un remote condiviso, dal primo giorno |
+| Decisioni | Proprietario predefinito approssimativo per area, come elemento decisivo |
+| Comunicazione | Un ritmo di check-in prevedibile e a basso sforzo |
+| Ambito | Una lista esplicita "non lo facciamo", a cui fare riferimento quando tentati |
+
+## Il vero vantaggio di rimanere così piccoli
+
+Un team di 2-3 persone può prendere decisioni e cambiare direzione molto più velocemente di qualsiasi cosa più grande — quella velocità è un vero vantaggio competitivo specificamente per un progetto indie, e vale la pena proteggerla deliberatamente invece di ricreare accidentalmente il sovraccarico di processo dei grandi team che erode esattamente il vantaggio che offre la piccola dimensione.

@@ -1,0 +1,58 @@
+---
+title: "Développement de jeux indépendants en équipe de 2-3 personnes : ce qui fonctionne vraiment"
+description: "Leçons pratiques pour garder fonctionnelle une petite équipe de développement de jeux indépendants et éviter les frictions qui coulent les petits projets."
+slug: "indie-game-dev-small-team"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["développement jeux petite équipe indé", "conseils équipe développement jeux 2 personnes", "éviter les conflits équipe indé"]
+ogImageTitle: "Small Indie Team Game Dev"
+faq:
+  - question: "Quelle est la plus grande cause de désagrégation des petites équipes indépendantes ?"
+    answer: "L'appartenance floue des décisions, pas le désaccord en soi — le désaccord est normal et souvent sain ; le problème survient quand personne n'a l'autorité claire de trancher réellement, si bien que les décisions stagnent ou sont rediscutées à répétition."
+  - question: "Tout le monde dans une petite équipe devrait-il pouvoir travailler sur tout ?"
+    answer: "Un certain chevauchement est sain pour la résilience si quelqu'un est indisponible, mais des rôles vraiment indéfinis (« on trouvera ensemble ») tendent à créer exactement l'ambiguïté d'appartenance qui cause des frictions — un propriétaire par défaut approximatif par domaine aide quand même, même si d'autres peuvent contribuer."
+  - question: "Le contrôle de version est-il excessif pour un projet de 2-3 personnes ?"
+    answer: "Non — c'est l'un des outils les moins optionnels même à la plus petite échelle, car les conflits de fusion et le travail perdu arrivent aussi facilement avec 2 personnes qu'avec 20, et le coût de le configurer correctement est minime comparé au coût de perdre du travail sans lui."
+---
+
+Une équipe indépendante de 2-3 personnes a un mode de défaillance complètement différent d'un grand studio — les risques sont sociaux et structurels, pas lourdement liés aux processus.
+
+## Le vrai risque n'est pas le désaccord — c'est l'appartenance floue
+
+<Callout>
+Le désaccord sur la direction créative est normal et souvent sain. Le vrai tueur de projet, c'est quand personne n'a d'autorité claire sur un domaine donné, si bien que les décisions sont rediscutées à répétition au lieu d'être prises une fois pour toutes.
+</Callout>
+
+Une solution pratique qui ne nécessite pas de processus lourd : assignez un propriétaire par défaut approximatif par domaine (une personne penche pour la « décision finale » sur la sensation du gameplay, une autre sur la direction artistique, par exemple) — pas comme une appartenance rigide qui exclut la contribution des autres, mais comme un facteur décisif pour que les désaccords aient un chemin de résolution au lieu de stagner indéfiniment.
+
+## Le contrôle de version n'est pas optionnel, même à cette taille
+
+Perdre du travail à cause de fichiers écrasés ou de modifications conflictuelles arrive aussi facilement avec deux personnes qu'avec vingt — Git (avec un dépôt distant partagé) coûte presque rien à mettre en place et évite un mode de défaillance qui a mis fin à plus d'un petit projet. Cela s'applique au code et, avec les bons outils, à certains actifs artistiques/de design aussi.
+
+## Le rythme de communication compte plus que le choix des outils
+
+Un point rapide et régulier (même 15 minutes, même juste en asynchrone dans un chat) empêche deux personnes de dériver silencieusement dans des directions différentes sur la même fonctionnalité pendant une semaine. L'outil spécifique (Discord, Slack, peu importe) compte bien moins que d'avoir réellement un rythme prévisible sur lequel les gens comptent.
+
+## La discipline de périmètre est plus difficile avec moins de personnes, pas plus facile
+
+<Callout type="warning">
+Les petites équipes supposent souvent qu'elles resteront naturellement dans le périmètre parce qu'il n'y a personne à qui déléguer la dérive du périmètre — en pratique, c'est souvent l'inverse qui se produit, car personne n'a pour rôle de repousser les idées « juste une fonctionnalité de plus ».
+</Callout>
+
+Écrire ce qui est explicitement hors périmètre (pas juste ce qui est dedans) donne à l'équipe quelque chose de concret vers quoi se référer quand un ajout tentant menace le calendrier réel.
+
+## Une structure minimale raisonnable pour 2-3 personnes
+
+| Domaine | Pratique |
+|---|---|
+| Code/actifs | Git avec un dépôt distant partagé, dès le premier jour |
+| Décisions | Propriétaire par défaut approximatif par domaine, comme facteur décisif |
+| Communication | Un rythme de point prévisible et à faible effort |
+| Périmètre | Une liste explicite « on ne fait pas ça », référencée en cas de tentation |
+
+## L'avantage honnête de rester aussi petit
+
+Une équipe de 2-3 personnes peut prendre des décisions et pivoter bien plus vite que toute structure plus grande — cette rapidité est un vrai avantage concurrentiel spécifiquement pour un projet indépendant, et cela vaut la peine de la protéger délibérément plutôt que de recréer accidentellement la surcharge de processus des grandes équipes qui érode exactement l'avantage qu'offre la petite taille.

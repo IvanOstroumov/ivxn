@@ -1,0 +1,58 @@
+---
+title: "Indie-Spieleentwicklung in einem Team von 2-3 Leuten: Was wirklich funktioniert"
+description: "Praktische Lektionen darüber, ein kleines Indie-Spieleentwicklungsteam funktionsfähig zu halten und die Reibung zu vermeiden, die kleine Projekte versenkt."
+slug: "indie-game-dev-small-team"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["kleines indie team spieleentwicklung", "tipps 2-personen spieleentwicklungsteam", "konflikte im indie-team vermeiden"]
+ogImageTitle: "Small Indie Team Game Dev"
+faq:
+  - question: "Was ist die größte Ursache dafür, dass kleine Indie-Teams auseinanderfallen?"
+    answer: "Unklare Verantwortlichkeit für Entscheidungen, nicht Uneinigkeit selbst — Uneinigkeit ist normal und oft gesund; das Problem ist, wenn niemand die klare Autorität hat, tatsächlich eine endgültige Entscheidung zu treffen, sodass Entscheidungen stocken oder wiederholt neu verhandelt werden."
+  - question: "Sollte in einem kleinen Team jeder an allem arbeiten können?"
+    answer: "Etwas Überschneidung ist gesund für Resilienz, falls jemand nicht verfügbar ist, aber wirklich undefinierte Rollen ('wir finden das schon gemeinsam heraus') neigen dazu, genau die Verantwortlichkeits-Unklarheit zu schaffen, die Reibung verursacht — ein grober Standard-Verantwortlicher pro Bereich hilft trotzdem, auch wenn andere mit einsteigen können."
+  - question: "Ist Versionskontrolle für ein 2-3-Personen-Projekt übertrieben?"
+    answer: "Nein — das ist eines der am wenigsten optionalen Tools selbst im kleinsten Maßstab, da Merge-Konflikte und verlorene Arbeit mit 2 Leuten genauso leicht passieren wie mit 20, und die Kosten für die richtige Einrichtung winzig sind im Vergleich zu den Kosten, Arbeit ohne sie zu verlieren."
+---
+
+Ein 2-3-Personen-Indie-Team hat einen völlig anderen Ausfallmodus als ein großes Studio — die Risiken sind sozial und strukturell, nicht prozesslastig.
+
+## Das eigentliche Risiko ist nicht Uneinigkeit — es ist unklare Verantwortlichkeit
+
+<Callout>
+Uneinigkeit über die kreative Richtung ist normal und oft gesund. Der eigentliche Projektkiller ist, wenn niemand klare Autorität über einen bestimmten Bereich hat, sodass Entscheidungen wiederholt neu verhandelt werden, statt einmal getroffen und dann vorangeschritten zu werden.
+</Callout>
+
+Eine praktische Lösung, die keinen schweren Prozess erfordert: weise einen groben Standard-Verantwortlichen pro Bereich zu (eine Person neigt zur "endgültigen Entscheidung" beim Gameplay-Gefühl, eine andere bei der Kunstrichtung, zum Beispiel) — nicht als starre Verantwortlichkeit, die Input von anderen ausschließt, sondern als Zünglein an der Waage, damit Uneinigkeiten einen Lösungsweg haben, statt unbegrenzt zu stocken.
+
+## Versionskontrolle ist nicht optional, selbst bei dieser Größe
+
+Arbeit durch überschriebene Dateien oder widersprüchliche Änderungen zu verlieren passiert mit zwei Leuten genauso leicht wie mit zwanzig — Git (mit einem geteilten Remote-Repository) kostet fast nichts einzurichten und vermeidet einen Ausfallmodus, der mehr als ein paar kleine Projekte beendet hat. Das gilt für Code und, mit den richtigen Tools, auch für manche Kunst-/Design-Assets.
+
+## Der Kommunikationsrhythmus zählt mehr als die Tool-Wahl
+
+Ein kurzer, regelmäßiger Check-in (selbst 15 Minuten, selbst nur asynchron in einem Chat) verhindert, dass zwei Leute eine Woche lang still in unterschiedliche Richtungen beim selben Feature abdriften. Das spezifische Tool (Discord, Slack, was auch immer) zählt weit weniger als tatsächlich einen vorhersehbaren Rhythmus zu haben, auf den sich Leute verlassen.
+
+## Umfangsdisziplin ist mit weniger Leuten schwerer, nicht leichter
+
+<Callout type="warning">
+Kleine Teams gehen oft davon aus, dass sie natürlich im Umfang bleiben, weil es niemanden gibt, an den man Scope Creep delegieren könnte — in der Praxis passiert oft das Gegenteil, da es niemanden gibt, dessen Aufgabe es ist, "nur noch ein Feature"-Ideen zurückzuweisen.
+</Callout>
+
+Aufzuschreiben, was explizit außerhalb des Umfangs liegt (nicht nur, was drin ist), gibt dem Team etwas Konkretes, worauf man zurückverweisen kann, wenn eine verlockende Ergänzung den tatsächlichen Zeitplan bedroht.
+
+## Eine vernünftige minimale Struktur für 2-3 Leute
+
+| Bereich | Praxis |
+|---|---|
+| Code/Assets | Git mit geteiltem Remote, vom ersten Tag an |
+| Entscheidungen | Grober Standard-Verantwortlicher pro Bereich, als Zünglein an der Waage |
+| Kommunikation | Ein vorhersehbarer, aufwandsarmer Check-in-Rhythmus |
+| Umfang | Eine explizite "machen wir nicht"-Liste, referenziert bei Versuchung |
+
+## Der ehrliche Vorteil, so klein zu bleiben
+
+Ein 2-3-Personen-Team kann Entscheidungen treffen und viel schneller umschwenken als alles Größere — diese Geschwindigkeit ist ein echter Wettbewerbsvorteil speziell für ein Indie-Projekt, und es lohnt sich, ihn bewusst zu schützen, statt versehentlich den Prozess-Overhead großer Teams nachzubauen, der genau den Vorteil untergräbt, den kleine Größe bietet.
