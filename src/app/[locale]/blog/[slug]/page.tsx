@@ -38,7 +38,7 @@ export async function generateMetadata({
     title: `${frontmatter.title} — Ivan Ostroumov`,
     description: frontmatter.description,
     keywords: frontmatter.keywords,
-    alternates: { canonical: url, languages },
+    alternates: { canonical: url, languages, types: { "application/rss+xml": `${SITE_URL}/feed.xml` } },
     openGraph: {
       type: "article",
       title: frontmatter.title,

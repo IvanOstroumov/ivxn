@@ -15,12 +15,16 @@ export async function generateMetadata({
     getTranslations({ locale, namespace: "blogPage" }),
     getTranslations({ locale, namespace: "seo" }),
   ]);
-  return buildMetadata({
+  const metadata = buildMetadata({
     locale,
     path: "/blog",
     title: `${blog("title")} — Ivan Ostroumov`,
     description: seo("blogDescription"),
   });
+  return {
+    ...metadata,
+    alternates: { ...metadata.alternates, types: { "application/rss+xml": "https://ivxn.dev/feed.xml" } },
+  };
 }
 
 export default async function BlogIndexPage({
