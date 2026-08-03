@@ -1,0 +1,64 @@
+---
+title: "Cosa puoi realisticamente costruire come MVP in 2 settimane"
+description: "Uno sguardo realistico a cosa rientra in una vera timeline MVP di 2 settimane, e le decisioni sull'ambito che rendono quella timeline raggiungibile senza tagliare angoli che contano."
+slug: "mvp-in-two-weeks"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["consulting", "automation"]
+category: "Consulting"
+author: "Ivan Ostroumov"
+keywords: ["ambito mvp 2 settimane", "cosa puoi costruire in 2 settimane", "timeline mvp realistica"]
+ogImageTitle: "MVP in 2 Weeks"
+faq:
+  - question: "Qual è la cosa più grande che fa saltare una timeline MVP di 2 settimane?"
+    answer: "L'ambito che cresce a metà costruzione, non sottostimare la lista originale — un MVP di 2 settimane definito onestamente e lasciato stare è molto raggiungibile; lo stesso ambito con aggiunte 'già che ci siamo' che si accumulano quotidianamente raramente sopravvive alla scadenza."
+  - question: "Un MVP dovrebbe includere account utente e autenticazione?"
+    answer: "Solo se la cosa principale testata lo richiede davvero — se l'obiettivo è validare un flusso di lavoro principale, un singolo account di test hardcoded è spesso sufficiente per due settimane, con la vera autenticazione multi-utente rimandata finché il concetto non è validato."
+  - question: "Vale la pena costruire un vero backend per un MVP di 2 settimane, o falsificare i dati?"
+    answer: "Dipende da cosa viene testato — se la logica del backend stessa è la parte rischiosa e incerta, costruiscine uno vero (anche se minimo). Se l'obiettivo è testare UI/UX o un concetto di flusso di lavoro, un livello dati falso o hardcoded può essere legittimo e più veloce, finché sei onesto sul fatto che non è pronto per la produzione."
+---
+
+Due settimane suonano brevi per il software, e lo sono — ma è abbastanza tempo per testare un'ipotesi reale e specifica se l'ambito corrisponde onestamente alla timeline.
+
+## La prima domanda: cosa stai testando esattamente?
+
+<Callout>
+Un MVP costruito in 2 settimane ha bisogno di un compito chiaro: testare un'assunzione specifica. "Le persone useranno davvero questo flusso di lavoro" è testabile in 2 settimane. "Costruire l'intera visione del nostro prodotto" no — sono obiettivi diversi che richiedono timeline diverse, e confonderli è il modo più comune in cui un MVP di 2 settimane fallisce.
+</Callout>
+
+## Cosa rientra realisticamente in 2 settimane
+
+- **Un flusso di lavoro principale, end-to-end** — non ogni funzionalità, un percorso completo che un utente può effettivamente percorrere.
+- **Autenticazione minima o falsa** se veri account multi-utente non sono la cosa testata — un singolo login di test hardcoded è spesso sufficiente.
+- **Un livello dati vero (anche se minimo)** se la logica del backend stessa è ciò che è incerto — falsificare i dati qui significherebbe non testare davvero la parte rischiosa.
+- **UI deliberatamente non rifinita** — funzionale, non bella. La rifinitura è un investimento di fase successiva una volta che l'idea centrale è validata.
+
+## Cosa non rientra, e non dovrebbe essere tentato
+
+- Gestione completa degli account (reset password, verifica email, provider di autenticazione multipli) a meno che non sia specificamente ciò che viene testato.
+- Gestione completa degli errori per casi limite oltre il percorso principale felice.
+- Pannelli di amministrazione, dashboard di reportistica, o qualsiasi cosa che supporti il prodotto piuttosto che essere il test principale del prodotto.
+- Rafforzamento della sicurezza di livello produzione oltre le pratiche responsabili di base — questo conta prima del vero lancio, non prima di un test interno o limitato di 2 settimane.
+
+## Una forma ragionevole di 2 settimane
+
+| Giorni | Focus |
+|---|---|
+| 1-2 | Modello dati principale e configurazione minima |
+| 3-8 | L'unico flusso di lavoro principale, costruito end-to-end |
+| 9-11 | Testare il flusso di lavoro tu stesso, correggendo ciò che è ovviamente rotto |
+| 12-14 | Un piccolo, vero playtest/test utente, e reagire a ciò che impari |
+
+## Perché tagliare l'ambito, non tagliare gli angoli, è la vera competenza
+
+<Callout type="warning">
+"Tagliare gli angoli" (saltare la gestione degli errori sul percorso principale effettivo, ignorare un bug ovvio) produce qualcosa che sembra finito ma non è affidabile nemmeno per un test. "Tagliare l'ambito" (non costruire affatto il sistema di account, falsificare funzionalità secondarie) produce qualcosa di più ristretto ma onesto su cosa sia. La seconda è la vera competenza che un MVP di 2 settimane richiede.
+</Callout>
+
+## Cosa succede dopo le 2 settimane
+
+Il compito di un MVP di 2 settimane finisce con una vera risposta alla domanda per cui è stato costruito per testare — non con un lancio. Cosa viene dopo (costruirlo correttamente, o fermarsi perché il test è fallito) è una decisione diversa e separata informata da ciò che hai imparato, non una continuazione dello stesso ritmo di sprint di 2 settimane.
+
+<Callout>
+Hai un'idea che vuoi testare con una costruzione di 2 settimane genuinamente definita nell'ambito invece di una aperta? [Contattami](/contact).
+</Callout>

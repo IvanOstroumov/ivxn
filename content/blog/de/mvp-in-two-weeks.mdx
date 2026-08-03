@@ -1,0 +1,64 @@
+---
+title: "Was du realistisch als MVP in 2 Wochen bauen kannst"
+description: "Ein realistischer Blick darauf, was in einen echten 2-Wochen-MVP-Zeitplan passt, und die Umfangsentscheidungen, die diesen Zeitplan erreichbar machen, ohne wichtige Ecken abzuschneiden."
+slug: "mvp-in-two-weeks"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["consulting", "automation"]
+category: "Consulting"
+author: "Ivan Ostroumov"
+keywords: ["2 wochen mvp umfang", "was kann man in 2 wochen bauen", "realistischer mvp zeitplan"]
+ogImageTitle: "MVP in 2 Weeks"
+faq:
+  - question: "Was sprengt am ehesten einen 2-Wochen-MVP-Zeitplan?"
+    answer: "Umfang, der mitten im Bau wächst, nicht die Unterschätzung der ursprünglichen Liste — ein ehrlich abgegrenzter und in Ruhe gelassener 2-Wochen-MVP ist gut erreichbar; derselbe Umfang mit täglich anwachsenden 'wo wir gerade dabei sind'-Ergänzungen übersteht die Deadline selten."
+  - question: "Sollte ein MVP Benutzerkonten und Authentifizierung enthalten?"
+    answer: "Nur wenn das getestete Kernstück sie tatsächlich braucht — wenn das Ziel ist, einen Kern-Workflow zu validieren, reicht oft ein einzelnes fest codiertes Testkonto für zwei Wochen, wobei echte Multi-Nutzer-Auth verschoben wird, bis das Konzept validiert ist."
+  - question: "Lohnt es sich, ein echtes Backend für einen 2-Wochen-MVP zu bauen, oder Daten zu faken?"
+    answer: "Hängt davon ab, was getestet wird — wenn die Backend-Logik selbst der riskante, unsichere Teil ist, baue ein echtes (wenn auch minimales). Wenn das Ziel ist, UI/UX oder ein Workflow-Konzept zu testen, kann eine gefakte oder fest codierte Datenschicht legitim und schneller sein, solange du ehrlich bist, dass sie nicht produktionsreif ist."
+---
+
+Zwei Wochen klingen kurz für Software, und das sind sie auch — aber es ist genug Zeit, um eine echte, spezifische Hypothese zu testen, wenn der Umfang ehrlich zum Zeitplan passt.
+
+## Die erste Frage: Was genau testest du?
+
+<Callout>
+Ein in 2 Wochen gebauter MVP braucht eine klare Aufgabe: eine spezifische Annahme zu testen. "Werden Leute diesen Workflow tatsächlich nutzen" ist in 2 Wochen testbar. "Unsere gesamte Produktvision bauen" nicht — das sind unterschiedliche Ziele, die unterschiedliche Zeitpläne erfordern, und sie zu vermischen ist der häufigste Grund, warum ein 2-Wochen-MVP scheitert.
+</Callout>
+
+## Was realistisch in 2 Wochen passt
+
+- **Ein Kern-Workflow, durchgängig** — nicht jedes Feature, ein vollständiger Pfad, den ein Nutzer tatsächlich durchgehen kann.
+- **Minimale oder gefakte Authentifizierung**, wenn echte Multi-Nutzer-Konten nicht das Getestete sind — ein einzelner fest codierter Test-Login reicht oft.
+- **Eine echte (wenn auch minimale) Datenschicht**, wenn die Backend-Logik selbst das Unsichere ist — Daten hier zu faken würde bedeuten, den riskanten Teil nicht wirklich zu testen.
+- **Absichtlich unpolierte UI** — funktional, nicht hübsch. Feinschliff ist eine Investition einer späteren Phase, sobald die Kernidee validiert ist.
+
+## Was nicht passt und nicht versucht werden sollte
+
+- Volles Kontomanagement (Passwort-Reset, E-Mail-Verifizierung, mehrere Auth-Anbieter), außer das ist spezifisch das Getestete.
+- Umfassende Fehlerbehandlung für Grenzfälle jenseits des Kern-Happy-Path.
+- Admin-Panels, Reporting-Dashboards, oder alles, was das Produkt unterstützt, statt der Kerntest des Produkts zu sein.
+- Produktionsreife Sicherheitshärtung jenseits grundlegender verantwortungsvoller Praktiken — das zählt vor dem echten Launch, nicht vor einem 2-Wochen-internen oder begrenzten Test.
+
+## Eine vernünftige 2-Wochen-Form
+
+| Tage | Fokus |
+|---|---|
+| 1-2 | Kern-Datenmodell und minimales Setup |
+| 3-8 | Der eine Kern-Workflow, durchgängig gebaut |
+| 9-11 | Den Workflow selbst testen, offensichtlich Kaputtes reparieren |
+| 12-14 | Ein kleiner, echter Playtest/Nutzertest, und Reaktion auf das Gelernte |
+
+## Warum Umfang zu kürzen, nicht Ecken abzuschneiden, die eigentliche Fähigkeit ist
+
+<Callout type="warning">
+"Ecken abschneiden" (Fehlerbehandlung auf dem tatsächlichen Kernpfad überspringen, einen offensichtlichen Bug ignorieren) produziert etwas, das fertig aussieht, aber nicht mal für einen Test vertrauenswürdig ist. "Umfang kürzen" (das Kontosystem gar nicht bauen, sekundäre Features faken) produziert etwas Engeres, aber Ehrliches darüber, was es ist. Zweiteres ist die eigentliche Fähigkeit, die ein 2-Wochen-MVP erfordert.
+</Callout>
+
+## Was nach den 2 Wochen passiert
+
+Die Aufgabe eines 2-Wochen-MVPs endet mit einer echten Antwort auf die Frage, für die er gebaut wurde — nicht mit einem Launch. Was als Nächstes kommt (es richtig ausbauen, oder aufhören, weil der Test gescheitert ist) ist eine andere, separate Entscheidung, informiert durch das Gelernte, keine Fortsetzung desselben 2-Wochen-Sprint-Tempos.
+
+<Callout>
+Hast du eine Idee, die du mit einem wirklich abgegrenzten 2-Wochen-Build testen willst statt einem offenen? [Melde dich](/contact).
+</Callout>

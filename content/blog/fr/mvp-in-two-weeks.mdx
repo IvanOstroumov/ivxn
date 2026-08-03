@@ -1,0 +1,64 @@
+---
+title: "Ce que vous pouvez réalistement construire comme MVP en 2 semaines"
+description: "Un regard réaliste sur ce qui tient dans un vrai calendrier de MVP de 2 semaines, et les décisions de périmètre qui rendent ce calendrier atteignable sans couper les coins qui comptent."
+slug: "mvp-in-two-weeks"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["consulting", "automation"]
+category: "Consulting"
+author: "Ivan Ostroumov"
+keywords: ["périmètre mvp 2 semaines", "que peut-on construire en 2 semaines", "calendrier mvp réaliste"]
+ogImageTitle: "MVP in 2 Weeks"
+faq:
+  - question: "Qu'est-ce qui fait le plus dérailler un calendrier de MVP de 2 semaines ?"
+    answer: "Le périmètre qui grossit en cours de construction, pas la sous-estimation de la liste initiale — un MVP de 2 semaines cadré honnêtement et laissé tranquille est tout à fait réalisable ; le même périmètre avec des ajouts « pendant qu'on y est » s'accumulant quotidiennement survit rarement à l'échéance."
+  - question: "Un MVP devrait-il inclure des comptes utilisateurs et l'authentification ?"
+    answer: "Seulement si la chose testée principalement en a vraiment besoin — si l'objectif est de valider un flux de travail central, un seul compte de test codé en dur suffit souvent pour deux semaines, avec la vraie authentification multi-utilisateurs reportée jusqu'à ce que le concept soit validé."
+  - question: "Vaut-il la peine de construire un vrai backend pour un MVP de 2 semaines, ou de simuler les données ?"
+    answer: "Cela dépend de ce qui est testé — si la logique backend elle-même est la partie risquée et incertaine, construisez-en une vraie (même minimale). Si l'objectif est de tester l'UI/UX ou un concept de flux de travail, une couche de données simulée ou codée en dur peut être légitime et plus rapide, tant que vous êtes honnête sur le fait qu'elle n'est pas prête pour la production."
+---
+
+Deux semaines semblent courtes pour un logiciel, et ça l'est — mais c'est assez de temps pour tester une hypothèse réelle et spécifique si le périmètre correspond honnêtement au calendrier.
+
+## La première question : que testez-vous exactement ?
+
+<Callout>
+Un MVP construit en 2 semaines a besoin d'un travail clair : tester une hypothèse spécifique. « Les gens utiliseront-ils vraiment ce flux de travail » est testable en 2 semaines. « Construire toute notre vision produit » ne l'est pas — ce sont des objectifs différents nécessitant des calendriers différents, et les confondre est la façon la plus courante dont un MVP de 2 semaines échoue.
+</Callout>
+
+## Ce qui tient réalistement en 2 semaines
+
+- **Un flux de travail central, de bout en bout** — pas chaque fonctionnalité, un chemin complet qu'un utilisateur peut réellement parcourir.
+- **Authentification minimale ou simulée** si de vrais comptes multi-utilisateurs ne sont pas ce qui est testé — une seule connexion de test codée en dur suffit souvent.
+- **Une vraie couche de données (même minimale)** si la logique backend elle-même est ce qui est incertain — simuler les données ici signifierait ne pas vraiment tester la partie risquée.
+- **Une interface délibérément non peaufinée** — fonctionnelle, pas jolie. Le peaufinage est un investissement de phase ultérieure une fois l'idée centrale validée.
+
+## Ce qui ne tient pas, et ne devrait pas être tenté
+
+- Gestion complète des comptes (réinitialisation de mot de passe, vérification d'e-mail, fournisseurs d'authentification multiples) sauf si c'est spécifiquement ce qui est testé.
+- Gestion complète des erreurs pour des cas limites au-delà du chemin principal nominal.
+- Panneaux d'administration, tableaux de bord de reporting, ou tout ce qui soutient le produit plutôt que d'être le test central du produit.
+- Durcissement de sécurité de niveau production au-delà des pratiques responsables de base — cela compte avant un vrai lancement, pas avant un test interne ou limité de 2 semaines.
+
+## Une forme raisonnable de 2 semaines
+
+| Jours | Focus |
+|---|---|
+| 1-2 | Modèle de données central et configuration minimale |
+| 3-8 | L'unique flux de travail central, construit de bout en bout |
+| 9-11 | Tester le flux de travail vous-même, corriger ce qui est manifestement cassé |
+| 12-14 | Un petit, vrai playtest/test utilisateur, et réagir à ce que vous apprenez |
+
+## Pourquoi réduire le périmètre, pas couper les coins, est la vraie compétence
+
+<Callout type="warning">
+« Couper les coins » (sauter la gestion des erreurs sur le chemin central réel, ignorer un bug évident) produit quelque chose qui a l'air terminé mais qui n'est pas fiable même pour un test. « Réduire le périmètre » (ne pas construire du tout le système de comptes, simuler des fonctionnalités secondaires) produit quelque chose de plus restreint mais honnête sur ce que c'est. La seconde est la vraie compétence qu'un MVP de 2 semaines exige.
+</Callout>
+
+## Ce qui se passe après les 2 semaines
+
+Le travail d'un MVP de 2 semaines se termine par une vraie réponse à la question pour laquelle il a été construit pour tester — pas par un lancement. Ce qui vient ensuite (le construire correctement, ou s'arrêter parce que le test a échoué) est une décision différente et séparée informée par ce que vous avez appris, pas une continuation du même rythme de sprint de 2 semaines.
+
+<Callout>
+Vous avez une idée que vous voulez tester avec une construction de 2 semaines vraiment cadrée plutôt qu'ouverte ? [Contactez-moi](/contact).
+</Callout>
