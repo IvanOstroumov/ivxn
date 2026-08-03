@@ -1,0 +1,66 @@
+---
+title: "Migrer une base de code Java existante vers Kotlin sans tout casser"
+description: "Une approche pratique et incrémentale pour migrer une vraie base de code Java Android vers Kotlin sans réécriture complète risquée."
+slug: "migrating-java-to-kotlin"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["android", "kotlin", "java"]
+category: "Android"
+author: "Ivan Ostroumov"
+keywords: ["migrer java vers kotlin android", "stratégie de migration kotlin", "convertir un projet java en kotlin"]
+ogImageTitle: "Migrating Java to Kotlin"
+faq:
+  - question: "Dois-je convertir toute la base de code d'un coup ?"
+    answer: "Non — Kotlin et Java interopèrent directement dans le même module, donc les fichiers peuvent être convertis individuellement au fil du temps sans réécriture big-bang."
+  - question: "L'outil de conversion automatique d'Android Studio fonctionne-t-il vraiment bien ?"
+    answer: "Pour des fichiers simples, oui, et c'est un point de départ raisonnable — mais il produit souvent du Kotlin verbeux ou non idiomatique qui bénéficie d'un nettoyage manuel ensuite, particulièrement autour des annotations de nullabilité."
+  - question: "Quelle est la partie la plus risquée d'une migration Java vers Kotlin ?"
+    answer: "Les hypothèses de nullabilité — Java n'a pas de sécurité null à la compilation, donc le code converti se retrouve souvent plein de types de plateforme et d'assertions défensives `!!` jusqu'à ce que quelqu'un resserre délibérément les types, ce qui est là où le vrai bénéfice de la migration se manifeste vraiment."
+---
+
+La tentation avec une migration Java-vers-Kotlin est de planifier une réécriture complète. Le chemin réaliste et à moindre risque est presque toujours incrémental.
+
+## Pourquoi une réécriture complète est généralement le mauvais choix
+
+<Callout type="warning">
+Réécrire de zéro une base de code fonctionnelle et testée réinitialise votre couverture de tests et réintroduit des bugs déjà corrigés une fois. À moins que le code existant ne soit vraiment impossible à maintenir, la migration incrémentale préserve ce qui fonctionne déjà tout en gagnant graduellement les avantages de Kotlin.
+</Callout>
+
+## L'approche incrémentale
+
+1. **Le nouveau code va en Kotlin dès le premier jour.** Aucun nouveau fichier Java, à partir de maintenant — cela seul signifie que la portion Java ne fait que rétrécir avec le temps, jamais grandir.
+2. **Convertissez les fichiers que vous touchez déjà.** Quand vous êtes dans un fichier Java pour un correctif ou une petite fonctionnalité de toute façon, convertissez-le dans le cadre de ce même changement — le coût est déjà payé en temps de revue/test, donc le coût de conversion incrémental est faible.
+3. **Utilisez le convertisseur intégré d'Android Studio comme point de départ, pas comme ligne d'arrivée.** Il gère raisonnablement bien la traduction mécanique mais produit souvent du Kotlin techniquement correct mais non idiomatique — types de plateforme, vérifications null inutiles, et verbosité de style Java sont des résultats courants qui méritent d'être nettoyés.
+4. **Laissez tranquilles les fichiers stables et rarement touchés.** Convertir du code fonctionnel que personne n'a besoin de modifier ajoute du risque (nouveaux bugs, surcharge de revue) sans bénéfice pratique — c'est la partie la moins précieuse d'une migration, pas la plus précieuse.
+
+## La question de la nullabilité est le vrai travail
+
+Java n'a pas de sécurité null à la compilation, donc un fichier converti se retrouve typiquement plein de **types de plateforme** (types pour lesquels Kotlin ne peut pas vérifier la sécurité null, car la source Java ne donnait aucune garantie de ce genre) ou d'assertions défensives `!!`. La vraie valeur de la sécurité null de Kotlin ne se manifeste qu'une fois que quelqu'un revient délibérément resserrer ceux-ci vers de vrais types nullable/non-null basés sur une connaissance réelle du comportement du code — le convertisseur automatique ne peut pas déduire cela, seule une personne familière avec la logique le peut.
+
+```kotlin
+// Converti automatiquement, fonctionne techniquement, mais pas l'état visé :
+fun getUserName(user: User?): String {
+    return user!!.name
+}
+
+// Après un nettoyage délibéré, le vrai bénéfice de la migration :
+fun getUserName(user: User?): String {
+    return user?.name ?: "Unknown"
+}
+```
+
+## L'interopérabilité fonctionne dans les deux sens
+
+Une classe Kotlin peut hériter d'une classe Java et vice versa, dans le même module, sans configuration spéciale — c'est ce qui rend l'approche fichier par fichier réaliste plutôt que théorique. Vous n'avez pas besoin d'un « module Kotlin » isolé pour commencer ; le Java existant et le nouveau code Kotlin coexistent directement.
+
+## Un ordre de migration raisonnable
+
+| Priorité | Quoi convertir en premier |
+|---|---|
+| Élevée | Fichiers activement modifiés pour d'autres raisons |
+| Moyenne | Petites classes utilitaires autonomes (faible risque, gains rapides) |
+| Faible | Fichiers grands, stables, rarement touchés — souvent pas la peine de les convertir du tout |
+
+<Callout>
+Pour l'argument plus large du « pourquoi Kotlin » au-delà de la mécanique de migration, voir notre [comparaison Kotlin vs Java](/blog/kotlin-vs-java-2026).
+</Callout>
