@@ -1,0 +1,54 @@
+---
+title: "Die technischen Grundlagen von Low-Latency-Streaming"
+description: "Wie Low-Latency-Videostreaming technisch tatsächlich funktioniert — Codecs, Pufferung, und Protokollwahl, und wie sie gegeneinander abgewogen werden."
+slug: "low-latency-streaming-fundamentals"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reflux", "hardware"]
+category: "Reflux"
+author: "Ivan Ostroumov"
+keywords: ["technische erklärung low latency video streaming", "wie funktioniert streaming-latenz", "webrtc vs rtmp latenz"]
+ogImageTitle: "Low-Latency Streaming Fundamentals"
+faq:
+  - question: "Was ist der Hauptunterschied zwischen RTMP/HLS und WebRTC bei der Latenz?"
+    answer: "RTMP/HLS-basierte Pipelines (von den meisten Plattform-Streams genutzt) sind um Pufferung für Zuverlässigkeit im großen Maßstab herum gebaut und fügen typischerweise mehrere Sekunden Verzögerung hinzu. WebRTC ist speziell für Echtzeit-Kommunikation unter einer Sekunde gebaut (Videoanrufe) und tauscht dafür etwas von dieser Puffer-Resilienz gegen Geschwindigkeit."
+  - question: "Bedeutet ein schnellerer Codec immer geringere Latenz?"
+    answer: "Encoding-Geschwindigkeit ist ein Faktor unter mehreren — Netzwerktransportmethode und Pufferstrategie zählen meist mehr für die Gesamtlatenz als welcher spezifische Codec genutzt wird, obwohl ein langsamer Encoder auf schwächerer Hardware immer noch ein Engpass sein kann."
+  - question: "Kann man Nulllatenz beim Video-Streaming erreichen?"
+    answer: "Nein — Encoding, Netzwerkübertragung, und Decoding brauchen alle eine gewisse Zeit ungleich null. 'Geringe Latenz' bedeutet, das auf einen kleinen Bruchteil einer Sekunde zu minimieren, nicht sie vollständig zu eliminieren, was physisch unmöglich ist."
+---
+
+Latenz beim Video-Streaming entsteht aus mehreren unterschiedlichen Stufen, jede mit eigenen Trade-offs — sie zu verstehen erklärt, warum manche Ansätze von Natur aus schneller sind als andere.
+
+## Die Stufen, die sich zur Gesamtlatenz summieren
+
+<Callout>
+Die Gesamtlatenz ist die Summe aus: Aufnahmezeit, Encoding-Zeit, Netzwerkübertragungszeit, Pufferzeit (oft der größte und am besten kontrollierbare Faktor), und Decoding-/Anzeigezeit auf der Empfängerseite.
+</Callout>
+
+Davon ist **Pufferung** meist der größte und am bewusstesten gewählte Faktor — es ist eine Design-Entscheidung, keine unvermeidbare physische Kosten, wie es Encoding und Übertragung teilweise sind.
+
+## Warum Pufferung existiert und warum sie Verzögerung hinzufügt
+
+Netzwerkbedingungen variieren — Pakete kommen in unregelmäßigen Abständen an (Jitter), und Pufferung glättet das, indem eine kleine Warteschlange von Daten vor der Wiedergabe gehalten wird, sodass kurze Netzwerk-Aussetzer kein sichtbares Ruckeln verursachen. Mehr Puffer bedeutet mehr Widerstandsfähigkeit gegen schlechte Netzwerkbedingungen, auf direkte Kosten von mehr Verzögerung zwischen "das ist passiert" und "du siehst es".
+
+## Protokollwahl zählt für die Latenz mehr als Codec-Wahl
+
+| Ansatz | Typische Latenz | Gebaut für |
+|---|---|---|
+| RTMP → Plattform (Twitch/YouTube) → HLS/DASH zu Zuschauern | Mehrere Sekunden | Zuverlässige Auslieferung an viele gleichzeitige Zuschauer, im großen Maßstab |
+| WebRTC (Peer-to-Peer oder SFU-basiert) | Unter einer Sekunde | Echtzeit-, interaktive Kommunikation (Videoanrufe) |
+
+RTMP/HLS-basierte Pipelines sind um die Annahme herum gebaut, dass viele Zuschauer einen zuverlässigen Stream brauchen und etwas Latenz ein akzeptabler Preis für diese Zuverlässigkeit ist. WebRTC ist um die gegenteilige Annahme herum gebaut — eine kleine Anzahl von Teilnehmern, bei denen Reaktionsfähigkeit mehr zählt als Zuverlässigkeit im großen Maßstab.
+
+## Codec-Wahl: ein sekundärer Faktor
+
+Moderne Codecs (H.264, H.265/HEVC, AV1) unterscheiden sich in Kompressionseffizienz und Encoding-Geschwindigkeit, was Bandbreitennutzung beeinflusst und wie viel CPU-/GPU-Arbeit Encoding erfordert — das kann für Latenz auf schwächerer Hardware zählen, wo das Encoding selbst zum Engpass wird, ist aber ein kleinerer Faktor als die obige Pufferungs-/Protokollwahl für die meisten realen Setups.
+
+## Warum das kein gelöstes Einheitsproblem ist
+
+Eine Plattform, die Millionen gleichzeitiger Zuschauer bedient, braucht wirklich die Zuverlässigkeit, die Pufferung bietet — sie zu entfernen würde für einen bedeutenden Anteil dieser Zuschauer auf unvollkommenen Verbindungen sichtbares Ruckeln verursachen. Ein Tool, das für Eins-zu-eins-Echtzeit-Interaktion gebaut ist (wie [Reflux](/blog/why-i-built-reflux-instead-of-obs)), kann den gegenteiligen Trade-off machen, da die Resilienz, die Pufferung bietet, weniger zählt als die Reaktionsfähigkeit, die sie kostet, für diesen spezifischen, kleineren Anwendungsfall.
+
+<Callout>
+Das ist die zugrunde liegende technische Logik dafür, warum [Plattform-Streaming von Natur aus Verzögerung hat](/blog/low-latency-streaming-without-obs), die nicht allein durch OBS-Einstellungen behebbar ist.
+</Callout>

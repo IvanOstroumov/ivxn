@@ -1,0 +1,54 @@
+---
+title: "Les fondamentaux techniques du streaming à faible latence"
+description: "Comment le streaming vidéo à faible latence fonctionne vraiment techniquement — codecs, mise en tampon, et choix de protocole, et comment ils s'équilibrent entre eux."
+slug: "low-latency-streaming-fundamentals"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reflux", "hardware"]
+category: "Reflux"
+author: "Ivan Ostroumov"
+keywords: ["explication technique streaming vidéo faible latence", "comment fonctionne la latence de streaming", "latence webrtc vs rtmp"]
+ogImageTitle: "Low-Latency Streaming Fundamentals"
+faq:
+  - question: "Quelle est la principale différence entre RTMP/HLS et WebRTC pour la latence ?"
+    answer: "Les pipelines basés sur RTMP/HLS (utilisés par la plupart des streamings de plateforme) sont construits autour de la mise en tampon pour la fiabilité à grande échelle, ajoutant typiquement plusieurs secondes de délai. WebRTC est construit spécifiquement pour une communication en temps réel, sous la seconde (appels vidéo), échangeant une partie de cette résilience de mise en tampon contre la vitesse."
+  - question: "Un codec plus rapide signifie-t-il toujours une latence plus faible ?"
+    answer: "La vitesse d'encodage est un facteur parmi plusieurs — la méthode de transport réseau et la stratégie de mise en tampon comptent généralement plus pour la latence globale que le codec spécifique utilisé, bien qu'un encodeur lent puisse quand même être un goulot d'étranglement sur du matériel plus faible."
+  - question: "Peut-on obtenir une latence zéro dans le streaming vidéo ?"
+    answer: "Non — l'encodage, la transmission réseau, et le décodage prennent tous un temps non nul. « Faible latence » signifie minimiser cela à une petite fraction de seconde, pas l'éliminer entièrement, ce qui est physiquement impossible."
+---
+
+La latence dans le streaming vidéo provient de plusieurs étapes distinctes, chacune avec ses propres compromis — les comprendre explique pourquoi certaines approches sont intrinsèquement plus rapides que d'autres.
+
+## Les étapes qui s'additionnent pour la latence totale
+
+<Callout>
+La latence totale est la somme de : temps de capture, temps d'encodage, temps de transmission réseau, temps de mise en tampon (souvent le facteur le plus important et le plus contrôlable), et temps de décodage/affichage côté récepteur.
+</Callout>
+
+Parmi ceux-ci, la **mise en tampon** est généralement le facteur le plus important et le plus délibérément choisi — c'est une décision de conception, pas un coût physique inévitable comme le sont partiellement l'encodage et la transmission.
+
+## Pourquoi la mise en tampon existe et pourquoi elle ajoute du délai
+
+Les conditions réseau varient — les paquets arrivent à des intervalles incohérents (gigue), et la mise en tampon lisse cela en conservant une petite file d'attente de données avant la lecture, pour que de brefs accrocs réseau ne causent pas de saccades visibles. Plus de tampon signifie plus de résilience aux mauvaises conditions réseau, au coût direct de plus de délai entre « ceci s'est passé » et « vous le voyez ».
+
+## Le choix du protocole compte plus que le choix du codec pour la latence
+
+| Approche | Latence typique | Conçu pour |
+|---|---|---|
+| RTMP → plateforme (Twitch/YouTube) → HLS/DASH vers les spectateurs | Plusieurs secondes | Livraison fiable à de nombreux spectateurs simultanés, à grande échelle |
+| WebRTC (pair-à-pair ou basé sur SFU) | Sous la seconde | Communication interactive en temps réel (appels vidéo) |
+
+Les pipelines basés sur RTMP/HLS sont construits autour de l'hypothèse que beaucoup de spectateurs ont besoin d'un flux fiable et qu'une certaine latence est un coût acceptable pour cette fiabilité. WebRTC est construit autour de l'hypothèse opposée — un petit nombre de participants où la réactivité compte plus que la fiabilité à grande échelle.
+
+## Choix du codec : un facteur secondaire
+
+Les codecs modernes (H.264, H.265/HEVC, AV1) diffèrent en efficacité de compression et vitesse d'encodage, ce qui affecte l'utilisation de la bande passante et la quantité de travail CPU/GPU que l'encodage nécessite — cela peut compter pour la latence sur du matériel plus faible où l'encodage lui-même devient un goulot d'étranglement, mais c'est un facteur plus petit que le choix de mise en tampon/protocole ci-dessus pour la plupart des configurations réelles.
+
+## Pourquoi ce n'est pas un problème résolu et universel
+
+Une plateforme desservant des millions de spectateurs simultanés a vraiment besoin de la fiabilité que la mise en tampon fournit — la retirer causerait des saccades visibles pour une part significative de ces spectateurs sur des connexions imparfaites. Un outil conçu pour une interaction en temps réel de un à un (comme [Reflux](/blog/why-i-built-reflux-instead-of-obs)) peut faire le compromis inverse, puisque la résilience que la mise en tampon fournit compte moins que la réactivité qu'elle coûte, pour ce cas d'usage spécifique et à plus petite échelle.
+
+<Callout>
+C'est le raisonnement technique sous-jacent à pourquoi [le streaming de plateforme a intrinsèquement un délai](/blog/low-latency-streaming-without-obs) qui n'est pas corrigible par les seuls réglages d'OBS.
+</Callout>

@@ -1,0 +1,54 @@
+---
+title: "I fondamenti tecnici dello streaming a bassa latenza"
+description: "Come funziona davvero tecnicamente lo streaming video a bassa latenza — codec, buffering, e scelte di protocollo, e come si scambiano tra loro."
+slug: "low-latency-streaming-fundamentals"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["reflux", "hardware"]
+category: "Reflux"
+author: "Ivan Ostroumov"
+keywords: ["spiegazione tecnica streaming video bassa latenza", "come funziona la latenza dello streaming", "latenza webrtc vs rtmp"]
+ogImageTitle: "Low-Latency Streaming Fundamentals"
+faq:
+  - question: "Qual è la differenza principale tra RTMP/HLS e WebRTC per la latenza?"
+    answer: "Le pipeline basate su RTMP/HLS (usate dalla maggior parte dello streaming di piattaforma) sono costruite attorno al buffering per l'affidabilità su scala, tipicamente aggiungendo diversi secondi di ritardo. WebRTC è costruito specificamente per comunicazione in tempo reale, sub-secondo (videochiamate), scambiando parte di quella resilienza del buffering per la velocità."
+  - question: "Un codec più veloce significa sempre latenza più bassa?"
+    answer: "La velocità di codifica è un fattore tra diversi — il metodo di trasporto di rete e la strategia di buffering di solito contano di più per la latenza complessiva rispetto a quale codec specifico viene usato, anche se un encoder lento può comunque essere un collo di bottiglia su hardware più debole."
+  - question: "Si può ottenere latenza zero nello streaming video?"
+    answer: "No — codifica, trasmissione di rete, e decodifica richiedono tutti un tempo non zero. 'Bassa latenza' significa minimizzare questo a una piccola frazione di secondo, non eliminarlo completamente, cosa fisicamente impossibile."
+---
+
+La latenza nello streaming video deriva da diverse fasi distinte, ciascuna con i propri compromessi — capirle spiega perché alcuni approcci sono intrinsecamente più veloci di altri.
+
+## Le fasi che si sommano nella latenza totale
+
+<Callout>
+La latenza totale è la somma di: tempo di cattura, tempo di codifica, tempo di trasmissione di rete, tempo di buffering (spesso il fattore più grande e più controllabile), e tempo di decodifica/visualizzazione dal lato ricevente.
+</Callout>
+
+Di questi, il **buffering** è di solito il fattore più grande e più deliberatamente scelto — è una decisione di design, non un costo fisico inevitabile come lo sono parzialmente codifica e trasmissione.
+
+## Perché esiste il buffering e perché aggiunge ritardo
+
+Le condizioni di rete variano — i pacchetti arrivano a intervalli incoerenti (jitter), e il buffering appiana questo tenendo una piccola coda di dati prima della riproduzione, così brevi intoppi di rete non causano scatti visibili. Più buffer significa più resilienza a condizioni di rete cattive, al costo diretto di più ritardo tra "questo è successo" e "lo vedi".
+
+## La scelta del protocollo conta più della scelta del codec per la latenza
+
+| Approccio | Latenza tipica | Costruito per |
+|---|---|---|
+| RTMP → piattaforma (Twitch/YouTube) → HLS/DASH agli spettatori | Diversi secondi | Consegna affidabile a molti spettatori simultanei, su scala |
+| WebRTC (peer-to-peer o basato su SFU) | Sub-secondo | Comunicazione interattiva in tempo reale (videochiamate) |
+
+Le pipeline basate su RTMP/HLS sono costruite attorno all'assunzione che molti spettatori abbiano bisogno di uno stream affidabile e che una certa latenza sia un costo accettabile per quella affidabilità. WebRTC è costruito attorno all'assunzione opposta — un piccolo numero di partecipanti dove la reattività conta più dell'affidabilità su larga scala.
+
+## Scelta del codec: un fattore secondario
+
+I codec moderni (H.264, H.265/HEVC, AV1) differiscono in efficienza di compressione e velocità di codifica, il che influisce sull'uso della banda e su quanto lavoro CPU/GPU richiede la codifica — questo può contare per la latenza su hardware più debole dove la codifica stessa diventa un collo di bottiglia, ma è un fattore minore rispetto alla scelta di buffering/protocollo sopra per la maggior parte dei setup reali.
+
+## Perché questo non è un problema risolto, universale
+
+Una piattaforma che serve milioni di spettatori simultanei ha genuinamente bisogno dell'affidabilità che il buffering fornisce — rimuoverlo causerebbe scatti visibili per una quota significativa di quegli spettatori su connessioni imperfette. Uno strumento costruito per interazione uno-a-uno in tempo reale (come [Reflux](/blog/why-i-built-reflux-instead-of-obs)) può fare il compromesso opposto, dato che la resilienza che il buffering fornisce conta meno della reattività che costa, per quel caso d'uso specifico e su scala minore.
+
+<Callout>
+Questo è il ragionamento tecnico sottostante il motivo per cui [lo streaming di piattaforma ha intrinsecamente un ritardo](/blog/low-latency-streaming-without-obs) non risolvibile solo con le impostazioni di OBS.
+</Callout>
