@@ -1,0 +1,60 @@
+---
+title: "Cloud vs archiviazione locale: cosa è davvero più sicuro per i tuoi dati"
+description: "Un confronto pratico sulla sicurezza dell'archiviazione cloud e locale, e perché la risposta onesta è che proteggono da rischi diversi piuttosto che una sia universalmente più sicura."
+slug: "cloud-vs-local-storage-safety"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "storage"]
+category: "Network & Storage"
+author: "Ivan Ostroumov"
+keywords: ["sicurezza cloud vs archiviazione locale", "il cloud è più sicuro del locale", "strategia di backup cloud vs locale"]
+ogImageTitle: "Cloud vs Local Storage"
+faq:
+  - question: "L'archiviazione cloud è più sicura di quella locale?"
+    answer: "Più sicura contro rischi diversi, non universalmente più sicura — l'archiviazione cloud protegge bene da disastri locali (incendio, furto, guasto del disco) ma introduce dipendenza dalla sicurezza e disponibilità del provider stesso, oltre a requisiti continui di accesso a internet."
+  - question: "L'archiviazione locale è più sicura di quella cloud?"
+    answer: "Più sicura contro alcuni rischi (nessuna dipendenza da terze parti, nessuna superficie di attacco basata su internet per quella copia specifica) ma vulnerabile a disastri locali e guasti fisici del disco senza protezione automatica fuori sede."
+  - question: "Qual è l'approccio migliore effettivo?"
+    answer: "Entrambi, seguendo il noto principio di backup 3-2-1: almeno 3 copie dei dati importanti, su almeno 2 tipi diversi di supporto, con almeno 1 copia conservata fuori sede (cosa che l'archiviazione cloud soddisfa naturalmente) — non scegliendone uno esclusivamente."
+---
+
+Questo viene inquadrato come una competizione con un vincitore, quando la risposta onesta è che cloud e archiviazione locale proteggono da rischi genuinamente diversi.
+
+## Da cosa protegge davvero ciascuno
+
+<Callout>
+L'archiviazione locale protegge da rischi legati a terze parti (nessuna dipendenza dalla sicurezza, uptime, o continuità aziendale di un provider cloud) ma è vulnerabile a qualsiasi cosa accada alla tua posizione fisica — incendio, furto, allagamento, o semplice guasto del disco senza copia automatica fuori sede.
+</Callout>
+
+L'archiviazione cloud protegge esattamente da quei rischi locali/fisici (i dati sopravvivono anche se la tua casa brucia) ma introduce dipendenza dalle pratiche di sicurezza del provider stesso, dalla sicurezza dell'account (un account compromesso è un rischio reale), e richiede accesso a internet per recuperare i tuoi dati quando ti servono.
+
+## I rischi specifici di ciascuno, a confronto
+
+| Rischio | Archiviazione locale | Archiviazione cloud |
+|---|---|---|
+| Disastro fisico (incendio, allagamento, furto) | Vulnerabile, nessuna protezione automatica | Protetto — i dati vivono altrove |
+| Guasto del disco | Vulnerabile a meno di backup separato | Responsabilità del provider, generalmente ben gestita |
+| Compromissione dell'account (password debole, phishing) | Non applicabile | Un rischio reale — proteggi con autenticazione forte |
+| Il provider chiude o cambia i termini | Non applicabile | Un rischio genuino, seppur non comune, da considerare |
+| Nessun accesso a internet quando servono i dati | Non un problema | Può essere una limitazione reale |
+| Terze parti (il provider) che accedono ai tuoi dati | Non un problema | Dipende dalle pratiche di cifratura/privacy del provider |
+
+## Perché "quale è più sicuro" è la domanda sbagliata
+
+La domanda giusta è "da cosa mi sto proteggendo, specificamente" — una strategia solo locale è completamente esposta a un incendio in casa o un furto; una strategia solo cloud è completamente esposta a compromissione dell'account o problemi del provider. Nessuna delle due da sola copre la gamma realistica di cose che effettivamente vanno storte.
+
+## La risposta consolidata effettiva: 3-2-1
+
+<Callout>
+Il principio di backup 3-2-1, ampiamente usato: almeno 3 copie dei dati importanti, su almeno 2 tipi di supporto diversi, con almeno 1 copia conservata fuori sede. L'archiviazione cloud soddisfa naturalmente il requisito fuori sede; i backup locali (un disco esterno, un NAS) soddisfano i requisiti "tipo di supporto diverso" e "non dipendente dall'accesso a internet". Nessuno dei due da solo segue completamente questo principio.
+</Callout>
+
+## Una configurazione minima pratica
+
+1. La tua copia di lavoro (sul dispositivo principale).
+2. Un backup locale (disco esterno o NAS) — protegge dal bisogno di accesso a internet e da certi rischi legati all'account.
+3. Un backup cloud — protegge dai disastri locali.
+
+<Callout type="warning">
+Se hai solo uno di questi tre, hai un divario reale e specifico — non una strategia "abbastanza buona", solo una che non è ancora stata testata dallo specifico modo di fallimento che non copre.
+</Callout>

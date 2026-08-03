@@ -1,0 +1,60 @@
+---
+title: "Cloud vs stockage local : qu'est-ce qui est vraiment plus sûr pour vos données"
+description: "Une comparaison pratique de la sécurité du stockage cloud et local, et pourquoi la réponse honnête est qu'ils protègent contre des risques différents plutôt que l'un soit universellement plus sûr."
+slug: "cloud-vs-local-storage-safety"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "storage"]
+category: "Network & Storage"
+author: "Ivan Ostroumov"
+keywords: ["sécurité cloud vs stockage local", "le cloud est-il plus sûr que le local", "stratégie de sauvegarde cloud vs local"]
+ogImageTitle: "Cloud vs Local Storage"
+faq:
+  - question: "Le stockage cloud est-il plus sûr que le stockage local ?"
+    answer: "Plus sûr contre des risques différents, pas universellement plus sûr — le stockage cloud protège bien contre les catastrophes locales (incendie, vol, panne de disque) mais introduit une dépendance envers la sécurité et la disponibilité du fournisseur, plus des exigences d'accès internet continues."
+  - question: "Le stockage local est-il plus sûr que le stockage cloud ?"
+    answer: "Plus sûr contre certains risques (aucune dépendance envers un tiers, aucune surface d'attaque basée sur internet pour cette copie spécifique) mais vulnérable aux catastrophes locales et aux pannes physiques de disque sans protection hors site automatique."
+  - question: "Quelle est la meilleure approche réelle ?"
+    answer: "Les deux, en suivant le principe de sauvegarde 3-2-1 bien connu : au moins 3 copies des données importantes, sur au moins 2 types de support différents, avec au moins 1 copie stockée hors site (ce que le stockage cloud satisfait naturellement) — pas en choisissant l'un exclusivement."
+---
+
+Cela est présenté comme une compétition avec un gagnant, alors que la réponse honnête est que le cloud et le stockage local protègent contre des risques véritablement différents.
+
+## Contre quoi chacun protège réellement
+
+<Callout>
+Le stockage local protège contre les risques liés à un tiers (aucune dépendance envers la sécurité, la disponibilité, ou la continuité d'activité d'un fournisseur cloud) mais est vulnérable à tout ce qui arrive à votre emplacement physique — incendie, vol, inondation, ou simple panne de disque sans copie hors site automatique.
+</Callout>
+
+Le stockage cloud protège exactement contre ces risques locaux/physiques (les données survivent même si votre maison brûle) mais introduit une dépendance envers les propres pratiques de sécurité du fournisseur, la sécurité du compte (un compte compromis est un risque réel), et nécessite un accès internet pour récupérer vos données quand vous en avez besoin.
+
+## Les risques spécifiques à chacun, côte à côte
+
+| Risque | Stockage local | Stockage cloud |
+|---|---|---|
+| Catastrophe physique (incendie, inondation, vol) | Vulnérable, aucune protection automatique | Protégé — les données vivent ailleurs |
+| Panne de disque | Vulnérable sauf sauvegarde séparée | Responsabilité du fournisseur, généralement bien gérée |
+| Compromission de compte (mot de passe faible, phishing) | Non applicable | Un risque réel — protégez avec une authentification forte |
+| Le fournisseur cesse son activité ou change ses conditions | Non applicable | Un risque réel, bien que peu courant, à considérer |
+| Pas d'accès internet quand vous avez besoin des données | Pas un problème | Peut être une vraie limitation |
+| Un tiers (le fournisseur) ayant accès à vos données | Pas un problème | Dépend des pratiques de chiffrement/confidentialité du fournisseur |
+
+## Pourquoi « lequel est plus sûr » est la mauvaise question
+
+La bonne question est « contre quoi est-ce que je me protège, spécifiquement » — une stratégie uniquement locale est totalement exposée à un incendie domestique ou un vol ; une stratégie uniquement cloud est totalement exposée à une compromission de compte ou des problèmes de fournisseur. Aucune des deux seules ne couvre l'éventail réaliste de ce qui tourne mal en pratique.
+
+## La vraie réponse bien établie : 3-2-1
+
+<Callout>
+Le principe de sauvegarde 3-2-1, largement utilisé : au moins 3 copies des données importantes, sur au moins 2 types de support différents, avec au moins 1 copie stockée hors site. Le stockage cloud satisfait naturellement l'exigence hors site ; les sauvegardes locales (un disque externe, un NAS) satisfont les exigences « type de support différent » et « non dépendant de l'accès internet ». Aucun des deux seuls ne suit complètement ce principe.
+</Callout>
+
+## Une configuration minimale pratique
+
+1. Votre copie de travail (sur votre appareil principal).
+2. Une sauvegarde locale (disque externe ou NAS) — protège contre le besoin d'accès internet et contre certains risques liés au compte.
+3. Une sauvegarde cloud — protège contre les catastrophes locales.
+
+<Callout type="warning">
+Si vous n'avez qu'un seul de ces trois, vous avez une vraie lacune spécifique — pas une stratégie « assez bonne », juste une qui n'a pas encore été testée par le mode de défaillance spécifique qu'elle ne couvre pas.
+</Callout>

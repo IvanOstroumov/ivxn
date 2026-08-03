@@ -1,0 +1,60 @@
+---
+title: "Cloud vs lokaler Speicher: Was ist wirklich sicherer für deine Daten"
+description: "Ein praktischer Vergleich der Sicherheit von Cloud- und lokalem Speicher, und warum die ehrliche Antwort ist, dass sie vor unterschiedlichen Risiken schützen, statt dass eines universell sicherer wäre."
+slug: "cloud-vs-local-storage-safety"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "storage"]
+category: "Network & Storage"
+author: "Ivan Ostroumov"
+keywords: ["cloud vs lokaler speicher sicherheit", "ist cloud-speicher sicherer als lokal", "backup-strategie cloud vs lokal"]
+ogImageTitle: "Cloud vs Local Storage"
+faq:
+  - question: "Ist Cloud-Speicher sicherer als lokaler Speicher?"
+    answer: "Sicherer gegen unterschiedliche Risiken, nicht universell sicherer — Cloud-Speicher schützt gut vor lokalen Katastrophen (Feuer, Diebstahl, Laufwerksausfall), führt aber Abhängigkeit von der Sicherheit und Verfügbarkeit des Anbieters ein, plus laufende Anforderungen an Internetzugang."
+  - question: "Ist lokaler Speicher sicherer als Cloud-Speicher?"
+    answer: "Sicherer gegen manche Risiken (keine Abhängigkeit von Dritten, keine internetbasierte Angriffsfläche für diese spezifische Kopie), aber anfällig für lokale Katastrophen und physischen Laufwerksausfall ohne automatischen Offsite-Schutz."
+  - question: "Was ist der tatsächlich beste Ansatz?"
+    answer: "Beides, nach dem bekannten 3-2-1-Backup-Prinzip: mindestens 3 Kopien wichtiger Daten, auf mindestens 2 verschiedenen Medientypen, mit mindestens 1 Kopie außerhalb des Standorts (was Cloud-Speicher naturgemäß erfüllt) — nicht eines exklusiv zu wählen."
+---
+
+Das wird als Wettbewerb mit einem Gewinner dargestellt, während die ehrliche Antwort ist, dass Cloud- und lokaler Speicher vor wirklich unterschiedlichen Risiken schützen.
+
+## Wovor jedes tatsächlich schützt
+
+<Callout>
+Lokaler Speicher schützt vor Risiken, die mit Dritten verbunden sind (keine Abhängigkeit von der Sicherheit, Verfügbarkeit oder dem Fortbestehen eines Cloud-Anbieters), ist aber anfällig für alles, was an deinem physischen Standort passiert — Feuer, Diebstahl, Überschwemmung, oder einfacher Laufwerksausfall ohne automatische Offsite-Kopie.
+</Callout>
+
+Cloud-Speicher schützt genau vor diesen lokalen/physischen Risiken (Daten überleben, selbst wenn dein Haus abbrennt), führt aber Abhängigkeit von den eigenen Sicherheitspraktiken des Anbieters, der Kontosicherheit (ein kompromittiertes Konto ist ein echtes Risiko) ein und erfordert Internetzugang, um deine Daten abzurufen, wenn du sie brauchst.
+
+## Die spezifischen Risiken beider, nebeneinander
+
+| Risiko | Lokaler Speicher | Cloud-Speicher |
+|---|---|---|
+| Physische Katastrophe (Feuer, Flut, Diebstahl) | Anfällig, kein automatischer Schutz | Geschützt — Daten leben woanders |
+| Laufwerksausfall | Anfällig, außer separat gesichert | Verantwortung des Anbieters, meist gut gehandhabt |
+| Kontokompromittierung (schwaches Passwort, Phishing) | Nicht zutreffend | Ein echtes Risiko — mit starker Authentifizierung schützen |
+| Anbieter stellt Betrieb ein oder ändert Bedingungen | Nicht zutreffend | Ein echtes, wenn auch seltenes, erwägenswertes Risiko |
+| Kein Internetzugang, wenn die Daten gebraucht werden | Kein Problem | Kann eine echte Einschränkung sein |
+| Dritte (Anbieter) mit Zugriff auf deine Daten | Kein Problem | Hängt von Verschlüsselungs-/Datenschutzpraktiken des Anbieters ab |
+
+## Warum "was ist sicherer" die falsche Frage ist
+
+Die richtige Frage ist "wovor genau schütze ich mich" — eine reine lokale Backup-Strategie ist einem Hausbrand oder Diebstahl voll ausgesetzt; eine reine Cloud-Strategie ist Kontokompromittierung oder Anbieterproblemen voll ausgesetzt. Keine von beiden allein deckt die realistische Bandbreite dessen ab, was tatsächlich schiefgeht.
+
+## Die tatsächliche, gut etablierte Antwort: 3-2-1
+
+<Callout>
+Das weit verbreitete 3-2-1-Backup-Prinzip: mindestens 3 Kopien wichtiger Daten, auf mindestens 2 verschiedenen Medientypen, mit mindestens 1 Kopie außerhalb des Standorts. Cloud-Speicher erfüllt naturgemäß die Offsite-Anforderung; lokale Backups (eine externe Festplatte, ein NAS) erfüllen die Anforderungen "anderer Medientyp" und "nicht von Internetzugang abhängig". Keines allein folgt diesem Prinzip vollständig.
+</Callout>
+
+## Ein praktisches Minimal-Setup
+
+1. Deine Arbeitskopie (auf deinem Hauptgerät).
+2. Ein lokales Backup (externe Festplatte oder NAS) — schützt vor der Notwendigkeit von Internetzugang und vor bestimmten kontobasierten Risiken.
+3. Ein Cloud-Backup — schützt vor lokalen Katastrophen.
+
+<Callout type="warning">
+Wenn du nur eines dieser drei hast, hast du eine echte, spezifische Lücke — keine "gut genug"-Strategie, nur eine, die noch nicht durch den spezifischen Fehlermodus getestet wurde, den sie nicht abdeckt.
+</Callout>
