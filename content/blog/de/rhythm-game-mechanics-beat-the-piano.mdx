@@ -1,0 +1,60 @@
+---
+title: "Rhythm-Game-Mechaniken entwerfen: Lektionen aus Beat the Piano"
+description: "Wie die Kernmechaniken eines Rhythm-Games entworfen werden, mit Beat the Piano als Praxisbeispiel — Timing-Fenster, Feedback und Schwierigkeitskurven."
+slug: "rhythm-game-mechanics-beat-the-piano"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["unity", "gamedev"]
+category: "Unity"
+author: "Ivan Ostroumov"
+keywords: ["rhythm game design mechaniken", "wie man ein rhythm game designt", "beat the piano game design"]
+ogImageTitle: "Rhythm Game Mechanics"
+faq:
+  - question: "Was ist der schwierigste Teil beim Design eines Rhythm-Games?"
+    answer: "Die Timing-Fenster richtig hinzubekommen — zu streng und das Spiel fühlt sich unfair an, selbst für erfahrene Spieler, wegen unvermeidbarer Input-/Audio-Latenz; zu großzügig und den Beat zu treffen fühlt sich nicht mehr bedeutsam an. Dies wird durch Playtesting abgestimmt, nicht im Voraus berechnet."
+  - question: "Warum fühlen sich Rhythm-Games auf mancher Hardware unfair an, auf anderer nicht?"
+    answer: "Audio- und Input-Latenz variiert je nach Gerät — Bluetooth-Kopfhörer können insbesondere eine merkliche Audioverzögerung einführen, weshalb gut designte Rhythm-Games einen Kalibrierungsschritt enthalten, um die tatsächliche Latenz eines spezifischen Setups zu messen und auszugleichen."
+  - question: "Sollte Schwierigkeit von Notendichte oder von großzügigeren Timing-Fenstern kommen?"
+    answer: "Hauptsächlich von Notendichte und Musterkomplexität — Timing-Fenster zur Erhöhung der Schwierigkeit zu verengen fühlt sich eher bestrafend als fordernd an, während dichtere, komplexere Notenmuster Übung auf eine Weise belohnen, die sich verdient anfühlt."
+---
+
+Rhythm-Games sehen von außen einfach aus — die Note auf dem Beat treffen — aber die Mechaniken, die eines gut statt frustrierend anfühlen lassen, sind subtil.
+
+## Timing-Fenster: das zentrale Designproblem
+
+<Callout>
+Ein Timing-Fenster ist der Bereich um den exakten Beat, in dem ein Input noch als Treffer zählt, normalerweise in Stufen unterteilt (perfekt, gut, okay). Zu eng, und das Spiel fühlt sich unfair an, unabhängig vom Können, weil reale Audio- und Input-Latenz existiert. Zu weit, und den Beat zu treffen hört auf, sich bedeutsam anzufühlen.
+</Callout>
+
+Dies wird wirklich durch Playtesting abgestimmt, nicht mathematisch abgeleitet — die "richtige" Fenstergröße hängt vom spezifischen Spielgefühl und der Zielgruppe ab (ein Casual-Rhythm-Game und ein Hardcore-Rhythm-Game treffen hier unterschiedliche, gültige Entscheidungen).
+
+## Warum Kalibrierung mehr zählt, als man erwartet
+
+Unterschiedliche Hardware führt unterschiedliche Audio- und Input-Latenz ein — Bluetooth-Kopfhörer besonders können eine merkliche, inkonsistente Verzögerung zwischen dem Moment einführen, wann eine Note visuell oder akustisch "getroffen werden sollte", und wann der Ton den Spieler tatsächlich erreicht. Ein Rhythm-Game, das keinen Kalibrierungsschritt anbietet (den Spieler zu einem einfachen Beat mittippen zu lassen, um seine tatsächlich wahrgenommene Latenz zu messen, und dies dann auszugleichen), wird sich für einen bedeutenden Teil der Spieler zufällig unfair anfühlen, ohne dass ihr eigenes Timing schuld ist.
+
+## Schwierigkeit sollte von Mustern kommen, nicht von Bestrafung
+
+Der verlockende Weg, Schwierigkeit hinzuzufügen, ist, die Timing-Fenster in schwierigeren Levels weiter zu verengen. In der Praxis fühlt sich das eher bestrafend als fordernd an — der Spieler tat dasselbe, was vorher funktionierte, und es zählte nicht mehr. Ein besserer Hebel ist **Notendichte und Musterkomplexität**: mehr Noten, trickreichere Rhythmen, Muster, die echte Übung erfordern, um sie zu verinnerlichen. Dies belohnt echtes Können-Wachstum, statt einfach schnellere Reflexe gegen eine zunehmend gnadenlose Uhr zu verlangen.
+
+## Feedback muss unmittelbar und mehrschichtig sein
+
+Visuelles Feedback (ein Treffer-Aufblitzen, ein Combo-Zähler), Audio-Feedback (ein eigener Trefferton, getrennt vom Song selbst), und manchmal haptisches Feedback verstärken alle, ob ein Input landete — und sie müssen nahezu sofort sein. Eine Verzögerung hier, selbst eine kleine, trübt das Gefühl des Spielers für sein eigenes Timing und erschwert die Selbstkorrektur.
+
+## Eine vereinfachte Kernschleife
+
+```text
+1. Note entsteht, bewegt sich zur Trefferzone
+2. Spieler-Input kommt an
+3. Vergleiche Input-Zeitstempel mit dem idealen Zeitstempel der Note (angepasst an kalibrierte Latenz)
+4. Klassifiziere als perfekt/gut/verfehlt basierend auf abgestimmten Timing-Fenstern
+5. Unmittelbares visuelles/Audio-Feedback
+6. Combo/Punktzahl aktualisieren
+```
+
+## Was ich jemandem sagen würde, der sein erstes Rhythm-Game beginnt
+
+Baue den Kalibrierungsschritt früh, nicht als späte Ergänzung — er verändert, wie du von Anfang an über Timing-Fenster denkst. Und teste mit Leuten, die nicht du selbst sind; Timing, das sich für den Entwickler (der es hunderte Male gespielt hat) perfekt abgestimmt anfühlt, ist eine ganz andere Erfahrung für einen Erstspieler.
+
+<Callout>
+Neugierig auf die breitere Unity-vs-Alternativen-Entscheidung für ein Spiel wie dieses? Siehe unseren Vergleich [Unity vs. Godot für ein 2D-Kampfspiel](/blog/unity-vs-godot-2d-fighting-game) für verwandte, aber andere Engine-Überlegungen für ein anderes Genre.
+</Callout>
