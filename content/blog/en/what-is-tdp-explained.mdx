@@ -1,0 +1,53 @@
+---
+title: "What TDP Actually Means (and Why It's Not What You Think)"
+description: "A clear explanation of what TDP (Thermal Design Power) actually measures, and why it's routinely misunderstood as a power consumption number."
+slug: "what-is-tdp-explained"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "Hardware"
+author: "Ivan Ostroumov"
+keywords: ["what is tdp cpu", "tdp vs actual power consumption", "does tdp mean power usage"]
+ogImageTitle: "What TDP Actually Means"
+faq:
+  - question: "Is TDP the same as actual power consumption?"
+    answer: "No — TDP is a thermal design guideline for cooling solution manufacturers, not a direct measurement of the chip's real-world power draw, which varies by workload and can exceed the TDP figure under sustained heavy load, especially with boost clocks active."
+  - question: "Why do two CPUs with the same TDP perform very differently?"
+    answer: "TDP doesn't account for architecture efficiency, core count, or clock behavior — it's a thermal/cooling spec, not a performance spec, so two chips can share a TDP number while differing significantly in actual performance and real power draw patterns."
+  - question: "Should I use TDP to decide what cooler to buy?"
+    answer: "It's a reasonable starting reference, but check real-world power draw reviews for your specific CPU under sustained load — actual power draw, especially with boost clocks, sometimes exceeds the stated TDP number by a meaningful margin."
+---
+
+TDP shows up on every CPU spec sheet and gets read as "how much power this chip uses." That's not quite what it measures.
+
+## What TDP actually is
+
+<Callout>
+TDP (Thermal Design Power) is a guideline figure — originally intended to tell cooling solution manufacturers how much heat a cooler needs to be able to dissipate for the chip to run at its base clock reliably. It was never designed to be a precise real-world power consumption measurement.
+</Callout>
+
+## Why this distinction matters
+
+- **Actual power draw varies by workload** — a CPU under light use draws far less than its TDP figure; under sustained heavy load with boost clocks active, it can draw meaningfully more than the stated TDP, depending on the specific chip and motherboard power limit settings.
+- **TDP methodology differs between manufacturers and even between generations from the same manufacturer** — a stated TDP number isn't always calculated the same way across different chips, making direct cross-comparison less reliable than it appears.
+- **Boost behavior specifically complicates this** — modern CPUs are designed to exceed their base clock (and often their TDP-implied power draw) for limited periods when thermal and power headroom allow, which is normal, intended behavior, not a specification violation.
+
+## A concrete illustration
+
+A CPU with a 65W TDP might draw close to that at its base clock under sustained load, but briefly draw significantly more during a boost period on a capable motherboard with generous power limits — this isn't the chip malfunctioning, it's the intended boost behavior working as designed, within safe thermal limits monitored by the CPU itself.
+
+## What to actually check instead of relying on TDP alone
+
+| If you want to know... | Check this instead of TDP alone |
+|---|---|
+| Real sustained power draw | Independent reviews measuring actual wattage under load |
+| Whether your cooler is adequate | Reviews of that specific cooler with that specific (or similar) CPU |
+| Expected temperatures | Thermal benchmark reviews, not the TDP spec sheet number |
+
+## The practical takeaway
+
+Treat TDP as a rough, historically useful reference for cooling requirements, not a precise power consumption spec you can use to directly compare two different chips' real-world efficiency. For that comparison, independent power-draw benchmarks are far more reliable than the spec sheet number alone.
+
+<Callout>
+This connects to the broader question of [why boost clocks aren't the full-time speed](/blog/how-cpu-runs-a-program) — TDP and boost behavior are two sides of the same thermal/power management picture.
+</Callout>

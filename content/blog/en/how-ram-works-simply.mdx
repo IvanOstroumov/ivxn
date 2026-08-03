@@ -1,0 +1,55 @@
+---
+title: "How RAM Actually Works, Explained Simply"
+description: "A plain-language explanation of what RAM actually does, why it's different from storage, and why more RAM doesn't always mean a faster computer."
+slug: "how-ram-works-simply"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["how does ram work simply explained", "ram vs storage difference", "does more ram make computer faster"]
+ogImageTitle: "How RAM Works"
+faq:
+  - question: "What's the actual difference between RAM and storage (SSD/HDD)?"
+    answer: "RAM is fast but temporary — its contents disappear when power is lost, and it holds what's actively being used right now. Storage is slower but permanent, holding everything even when the computer is off. They're solving different problems, not competing versions of the same thing."
+  - question: "Does adding more RAM always make a computer faster?"
+    answer: "Only if the current amount is actually a bottleneck — if you already have enough RAM for your workload, adding more provides no benefit, since the extra capacity just sits unused. More RAM helps specifically when the system is currently running out and falling back to slower storage-based swapping."
+  - question: "Why does closing browser tabs sometimes fix a slow computer?"
+    answer: "If RAM was nearly full, the system may have started using slower disk-based virtual memory as overflow, which is dramatically slower than RAM — closing tabs frees RAM and can stop that slow fallback from happening."
+---
+
+RAM gets described in spec sheets as just a number ("16GB RAM") without explaining what it's actually for — here's the plain version.
+
+## RAM holds what's being used right now, not everything
+
+<Callout>
+Storage (your SSD/HDD) holds everything permanently, even with the power off. RAM holds only what's actively in use at this moment, and loses everything the instant power is lost. These aren't competing technologies — they solve genuinely different problems.
+</Callout>
+
+When you open an application, its relevant code and data get loaded from storage into RAM, because RAM is dramatically faster to read and write than any storage device — this is exactly why applications "load" when opened and why that loading step exists at all.
+
+## Why RAM needs to be fast, specifically
+
+The CPU is constantly reading instructions and data to execute — if it had to fetch everything directly from a storage device (even a fast SSD) for every operation, it would spend the overwhelming majority of its time waiting, not computing. RAM exists specifically to keep the CPU fed with data fast enough that it isn't constantly stalled waiting on slower storage.
+
+## What happens when RAM runs out
+
+When RAM fills up, the operating system starts using a portion of the storage drive as overflow — commonly called **virtual memory** or a **swap file/page file**. This works, but storage (even an SSD) is dramatically slower than RAM, so a system relying heavily on this overflow becomes noticeably sluggish. This is the actual mechanism behind "my computer gets slow when I have too many tabs/programs open" — it's not the tabs themselves being heavy, it's RAM filling up and the system falling back to slow storage-based swapping.
+
+## Why more RAM doesn't always help
+
+<Callout type="warning">
+Adding RAM beyond what your actual workload needs provides no performance benefit — the extra capacity just sits unused. More RAM only helps when your current amount is genuinely the bottleneck, which is identifiable by checking actual RAM usage during your heaviest normal workload, not by assuming more is always better.
+</Callout>
+
+## A simple mental model
+
+| Component | Speed | Persistence | Job |
+|---|---|---|---|
+| CPU cache | Fastest | None (very small, transient) | Feed the CPU instantly for its current work |
+| RAM | Fast | Lost on power-off | Hold what's actively in use right now |
+| Storage (SSD/HDD) | Slower | Permanent | Hold everything, even powered off |
+
+<Callout>
+For how this connects to the CPU's own internal fast memory (cache), see our [dedicated cache guide](/blog/how-cpu-cache-works) and our broader [how a CPU runs a program](/blog/how-cpu-runs-a-program) explainer.
+</Callout>

@@ -1,0 +1,50 @@
+---
+title: "How Data Actually Moves from Your Disk to RAM"
+description: "A clear walkthrough of what actually happens when data moves from storage into RAM, and why this step is often the real bottleneck in perceived computer speed."
+slug: "how-data-moves-disk-to-ram"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "storage"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["how data moves from disk to ram", "why does loading take time", "disk to memory transfer explained"]
+ogImageTitle: "Disk to RAM Data Movement"
+faq:
+  - question: "Why does an application take time to 'load' every time you open it, even after the first time?"
+    answer: "Unless the operating system has cached its data in RAM from a recent previous use, the application's code and data need to be read from storage into RAM again — this read step, however fast the storage device, still takes measurably longer than reading directly from RAM."
+  - question: "Does the operating system keep anything in RAM to speed this up?"
+    answer: "Yes — most operating systems use available free RAM to cache recently-used disk data automatically, which is why reopening the same application shortly after closing it is often faster than the first time, without any deliberate action from the user."
+  - question: "Does a faster CPU make loading from disk faster?"
+    answer: "Only partially — a faster CPU helps with data processing after it arrives (decompression, initialization), but the actual transfer from storage to RAM is bounded by the storage device's own speed, which the CPU can't do much to accelerate."
+---
+
+"Loading" is one of the most common experiences in computing, and it's a direct, visible consequence of the disk-to-RAM pipeline actually working.
+
+## Why this step exists at all
+
+<Callout>
+The CPU can't execute code or process data directly from a storage device — it needs that data in RAM first, because storage (even fast NVMe SSDs) is still meaningfully slower than RAM for the CPU's purposes. This is the entire reason "loading" exists as a distinct, visible step.
+</Callout>
+
+## What actually happens during a "load"
+
+1. **The operating system locates the needed data** on the storage device (a file's data blocks).
+2. **That data is read from storage into RAM** — the speed of this step depends heavily on the storage device type (see our [NVMe vs SATA comparison](/blog/nvme-vs-sata-ssd-real-difference) for how much this varies).
+3. **The CPU processes/initializes that data** once it's in RAM — this is where actual computation happens, decompression, setting up initial application state, etc.
+4. **The application becomes usable** once enough of this pipeline has completed for its initial screen or state.
+
+## Why the second time is often faster
+
+Operating systems use available free RAM to automatically cache recently-accessed disk data — if you close an application and reopen it shortly after, some or all of its data may still be sitting in that RAM-based cache, skipping the slower storage-read step entirely. This is why reopening something you just used often feels faster, without you doing anything deliberate to cause it.
+
+## Where the actual bottleneck is, and why it varies
+
+| Bottleneck | When it dominates |
+|---|---|
+| Storage read speed | First load, cold cache, especially on HDD or SATA SSD |
+| CPU processing/decompression | Once data is in RAM, for compute-heavy initialization |
+| RAM cache already warm | Reopening something recently used — often near-instant |
+
+## Why this matters for perceived "computer speed"
+
+A large share of what people perceive as "my computer feels slow" is actually this exact disk-to-RAM pipeline being the bottleneck — either from slow storage, insufficient RAM causing that cache to get evicted quickly, or genuinely large amounts of data needing to move for a given task. Upgrading storage speed (see our [NVMe vs SATA guide](/blog/nvme-vs-sata-ssd-real-difference)) or RAM capacity (see [how RAM works](/blog/how-ram-works-simply)) directly addresses this specific pipeline, more so than a faster CPU alone would for load-time-specific complaints.

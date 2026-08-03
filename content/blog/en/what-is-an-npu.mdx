@@ -1,0 +1,57 @@
+---
+title: "What Is an NPU, and Why Is It in Every New CPU?"
+description: "A clear explanation of what an NPU (Neural Processing Unit) actually does, why it's become standard in new processors, and when it actually matters to you."
+slug: "what-is-an-npu"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "Emerging Tech"
+author: "Ivan Ostroumov"
+keywords: ["what is an npu", "npu vs cpu vs gpu", "do i need an npu"]
+ogImageTitle: "What Is an NPU"
+faq:
+  - question: "Is an NPU the same as a GPU?"
+    answer: "No — a GPU is a general-purpose parallel processor originally built for graphics, capable of running AI workloads reasonably well. An NPU is purpose-built specifically for the narrower category of neural network inference, trading general flexibility for much better efficiency at that specific job."
+  - question: "Do I actually need an NPU right now?"
+    answer: "It depends on whether the software you use has NPU-accelerated features (some OS-level AI features, some creative and productivity apps) — if it doesn't yet, the NPU in your current CPU sits mostly idle, which is common, and not a reason to avoid a CPU that happens to include one."
+  - question: "Does an NPU replace the need for a discrete GPU?"
+    answer: "No — they serve different purposes. An NPU handles specific AI inference tasks efficiently; a GPU is still what you need for gaming, video rendering, and other general parallel compute workloads."
+---
+
+NPUs went from a niche feature to a standard bullet point on every new CPU's spec sheet in a short span — here's what they actually do.
+
+## What an NPU is built specifically for
+
+<Callout>
+An NPU (Neural Processing Unit) is a dedicated chip component built specifically to run neural network inference — the "using an already-trained AI model to get a result" step — far more power-efficiently than a CPU or even a GPU doing the same job.
+</Callout>
+
+## Why not just use the CPU or GPU for this?
+
+- **CPUs** are general-purpose and flexible but relatively power-inefficient for the specific, repetitive math (matrix multiplication at scale) that neural network inference relies on heavily.
+- **GPUs** are much better suited to this kind of parallel math and are what's used for training AI models and heavy inference workloads, but they draw significantly more power than a purpose-built NPU for smaller, everyday inference tasks.
+- **NPUs** trade general flexibility for efficiency at exactly this one job — running inference on already-trained models — which is why they can do it using a fraction of the power a GPU would need for the same specific task.
+
+## Where NPUs actually get used today
+
+- **OS-level AI features** — some real-time features like background blur/noise suppression in video calls, live captioning, and certain image processing features increasingly run on the NPU rather than the CPU/GPU, specifically to save battery on laptops.
+- **Creative and productivity software** — some photo/video editing tools use NPU acceleration for AI-assisted features (object removal, upscaling) when available.
+- **On-device AI assistants** — running smaller language or vision models locally rather than sending data to a cloud service, partly for privacy and partly for responsiveness.
+
+## Why efficiency, not raw speed, is the actual selling point
+
+<Callout type="warning">
+An NPU generally isn't about doing something a GPU couldn't already do — it's about doing it using dramatically less power, which matters most for battery life on laptops and for enabling "always-on" AI features that would drain a battery quickly if run on the GPU instead.
+</Callout>
+
+## A simple comparison
+
+| | CPU | GPU | NPU |
+|---|---|---|---|
+| Flexibility | Highest | High | Narrow (inference-specific) |
+| Efficiency for AI inference | Low | Moderate | High |
+| Typical use here | General logic | Training, heavy inference, graphics | Everyday, always-on inference tasks |
+
+## The practical takeaway
+
+An NPU isn't something you need to actively use or configure — it's a background component that specific software increasingly takes advantage of automatically when present. Its absence isn't a dealbreaker for most current use cases, but its presence is becoming a standard, low-cost inclusion in new CPUs as more everyday software adds NPU-accelerated features.

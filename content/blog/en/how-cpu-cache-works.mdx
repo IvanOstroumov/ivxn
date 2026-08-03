@@ -1,0 +1,51 @@
+---
+title: "What CPU Cache (L1/L2/L3) Actually Does"
+description: "A clear explanation of what L1, L2, and L3 CPU cache actually do, why they exist as separate tiers, and why cache size affects real-world performance."
+slug: "how-cpu-cache-works"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["what is cpu cache l1 l2 l3", "why does cache size matter", "cpu cache explained simply"]
+ogImageTitle: "How CPU Cache Works"
+faq:
+  - question: "Why do CPUs need three levels of cache instead of just one big one?"
+    answer: "There's a direct trade-off between cache speed and cache size — the fastest memory technology is also the most expensive and hardest to make large, so CPUs use a tiered approach: very fast but tiny L1, moderately fast and larger L2, and larger but somewhat slower L3, balancing speed against capacity at each tier."
+  - question: "Does more cache always mean better gaming performance?"
+    answer: "Often meaningfully so for cache-sensitive games — this is exactly the reasoning behind AMD's X3D chips, which add substantial extra L3 cache specifically because certain games are unusually sensitive to it, showing a larger real-world benefit than the same core/clock spec would suggest."
+  - question: "What happens when data needed isn't in any cache level?"
+    answer: "A 'cache miss' — the CPU has to fetch the data from RAM instead, which is dramatically slower than any cache level. This is exactly the stall that the whole cache hierarchy exists to minimize."
+---
+
+Cache size shows up in spec sheets as a small, easy-to-skip number — but it has an outsized effect on real-world performance that's worth actually understanding.
+
+## The core problem cache solves
+
+<Callout>
+RAM is fast compared to storage, but slow compared to the CPU's own execution speed. If the CPU had to wait on a full RAM access for every piece of data it needed, it would spend most of its time idle. Cache exists to keep frequently-needed data physically close to the CPU's execution units, avoiding that wait.
+</Callout>
+
+## Why three levels, not just one
+
+There's a direct trade-off between speed and size in memory technology — the fastest possible memory is also the most expensive and physically hardest to make large. CPUs handle this with a tiered hierarchy:
+
+| Level | Typical size | Relative speed | Scope |
+|---|---|---|---|
+| L1 | Tens of KB per core | Fastest | Per core, very small |
+| L2 | Hundreds of KB to a couple MB per core | Fast | Usually per core |
+| L3 | Several MB to tens of MB | Slower than L1/L2, still much faster than RAM | Shared across all cores |
+
+The CPU checks L1 first (fastest, smallest chance of having what's needed given its tiny size), then L2, then L3, and only falls back to RAM if none of them have the needed data — this fallback is called a **cache miss**, and it's the exact stall the whole hierarchy is designed to minimize.
+
+## Why cache size affects gaming performance specifically
+
+Games often work with data patterns that benefit disproportionately from more cache — keeping more of the game's active working data close to the CPU avoids costly RAM fallbacks more often. This is the direct reasoning behind AMD's X3D chip line, which stacks substantial extra L3 cache onto otherwise similar chips specifically because certain games show a meaningfully larger real-world benefit from that extra cache than the core count or clock speed spec alone would predict.
+
+## A simple analogy for the hierarchy
+
+Think of L1 as the few tools on your workbench right now, L2 as the toolbox next to you, L3 as the tool cabinet across the room (shared with everyone else in the shop), and RAM as a separate supply warehouse down the street. You always check the closest option first — going to the warehouse for every single tool would make any job painfully slow.
+
+<Callout>
+This is one piece of the broader picture covered in our [how a CPU runs a program](/blog/how-cpu-runs-a-program) explainer, and connects to why [RAM itself exists](/blog/how-ram-works-simply) as a separate, slower tier below cache.
+</Callout>

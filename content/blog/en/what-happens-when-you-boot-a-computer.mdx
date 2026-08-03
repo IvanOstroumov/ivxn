@@ -1,0 +1,63 @@
+---
+title: "What Actually Happens When You Boot a Computer"
+description: "A plain-language walkthrough of everything that happens between pressing the power button and reaching a usable desktop."
+slug: "what-happens-when-you-boot-a-computer"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["what happens when computer boots", "boot process explained simply", "bios uefi boot sequence"]
+ogImageTitle: "What Happens When You Boot"
+faq:
+  - question: "What's the difference between BIOS and UEFI?"
+    answer: "UEFI is the modern replacement for the older BIOS firmware standard — it does the same fundamental job (initializing hardware, finding and starting the operating system) but with more capability, including support for larger drives and faster boot processes, among other improvements."
+  - question: "Why does a computer sometimes take much longer to boot than usual?"
+    answer: "Often due to hardware self-tests taking longer (especially with a lot of RAM to check), startup programs launching automatically once the OS loads, or in rarer cases a failing drive taking longer to respond during the OS load step."
+  - question: "Does an SSD actually speed up the whole boot process, or just part of it?"
+    answer: "Mainly the OS-loading portion — reading the operating system's files from storage into RAM is where a fast SSD makes the most visible difference; the initial hardware self-test stage is largely independent of storage speed."
+---
+
+Boot time gets judged as one single number, but it's actually several distinct stages stacked together, each with a different bottleneck.
+
+## Stage 1: Power-on self-test (POST)
+
+<Callout>
+Before an operating system is even involved, the motherboard's firmware (BIOS or its modern replacement, UEFI) runs a self-test, checking that essential hardware (RAM, CPU, connected drives) is present and functioning. This is why a system with a hardware problem sometimes won't even reach the point of loading an operating system — it fails here, before the OS is involved at all.
+</Callout>
+
+This stage's duration depends more on hardware configuration (amount of RAM to check, number of connected devices) than on anything the operating system controls.
+
+## Stage 2: The firmware finds and starts the operating system
+
+Once POST completes, the firmware locates a valid bootable drive and hands control over to the operating system's own boot loader — a small program whose only job is starting the actual OS loading process.
+
+## Stage 3: The operating system loads into RAM
+
+This is where storage speed matters most visibly — the OS's core files need to be read from storage into RAM (see our [disk-to-RAM guide](/blog/how-data-moves-disk-to-ram) for the general mechanism) before it can start running. This is the stage most directly sped up by a fast SSD versus an older HDD.
+
+## Stage 4: Startup programs and services launch
+
+Once the core OS is running, it launches background services and any programs configured to start automatically — this stage's duration is highly variable and often the most controllable by the user, since it directly reflects how many auto-starting programs have accumulated over time.
+
+## A simplified sequence
+
+```text
+Power on → POST (hardware self-test) → Firmware locates OS →
+OS core loads into RAM → Startup programs/services launch → Usable desktop
+```
+
+## Why boot time creeps up over months of use
+
+<Callout type="warning">
+Boot time slowly increasing over months of normal use is almost always caused by an accumulating list of programs configured to auto-start, not a hardware problem — checking and trimming your startup program list (available in most operating systems' task manager or settings) is a genuinely effective, often-overlooked fix.
+</Callout>
+
+## Where each stage's bottleneck actually lives
+
+| Stage | What it mostly depends on |
+|---|---|
+| POST | Hardware configuration, largely fixed |
+| Firmware handoff | Very fast, rarely a meaningful bottleneck |
+| OS loading into RAM | Storage speed (see [NVMe vs SATA](/blog/nvme-vs-sata-ssd-real-difference)) |
+| Startup programs | Number of auto-starting programs — fully within your control |
