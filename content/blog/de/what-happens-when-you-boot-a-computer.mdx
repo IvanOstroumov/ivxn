@@ -1,0 +1,63 @@
+---
+title: "Was tatsächlich passiert, wenn du einen Computer startest"
+description: "Ein Durchgang in klarer Sprache durch alles, was zwischen dem Drücken des Einschaltknopfs und dem Erreichen eines nutzbaren Desktops passiert."
+slug: "what-happens-when-you-boot-a-computer"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["was passiert beim computerstart", "bootprozess einfach erklärt", "bios uefi boot-sequenz"]
+ogImageTitle: "What Happens When You Boot"
+faq:
+  - question: "Was ist der Unterschied zwischen BIOS und UEFI?"
+    answer: "UEFI ist der moderne Ersatz für den älteren BIOS-Firmware-Standard — es erledigt dieselbe grundlegende Aufgabe (Hardware initialisieren, das Betriebssystem finden und starten), aber mit mehr Fähigkeiten, einschließlich Unterstützung für größere Laufwerke und schnellere Bootprozesse, unter anderen Verbesserungen."
+  - question: "Warum braucht ein Computer manchmal viel länger als sonst zum Starten?"
+    answer: "Oft weil Hardware-Selbsttests länger dauern (besonders bei viel zu prüfendem RAM), Startprogramme automatisch starten, sobald das OS lädt, oder in selteneren Fällen ein ausfallendes Laufwerk länger braucht, um während des OS-Ladeschritts zu antworten."
+  - question: "Beschleunigt eine SSD tatsächlich den gesamten Bootprozess, oder nur einen Teil davon?"
+    answer: "Hauptsächlich den OS-Ladeanteil — das Lesen der Betriebssystemdateien vom Speicher in den RAM ist dort, wo eine schnelle SSD den sichtbarsten Unterschied macht; die anfängliche Hardware-Selbsttest-Phase ist weitgehend unabhängig von der Speichergeschwindigkeit."
+---
+
+Die Bootzeit wird als eine einzelne Zahl beurteilt, aber es sind tatsächlich mehrere unterschiedliche Phasen, die aufeinander gestapelt sind, jede mit einem anderen Engpass.
+
+## Phase 1: Power-On-Selbsttest (POST)
+
+<Callout>
+Bevor überhaupt ein Betriebssystem beteiligt ist, führt die Firmware des Motherboards (BIOS oder ihr moderner Ersatz, UEFI) einen Selbsttest durch und prüft, ob essenzielle Hardware (RAM, CPU, angeschlossene Laufwerke) vorhanden und funktionsfähig ist. Deshalb erreicht ein System mit einem Hardwareproblem manchmal nicht einmal den Punkt, ein Betriebssystem zu laden — es scheitert hier, bevor das OS überhaupt beteiligt ist.
+</Callout>
+
+Die Dauer dieser Phase hängt mehr von der Hardware-Konfiguration ab (Menge des zu prüfenden RAM, Anzahl angeschlossener Geräte) als von irgendetwas, das das Betriebssystem kontrolliert.
+
+## Phase 2: Die Firmware findet und startet das Betriebssystem
+
+Sobald POST abgeschlossen ist, lokalisiert die Firmware ein gültiges bootfähiges Laufwerk und übergibt die Kontrolle an den eigenen Bootloader des Betriebssystems — ein kleines Programm, dessen einzige Aufgabe es ist, den tatsächlichen OS-Ladevorgang zu starten.
+
+## Phase 3: Das Betriebssystem lädt in den RAM
+
+Hier zählt die Speichergeschwindigkeit am sichtbarsten — die Kerndateien des OS müssen vom Speicher in den RAM gelesen werden (siehe unseren [Disk-zu-RAM-Leitfaden](/blog/how-data-moves-disk-to-ram) für den allgemeinen Mechanismus), bevor es laufen kann. Dies ist die Phase, die am direktesten von einer schnellen SSD gegenüber einer älteren HDD beschleunigt wird.
+
+## Phase 4: Startprogramme und Dienste starten
+
+Sobald der Kern des OS läuft, startet es Hintergrunddienste und alle Programme, die für den automatischen Start konfiguriert sind — die Dauer dieser Phase ist stark variabel und oft am kontrollierbarsten durch den Nutzer, da sie direkt widerspiegelt, wie viele Auto-Start-Programme sich im Laufe der Zeit angesammelt haben.
+
+## Eine vereinfachte Sequenz
+
+```text
+Einschalten → POST (Hardware-Selbsttest) → Firmware lokalisiert OS →
+OS-Kern lädt in RAM → Startprogramme/Dienste starten → Nutzbarer Desktop
+```
+
+## Warum die Bootzeit über Monate der Nutzung hinweg schleichend zunimmt
+
+<Callout type="warning">
+Eine sich über Monate normaler Nutzung langsam erhöhende Bootzeit wird fast immer durch eine sich ansammelnde Liste von Programmen verursacht, die für den Autostart konfiguriert sind, nicht durch ein Hardwareproblem — das Prüfen und Ausdünnen deiner Startprogrammliste (in den meisten Betriebssystemen im Task-Manager oder den Einstellungen verfügbar) ist eine wirklich effektive, oft übersehene Lösung.
+</Callout>
+
+## Wo der Engpass jeder Phase tatsächlich liegt
+
+| Phase | Wovon sie hauptsächlich abhängt |
+|---|---|
+| POST | Hardware-Konfiguration, weitgehend fest |
+| Firmware-Übergabe | Sehr schnell, selten ein bedeutender Engpass |
+| OS-Laden in RAM | Speichergeschwindigkeit (siehe [NVMe vs. SATA](/blog/nvme-vs-sata-ssd-real-difference)) |
+| Startprogramme | Anzahl der Auto-Start-Programme — vollständig in deiner Kontrolle |

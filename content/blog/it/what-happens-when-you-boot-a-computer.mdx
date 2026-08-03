@@ -1,0 +1,63 @@
+---
+title: "Cosa succede davvero quando avvii un computer"
+description: "Una panoramica in linguaggio semplice di tutto ciò che accade tra premere il pulsante di accensione e raggiungere un desktop utilizzabile."
+slug: "what-happens-when-you-boot-a-computer"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["cosa succede quando il computer si avvia", "processo di avvio spiegato semplicemente", "sequenza di avvio bios uefi"]
+ogImageTitle: "What Happens When You Boot"
+faq:
+  - question: "Qual è la differenza tra BIOS e UEFI?"
+    answer: "UEFI è il moderno sostituto dello standard firmware BIOS più vecchio — svolge lo stesso lavoro fondamentale (inizializzare l'hardware, trovare e avviare il sistema operativo) ma con più capacità, incluso il supporto per dischi più grandi e processi di avvio più veloci, tra gli altri miglioramenti."
+  - question: "Perché un computer a volte impiega molto più tempo del solito ad avviarsi?"
+    answer: "Spesso a causa di self-test hardware che richiedono più tempo (specialmente con molta RAM da controllare), programmi di avvio che si lanciano automaticamente una volta caricato il sistema operativo, o in casi più rari un disco in guasto che impiega più tempo a rispondere durante la fase di caricamento del SO."
+  - question: "Un SSD velocizza davvero l'intero processo di avvio, o solo una parte?"
+    answer: "Principalmente la porzione di caricamento del SO — leggere i file del sistema operativo dallo storage nella RAM è dove un SSD veloce fa la differenza più visibile; la fase iniziale di self-test hardware è in gran parte indipendente dalla velocità dello storage."
+---
+
+Il tempo di avvio viene giudicato come un singolo numero, ma in realtà sono diverse fasi distinte impilate insieme, ognuna con un collo di bottiglia diverso.
+
+## Fase 1: Self-test all'accensione (POST)
+
+<Callout>
+Prima ancora che un sistema operativo sia coinvolto, il firmware della scheda madre (BIOS o il suo moderno sostituto, UEFI) esegue un self-test, verificando che l'hardware essenziale (RAM, CPU, dischi collegati) sia presente e funzionante. Questo è il motivo per cui un sistema con un problema hardware a volte non raggiunge nemmeno il punto di caricare un sistema operativo — fallisce qui, prima che il SO sia coinvolto del tutto.
+</Callout>
+
+La durata di questa fase dipende più dalla configurazione hardware (quantità di RAM da controllare, numero di dispositivi collegati) che da qualsiasi cosa controllata dal sistema operativo.
+
+## Fase 2: Il firmware trova e avvia il sistema operativo
+
+Una volta completato il POST, il firmware individua un disco avviabile valido e passa il controllo al bootloader del sistema operativo stesso — un piccolo programma il cui unico compito è avviare il processo effettivo di caricamento del SO.
+
+## Fase 3: Il sistema operativo si carica nella RAM
+
+Qui è dove la velocità dello storage conta più visibilmente — i file principali del SO devono essere letti dallo storage nella RAM (vedi la nostra [guida disco-a-RAM](/blog/how-data-moves-disk-to-ram) per il meccanismo generale) prima che possa iniziare a funzionare. Questa è la fase più direttamente velocizzata da un SSD veloce rispetto a un vecchio HDD.
+
+## Fase 4: Si lanciano i programmi e i servizi di avvio
+
+Una volta che il nucleo del SO è in esecuzione, lancia servizi in background e qualsiasi programma configurato per avviarsi automaticamente — la durata di questa fase è molto variabile e spesso la più controllabile dall'utente, poiché riflette direttamente quanti programmi ad avvio automatico si sono accumulati nel tempo.
+
+## Una sequenza semplificata
+
+```text
+Accensione → POST (self-test hardware) → Il firmware individua il SO →
+Il nucleo del SO si carica nella RAM → Si lanciano programmi/servizi di avvio → Desktop utilizzabile
+```
+
+## Perché il tempo di avvio aumenta lentamente nel corso di mesi d'uso
+
+<Callout type="warning">
+Il tempo di avvio che aumenta lentamente nel corso di mesi di uso normale è quasi sempre causato da una lista crescente di programmi configurati per l'avvio automatico, non un problema hardware — controllare e ridurre la lista dei programmi di avvio (disponibile nel task manager o nelle impostazioni della maggior parte dei sistemi operativi) è una correzione genuinamente efficace, spesso trascurata.
+</Callout>
+
+## Dove si trova davvero il collo di bottiglia di ogni fase
+
+| Fase | Da cosa dipende principalmente |
+|---|---|
+| POST | Configurazione hardware, in gran parte fissa |
+| Passaggio del firmware | Molto veloce, raramente un collo di bottiglia significativo |
+| Caricamento del SO nella RAM | Velocità dello storage (vedi [NVMe vs SATA](/blog/nvme-vs-sata-ssd-real-difference)) |
+| Programmi di avvio | Numero di programmi ad avvio automatico — completamente sotto il tuo controllo |

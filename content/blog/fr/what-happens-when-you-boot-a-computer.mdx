@@ -1,0 +1,63 @@
+---
+title: "Ce qui se passe réellement quand vous démarrez un ordinateur"
+description: "Un parcours en langage simple de tout ce qui se passe entre appuyer sur le bouton d'alimentation et atteindre un bureau utilisable."
+slug: "what-happens-when-you-boot-a-computer"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "cpu"]
+category: "How Computers Work"
+author: "Ivan Ostroumov"
+keywords: ["que se passe-t-il quand l'ordinateur démarre", "processus de démarrage expliqué simplement", "séquence de démarrage bios uefi"]
+ogImageTitle: "What Happens When You Boot"
+faq:
+  - question: "Quelle est la différence entre BIOS et UEFI ?"
+    answer: "UEFI est le remplacement moderne de l'ancien standard de firmware BIOS — il fait le même travail fondamental (initialiser le matériel, trouver et démarrer le système d'exploitation) mais avec plus de capacités, incluant le support de disques plus grands et des processus de démarrage plus rapides, parmi d'autres améliorations."
+  - question: "Pourquoi un ordinateur met-il parfois beaucoup plus de temps que d'habitude à démarrer ?"
+    answer: "Souvent à cause d'auto-tests matériels prenant plus de temps (surtout avec beaucoup de RAM à vérifier), de programmes de démarrage se lançant automatiquement une fois le SE chargé, ou dans des cas plus rares un disque défaillant mettant plus de temps à répondre pendant l'étape de chargement du SE."
+  - question: "Un SSD accélère-t-il vraiment tout le processus de démarrage, ou juste une partie ?"
+    answer: "Principalement la portion de chargement du SE — lire les fichiers du système d'exploitation depuis le stockage vers la RAM est là où un SSD rapide fait la différence la plus visible ; l'étape initiale d'auto-test matériel est largement indépendante de la vitesse de stockage."
+---
+
+Le temps de démarrage est jugé comme un chiffre unique, mais ce sont en réalité plusieurs étapes distinctes empilées ensemble, chacune avec un goulot d'étranglement différent.
+
+## Étape 1 : Auto-test à l'allumage (POST)
+
+<Callout>
+Avant même qu'un système d'exploitation soit impliqué, le firmware de la carte mère (BIOS ou son remplacement moderne, UEFI) exécute un auto-test, vérifiant que le matériel essentiel (RAM, CPU, disques connectés) est présent et fonctionnel. C'est pourquoi un système avec un problème matériel n'atteint parfois même pas le point de charger un système d'exploitation — il échoue ici, avant que le SE ne soit impliqué du tout.
+</Callout>
+
+La durée de cette étape dépend plus de la configuration matérielle (quantité de RAM à vérifier, nombre d'appareils connectés) que de tout ce que le système d'exploitation contrôle.
+
+## Étape 2 : Le firmware trouve et démarre le système d'exploitation
+
+Une fois le POST terminé, le firmware localise un disque amorçable valide et transmet le contrôle au propre chargeur de démarrage du système d'exploitation — un petit programme dont le seul travail est de démarrer le processus réel de chargement du SE.
+
+## Étape 3 : Le système d'exploitation se charge dans la RAM
+
+C'est là que la vitesse de stockage compte le plus visiblement — les fichiers centraux du SE doivent être lus depuis le stockage vers la RAM (voir notre [guide disque-vers-RAM](/blog/how-data-moves-disk-to-ram) pour le mécanisme général) avant qu'il puisse commencer à fonctionner. C'est l'étape la plus directement accélérée par un SSD rapide par rapport à un ancien HDD.
+
+## Étape 4 : Les programmes et services de démarrage se lancent
+
+Une fois le noyau du SE en fonctionnement, il lance des services en arrière-plan et tout programme configuré pour démarrer automatiquement — la durée de cette étape est très variable et souvent la plus contrôlable par l'utilisateur, puisqu'elle reflète directement combien de programmes à démarrage automatique se sont accumulés au fil du temps.
+
+## Une séquence simplifiée
+
+```text
+Allumage → POST (auto-test matériel) → Le firmware localise le SE →
+Le noyau du SE se charge dans la RAM → Les programmes/services de démarrage se lancent → Bureau utilisable
+```
+
+## Pourquoi le temps de démarrage augmente lentement sur des mois d'utilisation
+
+<Callout type="warning">
+Un temps de démarrage augmentant lentement sur des mois d'utilisation normale est presque toujours causé par une liste croissante de programmes configurés pour démarrer automatiquement, pas un problème matériel — vérifier et réduire votre liste de programmes de démarrage (disponible dans le gestionnaire de tâches ou les paramètres de la plupart des systèmes d'exploitation) est une correction véritablement efficace, souvent négligée.
+</Callout>
+
+## Où se trouve réellement le goulot d'étranglement de chaque étape
+
+| Étape | De quoi ça dépend principalement |
+|---|---|
+| POST | Configuration matérielle, largement fixe |
+| Passage du firmware | Très rapide, rarement un goulot d'étranglement significatif |
+| Chargement du SE dans la RAM | Vitesse de stockage (voir [NVMe vs SATA](/blog/nvme-vs-sata-ssd-real-difference)) |
+| Programmes de démarrage | Nombre de programmes à démarrage automatique — entièrement sous votre contrôle |
