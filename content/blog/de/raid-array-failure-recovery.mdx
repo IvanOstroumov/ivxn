@@ -1,0 +1,58 @@
+---
+title: "Dein RAID-Array ist ausgefallen: Können die Daten wiederhergestellt werden?"
+description: "Was tatsächlich passiert, wenn ein RAID-Array ausfällt, wann eine Wiederherstellung realistisch ist, und die Fehler, die einen wiederherstellbaren RAID-Ausfall in Datenverlust verwandeln."
+slug: "raid-array-failure-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "raid", "hardware"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["raid array ausgefallen wiederherstellung", "raid 5 zwei laufwerke ausgefallen", "daten aus defektem raid wiederherstellen"]
+ogImageTitle: "RAID Array Failure Recovery"
+faq:
+  - question: "Ein Laufwerk in meinem RAID 5 ist ausgefallen — sind meine Daten sicher?"
+    answer: "Ja, vorerst — RAID 5 toleriert genau einen Laufwerksausfall. Ersetze das ausgefallene Laufwerk und lass das Array so bald wie vernünftigerweise möglich neu aufbauen, da ein zweiter Ausfall während dieses Zeitfensters zu Datenverlust führen würde."
+  - question: "Können Daten wiederhergestellt werden, wenn zwei Laufwerke in einem RAID-5-Array ausfallen?"
+    answer: "Manchmal, aber das ist eine spezialisierte Wiederherstellung, keine standardmäßige — sie erfordert typischerweise das Imagen der überlebenden Laufwerke und die manuelle Rekonstruktion von Daten durch die Paritätsmathematik des Arrays, was bedeutend schwieriger ist als ein Einzellaufwerksausfall."
+  - question: "Ich habe das Array neu aufgebaut und jetzt fehlen Daten — was ist passiert?"
+    answer: "Ein Wiederaufbauversuch mit Laufwerken in falscher Reihenfolge, eine falsche Array-Konfiguration, oder ein Wiederaufbau, der mit einem bereits grenzwertigen zweiten Laufwerk gestartet wurde, sind die häufigsten Ursachen — dies ist ein häufiger Weg, wie eine wiederherstellbare Situation zu einer schwierigeren wird."
+---
+
+Die Wiederherstellung nach RAID-Ausfall ist kein einzelnes Problem — sie hängt stark davon ab, welche(s) Laufwerk(e) ausgefallen ist/sind und was seitdem mit dem Array gemacht wurde.
+
+## Zuerst: Rate nicht bei einem Wiederaufbau
+
+<Callout type="warning">
+Ein RAID-Array mit Laufwerken in falscher Reihenfolge oder mit falschen, aus dem Gedächtnis geratenen Array-Parametern wiederaufzubauen, ist einer der häufigsten Wege, einen wiederherstellbaren Ausfall in einen nicht wiederherstellbaren zu verwandeln. Wenn du dir der genauen ursprünglichen Konfiguration nicht sicher bist, versuche keinen Wiederaufbau von Grund auf.
+</Callout>
+
+## Einzelner Laufwerksausfall: normalerweise in Ordnung, handle umgehend
+
+Wenn dein Array so konzipiert ist, dass es einen Laufwerksausfall toleriert (RAID 1, RAID 5, RAID 6, RAID 10 — siehe unseren [RAID-Level-Vergleich](/blog/raid-0-vs-1-vs-5)) und genau eines ausgefallen ist, sind die Daten intakt. Die Priorität ist, das ausgefallene Laufwerk zu ersetzen und neu aufzubauen, **bevor** ein zweiter Ausfall passiert — was ein reales Risiko ist, da der Wiederaufbau eine ungewöhnlich hohe Leselast auf die verbleibenden Laufwerke legt, genau dann, wenn du dir einen weiteren Ausfall am wenigsten leisten kannst.
+
+## Zwei oder mehr Laufwerke ausgefallen (über das hinaus, was das Array toleriert)
+
+Dies ist eine echt schwierigere Wiederherstellung. Es bedeutet normalerweise:
+
+1. Zuerst jedes überlebende Laufwerk einzeln imagen — nie direkt gegen die einzigen verbleibenden Kopien arbeiten.
+2. Die logische Struktur des Arrays (Stripe-Größe, Laufwerksreihenfolge, Paritätsalgorithmus) aus dem rekonstruieren, was wiederherstellbar ist, da manchmal diese Metadaten tatsächlich beschädigt sind, statt der Daten selbst.
+3. Dateien aus dem rekonstruierten virtuellen Array extrahieren, sobald die Struktur korrekt wiederaufgebaut ist.
+
+Dies ist bedeutend spezialisierter als die Wiederherstellung eines einzelnen Laufwerks und hier machen DIY-Versuche die Dinge am häufigsten schlimmer — das Erraten der Stripe-Größe oder Laufwerksreihenfolge während der Rekonstruktion kann verstümmelte Ausgaben produzieren, die wie Beschädigung aussehen, aber tatsächlich ein Rekonstruktionsfehler sind.
+
+## Häufige Ursachen, die man kennen sollte
+
+| Ursache | Was passiert ist |
+|---|---|
+| Controller-Ausfall (nicht Laufwerksausfall) | Die RAID-Controller-Karte selbst ist gestorben — Laufwerke können völlig in Ordnung und lesbar sein, sobald sie auf kompatible Hardware verschoben werden |
+| Mehrere Laufwerksausfälle aus derselben Charge | Zusammen gekaufte Laufwerke haben oft ähnlichen Verschleiß, daher ist ein enges Ausfallen zeitlich kein Zufall |
+| Fehlgeschlagener Wiederaufbauversuch | Falsche Reihenfolge/Parameter bei einem DIY-Wiederaufbauversuch verwendet |
+| Versehentliche Array-Löschung/-Neukonfiguration | Neukonfiguration eines NAS oder RAID-Controllers, ohne zu merken, dass dies die Array-Definition löschen würde |
+
+<Callout>
+Wenn der RAID-Controller selbst ausgefallen ist statt der Laufwerke, könnten die Laufwerke völlig intakte Daten enthalten — die Lösung in diesem speziellen Fall kann so einfach sein wie kompatible Ersatzhardware zu besorgen, gar keine Datenwiederherstellung.
+</Callout>
+
+<Callout type="warning">
+Hast du gerade mit einem ausgefallenen RAID-Array zu tun? Halte an, bevor du einen Wiederaufbau versuchst, wenn du dir der ursprünglichen Konfiguration nicht sicher bist — [melde dich](/contact) zuerst.
+</Callout>

@@ -1,0 +1,69 @@
+---
+title: "RAID 0 vs RAID 1 vs RAID 5: la spiegazione semplice"
+description: "Cosa fanno davvero di diverso RAID 0, RAID 1 e RAID 5 — velocità, ridondanza, e cosa succede quando un disco si guasta in ciascuno."
+slug: "raid-0-vs-1-vs-5"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "raid", "storage"]
+category: "Hardware"
+author: "Ivan Ostroumov"
+keywords: ["raid 0 vs raid 1", "raid 5 spiegato", "quale livello raid dovrei usare"]
+ogImageTitle: "RAID 0 vs 1 vs 5"
+faq:
+  - question: "Il RAID è un backup?"
+    answer: "No. Il RAID protegge dal guasto di un disco, non da eliminazione, ransomware, o corruzione — un'eliminazione per errore o un virus vengono copiati su ogni disco dell'array in modo altrettanto affidabile di un buon file. I backup e il RAID risolvono problemi diversi."
+  - question: "Quale livello RAID dovrei usare per un NAS domestico?"
+    answer: "RAID 1 (mirroring) per due dischi, o RAID 5 per quattro o più se vuoi più capacità utilizzabile con protezione dal guasto dei dischi. RAID 0 raramente è la scelta predefinita giusta per memorizzare qualcosa che ti mancherebbe."
+  - question: "Quanti dischi possono guastarsi prima che RAID 5 perda dati?"
+    answer: "Esattamente uno. Un secondo disco che si guasta prima che l'array finisca di ricostruirsi dopo il primo significa che i dati sono persi — questa è la ragione principale per cui dischi più grandi e ad alta capacità hanno spinto alcune configurazioni verso RAID 6 o RAID 10 invece."
+---
+
+Il RAID viene raccomandato spesso e spiegato chiaramente meno spesso. Ecco cosa fanno davvero i tre livelli più comuni.
+
+## RAID 0: velocità, zero protezione
+
+<Callout type="warning">
+RAID 0 non protegge i tuoi dati — peggiora le cose. Se uno dei due dischi si guasta, perdi tutto ciò che è sull'array, non solo metà.
+</Callout>
+
+RAID 0 divide i dati tra due (o più) dischi — metà di ogni file va su ciascun disco. Lettura e scrittura avvengono in parallelo, quindi è genuinamente più veloce. Ma un file non è memorizzato intero su nessuno dei due dischi, quindi se un disco si guasta, ogni file ora è incompleto. Non c'è alcuna ridondanza; il nome è fuorviante se associ "RAID" alla sicurezza.
+
+**Caso d'uso:** dischi scratch per il montaggio video, cache di rendering temporanee — dati che puoi permetterti di perdere perché usa e getta o già salvati altrove.
+
+## RAID 1: sicurezza tramite duplicazione
+
+RAID 1 specchia gli stessi dati su due dischi — ogni scrittura avviene due volte, una su ciascun disco. Se un disco si guasta, l'altro ha una copia completa e aggiornata.
+
+**Compromesso:** ottieni solo la capacità utilizzabile di un disco, anche se ne hai comprati due. Due dischi da 2TB in RAID 1 danno 2TB di spazio utilizzabile, non 4TB.
+
+**Caso d'uso:** la scelta predefinita corretta per un piccolo NAS domestico dove vuoi una protezione semplice e ben compresa contro un disco che muore.
+
+## RAID 5: una via di mezzo
+
+RAID 5 richiede almeno tre dischi. I dati sono distribuiti su tutti come in RAID 0, ma lo spazio equivalente a un disco (ruotato su tutti i dischi, non fisso su un disco fisico) viene usato per la parità — un checksum matematico che può ricostruire i dati di un singolo disco mancante.
+
+**Risultato:** ottieni la capacità utilizzabile di (N-1) dischi, e puoi sopravvivere esattamente a un guasto di un disco. Quattro dischi da 2TB in RAID 5 danno circa 6TB utilizzabili, con protezione contro il guasto di un singolo disco.
+
+## Tabella di confronto
+
+| | RAID 0 | RAID 1 | RAID 5 |
+|---|---|---|---|
+| Dischi minimi | 2 | 2 | 3 |
+| Capacità utilizzabile | 100% (tutti i dischi) | 50% (1 di 2 dischi) | (N-1)/N del totale |
+| Sopravvive al guasto di 1 disco? | No | Sì | Sì |
+| Velocità lettura/scrittura | La più veloce | Scrittura: nessun guadagno, Lettura: qualche guadagno | Buona, la parità aggiunge un leggero overhead di scrittura |
+| Ideale per | Dati usa e getta/scratch | Array piccoli, semplicità | Array più grandi, più spazio utilizzabile per disco |
+
+## La parte che le persone saltano: il RAID non è un backup
+
+Un array RAID protegge contro il **guasto hardware** — un disco che muore. Non fa nulla contro un'eliminazione per errore, un ransomware che cripta i tuoi file, o un filesystem corrotto, perché quelle modifiche vengono scritte (o replicate) su ogni disco dell'array esattamente come qualsiasi altra scrittura. Se elimini un file per errore su un array RAID 1, viene eliminato su entrambi gli specchi.
+
+La regola pratica: il RAID risponde a "cosa succede se un disco muore", i backup rispondono a "cosa succede se perdo i dati stessi". Servono entrambi, e uno non sostituisce l'altro.
+
+<Callout>
+Ricostruire un array RAID 5 dopo un guasto di un disco mette uno stress di lettura significativo sui dischi rimanenti — questo è esattamente il momento in cui un secondo guasto di un disco è più probabile, specialmente con dischi più vecchi o più grandi. Non trattare una ricostruzione come manutenzione di routine; trattala come una finestra in cui sei a un guasto in più dalla perdita di dati.
+</Callout>
+
+<Callout type="warning">
+Stai affrontando un array RAID guasto proprio ora, o stai pianificando una configurazione di storage e non sei sicuro di quale livello si adatti? [Contattami](/contact) prima di ricostruire qualsiasi cosa.
+</Callout>

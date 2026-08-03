@@ -1,0 +1,58 @@
+---
+title: "Votre array RAID est en panne : les données peuvent-elles être récupérées ?"
+description: "Ce qui se passe réellement quand un array RAID tombe en panne, quand la récupération est réaliste, et les erreurs qui transforment une panne RAID récupérable en perte de données."
+slug: "raid-array-failure-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "raid", "hardware"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["récupération array raid en panne", "raid 5 deux disques en panne", "récupérer données raid cassé"]
+ogImageTitle: "RAID Array Failure Recovery"
+faq:
+  - question: "Un disque dans mon RAID 5 est tombé en panne — mes données sont-elles en sécurité ?"
+    answer: "Oui, pour l'instant — RAID 5 tolère exactement une panne de disque. Remplacez le disque en panne et laissez l'array se reconstruire dès que raisonnablement possible, car une deuxième panne pendant cette fenêtre causerait une perte de données."
+  - question: "Les données peuvent-elles être récupérées si deux disques tombent en panne dans un array RAID 5 ?"
+    answer: "Parfois, mais c'est une récupération spécialisée, pas standard — cela nécessite généralement d'imager les disques survivants et de reconstruire les données manuellement via les mathématiques de parité de l'array, ce qui est nettement plus difficile qu'une panne de disque unique."
+  - question: "J'ai reconstruit l'array et maintenant des données manquent — que s'est-il passé ?"
+    answer: "Une tentative de reconstruction avec des disques dans le mauvais ordre, une configuration d'array incorrecte, ou une reconstruction commencée avec un deuxième disque déjà marginal sont les causes les plus courantes — c'est une façon courante dont une situation récupérable devient plus difficile."
+---
+
+La récupération après panne RAID n'est pas un problème unique — elle dépend fortement de quel(s) disque(s) est tombé en panne et de ce qui a été fait à l'array depuis.
+
+## D'abord : ne devinez pas lors d'une reconstruction
+
+<Callout type="warning">
+Reconstruire un array RAID avec des disques dans le mauvais ordre, ou avec des paramètres d'array incorrects devinés de mémoire, est l'une des façons les plus courantes de transformer une panne récupérable en une panne irrécupérable. Si vous n'êtes pas certain de la configuration originale exacte, ne tentez pas une reconstruction à partir de zéro.
+</Callout>
+
+## Panne d'un seul disque : généralement correct, agissez promptement
+
+Si votre array est conçu pour tolérer la panne d'un disque (RAID 1, RAID 5, RAID 6, RAID 10 — voir notre [comparaison des niveaux RAID](/blog/raid-0-vs-1-vs-5)) et qu'exactement un est tombé en panne, les données sont intactes. La priorité est de remplacer le disque en panne et de reconstruire **avant** qu'une deuxième panne ne se produise — ce qui est un risque réel, puisque la reconstruction met une charge de lecture inhabituellement élevée sur les disques restants, précisément quand vous pouvez le moins vous permettre une autre panne.
+
+## Deux disques ou plus en panne (au-delà de ce que l'array tolère)
+
+C'est une récupération véritablement plus difficile. Cela signifie généralement :
+
+1. Imager d'abord chaque disque survivant individuellement — ne jamais travailler directement sur les seules copies restantes.
+2. Reconstruire la structure logique de l'array (taille de stripe, ordre des disques, algorithme de parité) à partir de ce qui est récupérable, car ces métadonnées sont parfois ce qui est réellement endommagé plutôt que les données elles-mêmes.
+3. Extraire les fichiers de l'array virtuel reconstruit une fois la structure correctement reconstruite.
+
+C'est nettement plus spécialisé que la récupération d'un seul disque et c'est là que les tentatives de bricolage aggravent le plus souvent les choses — deviner la taille de stripe ou l'ordre des disques pendant la reconstruction peut produire une sortie corrompue qui ressemble à une corruption mais est en réalité une erreur de reconstruction.
+
+## Causes courantes à connaître
+
+| Cause | Ce qui s'est passé |
+|---|---|
+| Panne du contrôleur (pas du disque) | La carte contrôleur RAID elle-même est morte — les disques peuvent être complètement intacts et lisibles une fois déplacés vers un matériel compatible |
+| Pannes multiples de disques du même lot | Les disques achetés ensemble ont souvent une usure similaire, donc tomber en panne rapprochés dans le temps n'est pas une coïncidence |
+| Tentative de reconstruction échouée | Mauvais ordre/paramètres utilisés lors d'une tentative de reconstruction bricolée |
+| Suppression/reconfiguration accidentelle de l'array | Reconfigurer un NAS ou un contrôleur RAID sans réaliser que cela effacerait la définition de l'array |
+
+<Callout>
+Si c'est le contrôleur RAID lui-même qui est tombé en panne plutôt que les disques, les disques peuvent contenir des données complètement intactes — la solution dans ce cas spécifique peut être aussi simple que d'obtenir du matériel de remplacement compatible, pas de récupération de données du tout.
+</Callout>
+
+<Callout type="warning">
+Vous faites face à un array RAID en panne en ce moment ? Arrêtez-vous avant de tenter une reconstruction si vous n'êtes pas certain de la configuration originale — [contactez-moi](/contact) d'abord.
+</Callout>

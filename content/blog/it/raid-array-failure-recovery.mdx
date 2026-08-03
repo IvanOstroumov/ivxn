@@ -1,0 +1,58 @@
+---
+title: "Il tuo array RAID è guasto: i dati possono essere recuperati?"
+description: "Cosa succede realmente quando un array RAID si guasta, quando il recupero è realistico, e gli errori che trasformano un guasto RAID recuperabile in perdita di dati."
+slug: "raid-array-failure-recovery"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["data-recovery", "raid", "hardware"]
+category: "Data Recovery"
+author: "Ivan Ostroumov"
+keywords: ["recupero array raid guasto", "raid 5 due dischi guasti", "recuperare dati da raid rotto"]
+ogImageTitle: "RAID Array Failure Recovery"
+faq:
+  - question: "Un disco nel mio RAID 5 è guasto — i miei dati sono al sicuro?"
+    answer: "Sì, per ora — RAID 5 tollera esattamente un guasto di disco. Sostituisci il disco guasto e lascia che l'array si ricostruisca il prima ragionevolmente possibile, poiché un secondo guasto durante quella finestra causerebbe perdita di dati."
+  - question: "I dati possono essere recuperati se due dischi si guastano in un array RAID 5?"
+    answer: "A volte, ma è un recupero specializzato, non standard — richiede tipicamente di fare immagini dei dischi sopravvissuti e ricostruire i dati manualmente tramite la matematica di parità dell'array, il che è significativamente più difficile di un guasto a disco singolo."
+  - question: "Ho ricostruito l'array e ora mancano dati — cosa è successo?"
+    answer: "Un tentativo di ricostruzione con dischi nell'ordine sbagliato, una configurazione errata dell'array, o una ricostruzione iniziata con un secondo disco già marginale sono le cause più comuni — questo è un modo comune in cui una situazione recuperabile diventa più difficile."
+---
+
+Il recupero da guasto RAID non è un problema unico — dipende molto da quale disco/i si sia guastato e cosa è stato fatto all'array da allora.
+
+## Prima di tutto: non indovinare durante una ricostruzione
+
+<Callout type="warning">
+Ricostruire un array RAID con dischi nell'ordine sbagliato, o con parametri dell'array sbagliati indovinati a memoria, è uno dei modi più comuni per trasformare un guasto recuperabile in uno irrecuperabile. Se non sei certo della configurazione originale esatta, non tentare una ricostruzione da zero.
+</Callout>
+
+## Guasto a disco singolo: di solito va bene, agisci prontamente
+
+Se il tuo array è progettato per tollerare il guasto di un disco (RAID 1, RAID 5, RAID 6, RAID 10 — vedi il nostro [confronto dei livelli RAID](/blog/raid-0-vs-1-vs-5)) e ne è guastato esattamente uno, i dati sono intatti. La priorità è sostituire il disco guasto e ricostruire **prima** che avvenga un secondo guasto — che è un rischio reale, poiché la ricostruzione mette un carico di lettura insolitamente alto sui dischi rimanenti, proprio quando puoi permetterti meno un altro guasto.
+
+## Due o più dischi guasti (oltre a quanto l'array tollera)
+
+Questo è un recupero genuinamente più difficile. Di solito significa:
+
+1. Fare prima l'immagine di ciascun disco sopravvissuto individualmente — mai lavorare direttamente sulle uniche copie rimanenti.
+2. Ricostruire la struttura logica dell'array (dimensione dello stripe, ordine dei dischi, algoritmo di parità) da ciò che è recuperabile, poiché a volte sono questi metadati ad essere effettivamente danneggiati piuttosto che i dati stessi.
+3. Estrarre i file dall'array virtuale ricostruito una volta che la struttura è ricostruita correttamente.
+
+Questo è significativamente più specializzato del recupero a disco singolo ed è dove i tentativi fai-da-te più spesso peggiorano le cose — indovinare la dimensione dello stripe o l'ordine dei dischi durante la ricostruzione può produrre un output confuso che sembra corruzione ma è in realtà un errore di ricostruzione.
+
+## Cause comuni che vale la pena conoscere
+
+| Causa | Cosa è successo |
+|---|---|
+| Guasto del controller (non del disco) | La scheda controller RAID stessa è morta — i dischi potrebbero essere completamente integri e leggibili una volta spostati su hardware compatibile |
+| Guasti multipli di dischi dello stesso lotto | I dischi acquistati insieme spesso hanno usura simile, quindi guastarsi vicini nel tempo non è una coincidenza |
+| Tentativo di ricostruzione fallito | Ordine/parametri sbagliati usati durante un tentativo di ricostruzione fai-da-te |
+| Eliminazione/riconfigurazione accidentale dell'array | Riconfigurare un NAS o un controller RAID senza rendersi conto che avrebbe cancellato la definizione dell'array |
+
+<Callout>
+Se è il controller RAID stesso ad essersi guastato anziché i dischi, i dischi potrebbero contenere dati completamente intatti — la soluzione in quel caso specifico può essere semplice come ottenere hardware sostitutivo compatibile, non recupero dati affatto.
+</Callout>
+
+<Callout type="warning">
+Stai affrontando un array RAID guasto proprio ora? Fermati prima di tentare una ricostruzione se non sei certo della configurazione originale — [contattami](/contact) prima.
+</Callout>

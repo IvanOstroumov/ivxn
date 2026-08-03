@@ -1,0 +1,69 @@
+---
+title: "RAID 0 vs RAID 1 vs RAID 5 : l'explication simple"
+description: "Ce que RAID 0, RAID 1 et RAID 5 font réellement différemment — vitesse, redondance, et ce qui se passe quand un disque tombe en panne dans chacun."
+slug: "raid-0-vs-1-vs-5"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "raid", "storage"]
+category: "Hardware"
+author: "Ivan Ostroumov"
+keywords: ["raid 0 vs raid 1", "raid 5 expliqué", "quel niveau raid dois-je utiliser"]
+ogImageTitle: "RAID 0 vs 1 vs 5"
+faq:
+  - question: "Le RAID est-il une sauvegarde ?"
+    answer: "Non. Le RAID protège contre la panne d'un disque, pas contre la suppression, le ransomware, ou la corruption — une suppression accidentelle ou un virus est copié sur chaque disque de l'array aussi fidèlement qu'un bon fichier. Les sauvegardes et le RAID résolvent des problèmes différents."
+  - question: "Quel niveau RAID devrais-je utiliser pour un NAS domestique ?"
+    answer: "RAID 1 (mise en miroir) pour deux disques, ou RAID 5 pour quatre ou plus si vous voulez plus de capacité utilisable avec une protection contre la panne de disque. RAID 0 est rarement le bon choix par défaut pour stocker quoi que ce soit qui vous manquerait."
+  - question: "Combien de disques peuvent tomber en panne avant que RAID 5 ne perde des données ?"
+    answer: "Exactement un. Un deuxième disque qui tombe en panne avant que l'array ait fini de se reconstruire après le premier signifie que les données sont perdues — c'est la raison principale pour laquelle des disques plus grands et à capacité plus élevée ont poussé certaines configurations vers RAID 6 ou RAID 10 à la place."
+---
+
+Le RAID est souvent recommandé et moins souvent expliqué clairement. Voici ce que font réellement les trois niveaux les plus courants.
+
+## RAID 0 : vitesse, zéro protection
+
+<Callout type="warning">
+RAID 0 ne protège pas vos données — il aggrave les choses. Si l'un des disques tombe en panne, vous perdez tout sur l'array, pas seulement la moitié.
+</Callout>
+
+RAID 0 divise les données entre deux (ou plusieurs) disques — la moitié de chaque fichier va sur chaque disque. La lecture et l'écriture se font en parallèle, donc c'est réellement plus rapide. Mais un fichier n'est stocké entièrement sur aucun des deux disques, donc si un disque tombe en panne, chaque fichier est maintenant incomplet. Il n'y a aucune redondance ; le nom est trompeur si vous associez « RAID » à la sécurité.
+
+**Cas d'usage :** disques de travail pour le montage vidéo, caches de rendu temporaires — des données que vous pouvez vous permettre de perdre parce qu'elles sont jetables ou déjà sauvegardées ailleurs.
+
+## RAID 1 : sécurité par duplication
+
+RAID 1 met en miroir les mêmes données sur deux disques — chaque écriture se produit deux fois, une fois sur chaque disque. Si un disque tombe en panne, l'autre a une copie complète et à jour.
+
+**Compromis :** vous n'obtenez que la capacité utilisable d'un disque, même si vous en avez acheté deux. Deux disques de 2 To en RAID 1 vous donnent 2 To d'espace utilisable, pas 4 To.
+
+**Cas d'usage :** le bon choix par défaut pour un petit NAS domestique où vous voulez une protection simple et bien comprise contre un disque qui meurt.
+
+## RAID 5 : un juste milieu
+
+RAID 5 nécessite au moins trois disques. Les données sont réparties sur tous comme en RAID 0, mais l'espace équivalent à un disque (tournant sur tous les disques, pas fixé à un disque physique) est utilisé pour la parité — une somme de contrôle mathématique qui peut reconstruire les données d'un seul disque manquant.
+
+**Résultat :** vous obtenez la capacité utilisable de (N-1) disques, et pouvez survivre à exactement une panne de disque. Quatre disques de 2 To en RAID 5 donnent environ 6 To utilisables, avec une protection contre la panne d'un seul disque quelconque.
+
+## Tableau comparatif
+
+| | RAID 0 | RAID 1 | RAID 5 |
+|---|---|---|---|
+| Disques minimum | 2 | 2 | 3 |
+| Capacité utilisable | 100% (tous les disques) | 50% (1 sur 2 disques) | (N-1)/N du total |
+| Survit à 1 panne de disque ? | Non | Oui | Oui |
+| Vitesse lecture/écriture | La plus rapide | Écriture : aucun gain, Lecture : un certain gain | Bonne, la parité ajoute un léger surcoût d'écriture |
+| Idéal pour | Données jetables/de travail | Petits arrays, simplicité | Arrays plus grands, plus d'espace utilisable par disque |
+
+## La partie que les gens sautent : le RAID n'est pas une sauvegarde
+
+Un array RAID protège contre la **panne matérielle** — un disque qui meurt. Il ne fait rien contre une suppression accidentelle, un ransomware chiffrant vos fichiers, ou un système de fichiers corrompu, parce que ces changements sont écrits (ou répliqués) sur chaque disque de l'array exactement comme n'importe quelle autre écriture. Si vous supprimez un fichier par erreur sur un array RAID 1, il est supprimé sur les deux miroirs.
+
+La règle pratique : le RAID répond à « et si un disque meurt », les sauvegardes répondent à « et si je perds les données elles-mêmes ». Vous avez besoin des deux, et l'un ne remplace pas l'autre.
+
+<Callout>
+Reconstruire un array RAID 5 après une panne de disque met un stress de lecture significatif sur les disques restants — c'est exactement le moment où une deuxième panne de disque est la plus probable, surtout avec des disques plus anciens ou plus grands. Ne traitez pas une reconstruction comme une maintenance de routine ; traitez-la comme une fenêtre où vous êtes à une panne de plus de la perte de données.
+</Callout>
+
+<Callout type="warning">
+Vous faites face à un array RAID en panne en ce moment, ou vous planifiez une configuration de stockage et n'êtes pas sûr du niveau qui convient ? [Contactez-moi](/contact) avant de reconstruire quoi que ce soit.
+</Callout>

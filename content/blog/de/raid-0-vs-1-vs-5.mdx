@@ -1,0 +1,69 @@
+---
+title: "RAID 0 vs. RAID 1 vs. RAID 5: Die einfache Erklärung"
+description: "Was RAID 0, RAID 1 und RAID 5 tatsächlich unterschiedlich machen — Geschwindigkeit, Redundanz, und was bei jedem passiert, wenn ein Laufwerk ausfällt."
+slug: "raid-0-vs-1-vs-5"
+date: "2026-08-03"
+updated: "2026-08-03"
+tags: ["hardware", "raid", "storage"]
+category: "Hardware"
+author: "Ivan Ostroumov"
+keywords: ["raid 0 vs raid 1", "raid 5 erklärt", "welches raid level sollte ich verwenden"]
+ogImageTitle: "RAID 0 vs 1 vs 5"
+faq:
+  - question: "Ist RAID ein Backup?"
+    answer: "Nein. RAID schützt vor einem ausfallenden Laufwerk, nicht vor Löschung, Ransomware oder Beschädigung — ein versehentliches Löschen oder ein Virus wird genauso zuverlässig auf jedes Laufwerk im Array kopiert wie eine gute Datei. Backups und RAID lösen unterschiedliche Probleme."
+  - question: "Welches RAID-Level sollte ich für ein Heim-NAS verwenden?"
+    answer: "RAID 1 (Spiegelung) für zwei Laufwerke, oder RAID 5 für vier oder mehr, wenn du mehr nutzbare Kapazität mit Schutz vor Laufwerksausfall willst. RAID 0 ist selten die richtige Standardwahl zum Speichern von irgendetwas, das dir fehlen würde."
+  - question: "Wie viele Laufwerke können ausfallen, bevor RAID 5 Daten verliert?"
+    answer: "Genau eines. Ein zweites ausfallendes Laufwerk, bevor das Array den Wiederaufbau nach dem ersten abgeschlossen hat, bedeutet, dass die Daten weg sind — dies ist der Hauptgrund, warum größere Laufwerke mit höherer Kapazität manche Setups stattdessen zu RAID 6 oder RAID 10 gedrängt haben."
+---
+
+RAID wird oft empfohlen und seltener klar erklärt. Hier ist, was die drei häufigsten Levels tatsächlich tun.
+
+## RAID 0: Geschwindigkeit, null Schutz
+
+<Callout type="warning">
+RAID 0 schützt deine Daten nicht — es macht die Dinge schlimmer. Wenn eines der Laufwerke ausfällt, verlierst du alles auf dem Array, nicht nur die Hälfte.
+</Callout>
+
+RAID 0 teilt Daten über zwei (oder mehr) Laufwerke auf — die Hälfte jeder Datei geht auf jedes Laufwerk. Lesen und Schreiben erfolgen parallel, sodass es tatsächlich schneller ist. Aber eine Datei wird auf keinem der beiden Laufwerke vollständig gespeichert, sodass wenn ein Laufwerk ausfällt, jede Datei jetzt unvollständig ist. Es gibt überhaupt keine Redundanz; der Name ist irreführend, wenn du "RAID" mit Sicherheit assoziierst.
+
+**Anwendungsfall:** Scratch-Disks für Videobearbeitung, temporäre Render-Caches — Daten, die du dir leisten kannst zu verlieren, weil sie wegwerfbar sind oder bereits woanders gesichert sind.
+
+## RAID 1: Sicherheit durch Duplizierung
+
+RAID 1 spiegelt dieselben Daten auf zwei Laufwerken — jeder Schreibvorgang passiert zweimal, einmal auf jedem Laufwerk. Wenn ein Laufwerk ausfällt, hat das andere eine vollständige, aktuelle Kopie.
+
+**Kompromiss:** du bekommst nur die nutzbare Kapazität eines Laufwerks, obwohl du zwei gekauft hast. Zwei 2TB-Laufwerke in RAID 1 geben dir 2TB nutzbaren Speicherplatz, nicht 4TB.
+
+**Anwendungsfall:** die richtige Standardwahl für ein kleines Heim-NAS, wo du einfachen, gut verstandenen Schutz gegen ein sterbendes Laufwerk willst.
+
+## RAID 5: ein Mittelweg
+
+RAID 5 benötigt mindestens drei Laufwerke. Daten werden wie bei RAID 0 über alle verteilt, aber der Platz eines Laufwerks (rotierend über alle Laufwerke, nicht fest auf einem physischen Laufwerk) wird für Parität verwendet — eine mathematische Prüfsumme, die die Daten eines einzelnen fehlenden Laufwerks rekonstruieren kann.
+
+**Ergebnis:** du bekommst die nutzbare Kapazität von (N-1) Laufwerken und kannst genau einen Laufwerksausfall überstehen. Vier 2TB-Laufwerke in RAID 5 geben etwa 6TB nutzbaren Speicherplatz, mit Schutz gegen den Ausfall eines beliebigen einzelnen Laufwerks.
+
+## Vergleichstabelle
+
+| | RAID 0 | RAID 1 | RAID 5 |
+|---|---|---|---|
+| Mindestlaufwerke | 2 | 2 | 3 |
+| Nutzbare Kapazität | 100% (alle Laufwerke) | 50% (1 von 2 Laufwerken) | (N-1)/N der Gesamtkapazität |
+| Übersteht 1 Laufwerksausfall? | Nein | Ja | Ja |
+| Lese-/Schreibgeschwindigkeit | Am schnellsten | Schreiben: kein Gewinn, Lesen: etwas Gewinn | Gut, Parität fügt leichten Schreib-Overhead hinzu |
+| Am besten für | Wegwerf-/Scratch-Daten | Kleine Arrays, Einfachheit | Größere Arrays, mehr nutzbarer Platz pro Laufwerk |
+
+## Der Teil, den Leute überspringen: RAID ist kein Backup
+
+Ein RAID-Array schützt vor **Hardware-Ausfall** — einem sterbenden Laufwerk. Es tut nichts gegen ein versehentliches Löschen, Ransomware, die deine Dateien verschlüsselt, oder ein beschädigtes Dateisystem, weil diese Änderungen genau wie jeder andere Schreibvorgang auf jedes Laufwerk im Array geschrieben (oder repliziert) werden. Wenn du versehentlich eine Datei auf einem RAID-1-Array löschst, wird sie auf beiden Spiegeln gelöscht.
+
+Die praktische Regel: RAID beantwortet "was, wenn ein Laufwerk stirbt", Backups beantworten "was, wenn ich die Daten selbst verliere". Man braucht beides, und eines ersetzt das andere nicht.
+
+<Callout>
+Der Wiederaufbau eines RAID-5-Arrays nach einem Laufwerksausfall setzt die verbleibenden Laufwerke erheblichem Lesestress aus — genau dann ist ein zweiter Laufwerksausfall am wahrscheinlichsten, besonders bei älteren oder größeren Laufwerken. Behandle einen Wiederaufbau nicht als Routinewartung; behandle ihn als ein Zeitfenster, in dem du einen Ausfall vom Datenverlust entfernt bist.
+</Callout>
+
+<Callout type="warning">
+Hast du gerade mit einem ausgefallenen RAID-Array zu tun, oder planst du ein Speicher-Setup und bist unsicher, welches Level passt? [Melde dich](/contact), bevor du irgendetwas wiederaufbaust.
+</Callout>
