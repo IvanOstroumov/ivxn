@@ -1,5 +1,9 @@
+import { promises as fs } from "fs";
+import path from "path";
 import { NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/auth";
+
+const UPLOADS_DIR = process.env.UPLOADS_DIR || path.join(process.cwd(), "data", "uploads");
 
 export async function POST(request: Request) {
   if (!(await isAuthenticated())) {
@@ -12,21 +16,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No file selected" }, { status: 400 });
   }
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return NextResponse.json(
-      {
-        error:
-          "File uploads need Vercel Blob configured (BLOB_READ_WRITE_TOKEN). Paste a URL manually for now instead.",
-      },
-      { status: 501 }
-    );
-  }
+  const safeOriginalName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const filename = `${Date.now()}-${safeOriginalName}`;
 
-  const { put } = await import("@vercel/blob");
-  const blob = await put(`uploads/${Date.now()}-${file.name}`, file, {
-    access: "public",
-    addRandomSuffix: false,
-  });
+  await fs.mkdir(UPLOADS_DIR, { recursive: true });
+  const buffer = Buffer.from(await file.arrayBuffer());
+  await fs.writeFile(path.join(UPLOADS_DIR, filename), buffer);
 
-  return NextResponse.json({ url: blob.url });
+  return NextResponse.json({ url: `/uploads/${filename}` });
 }

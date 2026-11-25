@@ -175,27 +175,3 @@ export async function deleteToolAction(formData: FormData) {
   revalidatePath("/[locale]/tools", "page");
   redirect("/admin");
 }
-
-export async function uploadFileAction(
-  formData: FormData
-): Promise<{ url?: string; error?: string }> {
-  if (!(await isAuthenticated())) {
-    return { error: "Not authenticated" };
-  }
-  const file = formData.get("file");
-  if (!(file instanceof File) || file.size === 0) {
-    return { error: "No file selected" };
-  }
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return {
-      error:
-        "File uploads need Vercel Blob configured (BLOB_READ_WRITE_TOKEN). Paste a URL manually for now instead.",
-    };
-  }
-  const { put } = await import("@vercel/blob");
-  const blob = await put(`uploads/${Date.now()}-${file.name}`, file, {
-    access: "public",
-    addRandomSuffix: false,
-  });
-  return { url: blob.url };
-}

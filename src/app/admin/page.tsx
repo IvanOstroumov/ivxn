@@ -99,13 +99,6 @@ export default async function AdminDashboard() {
           )}
         </ul>
       </section>
-
-      {!process.env.BLOB_READ_WRITE_TOKEN && (
-        <p className="mt-10 rounded-[var(--radius-theme)] border border-[var(--border)] bg-[var(--surface)] p-3 text-xs text-[var(--text-muted)]">
-          BLOB_READ_WRITE_TOKEN isn&apos;t set — content edits are saved to local JSON files
-          (fine for dev), and file uploads are disabled until Vercel Blob is connected.
-        </p>
-      )}
     </main>
   );
 }
